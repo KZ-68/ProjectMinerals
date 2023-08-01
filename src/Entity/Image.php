@@ -22,6 +22,9 @@ class Image
     #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Mineral $mineral = null;
 
+    #[ORM\ManyToOne(inversedBy: 'images')]
+    private ?Variety $variety = null;
+
     public function __construct()
     {
         $this->addedAt = new \DateTimeImmutable();
@@ -64,6 +67,18 @@ class Image
     public function setMineral(?Mineral $mineral): static
     {
         $this->mineral = $mineral;
+
+        return $this;
+    }
+
+    public function getVariety(): ?Variety
+    {
+        return $this->variety;
+    }
+
+    public function setVariety(?Variety $variety): static
+    {
+        $this->variety = $variety;
 
         return $this;
     }
