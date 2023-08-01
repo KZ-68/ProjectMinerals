@@ -2,15 +2,63 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         {% endblock %}
 
-        {% block javascripts %}
-        {% endblock %}
     </head>
     <body>
+        <header>
+            <nav id="nav-header">
+                <div id="nav-right">
+                    <a class="link-left" href="">Profile</a>
+                    <a class="link-left" href="">Sign Out</a>
+                    <a class="link-left" href="">Sign In</a>
+                    <a class="link-left" href="">Register</a>
+                    <a class="link-left" href="">Contact</a>
+                    {% if app.request.get('_route') == 'app_home' %}
+                        <a class="isDisabled" href="">Home Page</a>
+                    {% else %}
+                        <a class="link-left" href="">Home Page</a>
+                    {% endif %}
+                    
+                </div>
+
+                <div id="nav-left">
+                    <form class="search-bar" action="" method="POST">
+                        <input class="search-zone" type="text">
+                        <input id="submit-search" type="submit" name="search" value="search">
+                    </form>
+                    <div id="accordion-wrapper">
+                        <button class="accordion">Menu</button>
+                        <div class="panel">
+                            <a class="anchor-panel" class="anchor-panel" href="{{ path('app_category') }}">Categories List</a>
+                            <a class="anchor-panel" href="{{ path('app_mineral') }}">Minerals List</a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </nav>
+        </header>
         {% block body %}{% endblock %}
+        <footer>
+            <div id="footer-wrapper">
+                <div id="nav-footer">
+                    <a class="anchor-footer" href="">Privacy Policies</a>
+                    <a class="anchor-footer" href="">Code of Conduct</a>
+                    <a class="anchor-footer" href="">Legal Notices</a>
+                    <a class="anchor-footer" href="">Contact</a>
+                    <a class="anchor-footer" href="">About</a>
+                </div>
+                <small>&copy; Kevin ZITNIK</small>
+            </div>
+        </footer>
+
+        {% block javascripts %}
+        <script src="/js/accordion.js"></script>
+        {% endblock %}
     </body>
 </html>
