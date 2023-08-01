@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Minerals List{% endblock %}
+
+{% block body %}
+
+<h1>Minerals List</h1>
+
+<div>
+    <div>
+        <ul>
+            {% for mineral in minerals %}
+            <li><a href="{{path('', {'id:'})}}">{{mineral.name}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
