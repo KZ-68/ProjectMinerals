@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Minerals List{% endblock %}
+
+{% block body %}
+
+<div class="mineral-options">
+        <a href="#">Discussions</a>
+</div>
+
+<h1>{{mineral.name}}</h1>
+
+<figure id="mineral-figure">
+    {% for image in mineral.images %}
+    <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}">
+    {% endfor %}
+</figure>
+
+<h2>Varieties images of {{mineral.name}}</h2>
+
+<section id="section-varieties-images">
+{% for image in images %}
+    <figure class="figure-varieties">
+        <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}">
+        <figcaption>{{image.variety.name}}</figcaption>
+    </figure>
+    
+{% endfor %}
+</section>
+
+{% endblock %}
