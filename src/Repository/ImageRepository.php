@@ -21,6 +21,19 @@ class ImageRepository extends ServiceEntityRepository
         parent::__construct($registry, Image::class);
     }
 
+    public function findImagesAndNameInMineral($mineral): array {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder(); 
+        $sub->select('i') 
+            ->from('App\Entity\Image', 'i') 
+            ->leftJoin('i.variety', 'v')
+            ->leftJoin('v.mineral', 'm')
+            ->where('m.id = :id')
+            ->setParameter(':id', $mineral);
+            return $sub->getQuery()->getResult();
+
+    }
+
 //    /**
 //     * @return Image[] Returns an array of Image objects
 //     */
