@@ -6,9 +6,21 @@
 
 h1 {
     background: #57CC99;
+    padding: 10px 0px 10px 40px;
+    margin: 30px 0;
+    width: 450px;
+}
+
+h2 {
+    background: #57CC99;
     padding: 10px 0px 10px 20px;
     margin: 30px 0;
     width: 400px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
 }
 
 li {
@@ -126,8 +138,8 @@ input[type="submit"] {
     z-index: 1;
     color: white;
     font-size: 50px;
-    left: 44%;
-    top: 23%;
+    left: 42%;
+    top: 21%;
     background: none;
 }
 
@@ -187,6 +199,29 @@ input[type="submit"] {
 
 .adv-search-fields p {
     color: white;
+}
+
+.mineral-options {
+    padding: 20px;
+    margin-top: 25px;
+    border: 1px solid black;
+    text-align: end;
+}
+
+.mineral-image {
+    width: 250px;
+    height: 250px;
+}
+
+#section-varieties-images {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    margin: 0px 30px;
+}
+
+#mineral-figure {
+    margin: 55px 20px;
 }
 
 footer {
