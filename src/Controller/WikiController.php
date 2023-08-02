@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\Mineral;
+use App\Entity\Variety;
 use App\Entity\Category;
 use App\Form\MineralType;
+use App\Form\VarietyType;
 use App\Service\FileUploader;
 use App\Repository\ImageRepository;
 use App\Repository\MineralRepository;
@@ -114,6 +116,39 @@ class WikiController extends AbstractController
             'mineralId' => $mineral->getId()
         ]);
     } 
+
+    #[Route('/mineral/{id}/variety/new', name: 'new_variety')]
+    // #[IsGranted('ROLE_')]
+    public function new_variety(Variety $variety = null, Mineral $mineral, FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $variety = new Variety();
+        
+        $form = $this->createForm(VarietyType::class, $variety);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $variety = $form->getData();
+            $images = $form->get('images')->getData();
+
+            foreach ($images as $image) {
+                $newFileName = $fileUploader->upload($image);
+                $img = new Image;
+                $img->setFileName($newFileName);
+                $variety->addImage($img);
+                $mineral->addImage($img);
+            }
+
+            $variety->setMineral($mineral);
+            $entityManager->persist($variety);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_variety');
+        }
+
+        return $this->render('wiki/new_variety.html.twig', [
+            'form' => $form
+        ]);
+    }
     
     #[Route('/wiki/category', name: 'app_category')]
     public function categorieslist(CategoryRepository $categoryRepository): Response
