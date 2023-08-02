@@ -34,6 +34,20 @@ class ImageRepository extends ServiceEntityRepository
 
     }
 
+    public function findImagesById($mineral): array {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder(); 
+        $sub->select('i') 
+            ->from('App\Entity\Image', 'i') 
+            ->innerJoin('i.mineral', 'm', 'WITH', 'm.id = i.mineral')
+            ->where('i.variety IS NULL')
+            ->andWhere('m.id = :id')
+            ->setMaxResults(1)
+            ->setParameter(':id', $mineral);
+        return $sub->getQuery()->getResult();
+
+    }
+
 //    /**
 //     * @return Image[] Returns an array of Image objects
 //     */
