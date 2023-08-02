@@ -4,9 +4,13 @@
 
 {% block body %}
 
+<div class="mineral-options">
+    <a href="{{ path('new_mineral') }}">Add new mineral page</a>
+</div>
+
 <h1>Minerals List</h1>
 
-<div>
+<div id="list-wrapper">
     <div>
         <ul>
             {% for mineral in minerals %}
