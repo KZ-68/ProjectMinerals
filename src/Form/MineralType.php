@@ -6,15 +6,21 @@ use App\Entity\Color;
 use App\Entity\Lustre;
 use App\Entity\Mineral;
 use App\Entity\Category;
+use App\Form\LustreType;
+use App\Form\MineralColorType;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\All;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class MineralType extends AbstractType
 {
@@ -77,6 +83,30 @@ class MineralType extends AbstractType
                 'choice_label' => 'type',
                 'expanded'  => true,
                 'multiple'  => true,
+            ])
+            ->add('images', FileType::class, [
+                'label' => false,
+                'multiple' => true,
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                new All ([
+                    new File([
+                        'maxSize' => '2048k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/jpg',
+                            'image/png',
+                            'image/webp',
+                            'image/x-icon',
+                            'image/tiff',
+                            'image/bmp'
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image format',
+                    ])
+                ])
+                    
+            ],
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
