@@ -5,27 +5,68 @@
 {% block body %}
 
 <div class="mineral-options">
+        <a href="{{path('delete_mineral', {'id': mineral.id})}}">Remove this Page</a>
+        <a href="{{path('edit_mineral', {'id': mineral.id})}}">Edit this Page</a>
         <a href="#">Discussions</a>
 </div>
 
 <h1>{{mineral.name}}</h1>
 
 <figure id="mineral-figure">
-    {% for image in mineral.images %}
+    {% for image in image %}
     <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}">
     {% endfor %}
 </figure>
 
-<h2>Varieties images of {{mineral.name}}</h2>
+<section>
+    <h2>Table of Content</h2>
 
-<section id="section-varieties-images">
-{% for image in images %}
-    <figure class="figure-varieties">
-        <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}">
-        <figcaption>{{image.variety.name}}</figcaption>
-    </figure>
+    <div>
+        <div>
+            <ul>
+                <li>Varieties of {{mineral.name}}</li>
+                <li>Images Gallery of {{mineral.name}}</li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
     
-{% endfor %}
+</section>
+
+<section class="section-wiki">
+    <h2>Varieties of {{mineral.name}}</h2>
+
+    <div id="varieties-images">
+    {% for image in images %}
+        <figure class="figure-varieties">
+            <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}">
+            <figcaption>{{image.variety.name}}</figcaption>
+        </figure>
+        
+    {% endfor %}
+    </div>
+</section>
+
+<section class="section-wiki">
+    <h2>Images Gallery of {{mineral.name}}</h2>
+
+        <div id="cCarousel">
+          <div class="arrow" id="prev"><span class="arrow-symbols">&#8249;</span></div>
+          <div class="arrow" id="next"><span class="arrow-symbols">&#8250;</span></div>
+        
+
+            <div id="carousel-vp">
+                <div id="cCarousel-inner">
+        
+                {% for image in mineral.images  %}
+                    <article class="cCarousel-item">
+                        <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Minerals">
+                    </article>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
 </section>
 
 {% endblock %}
