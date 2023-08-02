@@ -14,15 +14,15 @@
         <header>
             <nav id="nav-header">
                 <div id="nav-right">
-                    <a class="link-left" href="">Profile</a>
-                    <a class="link-left" href="">Sign Out</a>
-                    <a class="link-left" href="">Sign In</a>
-                    <a class="link-left" href="">Register</a>
-                    <a class="link-left" href="">Contact</a>
+                    <a class="link-right" href="">Profile</a>
+                    <a class="link-right" href="">Sign Out</a>
+                    <a class="link-right" href="">Sign In</a>
+                    <a class="link-right" href="">Register</a>
+                    <a class="link-right" href="">Contact</a>
                     {% if app.request.get('_route') == 'app_home' %}
                         <a class="isDisabled" href="#">Home Page</a>
                     {% else %}
-                        <a class="link-left" href="{{ path('app_home') }}">Home Page</a>
+                        <a class="link-right" href="{{ path('app_home') }}">Home Page</a>
                     {% endif %}
                     
                 </div>
@@ -59,6 +59,7 @@
 
         {% block javascripts %}
         <script src="/js/accordion.js"></script>
+        <script src="/js/carousel.js"></script>
         {% endblock %}
     </body>
 </html>
