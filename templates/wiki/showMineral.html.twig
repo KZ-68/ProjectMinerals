@@ -10,7 +10,10 @@
         <a href="#">Discussions</a>
 </div>
 
-<h1>{{mineral.name}}</h1>
+<h1>
+    {{mineral.name}}
+    {{mineral.category.name}}
+</h1>
 
 <figure id="mineral-figure">
     {% for image in image %}
@@ -18,20 +21,34 @@
     {% endfor %}
 </figure>
 
-<section>
+<section class="section-wiki">
     <h2>Table of Content</h2>
 
     <div>
         <div>
             <ul>
-                <li>Varieties of {{mineral.name}}</li>
-                <li>Images Gallery of {{mineral.name}}</li>
-                <li></li>
-                <li></li>
+                <li class="table-list"><a>Varieties of {{mineral.name}}</a></li>
+                <li class="table-list"><a>Gallery of {{mineral.name}}</a></li>
+                <li class="table-list"></li>
+                <li class="table-list"></li>
             </ul>
         </div>
     </div>
     
+</section>
+
+<section class="section-wiki">
+
+    <h2>Detailled Caracteristics for {{mineral.name}}</h2>
+
+    <div>
+        <p>Formula :{{mineral.formula}}</p>
+        <p>Crystal System : {{mineral.crystalSystem}}</p>
+        <p>Density : {{mineral.density}}</p>
+        <p>Hardness : {{mineral.hardness}}</p>
+        <p>Fracture : {{mineral.fracture}}</p>
+        <p>Streak : {{mineral.streak}}</p>
+    </div>
 </section>
 
 <section class="section-wiki">
