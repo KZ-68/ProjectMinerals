@@ -6,6 +6,7 @@ use App\Repository\MineralRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MineralRepository::class)]
 class Mineral
@@ -16,36 +17,72 @@ class Mineral
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\Type(
+        type: 'string',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
+    #[Assert\NotBlank(
+        message: 'Le nom ne peut pas être laissée vide'
+    )]
+    #[Assert\NoSuspiciousCharacters(
+        restrictionLevelMessage: 'The name {{ value }} contains non valid caracters'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 20, nullable: true)]
+    #[Assert\Type(
+        type: 'string',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
     private ?string $formula = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\Type(
+        type: 'string',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
     private ?string $crystal_system = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive]
+    #[Assert\Type(
+        type: 'float',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
     private ?float $density = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive]
+    #[Assert\Type(
+        type: 'integer',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
     private ?int $hardness = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\Type(
+        type: 'string',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
     private ?string $fracture = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Type(
+        type: 'string',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
     private ?string $streak = null;
 
     #[ORM\ManyToOne(inversedBy: 'minerals')]
     private ?Category $category = null;
 
-    #[ORM\ManyToMany(targetEntity: Color::class, mappedBy: 'minerals')]
+    #[ORM\ManyToMany(targetEntity: Color::class, cascade: ['persist'], mappedBy: 'minerals')]
     private Collection $colors;
 
-    #[ORM\ManyToMany(targetEntity: Lustre::class, mappedBy: 'minerals')]
+    #[ORM\ManyToMany(targetEntity: Lustre::class, cascade: ['persist'], mappedBy: 'minerals')]
     private Collection $lustres;
 
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Variety::class)]
