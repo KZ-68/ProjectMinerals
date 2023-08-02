@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Entity\Mineral;
 use App\Entity\Category;
 use App\Form\MineralType;
+use App\Service\FileUploader;
 use App\Repository\ImageRepository;
 use App\Repository\MineralRepository;
 use App\Repository\CategoryRepository;
@@ -40,7 +42,7 @@ class WikiController extends AbstractController
 
     #[Route('/mineral/new', name: 'new_mineral')]
     // #[IsGranted('ROLE_')]
-    public function new_mineral(Mineral $mineral = null, Request $request, EntityManagerInterface $entityManager): Response
+    public function new_mineral(Mineral $mineral = null, FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
         if (!$mineral) {
             $mineral = new Mineral();
@@ -51,6 +53,15 @@ class WikiController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $mineral = $form->getData();
+            $images = $form->get('images')->getData();
+
+            foreach ($images as $image) {
+                $newFileName = $fileUploader->upload($image);
+                $img = new Image;
+                $img->setFileName($newFileName);
+                $mineral->addImage($img);
+            }
+            
             $entityManager->persist($mineral);
             $entityManager->flush();
 
