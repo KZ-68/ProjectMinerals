@@ -6,6 +6,7 @@ use App\Repository\LustreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LustreRepository::class)]
 class Lustre
@@ -16,9 +17,16 @@ class Lustre
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\Type(
+        type: 'string',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
+    #[Assert\NoSuspiciousCharacters(
+        restrictionLevelMessage: 'The type {{ value }} contains non valid caracters'
+    )]
     private ?string $type = null;
 
-    #[ORM\ManyToMany(targetEntity: Mineral::class, inversedBy: 'lustres')]
+    #[ORM\ManyToMany(targetEntity: Mineral::class, cascade: ['persist'], inversedBy: 'lustres')]
     private Collection $minerals;
 
     public function __construct()
