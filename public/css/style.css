@@ -18,6 +18,10 @@ h2 {
     width: 400px;
 }
 
+figcaption {
+    font-size: 20px;
+}
+
 a {
     color: white;
     text-decoration: none;
@@ -209,19 +213,96 @@ input[type="submit"] {
 }
 
 .mineral-image {
-    width: 250px;
-    height: 250px;
+    width: 350px;
+    height: 300px;
 }
 
-#section-varieties-images {
+.section-wiki {
+    margin: 20px 0px;
+}
+
+#varieties-images {
     display: flex;
     flex-direction: row;
     gap: 30px;
-    margin: 0px 30px;
+    margin: 20px 30px;
+    padding: 20px;
+    border: 1px solid #38A3A5;
 }
 
 #mineral-figure {
     margin: 55px 20px;
+}
+
+#cCarousel {
+    position: relative;
+    max-width: 1600px;
+    margin: auto;
+  }
+  
+#cCarousel .arrow {
+    position: absolute;
+    top: 50%;
+    display: flex;
+    width: 35px;
+    height: 45px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20%;
+    z-index: 1;
+    font-size: 26px;
+    color: white;
+    background: #2aa97a4d;
+    cursor: pointer;
+}
+
+.arrow-symbols {
+    font-size: 32px;
+    position: absolute;
+    top: 1px;
+}
+
+#cCarousel #prev {
+    left: 0px;
+}
+
+#cCarousel #next {
+    right: 0px;
+}
+
+#carousel-vp {
+    width: 1430px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    margin: auto;
+}
+
+#cCarousel #cCarousel-inner {
+    display: flex;
+    position: absolute;
+    transition: 0.3s ease-in-out;
+    gap: 10px;
+    left: 0px;
+  }
+  
+.cCarousel-item {
+    width: 350px;
+    height: 300px;
+    border: 2px solid #38A3A5;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.cCarousel-item img {
+    width: 100%;
+    object-fit: cover;
+    min-height: 246px;
+    color: #38A3A5;
 }
 
 footer {
@@ -250,3 +331,15 @@ footer {
 small {
     color: white;
 }
+
+@media (max-width: 770px) {
+    #carousel-vp {
+      width: 510px;
+    }
+  }
+  
+  @media (max-width: 510px) {
+    #carousel-vp {
+      width: 250px;
+    }
+  }
