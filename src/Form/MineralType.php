@@ -3,12 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Color;
-use App\Entity\Lustre;
 use App\Entity\Mineral;
 use App\Entity\Category;
-use App\Form\LustreType;
-use App\Form\MineralColorType;
-use Doctrine\ORM\Mapping\Entity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\All;
@@ -20,7 +16,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class MineralType extends AbstractType
 {
@@ -72,18 +67,6 @@ class MineralType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name'
             ])
-            ->add('colors',  EntityType::class, [
-                'class' => Color::class,
-                'choice_label' => 'name',
-                'expanded'  => true,
-                'multiple'  => true,
-            ])
-            ->add('lustres',  EntityType::class, [
-                'class' => Lustre::class,
-                'choice_label' => 'type',
-                'expanded'  => true,
-                'multiple'  => true,
-            ])
             ->add('images', FileType::class, [
                 'label' => false,
                 'multiple' => true,
@@ -92,7 +75,7 @@ class MineralType extends AbstractType
                 'constraints' => [
                 new All ([
                     new File([
-                        'maxSize' => '2048k',
+                        'maxSize' => '5000k',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/jpg',
