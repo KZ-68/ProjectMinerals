@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Color Details{% endblock %}
+
+{% block body %}
+
+<h1>Minerals list for {{color.name}}</h1>
+
+<div class="list-wrapper">
+    <div>
+        <ul>
+            {% for mineral in color.minerals %}
+            <li><a href="{{ path('show_mineral', {'id': mineral.id}) }}">{{mineral.name}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
