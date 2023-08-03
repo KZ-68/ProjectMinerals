@@ -26,7 +26,7 @@ class Lustre
     )]
     private ?string $type = null;
 
-    #[ORM\ManyToMany(targetEntity: Mineral::class, cascade: ['persist'], inversedBy: 'lustres')]
+    #[ORM\ManyToMany(targetEntity: Mineral::class, inversedBy: 'lustres')]
     private Collection $minerals;
 
     public function __construct()

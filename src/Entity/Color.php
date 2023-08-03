@@ -26,7 +26,7 @@ class Color
     )]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Mineral::class, cascade: ['persist'], inversedBy: 'colors')]
+    #[ORM\ManyToMany(targetEntity: Mineral::class, inversedBy: 'colors')]
     private Collection $minerals;
 
     public function __construct()
