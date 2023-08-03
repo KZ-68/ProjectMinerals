@@ -29,7 +29,7 @@ class Variety
     #[ORM\ManyToOne(inversedBy: 'varieties')]
     private ?Mineral $mineral = null;
 
-    #[ORM\OneToMany(mappedBy: 'variety', targetEntity: Image::class)]
+    #[ORM\OneToMany(mappedBy: 'variety', cascade: ['persist'], orphanRemoval: true, targetEntity: Image::class)]
     private Collection $images;
 
     public function __construct()
