@@ -52,8 +52,11 @@
 </section>
 
 <section class="section-wiki">
-    <a href="{{ path('new_variety', {'id': mineral.id}) }}">Add a variety</a>
-    <h2>Varieties of {{mineral.name}}</h2>
+    <hgroup id="variety-title">
+        <h2>Varieties of {{mineral.name}}</h2>
+        <a id="add-variety" href="{{ path('new_variety', {'id': mineral.id}) }}">Add a variety</a>
+    </hgroup>
+    
 
     <div id="varieties-images">
     {% for image in images %}
