@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Color;
 use App\Entity\Image;
 use App\Entity\Mineral;
 use App\Entity\Variety;
@@ -9,6 +10,7 @@ use App\Entity\Category;
 use App\Form\MineralType;
 use App\Form\VarietyType;
 use App\Service\FileUploader;
+use App\Repository\ColorRepository;
 use App\Repository\ImageRepository;
 use App\Repository\MineralRepository;
 use App\Repository\CategoryRepository;
@@ -35,7 +37,7 @@ class WikiController extends AbstractController
     {
         $image = $imageRepository->findImagesById($mineral->getId());
         $images = $imageRepository->findImagesAndNameInMineral($mineral->getId());
-        return $this->render('wiki/showMineral.html.twig', [
+        return $this->render('wiki/show_mineral.html.twig', [
             'image' => $image,
             'images' => $images,
             'mineral' => $mineral
@@ -44,11 +46,9 @@ class WikiController extends AbstractController
 
     #[Route('/mineral/new', name: 'new_mineral')]
     // #[IsGranted('ROLE_')]
-    public function new_mineral(Mineral $mineral = null, FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
+    public function new_mineral(FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
-        if (!$mineral) {
-            $mineral = new Mineral();
-        }
+        $mineral = new Mineral();
 
         $form = $this->createForm(MineralType::class, $mineral);
 
@@ -63,7 +63,7 @@ class WikiController extends AbstractController
                 $img->setFileName($newFileName);
                 $mineral->addImage($img);
             }
-            
+
             $entityManager->persist($mineral);
             $entityManager->flush();
 
@@ -154,7 +154,7 @@ class WikiController extends AbstractController
     public function categorieslist(CategoryRepository $categoryRepository): Response
     {
         $categories = $categoryRepository->findBy([], ["name" => "ASC"]);
-        return $this->render('wiki/categoriesList.html.twig', [
+        return $this->render('wiki/categories_list.html.twig', [
             'categories' => $categories
         ]);
     }
@@ -162,8 +162,27 @@ class WikiController extends AbstractController
     #[Route('/wiki/category/{id}/show', name: 'show_category')]
     public function showCategory(Category $category): Response
     {
-        return $this->render('category/showCategory.html.twig', [
+        return $this->render('category/show_category.html.twig', [
             'category' => $category
         ]);
     }
+
+    #[Route('/wiki/color', name: 'list_colors')]
+    public function colorsList(ColorRepository $colorRepository): Response
+    {
+        $colors = $colorRepository->findBy([], ["name" => "ASC"]);
+        
+        return $this->render('wiki/colors_list.html.twig', [
+            'colors' => $colors
+        ]);
+    }
+
+    #[Route('/wiki/color/{id}/show', name: 'show_color')]
+    public function showColor(Color $color): Response
+    {
+        return $this->render('wiki/show_color.html.twig', [
+            'color' => $color
+        ]);
+    }
+
 }
