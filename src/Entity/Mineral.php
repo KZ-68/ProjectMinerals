@@ -79,16 +79,16 @@ class Mineral
     #[ORM\ManyToOne(inversedBy: 'minerals')]
     private ?Category $category = null;
 
-    #[ORM\ManyToMany(targetEntity: Color::class, cascade: ['persist'], mappedBy: 'minerals')]
+    #[ORM\ManyToMany(targetEntity: Color::class, mappedBy: 'minerals')]
     private Collection $colors;
 
-    #[ORM\ManyToMany(targetEntity: Lustre::class, cascade: ['persist'], mappedBy: 'minerals')]
+    #[ORM\ManyToMany(targetEntity: Lustre::class, mappedBy: 'minerals')]
     private Collection $lustres;
 
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Variety::class)]
     private Collection $varieties;
 
-    #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Image::class)]
+    #[ORM\OneToMany(mappedBy: 'mineral', cascade: ['persist'], orphanRemoval: true, targetEntity: Image::class)]
     private Collection $images;
 
     public function __construct()
