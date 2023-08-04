@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Color;
+use App\Entity\Lustre;
 use App\Entity\Mineral;
 use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
@@ -66,6 +67,26 @@ class MineralType extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name'
+            ])
+            ->add('colors', EntityType::class, [
+                'class' => Color::class,
+                'choice_label' => function ($allChoices, $currentChoiceKey)
+                {
+                    return $allChoices->getName();
+                },
+                'expanded'  => true,
+                'multiple'  => true,
+                'by_reference' => false
+            ])
+            ->add('lustres', EntityType::class, [
+                'class' => Lustre::class,
+                'choice_label' => function ($allChoices, $currentChoiceKey)
+                {
+                    return $allChoices->getType();
+                },
+                'expanded'  => true,
+                'multiple'  => true,
+                'by_reference' => false
             ])
             ->add('images', FileType::class, [
                 'label' => false,
