@@ -61,7 +61,7 @@
         <p>Lustre : <br/>
             {% if mineral.lustres | length > 0 %}
                 {% for lustre in mineral.lustres %}
-                    <a href="">{{lustre.type}}, </a>
+                    <a href="{{ path('edit_mineral_lustres', {'id': mineral.id}) }}">{{lustre.type}}, </a>
                 {% endfor %}
             {% else %}
                 Information manquante
