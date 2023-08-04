@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %} 
+
+{% block title %}Ajouter des éclats à un mineral{% endblock %}
+
+{% block body %}
+
+<h1>Ajouter des éclats à un mineral</h1>
+
+<div class="formulaire">
+    {{ form_start(form) }}
+        {{ form_row(form.lustres) }}
+        {{ form_row(form.submit) }}
+    {{ form_end(form) }}
+</div>
+
+{% endblock %}
