@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %} 
+
+{% block title %}Ajouter des couleurs à un mineral{% endblock %}
+
+{% block body %}
+
+<h1>Ajouter des couleurs à un mineral</h1>
+
+<div class="formulaire">
+    {{ form_start(form) }}
+        {{ form_row(form.colors) }}
+        {{ form_row(form.submit) }}
+    {{ form_end(form) }}
+</div>
+
+{% endblock %}
