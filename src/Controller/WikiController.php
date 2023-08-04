@@ -10,6 +10,7 @@ use App\Entity\Category;
 use App\Form\MineralType;
 use App\Form\VarietyType;
 use App\Service\FileUploader;
+use App\Form\MineralColorType;
 use App\Repository\ColorRepository;
 use App\Repository\ImageRepository;
 use App\Repository\MineralRepository;
@@ -44,7 +45,7 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/mineral/new', name: 'new_mineral')]
+    #[Route('/wiki/mineral/new', name: 'new_mineral')]
     // #[IsGranted('ROLE_')]
     public function new_mineral(FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -76,7 +77,7 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/mineral/{id}/edit', name: 'edit_mineral')]
+    #[Route('/wiki/mineral/{id}/edit', name: 'edit_mineral')]
     public function edit(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
     {
         $originalColors = new ArrayCollection();
@@ -117,7 +118,7 @@ class WikiController extends AbstractController
         ]);
     } 
 
-    #[Route('/mineral/{id}/variety/new', name: 'new_variety')]
+    #[Route('/wiki/mineral/{id}/variety/new', name: 'new_variety')]
     // #[IsGranted('ROLE_')]
     public function new_variety(Variety $variety = null, Mineral $mineral, FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -147,6 +148,27 @@ class WikiController extends AbstractController
 
         return $this->render('wiki/new_variety.html.twig', [
             'form' => $form
+        ]);
+    }
+
+    #[Route('/wiki/mineral/{id}/show/editColors', name: 'edit_mineral_colors')]
+    public function edit_mineral_colors(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+        $form = $this->createForm(MineralColorType::class, $mineral);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mineral = $form->getData();
+            $entityManager->persist($mineral);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('show_mineral', ['id' => $mineral->getId()]);
+        }
+
+        return $this->render('wiki/edit_mineral_colors.html.twig', [
+            'form' => $form,
+            'edit' => $mineral->getId()
         ]);
     }
     
