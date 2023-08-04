@@ -48,6 +48,25 @@
         <p>Hardness : {{mineral.hardness}}</p>
         <p>Fracture : {{mineral.fracture}}</p>
         <p>Streak : {{mineral.streak}}</p>
+        <p>Color : <br/>
+            {% if mineral.colors | length > 0 %}
+                {% for color in mineral.colors %}
+                    <a href="{{path('show_color', {'id': color.id}) }}">{{color.name}}, </a>
+                {% endfor %}
+            {% else %}
+                Information manquante
+            {% endif %}
+            <a href="{{path('edit_mineral_colors', {'id': mineral.id})}}">Ajoutez une couleur !</a>
+        </p>
+        <p>Lustre : <br/>
+            {% if mineral.lustres | length > 0 %}
+                {% for lustre in mineral.lustres %}
+                    <a href="">{{lustre.type}}, </a>
+                {% endfor %}
+            {% else %}
+                Information manquante
+            {% endif %}
+        </p>
     </div>
 </section>
 
