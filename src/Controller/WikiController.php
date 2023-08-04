@@ -171,6 +171,27 @@ class WikiController extends AbstractController
             'edit' => $mineral->getId()
         ]);
     }
+
+    #[Route('/wiki/mineral/{id}/show/editLustres', name: 'edit_mineral_lustres')]
+    public function edit_mineral_lustres(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+        $form = $this->createForm(LustreType::class, $mineral);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mineral = $form->getData();
+            $entityManager->persist($mineral);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('show_mineral', ['id' => $mineral->getId()]);
+        }
+
+        return $this->render('wiki/edit_mineral_lustres.html.twig', [
+            'form' => $form,
+            'edit' => $mineral->getId()
+        ]);
+    }
     
     #[Route('/wiki/category', name: 'app_category')]
     public function categorieslist(CategoryRepository $categoryRepository): Response
@@ -180,6 +201,8 @@ class WikiController extends AbstractController
             'categories' => $categories
         ]);
     }
+
+    
 
     #[Route('/wiki/category/{id}/show', name: 'show_category')]
     public function showCategory(Category $category): Response
