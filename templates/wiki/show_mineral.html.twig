@@ -11,8 +11,12 @@
 </div>
 
 <h1>
-    {{mineral.name}}
-    {{mineral.category.name}}
+        {{mineral.name}} <br/>
+        {% if mineral.category | length > 0 %}
+            {{mineral.category.name}}
+        {% else %}
+            <i>Information manquante</i>
+        {% endif %}
 </h1>
 
 <figure id="mineral-figure">
@@ -79,11 +83,21 @@
 
     <div id="varieties-images">
     {% for image in images %}
-        <figure class="figure-varieties">
-            <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}">
-            <figcaption>{{image.variety.name}}</figcaption>
-        </figure>
         
+        <figure class="figure-varieties">
+        {% if image.filename is not null %}
+                <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}">
+        {% else %}
+            <i>Image manquante</i>
+        {% endif %}
+        
+        {% if image.variety.name is not null %}
+            <figcaption>{{image.variety.name}}</figcaption>
+        {% else %}
+            <i>Information manquante</i>
+        {% endif %}
+        </figure>
+
     {% endfor %}
     </div>
 </section>
