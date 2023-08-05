@@ -10,7 +10,7 @@
     <div>
         <ul>
             {% for color in colors %}
-                <li><a href="{{path('show_color', {'id': color.id})}}">{{color.name}}</a></li>
+                <li><a href="{{path('show_color', {'slug': color.slug})}}">{{color.name}}</a></li>
             {% endfor %}
         </ul>
     </div>

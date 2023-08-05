@@ -5,15 +5,15 @@
 {% block body %}
 
 <div class="mineral-options">
-        <a href="{{path('delete_mineral', {'id': mineral.id})}}">Remove this Page</a>
-        <a href="{{path('edit_mineral', {'id': mineral.id})}}">Edit this Page</a>
+        <a href="{{path('delete_mineral', {'slug': mineral.slug})}}">Remove this Page</a>
+        <a href="{{path('edit_mineral', {'slug': mineral.slug})}}">Edit this Page</a>
         <a href="#">Discussions</a>
 </div>
 
 <h1>
         {{mineral.name}} <br/>
         {% if mineral.category | length > 0 %}
-            {{mineral.category.name}}
+            <a href="{{ path('show_category', {'slug': mineral.category.slug}) }}">{{mineral.category.name}}</a>
         {% else %}
             <i>Information manquante</i>
         {% endif %}
@@ -21,7 +21,7 @@
 
 <figure id="mineral-figure">
     {% for image in image %}
-    <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}">
+    <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Top Image Mineral">
     {% endfor %}
 </figure>
 
@@ -55,20 +55,20 @@
         <p>Color : <br/>
             {% if mineral.colors | length > 0 %}
                 {% for color in mineral.colors %}
-                    <a href="{{path('show_color', {'id': color.id}) }}">{{color.name}}, </a>
+                    <a href="{{path('show_color', {'slug': color.slug}) }}">{{color.name}}, </a>
                 {% endfor %}
             {% else %}
-                Information manquante
+                Missing information
             {% endif %}
-            <a href="{{path('edit_mineral_colors', {'id': mineral.id})}}">Ajoutez une couleur !</a>
+            <a href="{{path('edit_mineral_colors', {'slug': mineral.slug})}}">Add a color !</a>
         </p>
         <p>Lustre : <br/>
             {% if mineral.lustres | length > 0 %}
                 {% for lustre in mineral.lustres %}
-                    <a href="{{ path('edit_mineral_lustres', {'id': mineral.id}) }}">{{lustre.type}}, </a>
+                    <a href="{{ path('edit_mineral_lustres', {'slug': mineral.slug}) }}">{{lustre.type}}, </a>
                 {% endfor %}
             {% else %}
-                Information manquante
+                Missing information
             {% endif %}
         </p>
     </div>
@@ -77,7 +77,7 @@
 <section class="section-wiki">
     <hgroup id="variety-title">
         <h2>Varieties of {{mineral.name}}</h2>
-        <a id="add-variety" href="{{ path('new_variety', {'id': mineral.id}) }}">Add a variety</a>
+        <a id="add-variety" href="{{ path('new_variety', {'slug': mineral.slug}) }}">Add a variety</a>
     </hgroup>
     
 
@@ -86,15 +86,15 @@
         
         <figure class="figure-varieties">
         {% if image.filename is not null %}
-                <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}">
+                <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Variety Mineral">
         {% else %}
-            <i>Image manquante</i>
+            <i>Missing image</i>
         {% endif %}
         
         {% if image.variety.name is not null %}
             <figcaption>{{image.variety.name}}</figcaption>
         {% else %}
-            <i>Information manquante</i>
+            <i>Missing information</i>
         {% endif %}
         </figure>
 

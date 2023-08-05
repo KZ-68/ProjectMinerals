@@ -4,18 +4,16 @@
 
 {% block body %}
 
-<h1>Minerals list for {{category.name}}</h1>
+<h1>Minerals list for <strong>{{category.name}}</strong> category</h1>
 
 <div class="list-wrapper">
     <div>
         <ul>
-            {% for mineral in category.minerals %}
-            <figure>
-                <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Category Image Mineral">
-                <figcaption>{{mineral.name}}</figcaption>
-            </figure>
-            <li><a href="{{ path('show_mineral', {'id': mineral.id}) }}">{{mineral.name}}</a></li>
-            {% endfor %}
+            <li>
+                {% for mineral in category.minerals %}
+                    <a href="{{ path('show_mineral', {'slug': mineral.slug}) }}">{{mineral.name}}</a>
+                {% endfor %}
+            </li>
         </ul>
     </div>
 </div>

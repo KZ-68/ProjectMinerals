@@ -13,7 +13,7 @@
     <div>
         <ul>
             {% for mineral in pagination %}
-            <li><a href="{{path('show_mineral', {'id': mineral.id})}}">{{mineral.name}}</a></li>
+            <li><a href="{{path('show_mineral', {'slug': mineral.slug})}}">{{mineral.name}}</a></li>
             {% endfor %}
         </ul>
     </div>
