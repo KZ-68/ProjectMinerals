@@ -16,6 +16,7 @@ use App\Repository\ImageRepository;
 use App\Repository\MineralRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,11 +26,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class WikiController extends AbstractController
 {
     #[Route('/wiki/mineral', name: 'app_mineral')]
-    public function index(MineralRepository $mineralRepository): Response
+    public function index(MineralRepository $mineralRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        $minerals = $mineralRepository->findBy([], ["name" => "ASC"]);
+
+        $pagination = $paginator->paginate(
+            $mineralRepository->getPaginationQuery(),
+            $request->query->get('page', 1),
+            10
+        );
+
         return $this->render('wiki/index.html.twig', [
-            'minerals' => $minerals
+            'pagination' => $pagination
         ]);
     }
 
