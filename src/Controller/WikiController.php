@@ -40,8 +40,8 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{id}/show', name: 'show_mineral')]
-    public function showMineral(Mineral $mineral, ImageRepository $imageRepository ): Response
+    #[Route('/wiki/mineral/{slug}/show', name: 'show_mineral')]
+    public function showMineral(Mineral $mineral, ImageRepository $imageRepository): Response
     {
         $image = $imageRepository->findImagesById($mineral->getId());
         $images = $imageRepository->findImagesAndNameInMineral($mineral->getId());
@@ -84,7 +84,7 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{id}/edit', name: 'edit_mineral')]
+    #[Route('/wiki/mineral/{slug}/edit', name: 'edit_mineral')]
     public function edit(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
     {
         $originalColors = new ArrayCollection();
@@ -125,7 +125,7 @@ class WikiController extends AbstractController
         ]);
     } 
 
-    #[Route('/wiki/mineral/{id}/variety/new', name: 'new_variety')]
+    #[Route('/wiki/mineral/{slug}/variety/new', name: 'new_variety')]
     // #[IsGranted('ROLE_')]
     public function new_variety(Variety $variety = null, Mineral $mineral, FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -158,7 +158,7 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{id}/show/editColors', name: 'edit_mineral_colors')]
+    #[Route('/wiki/mineral/{slug}/show/editColors', name: 'edit_mineral_colors')]
     public function edit_mineral_colors(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
     {
 
@@ -179,7 +179,7 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{id}/show/editLustres', name: 'edit_mineral_lustres')]
+    #[Route('/wiki/mineral/{slug}/show/editLustres', name: 'edit_mineral_lustres')]
     public function edit_mineral_lustres(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
     {
 
@@ -211,10 +211,10 @@ class WikiController extends AbstractController
 
     
 
-    #[Route('/wiki/category/{id}/show', name: 'show_category')]
+    #[Route('/wiki/category/{slug}/show', name: 'show_category')]
     public function showCategory(Category $category): Response
     {
-        return $this->render('category/show_category.html.twig', [
+        return $this->render('wiki/show_category.html.twig', [
             'category' => $category
         ]);
     }
@@ -229,7 +229,7 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/color/{id}/show', name: 'show_color')]
+    #[Route('/wiki/color/{slug}/show', name: 'show_color')]
     public function showColor(Color $color): Response
     {
         return $this->render('wiki/show_color.html.twig', [
