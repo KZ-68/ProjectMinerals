@@ -11,6 +11,7 @@ use App\Service\FileUploader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
@@ -23,9 +24,12 @@ class AppFixtures extends Fixture
 
     private $varieties;
 
-    public function __construct()
+    protected SluggerInterface $slugger;
+
+    public function __construct(SluggerInterface $slugger)
     {
         $this->faker = Factory::create('fr_FR');
+        $this->slugger = $slugger;
     }
 
     public function load(ObjectManager $manager)
@@ -40,9 +44,10 @@ class AppFixtures extends Fixture
 
     private function addVarieties(EntityManager $em)
     {
-        for ($i=0; $i < 120; $i++) { 
+        for ($i=0; $i < 100; $i++) { 
             $variety = new Variety();
-            $variety->setName($this->faker->word());
+            $variety->setName($this->faker->word())
+            ->setSlug($this->slugger->slug($variety->getName()));;
             
             $em->persist($variety);
             $this->varieties[] = $variety;
@@ -59,7 +64,8 @@ class AppFixtures extends Fixture
                 ->setDensity($this->faker->randomFloat())
                 ->setHardness($this->faker->randomDigitNotNull())
                 ->setFracture($this->faker->word())
-                ->setStreak($this->faker->safeColorName());
+                ->setStreak($this->faker->safeColorName())
+                ->setSlug($this->slugger->slug($mineral->getName()));
                 
             $mineral->addVariety($this->varieties[rand(0, count($this->varieties))]);
 
@@ -72,7 +78,8 @@ class AppFixtures extends Fixture
     {
         for ($i=0; $i < 100; $i++) { 
             $category = new Category();
-            $category->setName($this->faker->word());
+            $category->setName($this->faker->word())
+                    ->setSlug($this->slugger->slug($category->getName()));
             
             $category->addMineral($this->minerals[rand(0, count($this->minerals))]);
             $em->persist($category);
