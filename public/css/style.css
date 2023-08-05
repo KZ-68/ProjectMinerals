@@ -17,9 +17,9 @@ h1 {
 
 h2 {
     background: #80ED99;
-    padding: 10px 0px 10px 20px;
+    padding: 10px 20px 10px 40px;
     margin: 30px 0;
-    width: 400px;
+    width: fit-content;
 }
 
 figcaption {
@@ -255,9 +255,27 @@ input[type="submit"] {
     color: white;
 }
 
-.list-wrapper a {
-    color: white;
+.list-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 35px;
 }
+
+.list-wrapper ul {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.list-wrapper a {
+    font-size: 28px;
+}
+
+
+.pagination {
+    margin: 40px 0px 20px 30px;
+}
+
 
 .mineral-image {
     width: 350px;
