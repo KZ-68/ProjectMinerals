@@ -21,6 +21,12 @@ class MineralRepository extends ServiceEntityRepository
         parent::__construct($registry, Mineral::class);
     }
 
+    public function	getPaginationQuery() {	
+        return $this->createQueryBuilder('m')	
+      	    ->orderBy('m.name', 'DESC')	
+      	    ->getQuery();	
+    }
+
 //    /**
 //     * @return Mineral[] Returns an array of Mineral objects
 //     */
