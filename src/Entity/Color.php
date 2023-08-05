@@ -29,6 +29,9 @@ class Color
     #[ORM\ManyToMany(targetEntity: Mineral::class, inversedBy: 'colors')]
     private Collection $minerals;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->minerals = new ArrayCollection();
@@ -71,6 +74,18 @@ class Color
     public function removeMineral(Mineral $mineral): static
     {
         $this->minerals->removeElement($mineral);
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }
