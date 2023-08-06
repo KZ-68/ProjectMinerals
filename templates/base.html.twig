@@ -35,12 +35,38 @@
                     <div id="accordion-wrapper">
                         <button class="accordion">Menu</button>
                         <div class="panel">
-                            <a class="anchor-panel" class="anchor-panel" href="{{ path('app_category') }}">Categories List</a>
+                            <a class="anchor-panel" href="{{ path('app_category') }}">Categories List</a>
                             <a class="anchor-panel" href="{{ path('app_mineral') }}">Minerals List</a>
                         </div>
                     </div>
-                    
                 </div>
+
+                <div id="mySidenav" class="sidenav">
+                    <a id="closeBtn" href="#" class="close">×</a>
+                    <ul>
+                        {% if app.request.get('_route') == 'app_home' %}
+                            <li><a class="isDisabled" href="#">Home Page</a></li>
+                        {% else %}
+                            <li><a class="linkTop" href="{{ path('app_home') }}">Home Page</a></li>
+                        {% endif %}
+                        <li><a class="linkTop" href="{{ path('app_category') }}">Categories List</a></li>
+                        <li><a class="linkTop" href="{{ path('app_mineral') }}">Minerals List</a></li>
+                        <li><a class="linkTop" href="">Profile</a></li>
+                        <li><a class="linkTop" href="">Sign Out</a></li>
+                        <li><a class="linkTop" href="">Sign In</a></li>
+                        <li><a class="linkTop" href="">Register</a></li>
+                        <li><a class="linkTop" href="">Contact</a></li>
+                    </ul>
+                </div>
+    
+                <a href="#" id="openBtn">
+                    <span class="burger-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </a>
+
             </nav>
         </header>
         {% block body %}{% endblock %}
@@ -58,6 +84,7 @@
         </footer>
 
         {% block javascripts %}
+        <script src="/js/burger_menu.js"></script>
         <script src="/js/accordion.js"></script>
         <script src="/js/carousel.js"></script>
         {% endblock %}
