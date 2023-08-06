@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %} 
+
+{% block title %}Add a new category{% endblock %}
+
+{% block body %}
+
+<div class="formulaire">
+    {{ form_start(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.minerals)}}
+        {{ form_row(form.submit)}}
+    {{ form_end(form) }}
+</div>
+{% endblock %}
