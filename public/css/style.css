@@ -19,7 +19,7 @@ h2 {
     background: #80ED99;
     padding: 10px 20px 10px 40px;
     margin: 30px 0;
-    width: fit-content;
+    width: 700px;
 }
 
 figcaption {
@@ -294,14 +294,13 @@ input[type="submit"] {
     display: flex;
     flex-direction: row;
     align-items: center;
-    position: relative;
 }
 
 #add-variety {
-    position: absolute;
-    left: 254px;
     color: #22577A;
     text-decoration: underline;
+    background: #80ED99;
+    padding: 10px 20px;
 }
 
 #varieties-images {
