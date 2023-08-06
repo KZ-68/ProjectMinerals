@@ -6,7 +6,9 @@ use App\Entity\Color;
 use App\Entity\Lustre;
 use App\Entity\Mineral;
 use App\Entity\Category;
+use App\Form\CategoryType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -30,6 +32,28 @@ class AdminController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_mineral');
+    }
+
+    #[Route('/wiki/category/new', name: 'new_category')]
+    public function new_category(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $category = new Category();
+
+        $form = $this->createForm(CategoryType::class, $category);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $category = $form->getData();
+
+            $entityManager->persist($category);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_category');
+        }
+
+        return $this->render('wiki/new_category.html.twig', [
+            'form' => $form
+        ]);
     }
 
     #[Route('/admin/category/{slug}/delete', name: 'delete_category')]
