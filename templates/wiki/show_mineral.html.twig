@@ -10,13 +10,12 @@
         <a href="#">Discussions</a>
 </div>
 
-<h1>
-        {{mineral.name}} <br/>
-        {% if mineral.category | length > 0 %}
-            <a href="{{ path('show_category', {'slug': mineral.category.slug}) }}">{{mineral.category.name}}</a>
-        {% else %}
-            <i>Information manquante</i>
-        {% endif %}
+<h1>{{mineral.name}}<br/>
+    {% if mineral.category | length > 0 %}
+        <a href="{{ path('show_category', {'slug': mineral.category.slug}) }}">{{mineral.category.name}}</a>
+    {% else %}
+        <i>Information manquante</i>
+    {% endif %}
 </h1>
 
 <figure id="mineral-figure">
@@ -60,7 +59,7 @@
             {% else %}
                 Missing information
             {% endif %}
-            <a href="{{path('edit_mineral_colors', {'slug': mineral.slug})}}">Add a color !</a>
+            <a href="{{path('edit_mineral_colors', {'slug': mineral.slug})}}">Add a color</a>
         </p>
         <p>Lustre : <br/>
             {% if mineral.lustres | length > 0 %}
@@ -70,6 +69,7 @@
             {% else %}
                 Missing information
             {% endif %}
+            <a href="{{ path('edit_mineral_lustres', {'slug': mineral.slug})}}">Add a lustre</a>
         </p>
     </div>
 </section>
