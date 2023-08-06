@@ -63,16 +63,24 @@ class WikiController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $mineral = $form->getData();
+            // On récupère une collection d'images
             $images = $form->get('images')->getData();
 
+            // Pour chaque image soumise :
             foreach ($images as $image) {
+                /* On déclare une variable qui contient une image 
+                qui est traitée par la fonction upload */
                 $newFileName = $fileUploader->upload($image);
+                // On déclare une nouvel objet image
                 $img = new Image;
+                // Le nom du fichier sera celui de l'image uploadé
                 $img->setFileName($newFileName);
+                // On ajoute l'image dans la collection
                 $mineral->addImage($img);
             }
-
+            // On prépare les données pour l'envoi
             $entityManager->persist($mineral);
+            // On envoie les données dans la bdd
             $entityManager->flush();
 
             return $this->redirectToRoute('app_mineral');
@@ -89,7 +97,9 @@ class WikiController extends AbstractController
     {
         $originalColors = new ArrayCollection();
 
+        // Pour chaque couleur récupérés :
         foreach ($mineral->getColors() as $color) {
+            // On ajoute la couleur dans la Collection
             $originalColors->add($color);
         }
 
@@ -98,13 +108,14 @@ class WikiController extends AbstractController
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            // remove the relationship between the tag and the mineral
+            // Supprime la relation entre la couleur et le mineral
             foreach ($originalColors as $color) {
+                // Si en essayant de récupérer la couleur contenu dans le mineral on obtient false :
                 if (false === $mineral->getColors()->contains($color)) {
-                    // remove the mineral from the color
+                    // Supprime le mineral de la couleur
                     $color->getMinerals()->removeElement($mineral);
 
-                    // if it was a many-to-one relationship, remove the relationship like this
+                    // Dans le cas d'une relation many-to-one, décommenter la ligne suivante :
                     // $color->setMineral(null);
 
                     $entityManager->persist($color);
@@ -114,8 +125,8 @@ class WikiController extends AbstractController
             $entityManager->persist($mineral);
             $entityManager->flush();
 
-            // redirect back to some edit page
-            return $this->redirectToRoute('edit_mineral', ['id' => $mineral->getId()]);
+            // Redirige vers la page d'édition voulue
+            return $this->redirectToRoute('edit_mineral', ['slug' => $mineral->getSlug()]);
 
         }
 
