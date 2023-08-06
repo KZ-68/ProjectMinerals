@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Color;
+use App\Entity\Lustre;
 use App\Entity\Mineral;
 use App\Entity\Category;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,5 +40,25 @@ class AdminController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_category');
+    }
+
+    #[Route('/admin/color/{slug}/delete', name: 'delete_color')]
+    public function deleteColor(Color $color, EntityManagerInterface $entityManager) {
+        // Prépare la suppression d'une instance de l'objet 
+        $entityManager->remove($color);
+        // Exécute la suppression
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_color');
+    }
+
+    #[Route('/admin/lustre/{slug}/delete', name: 'delete_lustre')]
+    public function deleteLustre(Lustre $lustre, EntityManagerInterface $entityManager) {
+        // Prépare la suppression d'une instance de l'objet 
+        $entityManager->remove($lustre);
+        // Exécute la suppression
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_lustre');
     }
 }
