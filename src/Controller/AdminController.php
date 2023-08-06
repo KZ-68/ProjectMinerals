@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Mineral;
+use App\Entity\Category;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +20,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/mineral/{id}/delete', name: 'delete_mineral')]
+    #[Route('/admin/mineral/{slug}/delete', name: 'delete_mineral')]
     public function deleteMineral(Mineral $mineral, EntityManagerInterface $entityManager) {
         // Prépare la suppression d'une instance de l'objet 
         $entityManager->remove($mineral);
@@ -27,5 +28,15 @@ class AdminController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_mineral');
+    }
+
+    #[Route('/admin/category/{slug}/delete', name: 'delete_category')]
+    public function deletecategory(Category $category, EntityManagerInterface $entityManager) {
+        // Prépare la suppression d'une instance de l'objet 
+        $entityManager->remove($category);
+        // Exécute la suppression
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_category');
     }
 }
