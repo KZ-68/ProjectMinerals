@@ -2,13 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\VarietyRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\VarietyRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: VarietyRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[UniqueEntity('slug', message: 'This slug already exist')]
 class Variety
 {
     #[ORM\Id]
@@ -38,6 +42,11 @@ class Variety
     public function __construct()
     {
         $this->images = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist() {
+        $this->slug = (new Slugify())->slugify($this->name);
     }
 
     public function getId(): ?int

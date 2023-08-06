@@ -2,13 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\LustreRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\LustreRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: LustreRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[UniqueEntity('slug', message: 'This slug already exist')]
 class Lustre
 {
     #[ORM\Id]
@@ -35,6 +39,11 @@ class Lustre
     public function __construct()
     {
         $this->minerals = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist() {
+        $this->slug = (new Slugify())->slugify($this->type);
     }
 
     public function getId(): ?int
