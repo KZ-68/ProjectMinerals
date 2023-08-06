@@ -120,6 +120,20 @@ header {
     gap: 20px;
 }
 
+.sidenav {
+    height: 239px;
+    width: 167px;
+    position: fixed;
+    z-index: 2;
+    top: 59px;
+    right: -250px;
+    background: #57CC99;
+    padding-top: 36px;
+    transition: right 0.5s ease;
+    border-radius: 5px;
+    display: none;
+}
+
 .search-bar {
     display: flex;
     align-items: center;
@@ -440,6 +454,67 @@ small {
 
     #nav-right {
         display: none;
+    }
+
+    .sidenav a {
+        text-decoration: none;
+        font-size: 16px;
+        color: #444444;
+        display: block;
+        transition: 0.1s;
+    }
+      
+    .sidenav a:hover {
+        color: #111;
+    }
+      
+    .sidenav ul {
+        display: flex;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .isDisabled {
+        padding: 0;
+        padding-left: 10px;
+    }
+
+    .linkTop {
+        padding: 0;
+        padding-left: 10px;
+    }
+
+    .sidenav {
+        display: block;
+    }
+
+    .sidenav.active {
+        right: 23px;
+    }
+      
+    .sidenav .close {
+        position: absolute;
+        top: -5px;
+        left: 9px;
+        font-size: 36px;
+    }
+    
+    .burger-icon span {
+        display: block;
+        width: 35px;
+        height: 5px;
+        background-color: rgb(255, 255, 255);
+        margin: 6px 0;
+        position: relative;
+        left: 25px;
+    }
+
+    #openBtn {
+        padding-right: 25px;
+        display: block;
     }
 
     .search-zone {
