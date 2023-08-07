@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MineralRepository;
 use Doctrine\Common\Collections\Collection;
@@ -47,13 +48,9 @@ class Mineral
     )]
     private ?string $crystal_system = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
     #[Assert\Positive]
-    #[Assert\Type(
-        type: 'float',
-        message: 'The value {{ value }} is not a valid {{ type }}.',
-    )]
-    private ?float $density = null;
+    private ?string $density = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\Positive]
@@ -153,12 +150,12 @@ class Mineral
         return $this;
     }
 
-    public function getDensity(): ?float
+    public function getDensity(): ?string
     {
         return $this->density;
     }
 
-    public function setDensity(?float $density): static
+    public function setDensity(?string $density): static
     {
         $this->density = $density;
 
