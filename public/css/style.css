@@ -95,6 +95,10 @@ header {
 
 .search-zone {
     height: 35px;
+    border-radius: 15px 0px 0px 15px;
+    border: none;
+    padding: 0px 5px 0px 10px;
+    width: 250px;
 }
 
 #nav-header {
@@ -134,9 +138,18 @@ header {
     display: none;
 }
 
+#openBtn {
+    display: none;
+}
+
 .search-bar {
     display: flex;
     align-items: center;
+    position: absolute;
+    top: 725px;
+    left: 800px;
+    border: 1px solid;
+    border-radius: 15px 15px 15px 15px;
 }
 
 .accordion {
@@ -159,6 +172,16 @@ input[type="submit"] {
     padding: 9px;
     border: none;
     outline: none;
+}
+
+#submit-search {
+    background-color: #57CC99;
+    color: #444;
+    cursor: pointer;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 0px 15px 15px 0px;
 }
   
 .active, .accordion:hover {
@@ -197,6 +220,7 @@ input[type="submit"] {
     left: 42%;
     top: 21%;
     background: none;
+    padding: 0;
 }
 
 #diaporama {
@@ -448,6 +472,11 @@ small {
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .adv-search-section h2 {
+        width: 375px;
+        font-size: 18px;
+    }
+    
     #nav-header {
         flex-direction: row;
     }
@@ -518,8 +547,8 @@ small {
     }
 
     .search-zone {
-        height: 27px;
-        width: 120px;
+        height: 35px;
+        width: 180px;
     }
 
     #accordion-wrapper {
@@ -536,15 +565,15 @@ small {
     
     #minerals-logo {
         left: 27%;
-        top: 27%;
+        top: 22%;
         width: 159px;
     }
 
     #fig-logo {
         font-size: 34px;
-        left: 15%;
-        top: 13%;
-        width: 250px;
+        left: 25%;
+        top: 10%;
+        width: 190px;
     }
 
     #diaporama {
@@ -555,6 +584,13 @@ small {
         height: 376px;
     }
 
+    .search-bar {
+        top: 361px;
+        left: 69px;
+    }
+
+
+
     .adv-search {
         width: 306px;
         height: 555px;
@@ -564,10 +600,6 @@ small {
 
     .adv-search-border {
         align-items: flex-start;
-    }
-
-    .adv-search-section h2 {
-        font-size: 18px;
     }
 
     .adv-search-fields {
