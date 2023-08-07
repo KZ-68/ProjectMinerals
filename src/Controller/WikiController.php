@@ -26,17 +26,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class WikiController extends AbstractController
 {
     #[Route('/wiki/mineral', name: 'app_mineral')]
-    public function index(MineralRepository $mineralRepository, Request $request, PaginatorInterface $paginator): Response
-    {
-
-        $pagination = $paginator->paginate(
-            $mineralRepository->getPaginationQuery(),
-            $request->query->get('page', 1),
-            10
-        );
-
+    public function index(MineralRepository $mineralRepository, Request $request): Response
+    {        
         return $this->render('wiki/index.html.twig', [
-            'pagination' => $pagination
+            'minerals' => $mineralRepository->findPaginateMinerals($request->query->getInt('page', 1))
         ]);
     }
 
