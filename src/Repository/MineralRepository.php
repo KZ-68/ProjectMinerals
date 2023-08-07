@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Mineral;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Model\SearchData;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Mineral>
@@ -16,15 +19,40 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MineralRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private PaginatorInterface $paginatorInterface 
+        )
     {
         parent::__construct($registry, Mineral::class);
     }
 
-    public function	getPaginationQuery() {	
-        return $this->createQueryBuilder('m')	
+    public function	findPaginateMinerals(int $page): PaginationInterface {	
+        
+        $data = $this->createQueryBuilder('m')	
       	    ->orderBy('m.name', 'DESC')	
-      	    ->getQuery();	
+      	    ->getQuery()
+            ->getResult();	
+
+            $minerals = $this->paginatorInterface->paginate($data, $page, 9);
+            return $minerals;
+    }
+
+    public function findBySearch(SearchData $searchData): PaginationInterface {
+        $data = $this->createQueryBuilder('m');
+        
+        if(!empty($searchData->q)) {
+            $data = $data  
+                ->andWhere('m.name LIKE :q')
+                ->setParameter('q', "%{$searchData->q}%");
+        }
+        $data = $data 
+            ->getQuery()
+            ->getResult();
+        
+        $minerals = $this->paginatorInterface->paginate($data, $searchData->page, 9);
+
+        return $minerals;
     }
 
 //    /**
