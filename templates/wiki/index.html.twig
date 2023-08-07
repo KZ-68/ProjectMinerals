@@ -12,7 +12,7 @@
 <div class="list-wrapper">
     <div>
         <ul>
-            {% for mineral in pagination %}
+            {% for mineral in minerals %}
             <li><a href="{{path('show_mineral', {'slug': mineral.slug})}}">{{mineral.name}}</a></li>
             {% endfor %}
         </ul>
@@ -20,7 +20,7 @@
 </div>
 
 <nav>
-   {{knp_pagination_render(pagination)}}
+   {{knp_pagination_render(minerals)}}
 </nav>
 
 {% endblock %}
