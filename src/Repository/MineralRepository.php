@@ -4,10 +4,13 @@ namespace App\Repository;
 
 use App\Entity\Mineral;
 use App\Model\SearchData;
+use App\Model\AdvancedSearchData;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Mineral>
@@ -42,8 +45,10 @@ class MineralRepository extends ServiceEntityRepository
         $data = $this->createQueryBuilder('m');
         
         if(!empty($searchData->q)) {
-            $data = $data  
-                ->andWhere('m.name LIKE :q')
+            $data = $data
+                ->innerJoin('m.category', 'c', 'WITH', 'c.id = m.category')  
+                ->where('m.name LIKE :q')
+                ->orWhere('c.name LIKE :q')
                 ->setParameter('q', "%{$searchData->q}%");
         }
         $data = $data 
@@ -51,6 +56,35 @@ class MineralRepository extends ServiceEntityRepository
             ->getResult();
         
         $minerals = $this->paginatorInterface->paginate($data, $searchData->page, 9);
+
+        return $minerals;
+    }
+
+    public function findByAvancedSearch(AdvancedSearchData $advancedSearchData): PaginationInterface {
+        $data = $this->createQueryBuilder('m');
+        
+            $data = $data
+                ->where('m.formula LIKE :formula')
+                ->andWhere('m.crystal_system LIKE :crystal_system')
+                ->andWhere('m.density LIKE :density')
+                ->andWhere('m.hardness = :hardness')
+                ->andWhere('m.fracture LIKE :fracture')
+                ->andWhere('m.streak LIKE :streak')
+                ->setParameters(new ArrayCollection([
+
+                    new Parameter('formula', "%{$advancedSearchData->formula}%"),
+                    new Parameter('density', "%{$advancedSearchData->density}%"),
+                    new Parameter('crystal_system', "%{$advancedSearchData->crystal_system}%"),
+                    new Parameter('hardness', "{$advancedSearchData->hardness}"),
+                    new Parameter('fracture', "%{$advancedSearchData->fracture}%"),
+                    new Parameter('streak', "%{$advancedSearchData->streak}%")
+                ]));
+
+        $data = $data 
+            ->getQuery()
+            ->getResult();
+        
+        $minerals = $this->paginatorInterface->paginate($data, $advancedSearchData->page, 9);
 
         return $minerals;
     }
