@@ -24,18 +24,10 @@
     <div class="adv-search">
         <div class="adv-search-border">
             <div class="adv-search-fields">
-                <p>Name :</p>
-                <p>Category :</p>
-                <p>Formula :</p>
-                <p>Crystal System :</p>
-                <p>Colour :</p>
-                <p>Lustre :</p>
-                <p>Hardness :</p>
-                <p>Streak :</p>
-                <p>Density :</p>
-                <p>Fracture :</p>
+                {% include "search/advanced_search_data.html.twig" with {
+                    form2: form2
+                } %}
             </div>
-            <input id="submit-search" type="submit" name="search" value="search">
         </div>
     </div>
 
