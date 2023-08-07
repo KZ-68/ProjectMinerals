@@ -11,6 +11,10 @@
 <figure id="diaporama">
     <img src="{{ asset('uploads/images/sainte-marie-aux-mines-photo.jpg') }}">
 </figure>
+{% include "search/search_data.html.twig" with {
+    'route': 'app_search',
+    form: form
+} only %}
 
 <section class="adv-search-section">
     <h2>Advanced Search</h2>
