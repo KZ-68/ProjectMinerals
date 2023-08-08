@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Color;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Color>
@@ -16,9 +18,23 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ColorRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private PaginatorInterface $paginatorInterface 
+        )
     {
         parent::__construct($registry, Color::class);
+    }
+
+    public function	findPaginateColors(int $page): PaginationInterface {	
+        
+        $data = $this->createQueryBuilder('co')	
+      	    ->orderBy('co.name', 'DESC')	
+      	    ->getQuery()
+            ->getResult();	
+
+            $colors = $this->paginatorInterface->paginate($data, $page, 9);
+            return $colors;
     }
 
 //    /**
