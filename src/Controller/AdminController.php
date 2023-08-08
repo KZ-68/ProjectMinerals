@@ -9,6 +9,7 @@ use App\Entity\Category;
 use App\Form\AddColorType;
 use App\Form\CategoryType;
 use App\Repository\ColorRepository;
+use App\Repository\LustreRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -86,6 +87,24 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_color');
     }
 
+    #[Route('/admin/lustre', name: 'app_lustre')]
+    public function lustresList(LustreRepository $lustreRepository, Request $request): Response
+    {
+        return $this->render('admin/lustres_list.html.twig', [
+            'lustres' => $lustreRepository->findPaginateLustres($request->query->getInt('page', 1))
+        ]);
+    }
+
+    #[Route('/admin/lustre/{slug}/delete', name: 'delete_lustre')]
+    public function deleteLustre(Lustre $lustre, EntityManagerInterface $entityManager) {
+        // Prépare la suppression d'une instance de l'objet 
+        $entityManager->remove($lustre);
+        // Exécute la suppression
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_lustre');
+    }
+
     #[Route('/admin/mineral/{slug}/delete', name: 'delete_mineral')]
     public function deleteMineral(Mineral $mineral, EntityManagerInterface $entityManager) {
         // Prépare la suppression d'une instance de l'objet 
@@ -148,13 +167,4 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_category');
     }
 
-    #[Route('/admin/lustre/{slug}/delete', name: 'delete_lustre')]
-    public function deleteLustre(Lustre $lustre, EntityManagerInterface $entityManager) {
-        // Prépare la suppression d'une instance de l'objet 
-        $entityManager->remove($lustre);
-        // Exécute la suppression
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_lustre');
-    }
 }
