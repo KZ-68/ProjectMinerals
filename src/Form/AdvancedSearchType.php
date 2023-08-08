@@ -2,9 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Color;
+use App\Entity\Category;
 use App\Model\AdvancedSearchData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -15,6 +18,12 @@ class AdvancedSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('name', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
             ->add('formula', TextType::class, [
                 'required' => false,
                 'attr' => [
@@ -36,10 +45,9 @@ class AdvancedSearchType extends AbstractType
             ])
             ->add('hardness', IntegerType::class, [
                 'label' => 'Hardness Scale',
-                'empty_data' => 1,
                 'attr' => [
                     'class' => 'form-control',
-                    'min' => 1, 'max' => 100
+                    'min' => 1, 'max' => 9
                 ],
                 'required' => false
             ])
@@ -54,6 +62,11 @@ class AdvancedSearchType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ]
+            ])
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'required' => false
             ])
         ;
     }
