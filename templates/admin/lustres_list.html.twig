@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lustres List{% endblock %}
+
+{% block body %}
+<div class="options">
+    <a href="{{ path('new_lustre') }}">Add a lustre</a>
+</div>
+
+<h1>Lustres List</h1>
+
+<div class="list-wrapper">
+    <div>
+        <ul>
+            {% for lustre in lustres %}
+                <li><a href="{{path('show_lustre', {'slug': lustre.slug})}}">{{lustre.name}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<nav>
+    {{knp_pagination_render(lustres)}}
+</nav> 
+
+{% endblock %}
