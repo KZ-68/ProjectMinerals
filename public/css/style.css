@@ -195,11 +195,12 @@ header {
     position: absolute;
     z-index: 6;
     background: #38A3A5;
-    gap: 20px;
+    gap: 5px;
 }
 
 .anchor-panel {
     font-size: 18px;
+    padding: 10px 0px 10px 0px;
 }
 
 #minerals-logo {
@@ -532,12 +533,97 @@ small {
 
 
 @media only screen and (min-device-width:768px) and (max-device-width: 1024px) {
+    
+    
+    #nav-header {
+        flex-direction: row;
+    }
+
+    #nav-right {
+        display: none;
+    }
+    .linkTop {
+        padding: 0;
+        padding-left: 10px;
+    }
+
+    .sidenav a {
+        text-decoration: none;
+        font-size: 16px;
+        color: #444444;
+        display: block;
+        transition: 0.1s;
+    }
+      
+    .sidenav a:hover {
+        color: #111;
+    }
+      
+    .sidenav ul {
+        display: flex;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .burger-icon span {
+        display: block;
+        width: 35px;
+        height: 5px;
+        background-color: rgb(255, 255, 255);
+        margin: 6px 0;
+        position: relative;
+        left: 25px;
+    }
+
+    #openBtn {
+        padding-right: 25px;
+        display: block;
+    }
+
+    
+    #fig-logo {
+        font-size: 50px;
+        left: 33%;
+        top: 21%;
+    }
+    
+    #minerals-logo {
+        left: 28%;
+        top: 32%;
+    }
+
+    .search-bar {
+        top: 725px;
+        left: 235px;
+    }
+
+    .search-zone {
+        height: 44px;
+        font-size: 20px;
+    }
+
+    #submit-search {
+        padding: 11px;
+        font-size: 19px;
+    }
+
 }
 
 @media only screen and (min-device-width: 480px) and (max-device-width: 768px) {
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    h1 {
+        width: 375px;
+    }
+    
+    h2 {
+        width: 375px;
+    }
+
     .adv-search-section h2 {
         width: 375px;
         font-size: 18px;
@@ -587,7 +673,7 @@ small {
     }
 
     .sidenav.active {
-        right: 23px;
+        right: 0px;
     }
       
     .sidenav .close {
@@ -612,6 +698,18 @@ small {
         display: block;
     }
 
+    #accordion-wrapper {
+        display: none;
+    }
+
+    .accordion {
+        display: none;
+    }
+
+    .panel {
+        display: none;
+    }
+    
     .search-zone {
         height: 35px;
         width: 180px;
