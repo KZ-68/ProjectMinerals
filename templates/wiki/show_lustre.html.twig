@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lustre Details{% endblock %}
+
+{% block body %}
+
+<h1>Minerals list for <strong>{{lustre.type}}</strong></h1>
+
+<div class="list-wrapper">
+    <div>
+        <ul>
+            {% for mineral in lustre.minerals %}
+            <li><a href="{{ path('show_mineral', {'slug': mineral.slug}) }}">{{mineral.name}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
