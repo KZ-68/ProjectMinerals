@@ -533,8 +533,6 @@ small {
 
 
 @media only screen and (min-device-width:768px) and (max-device-width: 1024px) {
-    
-    
     #nav-header {
         flex-direction: row;
     }
@@ -542,14 +540,10 @@ small {
     #nav-right {
         display: none;
     }
-    .linkTop {
-        padding: 0;
-        padding-left: 10px;
-    }
 
     .sidenav a {
         text-decoration: none;
-        font-size: 16px;
+        font-size: 20px;
         color: #444444;
         display: block;
         transition: 0.1s;
@@ -568,6 +562,33 @@ small {
         gap: 10px;
     }
 
+    .isDisabled {
+        padding: 0;
+        padding-left: 10px;
+    }
+
+    .linkTop {
+        padding: 0;
+        padding-left: 10px;
+    }
+
+    .sidenav {
+        height: 301px;
+        width: 204px;
+        display: block;
+    }
+
+    .sidenav.active {
+        right: 0px;
+    }
+      
+    .sidenav .close {
+        position: absolute;
+        top: -5px;
+        left: 9px;
+        font-size: 36px;
+    }
+    
     .burger-icon span {
         display: block;
         width: 35px;
@@ -582,7 +603,6 @@ small {
         padding-right: 25px;
         display: block;
     }
-
     
     #fig-logo {
         font-size: 50px;
@@ -608,6 +628,18 @@ small {
     #submit-search {
         padding: 11px;
         font-size: 19px;
+    }
+    
+    #accordion-wrapper {
+        display: none;
+    }
+
+    .accordion {
+        display: none;
+    }
+
+    .panel {
+        display: none;
     }
 
 }
@@ -698,18 +730,6 @@ small {
         display: block;
     }
 
-    #accordion-wrapper {
-        display: none;
-    }
-
-    .accordion {
-        display: none;
-    }
-
-    .panel {
-        display: none;
-    }
-    
     .search-zone {
         height: 35px;
         width: 180px;
