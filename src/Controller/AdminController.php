@@ -6,6 +6,7 @@ use App\Entity\Color;
 use App\Entity\Lustre;
 use App\Entity\Mineral;
 use App\Entity\Category;
+use App\Form\AddColorType;
 use App\Form\CategoryType;
 use App\Repository\ColorRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,6 +32,58 @@ class AdminController extends AbstractController
         return $this->render('admin/colors_list.html.twig', [
             'colors' => $colorRepository->findPaginateColors($request->query->getInt('page', 1))
         ]);
+    }
+
+    #[Route('/admin/color/new', name: 'new_color')]
+    public function new_color(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $color = new Color();
+
+        $form = $this->createForm(AddColorType::class, $color);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $color = $form->getData();
+
+            $entityManager->persist($color);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_color');
+        }
+
+        return $this->render('admin/new_color.html.twig', [
+            'form' => $form
+        ]);
+    }
+
+    #[Route('/admin/color/{slug}/edit', name: 'edit_color')]
+    public function edit_color(Color $color, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(AddColorType::class, $color);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $color = $form->getData();
+
+            $entityManager->persist($color);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_color');
+        }
+
+        return $this->render('admin/edit_color.html.twig', [
+            'form' => $form
+        ]);
+    }
+
+    #[Route('/admin/color/{slug}/delete', name: 'delete_color')]
+    public function deleteColor(Color $color, EntityManagerInterface $entityManager) {
+        // Prépare la suppression d'une instance de l'objet 
+        $entityManager->remove($color);
+        // Exécute la suppression
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_color');
     }
 
     #[Route('/admin/mineral/{slug}/delete', name: 'delete_mineral')]
@@ -93,16 +146,6 @@ class AdminController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_category');
-    }
-
-    #[Route('/admin/color/{slug}/delete', name: 'delete_color')]
-    public function deleteColor(Color $color, EntityManagerInterface $entityManager) {
-        // Prépare la suppression d'une instance de l'objet 
-        $entityManager->remove($color);
-        // Exécute la suppression
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_color');
     }
 
     #[Route('/admin/lustre/{slug}/delete', name: 'delete_lustre')]
