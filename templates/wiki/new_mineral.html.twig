@@ -4,8 +4,9 @@
 
 {% block body %}
 
-<div class="formulaire">
+<div class="formulaire-wrapper">
     {{ form_start(form) }}
+    <div class="formulaire">
         {{ form_row(form.name)}}
         {{ form_row(form.formula)}}
         {{ form_row(form.crystal_system)}}
@@ -18,6 +19,7 @@
         {{ form_row(form.lustres)}}
         {{ form_row(form.images) }}
         {{ form_row(form.submit)}}
+    </div>
     {{ form_end(form) }}
 </div>
 

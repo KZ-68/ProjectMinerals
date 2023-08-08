@@ -4,11 +4,13 @@
 
 {% block body %}
 
-<div class="formulaire">
+<div class="formulaire-wrapper">
     {{ form_start(form) }}
+    <div class="formulaire">
         {{ form_row(form.name) }}
         {{ form_row(form.minerals)}}
         {{ form_row(form.submit)}}
+    </div>
     {{ form_end(form) }}
 </div>
 {% endblock %}
