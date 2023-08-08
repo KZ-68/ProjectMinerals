@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Model; 
+namespace App\Model;
+
+use App\Entity\Category;
 
 class AdvancedSearchData {
 
@@ -20,4 +22,5 @@ class AdvancedSearchData {
 
     public ?string $streak = null;
 
+    public ?Category $category = null;
 }
