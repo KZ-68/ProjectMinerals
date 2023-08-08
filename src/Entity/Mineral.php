@@ -78,6 +78,7 @@ class Mineral
     private ?string $streak = null;
 
     #[ORM\ManyToOne(inversedBy: 'minerals')]
+    #[ORM\JoinColumn(nullable: true, onDelete:"SET NULL")]
     private ?Category $category = null;
 
     #[ORM\ManyToMany(targetEntity: Color::class, mappedBy: 'minerals')]
