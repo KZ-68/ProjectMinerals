@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Color;
 use App\Entity\Image;
+use App\Entity\Lustre;
 use App\Entity\Mineral;
 use App\Entity\Variety;
 use App\Entity\Category;
@@ -228,4 +229,11 @@ class WikiController extends AbstractController
         ]);
     }
 
+    #[Route('/wiki/lustre/{slug}/show', name: 'show_lustre')]
+    public function showLustre(Lustre $lustre): Response
+    {
+        return $this->render('wiki/show_lustre.html.twig', [
+            'lustre' => $lustre
+        ]);
+    }
 }
