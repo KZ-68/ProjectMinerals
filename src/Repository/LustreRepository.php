@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Lustre;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Lustre>
@@ -16,9 +18,23 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LustreRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private PaginatorInterface $paginatorInterface
+    )
     {
         parent::__construct($registry, Lustre::class);
+    }
+
+    public function	findPaginateLustres(int $page): PaginationInterface {	
+        
+        $data = $this->createQueryBuilder('l')	
+      	    ->orderBy('l.type', 'DESC')	
+      	    ->getQuery()
+            ->getResult();	
+
+            $lustres = $this->paginatorInterface->paginate($data, $page, 9);
+            return $lustres;
     }
 
 //    /**
