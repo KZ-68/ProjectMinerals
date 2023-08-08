@@ -4,6 +4,8 @@ namespace App\DataFixtures;
 
 use Faker\Factory;
 use Faker\Generator;
+use App\Entity\Color;
+use App\Entity\Lustre;
 use App\Entity\Mineral;
 use App\Entity\Variety;
 use App\Entity\Category;
@@ -38,7 +40,9 @@ class AppFixtures extends Fixture
         $this->addVarieties($manager);
         $this->addMinerals($manager);
         $this->addCategories($manager);
-
+        $this->addColors($manager);
+        $this->addLustres($manager);
+        
         $manager->flush();
     }
 
@@ -56,12 +60,12 @@ class AppFixtures extends Fixture
     }
 
     public function addMinerals(EntityManager $em) {
-        for ($i=0; $i < 100; $i++) { 
+        for ($i=0; $i <= 100; $i++) { 
             $mineral = new Mineral();
             $mineral->setName($this->faker->word())
                 ->setFormula($this->faker->word())
                 ->setCrystalSystem($this->faker->word())
-                ->setDensity($this->faker->randomFloat())
+                ->setDensity($this->faker->randomFloat(2, 1, 4))
                 ->setHardness($this->faker->randomDigitNotNull())
                 ->setFracture($this->faker->word())
                 ->setStreak($this->faker->safeColorName())
@@ -79,10 +83,36 @@ class AppFixtures extends Fixture
         for ($i=0; $i < 100; $i++) { 
             $category = new Category();
             $category->setName($this->faker->word())
-                    ->setSlug($this->slugger->slug($category->getName()));
+                ->setSlug($this->slugger->slug($category->getName()));
             
             $category->addMineral($this->minerals[rand(0, count($this->minerals))]);
             $em->persist($category);
+
+        }
+        
+    }
+
+    private function addColors(EntityManager $em)
+    {
+        for ($i=0; $i < 100; $i++) { 
+            $color = new Color();
+            $color->setName($this->faker->safeColorName())
+                ->setSlug($this->slugger->slug($color->getName()));
+            
+            $em->persist($color);
+
+        }
+        
+    }
+
+    private function addlustres(EntityManager $em)
+    {
+        for ($i=0; $i < 100; $i++) { 
+            $lustre = new Lustre();
+            $lustre->setType($this->faker->word())
+                ->setSlug($this->slugger->slug($lustre->getType()));
+            
+            $em->persist($lustre);
 
         }
         
