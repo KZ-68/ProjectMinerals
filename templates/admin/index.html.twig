@@ -5,8 +5,13 @@
 {% block body %}
 
 <h1>Admin Control Panel</h1>
-
-<a href="{{path('app_color')}}">Colors List</a>
-<a href="{{path('app_lustre')}}">Lustres List</a>
+<div class="list-wrapper">
+    <div>
+        <ul>
+            <li><a href="{{path('app_color')}}">Colors List</a></li>
+            <li><a href="{{path('app_lustre')}}">Lustres List</a></li>
+        </ul>
+    </div>
+</div>
 
 {% endblock %}
