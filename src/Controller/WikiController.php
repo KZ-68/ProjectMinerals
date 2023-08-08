@@ -11,7 +11,6 @@ use App\Form\MineralType;
 use App\Form\VarietyType;
 use App\Service\FileUploader;
 use App\Form\MineralColorType;
-use App\Repository\ColorRepository;
 use App\Repository\ImageRepository;
 use App\Repository\MineralRepository;
 use App\Repository\CategoryRepository;
@@ -213,23 +212,11 @@ class WikiController extends AbstractController
         ]);
     }
 
-    
-
     #[Route('/wiki/category/{slug}/show', name: 'show_category')]
     public function showCategory(Category $category): Response
     {
         return $this->render('wiki/show_category.html.twig', [
             'category' => $category
-        ]);
-    }
-
-    #[Route('/wiki/color', name: 'list_colors')]
-    public function colorsList(ColorRepository $colorRepository): Response
-    {
-        $colors = $colorRepository->findBy([], ["name" => "ASC"]);
-        
-        return $this->render('wiki/colors_list.html.twig', [
-            'colors' => $colors
         ]);
     }
 

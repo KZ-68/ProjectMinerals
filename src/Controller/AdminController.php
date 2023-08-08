@@ -7,6 +7,7 @@ use App\Entity\Lustre;
 use App\Entity\Mineral;
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Repository\ColorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +22,14 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'AdminController',
+        ]);
+    }
+
+    #[Route('/admin/color', name: 'app_color')]
+    public function colorslist(ColorRepository $colorRepository, Request $request): Response
+    {
+        return $this->render('admin/colors_list.html.twig', [
+            'colors' => $colorRepository->findPaginateColors($request->query->getInt('page', 1))
         ]);
     }
 
@@ -52,6 +61,26 @@ class AdminController extends AbstractController
         }
 
         return $this->render('wiki/new_category.html.twig', [
+            'form' => $form
+        ]);
+    }
+
+    #[Route('/wiki/category/{slug}/editCategory', name: 'edit_category')]
+    public function edit_category(Category $category, Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+        $form = $this->createForm(CategoryType::class, $category);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $category = $form->getData();
+            $entityManager->persist($category);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_category');
+        }
+
+        return $this->render('wiki/edit_category.html.twig', [
             'form' => $form
         ]);
     }
