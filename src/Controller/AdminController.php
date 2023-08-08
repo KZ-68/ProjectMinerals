@@ -8,6 +8,7 @@ use App\Entity\Mineral;
 use App\Entity\Category;
 use App\Form\AddColorType;
 use App\Form\CategoryType;
+use App\Form\AddLustreType;
 use App\Repository\ColorRepository;
 use App\Repository\LustreRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -92,6 +93,48 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/lustres_list.html.twig', [
             'lustres' => $lustreRepository->findPaginateLustres($request->query->getInt('page', 1))
+        ]);
+    }
+
+    #[Route('/admin/lustre/new', name: 'new_lustre')]
+    public function new_lustre(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $lustre = new Lustre();
+
+        $form = $this->createForm(AddLustreType::class, $lustre);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $lustre = $form->getData();
+
+            $entityManager->persist($lustre);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_lustre');
+        }
+
+        return $this->render('admin/new_lustre.html.twig', [
+            'form' => $form
+        ]);
+    }
+
+    #[Route('/admin/lustre/{slug}/edit', name: 'edit_lustre')]
+    public function edit_lustre(Lustre $lustre, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(AddLustreType::class, $lustre);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $lustre = $form->getData();
+
+            $entityManager->persist($lustre);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_lustre');
+        }
+
+        return $this->render('admin/edit_lustre.html.twig', [
+            'form' => $form
         ]);
     }
 
