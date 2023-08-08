@@ -13,7 +13,11 @@
     <div>
         <ul>
             {% for category in categories %}
-                <li><a href="{{path('show_category', {'slug': category.slug})}}">{{category.name}}</a></li>
+                <li>
+                    <a href="{{path('show_category', {'slug': category.slug})}}">{{category.name}}</a>
+                    <a class="edit-btn" href="{{ path('edit_category', {'slug': category.slug}) }}" aria-label="Edit">Edit</a>
+                    <a class="delete-btn" href="{{ path('delete_category', {'slug': category.slug}) }}" aria-label="Delete">Delete</a>
+                </li>
             {% endfor %}
         </ul>
     </div>
