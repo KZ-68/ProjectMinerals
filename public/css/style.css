@@ -69,10 +69,26 @@ li {
     width: 100%;
 }
 
-.formulaire {
+.form-select {
+    border-radius: 5px;
+    border: 1px solid #dfdfdf;
+    height: 140px;
+    width: 100%;
+}
+
+.formulaire-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: white;
+    font-size: 24px;
+    padding: 25px 50px;
+}
+
+.formulaire {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
 .isDisabled {
@@ -315,10 +331,22 @@ div.advanced-search-bar {
     color: white;
 }
 
+.options {
+    padding: 20px;
+    margin-top: 25px;
+    border: 1px solid black;
+    text-align: end;
+}
+
+.options a {
+    font-size: 16px;
+    color: white;
+}
+
 .list-wrapper {
     display: flex;
     flex-direction: column;
-    margin: 0px 35px;
+    margin: 30px 35px;
 }
 
 .list-wrapper ul {
@@ -330,7 +358,6 @@ div.advanced-search-bar {
 .list-wrapper a {
     font-size: 28px;
 }
-
 
 .pagination {
     margin: 40px 0px 20px 30px;
