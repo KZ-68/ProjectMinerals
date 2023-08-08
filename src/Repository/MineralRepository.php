@@ -61,24 +61,58 @@ class MineralRepository extends ServiceEntityRepository
     }
 
     public function findByAvancedSearch(AdvancedSearchData $advancedSearchData): PaginationInterface {
-        $data = $this->createQueryBuilder('m');
-        
-            $data = $data
-                ->where('m.formula LIKE :formula')
-                ->andWhere('m.crystal_system LIKE :crystal_system')
-                ->andWhere('m.density LIKE :density')
-                ->andWhere('m.hardness = :hardness')
-                ->andWhere('m.fracture LIKE :fracture')
-                ->andWhere('m.streak LIKE :streak')
-                ->setParameters(new ArrayCollection([
+        $data = $this
+            ->createQueryBuilder('m');
+            
 
-                    new Parameter('formula', "%{$advancedSearchData->formula}%"),
-                    new Parameter('density', "%{$advancedSearchData->density}%"),
-                    new Parameter('crystal_system', "%{$advancedSearchData->crystal_system}%"),
-                    new Parameter('hardness', "{$advancedSearchData->hardness}"),
-                    new Parameter('fracture', "%{$advancedSearchData->fracture}%"),
-                    new Parameter('streak', "%{$advancedSearchData->streak}%")
-                ]));
+            if(!empty($advancedSearchData->name)) {
+                $data = $data
+                ->andWhere('m.name LIKE :name')
+                ->setParameter('name', "%{$advancedSearchData->name}%");
+            }
+        
+            if(!empty($advancedSearchData->formula)) {
+                $data = $data
+                ->andWhere('m.formula LIKE :formula')
+                ->setParameter('formula', "%{$advancedSearchData->formula}%");
+            }
+            
+            if(!empty($advancedSearchData->crystal_system)) {
+                $data = $data
+                ->andWhere('m.crystal_system LIKE :crystal_system')
+                ->setParameter('crystal_system', "%{$advancedSearchData->crystal_system}%");
+            }
+
+            if(!empty($advancedSearchData->density)) {
+                $data = $data
+                ->andWhere('m.density LIKE :density')
+                ->setParameter('density', "%{$advancedSearchData->density}%");
+            }
+            
+            if(!empty($advancedSearchData->hardness)) {
+                $data = $data
+                ->andWhere('m.hardness LIKE :hardness')
+                ->setParameter('hardness', "{$advancedSearchData->hardness}");
+            }
+            
+            if(!empty($advancedSearchData->fracture)) {
+                $data = $data
+                ->andWhere('m.fracture LIKE :fracture')
+                ->setParameter('fracture', "%{$advancedSearchData->fracture}%");
+            }
+            
+            if(!empty($advancedSearchData->streak)) {
+                $data = $data
+                ->andWhere('m.streak LIKE :streak')
+                ->setParameter('streak', "%{$advancedSearchData->streak}%");
+            }
+
+            if(!empty($advancedSearchData->category)) {
+                $data = $data
+                ->innerJoin('m.category', 'c', 'WITH', 'c.id = m.category')
+                ->andWhere('c.name LIKE :category')
+                ->setParameter('category', "%{$advancedSearchData->category->getName()}%");
+            }
 
         $data = $data 
             ->getQuery()
