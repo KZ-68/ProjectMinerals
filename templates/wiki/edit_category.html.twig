@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %} 
+
+{% block title %}Edit this category{% endblock %}
+
+{% block body %}
+
+<h1>Edit this Category</h1>
+
+<div class="formulaire">
+    {{ form_start(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.minerals)}}
+        {{ form_row(form.submit)}}
+    {{ form_end(form) }}
+</div>
+{% endblock %}
