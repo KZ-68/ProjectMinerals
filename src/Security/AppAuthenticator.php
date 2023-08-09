@@ -28,6 +28,28 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
+        if(isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] == 'http://localhost:8000/') {
+            if($request->isMethod('POST')) {
+                if ($request->request->get('raison', '') !== null && empty($request->request->get('raison', ''))) {
+                    if 
+                    (
+                        $request->request->get('email', '') !== null && !empty($request->request->get('email', '')) &&
+                        $request->request->get('password', '') !== null && !empty($request->request->get('password', ''))
+                    ) 
+                    {
+                        strip_tags($request->request->get('email', ''));
+                        strip_tags($request->request->get('password', ''));
+                    }
+                }
+                
+            } else {
+                $response = new Response();
+                $response->headers->set('Content-Type', 'text/html');
+                $response->setStatusCode(405);
+                return $response;
+            }
+        }
+
         $email = $request->request->get('email', '');
 
         $request->getSession()->set(Security::LAST_USERNAME, $email);
@@ -48,9 +70,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-        // return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        return new RedirectResponse($this->urlGenerator->generate('app_home'));
     }
 
     protected function getLoginUrl(Request $request): string
