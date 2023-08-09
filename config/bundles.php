@@ -15,4 +15,5 @@ return [
     Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
     ApiPlatform\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
+    SymfonyCasts\Bundle\VerifyEmail\SymfonyCastsVerifyEmailBundle::class => ['all' => true],
 ];
