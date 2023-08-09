@@ -14,11 +14,16 @@
         <header>
             <nav id="nav-header">
                 <div id="nav-right">
+                    {% if is_granted('USER_ADMIN')%}
                     <a class="link-right" href="{{path('app_admin')}}">Admin Page</a>
+                    {% endif %}
+                    {% if app.user %}
                     <a class="link-right" href="">Profile</a>
-                    <a class="link-right" href="{{path('app_logout')}}">Sign Out</a>
+                    <a class="link-right" href="{{path('app_logout')}}">Sign Out</a>    
+                    {% else %}
                     <a class="link-right" href="{{ path('app_login')}}">Sign In</a>
                     <a class="link-right" href="{{ path('app_register')}}">Register</a>
+                    {% endif %}
                     <a class="link-right" href="">Contact</a>
                     {% if app.request.get('_route') == 'app_home' %}
                         <a class="isDisabled" href="#">Home Page</a>
@@ -46,12 +51,18 @@
                         {% else %}
                             <li><a class="linkTop" href="{{ path('app_home') }}">Home Page</a></li>
                         {% endif %}
+                        {% if is_granted('USER_ADMIN') %}
+                        <a class="link-right" href="{{path('app_admin')}}">Admin Page</a>
+                        {% endif %}
+                        {% if app.user %}
+                        <li><a class="linkTop" href="">Profile</a></li>
+                        <li><a class="link-right" href="{{path('app_logout')}}">Sign Out</a></li>
+                        {% else %}
+                        <li><a class="link-right" href="{{ path('app_login')}}">Sign In</a></li>
+                        <li><a class="link-right" href="{{ path('app_register')}}">Register</a></li>
+                        {% endif %}
                         <li><a class="linkTop" href="{{ path('app_category') }}">Categories List</a></li>
                         <li><a class="linkTop" href="{{ path('app_mineral') }}">Minerals List</a></li>
-                        <li><a class="linkTop" href="">Profile</a></li>
-                        <li><a class="linkTop" href="{{path('app_logout')}}">Sign Out</a></li>
-                        <li><a class="linkTop" href="{{path('app_login')}}">Sign In</a></li>
-                        <li><a class="linkTop" href="{{path('app_register')}}">Register</a></li>
                         <li><a class="linkTop" href="">Contact</a></li>
                     </ul>
                 </div>
