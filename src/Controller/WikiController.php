@@ -86,9 +86,10 @@ class WikiController extends AbstractController
     }
 
     #[Route('/wiki/mineral/{slug}/edit', name: 'edit_mineral')]
-    public function edit(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
+    public function edit(Mineral $mineral, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $originalColors = new ArrayCollection();
+        $originalImages = new ArrayCollection();
 
         // Pour chaque couleur récupérés :
         foreach ($mineral->getColors() as $color) {
@@ -96,11 +97,32 @@ class WikiController extends AbstractController
             $originalColors->add($color);
         }
 
+        foreach ($mineral->getImages() as $image) {
+            $originalImages->add($image);
+        }
+
         $editForm = $this->createForm(MineralType::class, $mineral);
 
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $newImages = $editForm->get('images')->getData();
+
+            foreach ($originalImages as $image) {
+                if (false === $mineral->getImages()->contains($image)) {
+                    $mineral->removeImage($image);
+
+                    $entityManager->persist($image);
+                }
+            }
+
+            foreach ($newImages as $image) {
+                $newFileName = $fileUploader->upload($image);
+                $img = new Image;
+                $img->setFileName($newFileName);
+                $mineral->addImage($img);
+            }
+
             // Supprime la relation entre la couleur et le mineral
             foreach ($originalColors as $color) {
                 // Si en essayant de récupérer la couleur contenu dans le mineral on obtient false :
