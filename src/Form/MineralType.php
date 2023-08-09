@@ -74,9 +74,12 @@ class MineralType extends AbstractType
                 {
                     return $allChoices->getName();
                 },
-                'expanded'  => true,
+                'expanded'  => false,
                 'multiple'  => true,
-                'by_reference' => false
+                'by_reference' => false,
+                'attr' => [
+                    'class' => 'form-select'
+                ]
             ])
             ->add('lustres', EntityType::class, [
                 'class' => Lustre::class,

@@ -20,9 +20,12 @@ class LustreType extends AbstractType
                 {
                     return $allChoices->getType();
                 },
-                'expanded'  => true,
+                'expanded'  => false,
                 'multiple'  => true,
-                'by_reference' => false
+                'by_reference' => false,
+                'attr' => [
+                    'class' => 'form-select'
+                ]
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
