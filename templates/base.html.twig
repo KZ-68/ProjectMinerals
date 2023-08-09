@@ -16,9 +16,9 @@
                 <div id="nav-right">
                     <a class="link-right" href="{{path('app_admin')}}">Admin Page</a>
                     <a class="link-right" href="">Profile</a>
-                    <a class="link-right" href="">Sign Out</a>
-                    <a class="link-right" href="">Sign In</a>
-                    <a class="link-right" href="">Register</a>
+                    <a class="link-right" href="{{path('app_logout')}}">Sign Out</a>
+                    <a class="link-right" href="{{ path('app_login')}}">Sign In</a>
+                    <a class="link-right" href="{{ path('app_register')}}">Register</a>
                     <a class="link-right" href="">Contact</a>
                     {% if app.request.get('_route') == 'app_home' %}
                         <a class="isDisabled" href="#">Home Page</a>
@@ -49,9 +49,9 @@
                         <li><a class="linkTop" href="{{ path('app_category') }}">Categories List</a></li>
                         <li><a class="linkTop" href="{{ path('app_mineral') }}">Minerals List</a></li>
                         <li><a class="linkTop" href="">Profile</a></li>
-                        <li><a class="linkTop" href="">Sign Out</a></li>
-                        <li><a class="linkTop" href="">Sign In</a></li>
-                        <li><a class="linkTop" href="">Register</a></li>
+                        <li><a class="linkTop" href="{{path('app_logout')}}">Sign Out</a></li>
+                        <li><a class="linkTop" href="{{path('app_login')}}">Sign In</a></li>
+                        <li><a class="linkTop" href="{{path('app_register')}}">Register</a></li>
                         <li><a class="linkTop" href="">Contact</a></li>
                     </ul>
                 </div>
