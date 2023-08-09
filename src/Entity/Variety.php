@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\VarietyRepository;
@@ -10,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+#[ApiResource()]
 #[ORM\Entity(repositoryClass: VarietyRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity('slug', message: 'This slug already exist')]
