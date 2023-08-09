@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
 {
     #[Route('/admin', name: 'app_admin')]
@@ -158,7 +159,7 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_mineral');
     }
 
-    #[Route('/wiki/category/new', name: 'new_category')]
+    #[Route('/admin/category/new', name: 'new_category')]
     public function new_category(Request $request, EntityManagerInterface $entityManager): Response
     {
         $category = new Category();
@@ -180,7 +181,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/category/{slug}/editCategory', name: 'edit_category')]
+    #[Route('/admin/category/{slug}/editCategory', name: 'edit_category')]
     public function edit_category(Category $category, Request $request, EntityManagerInterface $entityManager): Response
     {
 
