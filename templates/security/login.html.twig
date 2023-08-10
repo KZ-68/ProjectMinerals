@@ -13,22 +13,29 @@
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
+            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <div class="formulaire-wrapper">
+            <div class="formulaire">
+                <div>
+                    <label for="inputEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                </div>
+                <div>
+                    <label for="inputPassword">Password</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                </div>
+                <a href="{{path('app_forgot_password_request')}}">Password lost ? Click here</a>
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-    <a href="{{path('app_forgot_password_request')}}">Password lost ? Click here</a>
+                <input type="hidden" name="_csrf_token"
+                    value="{{ csrf_token('authenticate') }}"
+                >
+                
+                <input type="hidden" name="raison">
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-    
-    <input type="hidden" name="raison">
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
+                <button class="btn btn-lg btn-primary" type="submit">
+                    Sign in
+                </button>
+            </div>
+        </div>
 </form>
 {% endblock %}
