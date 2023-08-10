@@ -517,8 +517,13 @@ div.advanced-search-bar {
     width: 150px;
     height: 150px;
     margin-bottom: 30px;
+    overflow: hidden;
 }
 
+.user-avatar {
+    width: 150px;
+    height: 150px;
+}
 
 footer {
     background: #38A3A5;
