@@ -18,7 +18,7 @@
                     <a class="link-right" href="{{path('app_admin')}}">Admin Page</a>
                     {% endif %}
                     {% if app.user %}
-                    <a class="link-right" href="">Profile</a>
+                    <a class="link-right" href="{{path('app_profile')}}">Profile</a>
                     <a class="link-right" href="{{path('app_logout')}}">Sign Out</a>    
                     {% else %}
                     <a class="link-right" href="{{ path('app_login')}}">Sign In</a>
@@ -55,7 +55,7 @@
                         <a class="link-right" href="{{path('app_admin')}}">Admin Page</a>
                         {% endif %}
                         {% if app.user %}
-                        <li><a class="linkTop" href="">Profile</a></li>
+                        <li><a class="linkTop" href="{{path('app_profile')}}">Profile</a></li>
                         <li><a class="link-right" href="{{path('app_logout')}}">Sign Out</a></li>
                         {% else %}
                         <li><a class="link-right" href="{{ path('app_login')}}">Sign In</a></li>
