@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block body %}
+
+    <h1>Profile Details</h1>
+
+    <div class="profile-wrapper">
+        <figure class="figure-avatar">
+            <img class="user-avatar" src="{{asset('uploads/images/' ~ app.user.avatar)}}">
+        </figure>
+        <p>Add image profile :</p>
+        <p>{{ form_start(form) }}
+        {{ form_row(form.avatar) }}
+        {{ form_row(form.valider) }}
+        {{ form_end(form) }}</p>
+
+        <div>
+            <div><p>Role :</p></div>
+            <div>
+                {% if is_granted('ROLE_ADMIN') %} 
+                <p>Administrator</p>
+                {% else %}
+                <p>User</p>
+                {% endif %}
+            </div>
+            <div><p>Email Adress :</p></div>
+            <div><p>{{app.user.email}}</p></div>
+        </div>
+    </div>
+{% endblock %}
