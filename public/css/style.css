@@ -497,6 +497,29 @@ div.advanced-search-bar {
     color: #38A3A5;
 }
 
+.profile-wrapper {
+    margin-left: 30px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #429f97;
+    width: 700px;
+    border-radius: 10px;
+}
+
+.profile-wrapper p {
+    color: black;
+    font-size: 24px;
+}
+
+.figure-avatar {
+    border: 3px solid #22577A;
+    border-radius: 20px;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 30px;
+}
+
+
 footer {
     background: #38A3A5;
 }
