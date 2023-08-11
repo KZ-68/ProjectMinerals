@@ -260,9 +260,10 @@ input[type="submit"] {
     background-color: #57CC99;
     color: #444;
     cursor: pointer;
-    padding: 10px;
+    padding: 12px 15px;
     border: none;
     outline: none;
+    font-size: 20px;
 }
 
 .adv-search-section h2 {
@@ -275,8 +276,8 @@ input[type="submit"] {
 .adv-search {
     border: 1px solid white;
     border-radius: 10px;
-    width: 700px;
-    height: 775px;
+    width: 750px;
+    height: 700px;
     display: flex;
     background: #38A3A5;
     margin: 20px;
@@ -298,8 +299,8 @@ input[type="submit"] {
 }
 
 .adv-search-fields {
-    width: 500px;
-    height: 500px;
+    width: 630px;
+    height: 568px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -314,15 +315,24 @@ input[type="submit"] {
 
 div.advanced-search-bar {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
     gap: 30px;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 #advanced_search_category {
     height: 30px;
     margin: 0px 10px;
     border-radius: 5px;
+}
+
+#advanced_search_varieties, #advanced_search_colors, #advanced_search_lustres {
+    height: 65px;
+    margin: 0px 10px;
+    border-radius: 5px;
+    width: 100%;
 }
 
 .mineral-options {
@@ -689,6 +699,10 @@ small {
         width: 375px;
     }
 
+    a {
+        font-size: 20px;
+    }
+
     .adv-search-section h2 {
         width: 375px;
         font-size: 20px;
@@ -809,7 +823,7 @@ small {
     .adv-search {
         border-radius: 0px;
         width: 100%;
-        height: 740px;
+        height: 1063px;
         align-items: center;
         padding: 0px 15px;
     }
@@ -834,6 +848,15 @@ small {
     .form-control {
         height: 33px;
         width: 300px;
+    }
+
+    #add-variety {
+        padding: 12px 20px;
+        width: 248px;
+    }
+
+    .anchor-footer:nth-child(-n + 3) {
+        display: none;
     }
   
 }
