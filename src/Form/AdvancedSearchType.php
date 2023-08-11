@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Color;
+use App\Entity\Lustre;
+use App\Entity\Variety;
 use App\Entity\Category;
 use App\Model\AdvancedSearchData;
 use Symfony\Component\Form\AbstractType;
@@ -66,6 +68,39 @@ class AdvancedSearchType extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
+                'required' => false
+            ])
+            ->add('varieties', EntityType::class, [
+                'class' => Variety::class,
+                'choice_label' => function ($allChoices, $currentChoiceKey)
+                {
+                    return $allChoices->getName();
+                },
+                'expanded'  => false,
+                'multiple'  => true,
+                'by_reference' => false,
+                'required' => false
+            ])
+            ->add('colors', EntityType::class, [
+                'class' => Color::class,
+                'choice_label' => function ($allChoices, $currentChoiceKey)
+                {
+                    return $allChoices->getName();
+                },
+                'expanded'  => false,
+                'multiple'  => true,
+                'by_reference' => false,
+                'required' => false
+            ])
+            ->add('lustres', EntityType::class, [
+                'class' => Lustre::class,
+                'choice_label' => function ($allChoices, $currentChoiceKey)
+                {
+                    return $allChoices->getType();
+                },
+                'expanded'  => false,
+                'multiple'  => true,
+                'by_reference' => false,
                 'required' => false
             ])
         ;
