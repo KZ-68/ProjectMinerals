@@ -143,6 +143,34 @@ header {
     display: flex;
     flex-direction: row;
     gap: 20px;
+    align-items: center;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 10px 20px;
+    border: 1px solid #57CC99;
+    border-radius: 5px;
+    background: #57CC99;
+}
+
+#figure-avatar-header {
+    border: 2px solid #22577A;
+    border-radius: 15px;
+    width: 79px;
+    height: 79px;
+    overflow: hidden;
+}
+
+#avatar-header {
+    width: 75px;
+    height: 75px;
+}
+
+#user-links a {
+    font-size: 18px;
 }
 
 .sidenav {
@@ -391,6 +419,10 @@ div.advanced-search-bar {
 
 .table-list a {
     text-decoration: solid;
+}
+
+#caracteristics-wrapper {
+    margin-left: 40px;
 }
 
 #variety-title {
@@ -850,9 +882,17 @@ small {
         width: 300px;
     }
 
+    #variety-title {
+        flex-direction: column;
+    }
+
+    #variety-title h2 {
+        margin: 0;
+    }
+
     #add-variety {
-        padding: 12px 20px;
-        width: 248px;
+        width: 100%;
+        padding: 10px 20px 10px 40px;
     }
 
     .anchor-footer:nth-child(-n + 3) {
