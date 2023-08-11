@@ -4,6 +4,8 @@
 
 {% block body %}
 
+<a href="{{ path('settings_profile', {'id': app.user.id}) }}">User Settings</a>
+
     <h1>Profile Details</h1>
 
     <div class="profile-wrapper">
