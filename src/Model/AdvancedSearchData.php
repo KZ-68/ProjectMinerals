@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\Entity\Category;
+use Doctrine\Common\Collections\Collection;
 
 class AdvancedSearchData {
 
@@ -23,4 +24,10 @@ class AdvancedSearchData {
     public ?string $streak = null;
 
     public ?Category $category = null;
+
+    public ?Collection $varieties = null;
+
+    public ?Collection $colors = null;
+
+    public ?Collection $lustres = null;
 }
