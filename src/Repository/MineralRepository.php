@@ -114,6 +114,33 @@ class MineralRepository extends ServiceEntityRepository
                 ->setParameter('category', "%{$advancedSearchData->category->getName()}%");
             }
 
+            foreach ($advancedSearchData->varieties as $variety) {
+                if(!empty($variety)) {
+                    $data = $data
+                    ->leftJoin('m.varieties', 'v')
+                    ->andWhere('v.name LIKE :variety')
+                    ->setParameter('variety', "%{$variety->getName()}%");
+                }
+            }
+
+            foreach ($advancedSearchData->colors as $color) {
+                if(!empty($color)) {
+                    $data = $data
+                    ->leftJoin('m.colors', 'co')
+                    ->andWhere('co.name LIKE :color')
+                    ->setParameter('color', "%{$color->getName()}%");
+                }
+            }
+            
+            foreach ($advancedSearchData->lustres as $lustre) {
+                if(!empty($lustre)) {
+                    $data = $data
+                    ->leftJoin('m.lustres', 'lu')
+                    ->andWhere('lu.type LIKE :lustre')
+                    ->setParameter('lustre', "%{$lustre->getType()}%");
+                }
+            }
+
         $data = $data 
             ->getQuery()
             ->getResult();
