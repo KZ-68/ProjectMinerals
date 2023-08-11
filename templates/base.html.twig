@@ -17,18 +17,25 @@
                     {% if is_granted('ROLE_ADMIN')%}
                     <a class="link-right" href="{{path('app_admin')}}">Admin Page</a>
                     {% endif %}
-                    {% if app.user %}
-                    <a class="link-right" href="{{path('app_profile')}}">Profile</a>
-                    <a class="link-right" href="{{path('app_logout')}}">Sign Out</a>    
-                    {% else %}
-                    <a class="link-right" href="{{ path('app_login')}}">Sign In</a>
-                    <a class="link-right" href="{{ path('app_register')}}">Register</a>
-                    {% endif %}
                     <a class="link-right" href="">Contact</a>
                     {% if app.request.get('_route') == 'app_home' %}
                         <a class="isDisabled" href="#">Home Page</a>
                     {% else %}
                         <a class="link-right" href="{{ path('app_home') }}">Home Page</a>
+                    {% endif %}
+                    {% if app.user %}
+                    <div class="profile-card">
+                        <figure id="figure-avatar-header">
+                            <img id="avatar-header" src="{{asset('uploads/images/' ~ app.user.avatar)}}">
+                        </figure>
+                        <div id="user-links">
+                            <a class="link-right" href="{{path('app_profile')}}">Profile</a>
+                            <a class="link-right" href="{{path('app_logout')}}">Sign Out</a>   
+                        </div> 
+                    </div>
+                    {% else %}
+                    <a class="link-right" href="{{ path('app_login')}}">Sign In</a>
+                    <a class="link-right" href="{{ path('app_register')}}">Register</a>
                     {% endif %}
                     
                 </div>
@@ -46,20 +53,20 @@
                 <div id="mySidenav" class="sidenav">
                     <a id="closeBtn" href="#" class="close">×</a>
                     <ul>
-                        {% if app.request.get('_route') == 'app_home' %}
-                            <li><a class="isDisabled" href="#">Home Page</a></li>
-                        {% else %}
-                            <li><a class="linkTop" href="{{ path('app_home') }}">Home Page</a></li>
-                        {% endif %}
-                        {% if is_granted('ROLE_ADMIN') %}
-                        <a class="link-right" href="{{path('app_admin')}}">Admin Page</a>
-                        {% endif %}
                         {% if app.user %}
                         <li><a class="linkTop" href="{{path('app_profile')}}">Profile</a></li>
                         <li><a class="linkTop" href="{{path('app_logout')}}">Sign Out</a></li>
                         {% else %}
                         <li><a class="linkTop" href="{{ path('app_login')}}">Sign In</a></li>
                         <li><a class="linkTop" href="{{ path('app_register')}}">Register</a></li>
+                        {% endif %}
+                        {% if app.request.get('_route') == 'app_home' %}
+                            <li><a class="isDisabled" href="#">Home Page</a></li>
+                        {% else %}
+                            <li><a class="linkTop" href="{{ path('app_home') }}">Home Page</a></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li><a class="linkTop" href="{{path('app_admin')}}">Admin Page</a></li>
                         {% endif %}
                         <li><a class="linkTop" href="{{ path('app_category') }}">Categories List</a></li>
                         <li><a class="linkTop" href="{{ path('app_mineral') }}">Minerals List</a></li>
