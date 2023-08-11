@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Settings{% endblock %}
+
+{% block body %}
+{% for message in app.flashes('warning') %}
+    <div class="alert alert-warning mt-4" role="alert">
+        {{ message }}
+    </div>
+{% endfor %}
+
+        <h1>User Settings</h1>
+    <div class="formulaire-wrapper">
+    <p>Change the email adress:</p>
+    <p>{{ form_start(form1name) }}
+    <div class="formulaire">  
+    {{ form_row(form1name.email) }}
+    {{ form_row(form1name.confirmEmail) }}
+    {{ form_row(form1name.valider) }}
+    {{ form_end(form1name) }}</p>
+
+
+    <p>{{ form_start(form2name) }}
+    {{ form_row(form2name.plainPassword) }}
+    {{ form_row(form2name.newPassword, {
+        label: 'New Password'
+    }) }}
+    </div> 
+    {{ form_row(form2name.valider) }}
+    {{ form_end(form2name) }}</p>
+    </div>
+
+{% endblock %}
