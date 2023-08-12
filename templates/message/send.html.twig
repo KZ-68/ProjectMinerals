@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %} {# Héritage de la view de base #}
+
+{% block title %}Envoyer un message{% endblock %}
+
+{% block body %}
+
+<div class="message-box-wrapper">
+    <div class="message-menu-wrapper">
+        <div class="message-menu-header">
+            <h2 class="message-menu-title">Message Box Menu</h2>
+        </div>
+        <div class="message-menu-body">
+            <div class="list-group">
+                <a href="{{path('app_message')}}" class="list-group-item list-group-item-action-active">Home</a>
+                <a href="{{path('received_message')}}" class="list-group-item list-group-item-action-active">Received Box</a>
+                <a href="{{path('sent_message')}}" class="list-group-item list-group-item-action-active">Sent Box</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="message-zone">
+        <h1>Sending a message</h1>
+
+        {{ form_start(formSend) }}
+            {{ form_row(formSend.header) }}
+            {{ form_row(formSend.recipient)}}
+            {{ form_row(formSend.text)}}
+            {{ form_row(formSend.envoyer) }}
+        {{ form_end(formSend) }}
+    </div>
+    
+</div>
+{% endblock %}
