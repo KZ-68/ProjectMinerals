@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boite d'envoi{% endblock %}
+
+{% block body %}
+<div class="message-box-wrapper">
+    <div class="message-menu-wrapper">
+        <div class="message-menu-header">
+            <h2 class="message-menu-title">Message Box Menu</h2>
+        </div>
+        <div class="message-menu-body">
+            <div class="list-group">
+                <a href="{{path('app_message')}}" class="list-group-item list-group-item-action-active">Home</a>
+                <a href="{{ path('send_message', {'id': app.user.id})}}" role="button">Sending a message</a>
+                <a href="{{path('received_message')}}" class="list-group-item list-group-item-action-active">Received Box</a>
+                <a href="{{path('sent_message')}}" class="list-group-item list-group-item-action-active">Sent Box</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="container">
+        <div class="row">
+            <div class="message-resume">
+                <h1>Message Box</h1>
+                <p>Messages Resume</p>
+                <p>You have sent : {{ app.user.sent|length}} messages</p>
+            </div>
+
+        <div class="messages-list-wrapper">
+            {# Une condition pour mettre en gras quand le message est non lu (isRead == false/0) #}
+            {% for message in app.user.sent %}
+                {% if message.isRead == 0 %}
+                    {% set bold = "fw-bold" %}
+                {% else %}
+                    {% set bold = "" %}
+                {% endif %}
+                <div class="messages-column">
+                    <div>Sender</div>
+                    <div class="{{bold}}">{{ message.sender.email }}</div>
+                </div>
+                <div class="messages-column">
+                    <div>Subject</div>
+                    <div class="{{bold}}"><a href="{{path('read_message', {'id': message.id})}}">{{ message.header }}</a></div>
+                </div>
+                <div class="messages-column">
+                    <div>Date</div>
+                    <div class="{{bold}}">{{ message.createdAt | date("m/d/Y") }}</div>
+                </div>
+                <div class="messages-column">
+                    <div>Actions</div>
+                    <div><a class="btn btn-danger" href="{{ path('delete_message', {'id': message.id}) }}" aria-label="Delete">Delete</a></div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>  
+</div>
+{% endblock %}
