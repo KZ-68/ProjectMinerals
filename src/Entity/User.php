@@ -55,10 +55,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Message::class, orphanRemoval: true)]
     private Collection $received;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Discussion::class, orphanRemoval: true)]
+    private Collection $discussions;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Response::class, orphanRemoval: true)]
+    private Collection $responses;
+
     public function __construct() {
         $this->registration_date = new \DateTimeImmutable();
         $this->sent = new ArrayCollection();
         $this->received = new ArrayCollection();
+        $this->discussions = new ArrayCollection();
+        $this->responses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -233,6 +241,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($received->getRecipient() === $this) {
                 $received->setRecipient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Discussion>
+     */
+    public function getDiscussions(): Collection
+    {
+        return $this->discussions;
+    }
+
+    public function addDiscussion(Discussion $discussion): static
+    {
+        if (!$this->discussions->contains($discussion)) {
+            $this->discussions->add($discussion);
+            $discussion->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiscussion(Discussion $discussion): static
+    {
+        if ($this->discussions->removeElement($discussion)) {
+            // set the owning side to null (unless already changed)
+            if ($discussion->getUser() === $this) {
+                $discussion->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Response>
+     */
+    public function getResponses(): Collection
+    {
+        return $this->responses;
+    }
+
+    public function addResponse(Response $response): static
+    {
+        if (!$this->responses->contains($response)) {
+            $this->responses->add($response);
+            $response->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResponse(Response $response): static
+    {
+        if ($this->responses->removeElement($response)) {
+            // set the owning side to null (unless already changed)
+            if ($response->getUser() === $this) {
+                $response->setUser(null);
             }
         }
 
