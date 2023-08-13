@@ -98,6 +98,9 @@ class Mineral
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Discussion::class, orphanRemoval: true)]
+    private Collection $discussions;
+
     public function __construct()
     {
         $this->colors = new ArrayCollection();
@@ -105,6 +108,7 @@ class Mineral
         $this->varieties = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
         $this->images = new ArrayCollection();
+        $this->discussions = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -347,6 +351,36 @@ class Mineral
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Discussion>
+     */
+    public function getDiscussions(): Collection
+    {
+        return $this->discussions;
+    }
+
+    public function addDiscussion(Discussion $discussion): static
+    {
+        if (!$this->discussions->contains($discussion)) {
+            $this->discussions->add($discussion);
+            $discussion->setMineral($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiscussion(Discussion $discussion): static
+    {
+        if ($this->discussions->removeElement($discussion)) {
+            // set the owning side to null (unless already changed)
+            if ($discussion->getMineral() === $this) {
+                $discussion->setMineral(null);
+            }
+        }
 
         return $this;
     }
