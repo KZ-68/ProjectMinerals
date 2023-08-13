@@ -10,11 +10,14 @@ use App\Entity\Variety;
 use App\Entity\Category;
 use App\Form\MineralType;
 use App\Form\VarietyType;
+use App\Entity\Discussion;
+use App\Form\DiscussionType;
 use App\Service\FileUploader;
 use App\Form\MineralColorType;
 use App\Repository\ImageRepository;
 use App\Repository\MineralRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\DiscussionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,6 +44,39 @@ class WikiController extends AbstractController
         return $this->render('wiki/show_mineral.html.twig', [
             'image' => $image,
             'images' => $images,
+            'mineral' => $mineral
+        ]);
+    }
+
+    #[Route('/wiki/mineral/{slug}/discussion/createDiscussion', name: 'new_discussion')]
+    public function launchDiscussion(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $discussion = new Discussion();
+        $user = $this->getUser();
+
+        $form = $this->createForm(DiscussionType::class, $discussion);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $discussion = $form->getData();
+            $discussion->setUser($user);
+            $discussion->setMineral($mineral);
+            
+            $entityManager->persist($discussion);
+            $entityManager->flush();
+        }
+
+        return $this->render('wiki/create_discussion.html.twig', [
+            'form' => $form
+        ]);
+    }
+
+    #[Route('/wiki/mineral/{slug}/discussions', name: 'discussions_mineral')]
+    public function discussions(Mineral $mineral, DiscussionRepository $discussionRepository): Response
+    {
+        $discussions = $discussionRepository->findBy([], ["createdAt" => "ASC"]);
+        return $this->render('wiki/discussions_mineral.html.twig', [
+            'discussions' => $discussions,
             'mineral' => $mineral
         ]);
     }
