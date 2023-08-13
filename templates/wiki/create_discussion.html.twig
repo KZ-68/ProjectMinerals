@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %} 
+
+{% block title %}Ajouter une session{% endblock %}
+
+{% block body %}
+
+<div class="formulaire-wrapper">
+    {{ form_start(form) }}
+    <div class="formulaire">
+        {{ form_row(form.subject) }}
+        {{ form_row(form.content) }}
+        {{ form_row(form.send) }}
+    </div>
+    {{ form_end(form) }}
+</div>
+
+{% endblock %}
