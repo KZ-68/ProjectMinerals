@@ -28,6 +28,7 @@
                         <figure id="figure-avatar-header">
                             <img id="avatar-header" src="{{asset('uploads/images/' ~ app.user.avatar)}}">
                         </figure>
+                        <p>{{app.user.username}}</p>
                         <div id="user-links">
                             <a class="link-right" href="{{path('app_profile')}}">Profile</a>
                             <a class="link-right" href="{{path('app_logout')}}">Sign Out</a>   
