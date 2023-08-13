@@ -7,7 +7,7 @@
 <div class="mineral-options">
         <a href="{{path('delete_mineral', {'slug': mineral.slug})}}">Remove this Page</a>
         <a href="{{path('edit_mineral', {'slug': mineral.slug})}}">Edit this Page</a>
-        <a href="#">Discussions</a>
+        <a href="{{path('discussions_mineral', {'slug': mineral.slug})}}">Discussions</a>
 </div>
 
 <h1>{{mineral.name}}<br/>
