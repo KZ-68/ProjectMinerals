@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\Color;
 use App\Entity\Image;
 use App\Entity\Lustre;
+use App\Entity\Comment;
 use App\Entity\Mineral;
 use App\Entity\Variety;
 use App\Entity\Category;
+use App\Form\CommentType;
 use App\Form\MineralType;
 use App\Form\VarietyType;
 use App\Entity\Discussion;
@@ -55,6 +57,7 @@ class WikiController extends AbstractController
         $user = $this->getUser();
 
         $form = $this->createForm(DiscussionType::class, $discussion);
+        
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -67,6 +70,29 @@ class WikiController extends AbstractController
         }
 
         return $this->render('wiki/create_discussion.html.twig', [
+            'form' => $form
+        ]);
+    }
+
+    #[Route('/wiki/mineral/{slug}/discussion/{id}/newComment', name: 'new_comment')]
+    public function newComment(Discussion $discussion, Request $request, EntityManagerInterface $entityManager): Response {
+       
+        $comment = new Comment();
+        $user = $this->getUser();
+
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment = $form->getData();
+            $comment->setUser($user);
+            $comment->setMineral($discussion);
+            
+            $entityManager->persist($comment);
+            $entityManager->flush();
+        }
+
+        return $this->render('wiki/new_comment.html.twig', [
             'form' => $form
         ]);
     }
