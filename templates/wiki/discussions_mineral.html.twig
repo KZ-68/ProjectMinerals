@@ -24,10 +24,33 @@
             </hgroup>
             <div class="discussion-textarea">
                 <p>{{discussion.content}}</p>
-                <a class="answer-link" href="path('create_response')">Answer</a>
+                <a class="answer-link" href="{{ path('new_comment', {'slug': mineral.slug, 'id': discussion.id}) }}">Made a comment</a>
+            </div>
+        </div>
+
+    {% if discussion.comments | length > 0 %}
+    {% for comment in discussion.comments %}
+        <div class="comment-card">
+            <hgroup class="comment-subject">
+                <h2>{{comment.discussion.subject}}</h2>
+                <div class="discussion-profile">
+                    <figure id="comment-avatar-header">
+                        <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
+                    </figure>
+                    <p>{{comment.user.username}}</p>
+                </div>
+            </hgroup>
+            <div class="discussion-textarea">
+                <p>{{comment.content}}</p>
             </div>
         </div>
     {% endfor %}
+    {% else %}
+    
+    {% endif %}
+
+    {% endfor %}
+
 {% else %}
     <p>No Discussion Started</p>
 {% endif %}
