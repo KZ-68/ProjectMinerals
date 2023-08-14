@@ -33,12 +33,12 @@ class Discussion
     #[ORM\JoinColumn(nullable: false)]
     private ?Mineral $mineral = null;
 
-    #[ORM\OneToMany(mappedBy: 'discussion', targetEntity: Response::class, orphanRemoval: true)]
-    private Collection $responses;
+    #[ORM\OneToMany(mappedBy: 'discussion', targetEntity: Comment::class, orphanRemoval: true)]
+    private Collection $comments;
 
     public function __construct()
     {
-        $this->responses = new ArrayCollection();
+        $this->comments = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
     }
 
@@ -108,29 +108,29 @@ class Discussion
     }
 
     /**
-     * @return Collection<int, Response>
+     * @return Collection<int, Comment>
      */
-    public function getResponses(): Collection
+    public function getComments(): Collection
     {
-        return $this->responses;
+        return $this->comments;
     }
 
-    public function addResponse(Response $response): static
+    public function addComment(Comment $comment): static
     {
-        if (!$this->responses->contains($response)) {
-            $this->responses->add($response);
-            $response->setDiscussion($this);
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setDiscussion($this);
         }
 
         return $this;
     }
 
-    public function removeResponse(Response $response): static
+    public function removeComment(Comment $comment): static
     {
-        if ($this->responses->removeElement($response)) {
+        if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($response->getDiscussion() === $this) {
-                $response->setDiscussion(null);
+            if ($comment->getDiscussion() === $this) {
+                $comment->setDiscussion(null);
             }
         }
 

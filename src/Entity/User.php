@@ -58,15 +58,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Discussion::class, orphanRemoval: true)]
     private Collection $discussions;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Response::class, orphanRemoval: true)]
-    private Collection $responses;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class, orphanRemoval: true)]
+    private Collection $comments;
 
     public function __construct() {
         $this->registration_date = new \DateTimeImmutable();
         $this->sent = new ArrayCollection();
         $this->received = new ArrayCollection();
         $this->discussions = new ArrayCollection();
-        $this->responses = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -278,29 +278,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Response>
+     * @return Collection<int, Comment>
      */
-    public function getResponses(): Collection
+    public function getComments(): Collection
     {
-        return $this->responses;
+        return $this->comments;
     }
 
-    public function addResponse(Response $response): static
+    public function addComment(Comment $comment): static
     {
-        if (!$this->responses->contains($response)) {
-            $this->responses->add($response);
-            $response->setUser($this);
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeResponse(Response $response): static
+    public function removeComment(Comment $comment): static
     {
-        if ($this->responses->removeElement($response)) {
+        if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($response->getUser() === $this) {
-                $response->setUser(null);
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
             }
         }
 
