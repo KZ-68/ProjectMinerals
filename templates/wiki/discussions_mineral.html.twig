@@ -12,15 +12,22 @@
 
 {% if discussions | length > 0 %}
     {% for discussion in discussions %}
-        <hgroup>
-            <div>
+        <div class="discussion-card">
+            <hgroup class="discussion-subject">
                 <h2>{{discussion.subject}}</h2>
-                {{discussion.user.username}}
+                <div class="discussion-profile">
+                    <figure id="discussion-avatar-header">
+                        <img id="avatar-header" src="{{asset('uploads/images/' ~ discussion.user.avatar)}}">
+                    </figure>
+                    <p>{{discussion.user.username}}</p>
+                </div>
+            </hgroup>
+            <div class="discussion-textarea">
+                <p>{{discussion.content}}</p>
+                <a class="answer-link" href="path('create_response')">Answer</a>
             </div>
-            <p>{{discussion.content}}</p>
-        </hgroup>
+        </div>
     {% endfor %}
-    <a href="path('create_response')">Answer</a>
 {% else %}
     <p>No Discussion Started</p>
 {% endif %}
