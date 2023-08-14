@@ -113,7 +113,6 @@ class UserController extends AbstractController
                     return $this->redirectToRoute('settings_profile', ['id' => $user->getId()]);
 
                 } else {
-                    die(dump($oldPassword));
                     $this->addFlash(
                         'warning', 
                         'The informations submited are incorrects.'
