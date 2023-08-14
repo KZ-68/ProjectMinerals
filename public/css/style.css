@@ -96,6 +96,22 @@ li {
     color: white
 }
 
+
+.comment-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    padding: 25px 50px;
+}
+
+.comment {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
 .isDisabled {
     cursor: not-allowed;
     opacity: 0.5;
