@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %} 
+
+{% block title %}Made a comment{% endblock %}
+
+{% block body %}
+
+<h1>Made a comment</h1>
+
+<div class="comment-wrapper">
+    {{ form_start(form) }}
+    <div class="comment">
+        {{ form_row(form.content) }}
+        {{ form_row(form.send) }}
+    </div>
+    {{ form_end(form) }}
+</div>
+
+{% endblock %}
