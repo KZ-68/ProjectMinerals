@@ -709,6 +709,38 @@ hgroup.discussion-subject h2 {
     background: linear-gradient(0deg, #57CC99, #38A3A5, #57CC99);
 }
 
+.comment-card {
+    border: 2px solid #a3a3a3;
+    border-radius: 10px;
+    width: 800px;
+    margin: 0px 0px 20px 25px;
+}
+
+.comment-card p {
+    margin: 20px 20px;
+}
+
+.comment-subject {
+    background: linear-gradient(0deg, #38A3A5, #22577A, #38A3A5);
+    padding: 20px 0px 15px 20px;
+    border-radius: 8px 8px 0px 0px;
+}
+
+hgroup.comment-subject h2 {
+    background: none;
+    padding: 0;
+    margin: 0px 0px 10px 0px;
+}
+
+
+#comment-avatar-header {
+    border: 2px solid #80ED99;
+    border-radius: 15px;
+    width: 79px;
+    height: 79px;
+    overflow: hidden;
+}
+
 footer {
     background: #38A3A5;
 }
