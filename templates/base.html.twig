@@ -17,7 +17,7 @@
                     {% if is_granted('ROLE_ADMIN')%}
                     <a class="link-right" href="{{path('app_admin')}}">Admin Page</a>
                     {% endif %}
-                    <a class="link-right" href="">Contact</a>
+                    <a class="link-right" href="{{path('app_contact')}}">Contact</a>
                     {% if app.request.get('_route') == 'app_home' %}
                         <a class="isDisabled" href="#">Home Page</a>
                     {% else %}
@@ -71,7 +71,7 @@
                         {% endif %}
                         <li><a class="linkTop" href="{{ path('app_category') }}">Categories List</a></li>
                         <li><a class="linkTop" href="{{ path('app_mineral') }}">Minerals List</a></li>
-                        <li><a class="linkTop" href="">Contact</a></li>
+                        <li><a class="linkTop" href="{{path('app_contact')}}">Contact</a></li>
                     </ul>
                 </div>
     
@@ -92,7 +92,7 @@
                     <a class="anchor-footer" href="">Privacy Policies</a>
                     <a class="anchor-footer" href="">Code of Conduct</a>
                     <a class="anchor-footer" href="">Legal Notices</a>
-                    <a class="anchor-footer" href="">Contact</a>
+                    <a class="anchor-footer" href="{{path('app_contact')}}">Contact</a>
                     <a class="anchor-footer" href="">About</a>
                 </div>
                 <small>&copy; Kevin ZITNIK</small>
