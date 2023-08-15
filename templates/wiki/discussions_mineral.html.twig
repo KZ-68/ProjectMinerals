@@ -48,30 +48,27 @@
                         </hgroup>
                         <div class="discussion-textarea">
                             <p>{{comment.content}}</p>
+                            <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
                         </div>
-                        <div id="commentContainer{{ comment.id }}" style="margin: 1em; display: none">
-                        </div>
-                        <a href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
+                       
                     </div>
                 {% else %}
-                <div class="comment-card" id="comment-{{ comment.id }}">
-                    <hgroup class="comment-subject">
-                        <time datetime="{{comment.getDateTime}}">{{comment.getDateTime}}</time>
-                        <h2>Re : {{comment.discussion.subject}}</h2>
-                        <div class="discussion-profile">
-                            <figure id="comment-avatar-header">
-                                <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
-                            </figure>
-                            <p>{{comment.user.username}}</p>
+                    <div class="comment-card" id="comment-{{ comment.id }}">
+                        <hgroup class="comment-subject">
+                            <time datetime="{{comment.getDateTime}}">{{comment.getDateTime}}</time>
+                            <h2>Re : {{comment.discussion.subject}}</h2>
+                            <div class="discussion-profile">
+                                <figure id="comment-avatar-header">
+                                    <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
+                                </figure>
+                                <p>{{comment.user.username}}</p>
+                            </div>
+                        </hgroup>
+                        <div class="discussion-textarea">
+                            <p>{{comment.content}}</p>
+                            <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
                         </div>
-                    </hgroup>
-                    <div class="discussion-textarea">
-                        <p>{{comment.content}}</p>
                     </div>
-                    <div id="commentContainer{{ comment.id }}" style="margin: 1em; display: none">
-                    </div>
-                    <a href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
-                </div>
                 {% endif %}
 
             {% endfor %}
