@@ -16,6 +16,8 @@ use App\Entity\Discussion;
 use App\Form\DiscussionType;
 use App\Service\FileUploader;
 use App\Form\MineralColorType;
+use Doctrine\ORM\EntityManager;
+use App\Form\RespondCommentType;
 use App\Repository\ImageRepository;
 use App\Repository\MineralRepository;
 use App\Repository\CategoryRepository;
@@ -86,7 +88,7 @@ class WikiController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $comment = $form->getData();
             $comment->setUser($user);
-            $comment->setMineral($discussion);
+            $comment->setDiscussion($discussion);
             
             $entityManager->persist($comment);
             $entityManager->flush();
@@ -97,12 +99,35 @@ class WikiController extends AbstractController
         ]);
     }
 
+    #[Route('/wiki/mineral/{slug}/discussion/{id}/comment/{parent}/respond', name: 'respond_comment')]
+    public function respondComment(Comment $comment, Discussion $discussion, Request $request, EntityManagerInterface $entityManager): Response {
+        
+        $respondComment = new Comment;
+
+        $user = $this->getUser();
+
+        $form = $this->createForm(RespondCommentType::class, $respondComment);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $respondComment = $form->getData();
+            $respondComment->setUser($user);
+            $respondComment->setDiscussion($discussion);
+            $respondComment->setParent($comment);
+            
+            $entityManager->persist($respondComment);
+            $entityManager->flush();
+        }
+
+        return $this->render('wiki/_respond_comment.html.twig', [
+            'form' => $form
+        ]);
+    }
+
     #[Route('/wiki/mineral/{slug}/discussions', name: 'discussions_mineral')]
-    public function discussions(Mineral $mineral, DiscussionRepository $discussionRepository): Response
+    public function discussions(Mineral $mineral): Response
     {
-        $discussions = $discussionRepository->findBy([], ["createdAt" => "ASC"]);
         return $this->render('wiki/discussions_mineral.html.twig', [
-            'discussions' => $discussions,
             'mineral' => $mineral
         ]);
     }
