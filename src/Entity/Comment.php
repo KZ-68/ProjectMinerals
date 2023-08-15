@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CommentRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Polyfill\Intl\Icu\IntlDateFormatter;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -32,7 +34,6 @@ class Comment
 
     #[ORM\ManyToOne(targetEntity: self::class)]
     private ?self $parent = null;
-
 
     public function __construct()
     {
@@ -102,6 +103,11 @@ class Comment
         $this->parent = $parent;
 
         return $this;
+    }
+
+    public function getDateTime()
+    {
+        return $this->createdAt->format("d/m/Y H:i:s")."";
     }
 
 }

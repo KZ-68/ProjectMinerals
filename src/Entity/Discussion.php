@@ -152,4 +152,9 @@ class Discussion
         return $this;
     }
 
+    public function getDateTime()
+    {
+        return $this->createdAt->format("d/m/Y H:i:s")."";
+    }
+
 }
