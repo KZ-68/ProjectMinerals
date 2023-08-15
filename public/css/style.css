@@ -777,6 +777,13 @@ hgroup.comment-subject h2 {
     padding-right: 20px;
 }
 
+.reply-link {
+    margin: 0px 0px 0px 15px;
+    border-radius: 5px;
+    padding: 4px 10px;
+    background: linear-gradient(0deg, #57CC99, #38A3A5, #57CC99);
+}
+
 footer {
     background: #38A3A5;
 }
