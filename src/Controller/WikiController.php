@@ -99,7 +99,7 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussion/{id}/comment/{parent}/respond', name: 'respond_comment')]
+    #[Route('/wiki/mineral/{slug}/discussion/{id}/comment/{comment}/respond', name: 'respond_comment')]
     public function respondComment(Comment $comment, Discussion $discussion, Request $request, EntityManagerInterface $entityManager): Response {
         
         $respondComment = new Comment;
