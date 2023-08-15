@@ -36,6 +36,9 @@ class Discussion
     #[ORM\OneToMany(mappedBy: 'discussion', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
+    #[ORM\Column]
+    private ?bool $isApproved = false;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -133,6 +136,18 @@ class Discussion
                 $comment->setDiscussion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsApproved(): ?bool
+    {
+        return $this->isApproved;
+    }
+
+    public function setIsApproved(bool $isApproved): static
+    {
+        $this->isApproved = $isApproved;
 
         return $this;
     }
