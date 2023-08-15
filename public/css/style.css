@@ -112,6 +112,16 @@ li {
     gap: 30px;
 }
 
+#response-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    padding: 25px 50px;
+}
+
+
 .isDisabled {
     cursor: not-allowed;
     opacity: 0.5;
@@ -739,6 +749,32 @@ hgroup.comment-subject h2 {
     width: 79px;
     height: 79px;
     overflow: hidden;
+}
+
+.response-comment-card {
+    border: 2px solid #a3a3a3;
+    border-radius: 10px;
+    width: 700px;
+    margin: 0px 0px 20px 25px;
+}
+
+.response-comment-card p {
+    margin: 20px 20px;
+}
+
+.discussion-card time {
+    float: right;
+    padding-right: 20px;
+}
+
+.comment-card time {
+    float: right;
+    padding-right: 20px;
+}
+
+.response-comment-card time {
+    float: right;
+    padding-right: 20px;
 }
 
 footer {
