@@ -4,7 +4,9 @@
 
 {% block body %}
 <div class="mineral-options">
-    <a href="{{ path('new_category') }}">Add new category</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('new_category') }}">Add new category</a>
+    {% endif %}
 </div>
 
 <h1>Categories List</h1>
@@ -15,8 +17,10 @@
             {% for category in categories %}
                 <li>
                     <a href="{{path('show_category', {'slug': category.slug})}}">{{category.name}}</a>
-                    <a class="edit-btn" href="{{ path('edit_category', {'slug': category.slug}) }}" aria-label="Edit">Edit</a>
-                    <a class="delete-btn" href="{{ path('delete_category', {'slug': category.slug}) }}" aria-label="Delete">Delete</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="edit-btn" href="{{ path('edit_category', {'slug': category.slug}) }}" aria-label="Edit">Edit</a>
+                        <a class="delete-btn" href="{{ path('delete_category', {'slug': category.slug}) }}" aria-label="Delete">Delete</a>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
