@@ -24,15 +24,18 @@ use App\Repository\CategoryRepository;
 use App\Repository\DiscussionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class WikiController extends AbstractController
 {
     #[Route('/wiki/mineral', name: 'app_mineral')]
+    #[IsGranted('PUBLIC_ACCESS')]
     public function index(MineralRepository $mineralRepository, Request $request): Response
     {        
         return $this->render('wiki/index.html.twig', [
@@ -41,6 +44,7 @@ class WikiController extends AbstractController
     }
 
     #[Route('/wiki/mineral/{slug}/show', name: 'show_mineral')]
+    #[IsGranted('PUBLIC_ACCESS')]
     public function showMineral(Mineral $mineral, ImageRepository $imageRepository): Response
     {
         $image = $imageRepository->findImagesById($mineral->getId());
@@ -53,6 +57,7 @@ class WikiController extends AbstractController
     }
 
     #[Route('/wiki/mineral/{slug}/discussion/createDiscussion', name: 'new_discussion')]
+    #[IsGranted('ROLE_USER')]
     public function launchDiscussion(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
     {
         $discussion = new Discussion();
@@ -77,6 +82,7 @@ class WikiController extends AbstractController
     }
 
     #[Route('/wiki/mineral/{slug}/discussion/{id}/newComment', name: 'new_comment')]
+    #[IsGranted('ROLE_USER')]
     public function newComment(Discussion $discussion, Request $request, EntityManagerInterface $entityManager): Response {
        
         $comment = new Comment();
@@ -100,6 +106,7 @@ class WikiController extends AbstractController
     }
 
     #[Route('/wiki/mineral/{slug}/discussion/{id}/comment/{comment}/respond', name: 'respond_comment')]
+    #[IsGranted('ROLE_USER')]
     public function respondComment(Comment $comment, Discussion $discussion, Request $request, EntityManagerInterface $entityManager): Response {
         
         $respondComment = new Comment;
@@ -125,6 +132,7 @@ class WikiController extends AbstractController
     }
 
     #[Route('/wiki/mineral/{slug}/discussions', name: 'discussions_mineral')]
+    #[IsGranted('PUBLIC_ACCESS')]
     public function discussions(Mineral $mineral): Response
     {
         return $this->render('wiki/discussions_mineral.html.twig', [
@@ -133,7 +141,7 @@ class WikiController extends AbstractController
     }
 
     #[Route('/wiki/mineral/new', name: 'new_mineral')]
-    // #[IsGranted('ROLE_')]
+    #[IsGranted('ROLE_USER')]
     public function new_mineral(FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
         $mineral = new Mineral();
@@ -173,6 +181,7 @@ class WikiController extends AbstractController
     }
 
     #[Route('/wiki/mineral/{slug}/edit', name: 'edit_mineral')]
+    #[IsGranted('ROLE_USER')]
     public function edit(Mineral $mineral, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $originalColors = new ArrayCollection();
@@ -239,7 +248,7 @@ class WikiController extends AbstractController
     } 
 
     #[Route('/wiki/mineral/{slug}/variety/new', name: 'new_variety')]
-    // #[IsGranted('ROLE_')]
+    #[IsGranted('ROLE_USER')]
     public function new_variety(Variety $variety = null, Mineral $mineral, FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
         $variety = new Variety();
@@ -272,6 +281,7 @@ class WikiController extends AbstractController
     }
 
     #[Route('/wiki/mineral/{slug}/show/editColors', name: 'edit_mineral_colors')]
+    #[IsGranted('ROLE_USER')]
     public function edit_mineral_colors(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
     {
 
@@ -293,6 +303,7 @@ class WikiController extends AbstractController
     }
 
     #[Route('/wiki/mineral/{slug}/show/editLustres', name: 'edit_mineral_lustres')]
+    #[IsGranted('ROLE_USER')]
     public function edit_mineral_lustres(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
     {
 
@@ -314,6 +325,7 @@ class WikiController extends AbstractController
     }
     
     #[Route('/wiki/category', name: 'app_category')]
+    #[IsGranted('PUBLIC_ACCESS')]
     public function categorieslist(CategoryRepository $categoryRepository): Response
     {
         $categories = $categoryRepository->findBy([], ["name" => "ASC"]);
@@ -323,6 +335,7 @@ class WikiController extends AbstractController
     }
 
     #[Route('/wiki/category/{slug}/show', name: 'show_category')]
+    #[IsGranted('PUBLIC_ACCESS')]
     public function showCategory(Category $category): Response
     {
         return $this->render('wiki/show_category.html.twig', [
@@ -331,6 +344,7 @@ class WikiController extends AbstractController
     }
 
     #[Route('/wiki/color/{slug}/show', name: 'show_color')]
+    #[IsGranted('PUBLIC_ACCESS')]
     public function showColor(Color $color): Response
     {
         return $this->render('wiki/show_color.html.twig', [
@@ -339,6 +353,7 @@ class WikiController extends AbstractController
     }
 
     #[Route('/wiki/lustre/{slug}/show', name: 'show_lustre')]
+    #[IsGranted('PUBLIC_ACCESS')]
     public function showLustre(Lustre $lustre): Response
     {
         return $this->render('wiki/show_lustre.html.twig', [
