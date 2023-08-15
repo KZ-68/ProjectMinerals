@@ -14,6 +14,7 @@
     {% for discussion in mineral.discussions %}
         <div class="discussion-card">
             <hgroup class="discussion-subject">
+                <time datetime="{{discussion.getDateTime}}">{{discussion.getDateTime}}</time>
                 <h2>{{discussion.subject}}</h2>
                 <div class="discussion-profile">
                     <figure id="discussion-avatar-header">
@@ -29,31 +30,54 @@
         </div>
         
 
-    {% if discussion.comments | length > 0 %}
-    {% for comment in discussion.comments %}
-        <div class="comment-card" id="comment-{{ comment.id }}">
-            <hgroup class="comment-subject">
-                <h2>Re : {{comment.discussion.subject}}</h2>
-                <div class="discussion-profile">
-                    <figure id="comment-avatar-header">
-                        <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
-                    </figure>
-                    <p>{{comment.user.username}}</p>
+        {% if discussion.comments | length > 0 %}
+            {% for comment in discussion.comments %}
+                {% if comment.parent | length > 0 %}
+                    
+                    <div class="response-comment-card" id="comment-{{ comment.id }}">
+                        <hgroup class="comment-subject">
+                            <time datetime="{{comment.getDateTime}}">{{comment.getDateTime}}</time>
+                            <h2>Re : {{comment.discussion.subject}}</h2>
+                            <h3>Response to comment {{comment.parent.id}} #</h3>
+                            <div class="discussion-profile">
+                                <figure id="comment-avatar-header">
+                                    <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
+                                </figure>
+                                <p>{{comment.user.username}}</p>
+                            </div>
+                        </hgroup>
+                        <div class="discussion-textarea">
+                            <p>{{comment.content}}</p>
+                        </div>
+                        <div id="commentContainer{{ comment.id }}" style="margin: 1em; display: none">
+                        </div>
+                        <a href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
+                    </div>
+                {% else %}
+                <div class="comment-card" id="comment-{{ comment.id }}">
+                    <hgroup class="comment-subject">
+                        <time datetime="{{comment.getDateTime}}">{{comment.getDateTime}}</time>
+                        <h2>Re : {{comment.discussion.subject}}</h2>
+                        <div class="discussion-profile">
+                            <figure id="comment-avatar-header">
+                                <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
+                            </figure>
+                            <p>{{comment.user.username}}</p>
+                        </div>
+                    </hgroup>
+                    <div class="discussion-textarea">
+                        <p>{{comment.content}}</p>
+                    </div>
+                    <div id="commentContainer{{ comment.id }}" style="margin: 1em; display: none">
+                    </div>
+                    <a href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
                 </div>
-            </hgroup>
-            <div class="discussion-textarea">
-                <p>{{comment.content}}</p>
-            </div>
-            <div id="commentContainer{{ comment.id }}" style="margin: 1em; display: none">
-            </div>
-            <a href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'parent': comment.id}) }}">Respond to this comment</a>
-            </button>
-        </div>
+                {% endif %}
+
+            {% endfor %}
+        {% else %}
         
-    {% endfor %}
-    {% else %}
-    
-    {% endif %}
+        {% endif %}
 
     {% endfor %}
 
