@@ -10,8 +10,8 @@
 
 <h1>Discussions Board for {{ mineral.name }}</h1>
 
-{% if discussions | length > 0 %}
-    {% for discussion in discussions %}
+{% if mineral.discussions | length > 0 %}
+    {% for discussion in mineral.discussions %}
         <div class="discussion-card">
             <hgroup class="discussion-subject">
                 <h2>{{discussion.subject}}</h2>
@@ -27,12 +27,13 @@
                 <a class="answer-link" href="{{ path('new_comment', {'slug': mineral.slug, 'id': discussion.id}) }}">Made a comment</a>
             </div>
         </div>
+        
 
     {% if discussion.comments | length > 0 %}
     {% for comment in discussion.comments %}
-        <div class="comment-card">
+        <div class="comment-card" id="comment-{{ comment.id }}">
             <hgroup class="comment-subject">
-                <h2>{{comment.discussion.subject}}</h2>
+                <h2>Re : {{comment.discussion.subject}}</h2>
                 <div class="discussion-profile">
                     <figure id="comment-avatar-header">
                         <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
@@ -43,7 +44,12 @@
             <div class="discussion-textarea">
                 <p>{{comment.content}}</p>
             </div>
+            <div id="commentContainer{{ comment.id }}" style="margin: 1em; display: none">
+            </div>
+            <a href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'parent': comment.id}) }}">Respond to this comment</a>
+            </button>
         </div>
+        
     {% endfor %}
     {% else %}
     
