@@ -33,7 +33,8 @@ class AddColorType extends AbstractType
                 'by_reference' => false,
                 'attr' => [
                     'class' => 'form-select' 
-                ]
+                ],
+                'required' => false
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
