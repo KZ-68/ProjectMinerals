@@ -56,7 +56,7 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussion/createDiscussion', name: 'new_discussion')]
+    #[Route('/wiki/mineral/{slug}/discussions/createDiscussion', name: 'new_discussion')]
     #[IsGranted('ROLE_USER')]
     public function launchDiscussion(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -74,6 +74,8 @@ class WikiController extends AbstractController
             
             $entityManager->persist($discussion);
             $entityManager->flush();
+
+            return $this->redirectToRoute('discussions_mineral', ['slug' => $mineral->getSlug()]);
         }
 
         return $this->render('wiki/create_discussion.html.twig', [
@@ -81,7 +83,7 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussion/{id}/newComment', name: 'new_comment')]
+    #[Route('/wiki/mineral/{slug}/discussions/{id}/newComment', name: 'new_comment')]
     #[IsGranted('ROLE_USER')]
     public function newComment(Discussion $discussion, Request $request, EntityManagerInterface $entityManager): Response {
        
@@ -98,6 +100,8 @@ class WikiController extends AbstractController
             
             $entityManager->persist($comment);
             $entityManager->flush();
+
+            return $this->redirectToRoute('discussions_mineral', ['slug' => $discussion->getMineral()->getSlug(), 'id' => $discussion->getId()]);
         }
 
         return $this->render('wiki/new_comment.html.twig', [
@@ -105,7 +109,7 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussion/{id}/comment/{comment}/respond', name: 'respond_comment')]
+    #[Route('/wiki/mineral/{slug}/discussions/{id}/comment/{comment}/respond', name: 'respond_comment')]
     #[IsGranted('ROLE_USER')]
     public function respondComment(Comment $comment, Discussion $discussion, Request $request, EntityManagerInterface $entityManager): Response {
         
@@ -124,6 +128,15 @@ class WikiController extends AbstractController
             
             $entityManager->persist($respondComment);
             $entityManager->flush();
+
+            return $this->redirectToRoute(
+                'discussions_mineral',
+                [
+                'slug' => $discussion->getMineral()->getSlug(), 
+                'id' => $comment->getDiscussion()->getId(),
+                'comment' => $comment->getId()
+                ]
+            );
         }
 
         return $this->render('wiki/_respond_comment.html.twig', [
