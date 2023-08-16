@@ -293,7 +293,7 @@ class WikiController extends AbstractController
             $entityManager->persist($mineral);
             $entityManager->flush();
 
-            return $this->redirectToRoute('show_mineral', ['id' => $mineral->getId()]);
+            return $this->redirectToRoute('show_mineral', ['slug' => $mineral->getSlug()]);
         }
 
         return $this->render('wiki/edit_mineral_colors.html.twig', [
@@ -315,7 +315,7 @@ class WikiController extends AbstractController
             $entityManager->persist($mineral);
             $entityManager->flush();
 
-            return $this->redirectToRoute('show_mineral', ['id' => $mineral->getId()]);
+            return $this->redirectToRoute('show_mineral', ['slug' => $mineral->getSlug()]);
         }
 
         return $this->render('wiki/edit_mineral_lustres.html.twig', [
