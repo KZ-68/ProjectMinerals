@@ -55,6 +55,12 @@
                     <a id="closeBtn" href="#" class="close">×</a>
                     <ul>
                         {% if app.user %}
+                        <div class="profile-responsive">
+                            <figure id="figure-avatar-header">
+                                <img id="avatar-header" src="{{asset('uploads/images/' ~ app.user.avatar)}}">
+                            </figure>
+                            <p>{{app.user.username}}</p>
+                        </div>
                         <li><a class="linkTop" href="{{path('app_profile')}}">Profile</a></li>
                         <li><a class="linkTop" href="{{path('app_logout')}}">Sign Out</a></li>
                         {% else %}
