@@ -50,7 +50,7 @@ class AppFixtures extends Fixture
     {
         for ($i=0; $i < 100; $i++) { 
             $variety = new Variety();
-            $variety->setName($this->faker->word())
+            $variety->setName($this->faker->unique()->name())
             ->setSlug($this->slugger->slug($variety->getName()));;
             
             $em->persist($variety);
@@ -62,7 +62,7 @@ class AppFixtures extends Fixture
     public function addMinerals(EntityManager $em) {
         for ($i=0; $i <= 100; $i++) { 
             $mineral = new Mineral();
-            $mineral->setName($this->faker->word())
+            $mineral->setName($this->faker->unique()->name())
                 ->setFormula($this->faker->word())
                 ->setCrystalSystem($this->faker->word())
                 ->setDensity($this->faker->randomFloat(2, 1, 4))
@@ -71,7 +71,7 @@ class AppFixtures extends Fixture
                 ->setStreak($this->faker->safeColorName())
                 ->setSlug($this->slugger->slug($mineral->getName()));
                 
-            $mineral->addVariety($this->varieties[rand(0, count($this->varieties))]);
+            
 
             $em->persist($mineral);
             $this->minerals[] = $mineral;
@@ -82,10 +82,10 @@ class AppFixtures extends Fixture
     {
         for ($i=0; $i < 100; $i++) { 
             $category = new Category();
-            $category->setName($this->faker->word())
+            $category->setName($this->faker->name())
                 ->setSlug($this->slugger->slug($category->getName()));
             
-            $category->addMineral($this->minerals[rand(0, count($this->minerals))]);
+            
             $em->persist($category);
 
         }
@@ -96,7 +96,7 @@ class AppFixtures extends Fixture
     {
         for ($i=0; $i < 100; $i++) { 
             $color = new Color();
-            $color->setName($this->faker->safeColorName())
+            $color->setName($this->faker->unique()->colorName())
                 ->setSlug($this->slugger->slug($color->getName()));
             
             $em->persist($color);
@@ -109,7 +109,7 @@ class AppFixtures extends Fixture
     {
         for ($i=0; $i < 100; $i++) { 
             $lustre = new Lustre();
-            $lustre->setType($this->faker->word())
+            $lustre->setType($this->faker->unique()->name())
                 ->setSlug($this->slugger->slug($lustre->getType()));
             
             $em->persist($lustre);
