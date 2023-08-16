@@ -186,6 +186,13 @@ header {
     color: black;
 }
 
+.profile-responsive {
+    padding-left: 11px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 #figure-avatar-header {
     border: 2px solid #22577A;
     border-radius: 15px;
@@ -204,7 +211,7 @@ header {
 }
 
 .sidenav {
-    height: 239px;
+    height: 299px;
     width: 167px;
     position: fixed;
     z-index: 2;
@@ -609,6 +616,10 @@ div.advanced-search-bar {
     height: 150px;
 }
 
+.file-upload-wrapper {
+    margin: 20px 0px;
+}
+
 .message-box-wrapper {
     display: flex;
     flex-direction: row;
@@ -847,10 +858,11 @@ small {
 
     .sidenav a {
         text-decoration: none;
-        font-size: 20px;
-        color: #444444;
+        font-size: 24px;
+        color: #2f2a2a;
         display: block;
         transition: 0.1s;
+        width: fit-content
     }
       
     .sidenav a:hover {
@@ -865,7 +877,7 @@ small {
         flex-direction: column;
         gap: 10px;
     }
-
+    
     .isDisabled {
         padding: 0;
         padding-left: 10px;
@@ -877,8 +889,8 @@ small {
     }
 
     .sidenav {
-        height: 301px;
-        width: 204px;
+        height: 397px;
+        width: 226px;
         display: block;
     }
 
@@ -911,16 +923,24 @@ small {
     #fig-logo {
         font-size: 50px;
         left: 33%;
-        top: 21%;
+        top: 11%;
     }
     
     #minerals-logo {
         left: 28%;
-        top: 32%;
+        top: 22%;
+    }
+
+    #diaporama {
+        height: 704px;
+    }
+
+    #diaporama img {
+        height: 700px;
     }
 
     .search-bar {
-        top: 725px;
+        top: 632px;
         left: 235px;
     }
 
@@ -1038,6 +1058,17 @@ small {
         display: block;
     }
 
+    #figure-avatar-header {
+        border-radius: 10px;
+        width: 59px;
+        height: 59px;
+    }
+
+    #avatar-header {
+        width: 55px;
+        height: 55px;
+    }
+
     .search-zone {
         height: 35px;
         width: 180px;
@@ -1130,5 +1161,16 @@ small {
   
     .profile-wrapper {
         width: 315px;
+    }
+
+    .figure-avatar {
+        border-radius: 15px;
+        width: 130px;
+        height: 130px;
+    }
+
+    .user-avatar {
+        width: 125px;
+        height: 125px;
     }
 }
