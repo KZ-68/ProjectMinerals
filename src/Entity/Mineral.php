@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ApiResource()]
 #[ORM\Entity(repositoryClass: MineralRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[UniqueEntity('slug', message: 'This slug already exist')]
+#[UniqueEntity(fields: ['slug'], message: 'This slug already exist')]
 class Mineral
 {
     #[ORM\Id]
@@ -95,7 +95,7 @@ class Mineral
     #[ORM\OneToMany(mappedBy: 'mineral', cascade: ['persist'], orphanRemoval: true, targetEntity: Image::class)]
     private Collection $images;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Discussion::class, orphanRemoval: true)]

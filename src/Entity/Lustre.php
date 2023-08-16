@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ApiResource()]
 #[ORM\Entity(repositoryClass: LustreRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[UniqueEntity('slug', message: 'This slug already exist')]
+#[UniqueEntity(fields: ['slug'], message: 'This slug already exist')]
 class Lustre
 {
     #[ORM\Id]
@@ -34,7 +34,7 @@ class Lustre
     #[ORM\ManyToMany(targetEntity: Mineral::class, inversedBy: 'lustres')]
     private Collection $minerals;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
     public function __construct()
