@@ -451,9 +451,11 @@ div.advanced-search-bar {
 }
 
 .pagination {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
     margin: 40px 0px 20px 30px;
 }
-
 
 .mineral-image {
     width: 350px;
@@ -792,6 +794,18 @@ hgroup.comment-subject h2 {
     margin: 20px 20px;
 }
 
+hgroup.response-comment-subject {
+    background: linear-gradient(0deg, #38A3A5, #57CC99, #80ED99);
+    padding: 20px 0px 15px 20px;
+    border-radius: 8px 8px 0px 0px;
+}
+
+hgroup.response-comment-subject h2 {
+    background: none;
+    padding: 0;
+    margin: 0px 0px 10px 0px;
+}
+
 .discussion-card time {
     float: right;
     padding-right: 20px;
@@ -812,6 +826,18 @@ hgroup.comment-subject h2 {
     border-radius: 5px;
     padding: 4px 10px;
     background: linear-gradient(0deg, #57CC99, #38A3A5, #57CC99);
+}
+
+span.page, span.first, span.previous, span.next, span.last {
+    border: 1px solid #38A3A5;
+    border-radius: 4px;
+    padding: 5px 5px;
+}
+
+span.current {
+    border: 1px solid #38A3A5;
+    border-radius: 4px;
+    padding: 9px 5px;
 }
 
 footer {
@@ -998,7 +1024,7 @@ small {
     }
     
     h2 {
-        width: 375px;
+        width: fit-content;
     }
 
     a {
@@ -1079,7 +1105,11 @@ small {
         display: block;
     }
 
-    #figure-avatar-header {
+    .discussion-card, .comment-card, .response-comment-card {
+        width: 330px;
+    }
+
+    #figure-avatar-header, #discussion-avatar-header, #comment-avatar-header {
         border-radius: 10px;
         width: 59px;
         height: 59px;
@@ -1146,7 +1176,7 @@ small {
     }
 
     .adv-search-fields {
-        width: 150px;
+        width: 300px;
         height: 485px;
         font-size: 19px;
     }
@@ -1154,13 +1184,20 @@ small {
     div.advanced-search-bar {
         display: flex;
         flex-direction: column;
-        align-items: center;
         gap: 25px;
+        align-items: flex-start;
+        align-content: center;
     }
 
     .form-control {
         height: 33px;
         width: 300px;
+    }
+
+    .pagination {
+        justify-content: center;
+        align-items: center;
+        margin: 30px 20px;
     }
 
     #variety-title {
