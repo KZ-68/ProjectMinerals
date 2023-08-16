@@ -32,7 +32,7 @@ class AdminController extends AbstractController
     #[Route('/admin/color', name: 'app_color')]
     public function colorslist(ColorRepository $colorRepository, Request $request): Response
     {
-        return $this->render('admin/colors_list.html.twig', [
+        return $this->render('admin/color/colors_list.html.twig', [
             'colors' => $colorRepository->findPaginateColors($request->query->getInt('page', 1))
         ]);
     }
@@ -54,7 +54,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_color');
         }
 
-        return $this->render('admin/new_color.html.twig', [
+        return $this->render('admin/color/new_color.html.twig', [
             'form' => $form
         ]);
     }
@@ -74,7 +74,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_color');
         }
 
-        return $this->render('admin/edit_color.html.twig', [
+        return $this->render('admin/color/edit_color.html.twig', [
             'form' => $form
         ]);
     }
