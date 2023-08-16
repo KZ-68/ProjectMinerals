@@ -11,16 +11,21 @@
     <h1>Profile Details</h1>
 
     <div class="profile-wrapper">
-        <figure class="figure-avatar">
-            <img class="user-avatar" src="{{asset('uploads/images/' ~ app.user.avatar)}}">
-        </figure>
-        <p>Add image profile :</p>
-        <p>{{ form_start(form) }}
-        {{ form_row(form.avatar) }}
-        {{ form_row(form.valider) }}
-        {{ form_end(form) }}</p>
-
+        <div class="profile-avatar-wrapper">
+            <figure class="figure-avatar">
+                <img class="user-avatar" src="{{asset('uploads/images/' ~ app.user.avatar)}}">
+            </figure>
+            <div class="file-upload-wrapper">
+                <p>Add image profile :</p>
+                <p>{{ form_start(form) }}
+                {{ form_row(form.avatar) }}
+                {{ form_row(form.valider) }}
+                {{ form_end(form) }}</p>
+            </div>
+        </div>
+        
         <div>
+            <div><p>Username: {{app.user.username}}</p></div>
             <div><p>Role :</p></div>
             <div>
                 {% if is_granted('ROLE_ADMIN') %} 
