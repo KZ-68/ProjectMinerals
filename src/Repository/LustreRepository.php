@@ -29,7 +29,7 @@ class LustreRepository extends ServiceEntityRepository
     public function	findPaginateLustres(int $page): PaginationInterface {	
         
         $data = $this->createQueryBuilder('l')	
-      	    ->orderBy('l.type', 'DESC')	
+      	    ->orderBy('l.type', 'ASC')	
       	    ->getQuery()
             ->getResult();	
 

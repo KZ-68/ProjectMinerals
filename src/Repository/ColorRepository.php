@@ -29,7 +29,7 @@ class ColorRepository extends ServiceEntityRepository
     public function	findPaginateColors(int $page): PaginationInterface {	
         
         $data = $this->createQueryBuilder('co')	
-      	    ->orderBy('co.name', 'DESC')	
+      	    ->orderBy('co.name', 'ASC')	
       	    ->getQuery()
             ->getResult();	
 
