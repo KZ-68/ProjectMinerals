@@ -35,7 +35,7 @@
                 {% if comment.parent | length > 0 %}
                     
                     <div class="response-comment-card" id="comment-{{ comment.id }}">
-                        <hgroup class="comment-subject">
+                        <hgroup class="response-comment-subject">
                             <time datetime="{{comment.getDateTime}}">{{comment.getDateTime}}</time>
                             <h2>Re : {{comment.discussion.subject}}</h2>
                             <h3>Response to comment {{comment.parent.id}} #</h3>
