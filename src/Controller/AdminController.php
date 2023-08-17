@@ -177,7 +177,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_category');
         }
 
-        return $this->render('admin/new_category.html.twig', [
+        return $this->render('admin/category/new_category.html.twig', [
             'form' => $form
         ]);
     }
@@ -197,7 +197,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_category');
         }
 
-        return $this->render('admin/edit_category.html.twig', [
+        return $this->render('admin/category/edit_category.html.twig', [
             'form' => $form
         ]);
     }
