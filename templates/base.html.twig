@@ -15,7 +15,7 @@
             <nav id="nav-header">
                 <div id="nav-right">
                     {% if is_granted('ROLE_ADMIN')%}
-                    <a class="link-right" href="{{path('app_admin')}}">Admin Page</a>
+                    <a class="link-right" href="{{path('app_admin_index')}}">Admin Page</a>
                     {% endif %}
                     <a class="link-right" href="{{path('app_contact')}}">Contact</a>
                     {% if app.request.get('_route') == 'app_home' %}
@@ -73,7 +73,7 @@
                             <li><a class="linkTop" href="{{ path('app_home') }}">Home Page</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN') %}
-                        <li><a class="linkTop" href="{{path('app_admin')}}">Admin Page</a></li>
+                        <li><a class="linkTop" href="{{path('app_admin_index')}}">Admin Page</a></li>
                         {% endif %}
                         <li><a class="linkTop" href="{{ path('app_category') }}">Categories List</a></li>
                         <li><a class="linkTop" href="{{ path('app_mineral') }}">Minerals List</a></li>
