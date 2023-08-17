@@ -9,6 +9,8 @@ use App\Repository\CommentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Polyfill\Intl\Icu\IntlDateFormatter;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -19,6 +21,9 @@ class Comment
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\Length(min: 2)]
+    #[Assert\NotBlank()]
+    #[Assert\NotNull()]
     private ?string $content = null;
 
     #[ORM\Column]

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DiscussionRepository::class)]
 class Discussion
@@ -20,6 +21,9 @@ class Discussion
     private ?string $subject = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\Length(min: 2)]
+    #[Assert\NotBlank()]
+    #[Assert\NotNull()]
     private ?string $content = null;
 
     #[ORM\Column]
