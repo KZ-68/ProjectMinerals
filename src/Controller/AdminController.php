@@ -19,9 +19,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_ADMIN')]
+#[Route('/admin', name: 'app_admin_')]
 class AdminController extends AbstractController
 {
-    #[Route('/admin', name: 'app_admin')]
+    #[Route('/', name: 'index')]
     public function index(): Response
     {
         return $this->render('admin/index.html.twig', [
@@ -29,7 +30,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/color', name: 'app_color')]
+    #[Route('/color', name: 'color')]
     public function colorslist(ColorRepository $colorRepository, Request $request): Response
     {
         return $this->render('admin/color/colors_list.html.twig', [
@@ -37,7 +38,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/color/new', name: 'new_color')]
+    #[Route('/color/new', name: 'new_color')]
     public function new_color(Request $request, EntityManagerInterface $entityManager): Response
     {
         $color = new Color();
@@ -51,7 +52,7 @@ class AdminController extends AbstractController
             $entityManager->persist($color);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_color');
+            return $this->redirectToRoute('color');
         }
 
         return $this->render('admin/color/new_color.html.twig', [
@@ -59,7 +60,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/color/{slug}/edit', name: 'edit_color')]
+    #[Route('/color/{slug}/edit', name: 'edit_color')]
     public function edit_color(Color $color, Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(AddColorType::class, $color);
@@ -71,7 +72,7 @@ class AdminController extends AbstractController
             $entityManager->persist($color);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_color');
+            return $this->redirectToRoute('color');
         }
 
         return $this->render('admin/color/edit_color.html.twig', [
@@ -79,25 +80,25 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/color/{slug}/delete', name: 'delete_color')]
+    #[Route('/color/{slug}/delete', name: 'delete_color')]
     public function deleteColor(Color $color, EntityManagerInterface $entityManager) {
         // Prépare la suppression d'une instance de l'objet 
         $entityManager->remove($color);
         // Exécute la suppression
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_color');
+        return $this->redirectToRoute('color');
     }
 
-    #[Route('/admin/lustre', name: 'app_lustre')]
+    #[Route('/lustre', name: 'lustre')]
     public function lustresList(LustreRepository $lustreRepository, Request $request): Response
     {
-        return $this->render('admin/lustres_list.html.twig', [
+        return $this->render('admin/lustre/lustres_list.html.twig', [
             'lustres' => $lustreRepository->findPaginateLustres($request->query->getInt('page', 1))
         ]);
     }
 
-    #[Route('/admin/lustre/new', name: 'new_lustre')]
+    #[Route('/lustre/new', name: 'new_lustre')]
     public function new_lustre(Request $request, EntityManagerInterface $entityManager): Response
     {
         $lustre = new Lustre();
@@ -111,15 +112,15 @@ class AdminController extends AbstractController
             $entityManager->persist($lustre);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_lustre');
+            return $this->redirectToRoute('lustre');
         }
 
-        return $this->render('admin/new_lustre.html.twig', [
+        return $this->render('admin/lustre/new_lustre.html.twig', [
             'form' => $form
         ]);
     }
 
-    #[Route('/admin/lustre/{slug}/edit', name: 'edit_lustre')]
+    #[Route('/lustre/{slug}/edit', name: 'edit_lustre')]
     public function edit_lustre(Lustre $lustre, Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(AddLustreType::class, $lustre);
@@ -131,25 +132,25 @@ class AdminController extends AbstractController
             $entityManager->persist($lustre);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_lustre');
+            return $this->redirectToRoute('lustre');
         }
 
-        return $this->render('admin/edit_lustre.html.twig', [
+        return $this->render('admin/lustre/edit_lustre.html.twig', [
             'form' => $form
         ]);
     }
 
-    #[Route('/admin/lustre/{slug}/delete', name: 'delete_lustre')]
+    #[Route('/lustre/{slug}/delete', name: 'delete_lustre')]
     public function deleteLustre(Lustre $lustre, EntityManagerInterface $entityManager) {
         // Prépare la suppression d'une instance de l'objet 
         $entityManager->remove($lustre);
         // Exécute la suppression
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_lustre');
+        return $this->redirectToRoute('lustre');
     }
 
-    #[Route('/admin/mineral/{slug}/delete', name: 'delete_mineral')]
+    #[Route('/mineral/{slug}/delete', name: 'delete_mineral')]
     public function deleteMineral(Mineral $mineral, EntityManagerInterface $entityManager) {
         // Prépare la suppression d'une instance de l'objet 
         $entityManager->remove($mineral);
@@ -159,7 +160,7 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_mineral');
     }
 
-    #[Route('/admin/category/new', name: 'new_category')]
+    #[Route('/category/new', name: 'new_category')]
     public function new_category(Request $request, EntityManagerInterface $entityManager): Response
     {
         $category = new Category();
@@ -176,12 +177,12 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_category');
         }
 
-        return $this->render('wiki/new_category.html.twig', [
+        return $this->render('admin/new_category.html.twig', [
             'form' => $form
         ]);
     }
 
-    #[Route('/admin/category/{slug}/editCategory', name: 'edit_category')]
+    #[Route('/category/{slug}/editCategory', name: 'edit_category')]
     public function edit_category(Category $category, Request $request, EntityManagerInterface $entityManager): Response
     {
 
@@ -196,12 +197,12 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_category');
         }
 
-        return $this->render('wiki/edit_category.html.twig', [
+        return $this->render('admin/edit_category.html.twig', [
             'form' => $form
         ]);
     }
 
-    #[Route('/admin/category/{slug}/delete', name: 'delete_category')]
+    #[Route('/category/{slug}/delete', name: 'delete_category')]
     public function deletecategory(Category $category, EntityManagerInterface $entityManager) {
         // Prépare la suppression d'une instance de l'objet 
         $entityManager->remove($category);
