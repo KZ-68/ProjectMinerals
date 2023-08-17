@@ -33,7 +33,7 @@ class MineralRepository extends ServiceEntityRepository
     public function	findPaginateMinerals(int $page): PaginationInterface {	
         
         $data = $this->createQueryBuilder('m')	
-      	    ->orderBy('m.name', 'DESC')	
+      	    ->orderBy('m.name', 'ASC')	
       	    ->getQuery()
             ->getResult();	
 
