@@ -5,13 +5,9 @@
 {% block body %}
 
 <h1>Admin Control Panel</h1>
-<div class="list-wrapper">
-    <div>
-        <ul>
-            <li><a href="{{path('app_color')}}">Colors List</a></li>
-            <li><a href="{{path('app_lustre')}}">Lustres List</a></li>
-        </ul>
-    </div>
-</div>
+
+<aside class="aside-wrapper">
+    {% include "_partials/_admin_nav.html.twig"%}
+</aside>
 
 {% endblock %}
