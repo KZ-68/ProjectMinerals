@@ -9,6 +9,7 @@ use App\Entity\Category;
 use App\Form\AddColorType;
 use App\Form\CategoryType;
 use App\Form\AddLustreType;
+use App\Repository\UserRepository;
 use App\Repository\ColorRepository;
 use App\Repository\LustreRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -210,6 +211,14 @@ class AdminController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_category');
+    }
+
+    #[Route('/user', name: 'user')]
+    public function usersList(UserRepository $userRepository, Request $request): Response
+    {
+        return $this->render('admin/user/users_list.html.twig', [
+            'users' => $userRepository->findPaginateUsers($request->query->getInt('page', 1))
+        ]);
     }
 
 }
