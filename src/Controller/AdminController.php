@@ -93,7 +93,7 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin_color');
     }
 
-    #[Route('/lustre', name: 'app_admin_lustre')]
+    #[Route('/lustre', name: 'lustre')]
     public function lustresList(LustreRepository $lustreRepository, Request $request): Response
     {
         return $this->render('admin/lustre/lustres_list.html.twig', [
@@ -228,10 +228,18 @@ class AdminController extends AbstractController
     {
         // Déclare une variable avec le nom d'utilisateur qui sera mis en bdd
         $username = "Deleted User";
+        // Récupère la requête du repository pour anonymiser l'utilisateur
         $userRepository->anonymizeUser($user->getId(), $username);
 
-        $session = new Session();
-        $session->invalidate();
+        return $this->redirectToRoute('app_admin_user');
+    }
+
+    #[Route('/user/{id}/delete', name: 'delete_user')]
+    public function deleteUser(User $user, EntityManagerInterface $entityManager) {
+        // Prépare la suppression d'une instance de l'objet 
+        $entityManager->remove($user);
+        // Exécute la suppression
+        $entityManager->flush();
 
         return $this->redirectToRoute('app_admin_user');
     }
