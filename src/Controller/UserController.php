@@ -53,6 +53,7 @@ class UserController extends AbstractController
     public function editSettings(User $user, Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
     {
 
+        // Fait une redirection si aucun utilisateur en session est trouvé
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
@@ -61,64 +62,89 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_session');
         }
 
+        // Création des deux formulaires séparés
         $form1name = $this->createForm(UserEmailType::class, $user);
 
         $form2name = $this->createForm(UserPasswordType::class, $user);
 
+        // Si la requête est bien une méthode POST: 
         if ($request->isMethod('POST')) {
-        
+        // Inspecte la requête et appelle le formulaire n°1 soumis
             $form1name->handleRequest($request);
-        
+            // Si le foumulaire n°1 est soumis et valide
             if ($form1name->isSubmitted() && $form1name->isValid()) {
+                // On récupère l'email dans les données du formulaire
                 $email = $form1name->get('email')->getData();
-                    $confirmEmail = $form1name->get('confirmEmail')->getData();
+                // On récupère la confirmation de l'email dans les données du formulaire
+                $confirmEmail = $form1name->get('confirmEmail')->getData();
+                    // Si la confirmation de l'email est pareille que l'email
                     if($confirmEmail === $email) {
+                        // On récupère l'utilisateur
                         $user = $form1name->getData();
+                        // On prépare l'envoi des données de l'utilisateur en bdd
                         $entityManager->persist($user);
+                        // On en envoie les données en bdd
                         $entityManager->flush();
-                        
+                        // Affiche un message de succès 
                         $this->addFlash(
                             'success', 
                             'Email adress has changed with success !'
                         );
-            
+                        // Redirige vers la page des paramètres avec l'id de l'utilisateur
                         return $this->redirectToRoute('settings_profile', ['id' => $user->getId()]);
-
+                      // Si l'email ou la confirmation de l'email ne sont pas identique :  
                     } else {
+                        // Affiche un message d'avertissement que les informations sont incorrects
                         $this->addFlash(
                             'warning', 
                             'The informations submited are incorrects.'
                         );
                     }
             } 
-            
+            // Inspecte la requête et appelle le formulaire n°2 soumis
             $form2name->handleRequest($request);
-
+            // Si le foumulaire n°2 est soumis et valide
             if ($form2name->isSubmitted() && $form2name->isValid()) {
+                // On récupère les données du mot de passe courant et le nouveau que l'on souhaite
                 $oldPassword = $form2name->get('plainPassword')->getData();
                 $newPassword = $form2name->get('newPassword')->getData();
-    
-                if ($hasher->isPasswordValid($user, $oldPassword)) {
-                    $encodedPassword = $hasher->hashPassword(
-                        $user,
-                        $newPassword
-                    );
-                    $user->setPassword($encodedPassword);
-                    $entityManager->flush();
-                    
-                    $this->addFlash(
-                        'success', 
-                        'The password has been modified with success !'
-                    );
-                    
-                    return $this->redirectToRoute('settings_profile', ['id' => $user->getId()]);
-
+                // Si l'ancien mot de passe et le nouveau ne sont pas identique :
+                if ($oldPassword != $newPassword) {
+                    // Si le mot de passe courant correspond au mot de passe hashé en bdd :
+                    if ($hasher->isPasswordValid($user, $oldPassword)) {
+                        /* On déclare une variable qui prends comme valeur 
+                        un nouveau hashage créé avec le nouveau mot de passe soumis */
+                        $encodedPassword = $hasher->hashPassword(
+                            $user,
+                            $newPassword
+                        );
+                        // On ajoute le mot de passe à l'utilisateur
+                        $user->setPassword($encodedPassword);
+                        // On prépare l'envoi en bdd
+                        $entityManager->persist($user);
+                        // On envoie les données en bdd
+                        $entityManager->flush();
+                        
+                        $this->addFlash(
+                            'success', 
+                            'The password has been modified with success !'
+                        );
+                        
+                        return $this->redirectToRoute('settings_profile', ['id' => $user->getId()]);
+                        
+                    } else {
+                        $this->addFlash(
+                            'warning', 
+                            'The informations submited are incorrects.'
+                        );
+                    }
                 } else {
                     $this->addFlash(
-                        'warning', 
-                        'The informations submited are incorrects.'
+                        'warning',
+                        'Old and new password need to be different'
                     );
                 }
+                    
                 
             }
             
