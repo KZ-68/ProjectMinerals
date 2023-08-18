@@ -9,24 +9,27 @@
 
 <h1>Colors List</h1>
 
+<div class="list-main">
+    <aside class="aside-wrapper">
+        {% include "_partials/_admin_nav.html.twig"%}
+    </aside>
 
-
-<div class="list-wrapper">
-    <div>
-        <ul>
-            {% for color in colors %}
-                <li>
-                    <a href="{{path('show_color', {'slug': color.slug})}}">{{color.name}}</a>
-                    <a class="edit-btn" href="{{ path('app_admin_edit_color', {'slug': color.slug}) }}" aria-label="Edit">Edit</a>
-                    <a class="delete-btn" href="{{ path('app_admin_delete_color', {'slug': color.slug}) }}" aria-label="Delete">Delete</a>
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="list-wrapper">
+        <div>
+            <ul>
+                {% for color in colors %}
+                    <li>
+                        <a href="{{path('show_color', {'slug': color.slug})}}">{{color.name}}</a>
+                        <a class="edit-btn" href="{{ path('app_admin_edit_color', {'slug': color.slug}) }}" aria-label="Edit">Edit</a>
+                        <a class="delete-btn" href="{{ path('app_admin_delete_color', {'slug': color.slug}) }}" aria-label="Delete">Delete</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <nav>
+            {{knp_pagination_render(colors)}}
+        </nav> 
     </div>
 </div>
-
-<nav>
-    {{knp_pagination_render(colors)}}
-</nav> 
 
 {% endblock %}
