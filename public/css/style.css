@@ -526,22 +526,13 @@ div.advanced-search-bar {
     padding: 10px 20px;
 }
 
-.edit-btn {
+.edit-btn, .delete-btn, .anonymize-btn {
     background-color: #57CC99;
     color: #444444;
     cursor: pointer;
     padding: 7px;
     border-radius: 10px;
 }
-
-.delete-btn {
-    background-color: #57CC99;
-    color: #444444;
-    cursor: pointer;
-    padding: 7px;
-    border-radius: 10px;
-}
-
 
 #varieties-images {
     display: flex;
