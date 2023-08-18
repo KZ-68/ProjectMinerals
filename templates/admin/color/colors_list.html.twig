@@ -15,17 +15,25 @@
     </aside>
 
     <div class="list-wrapper">
-        <div>
-            <ul>
+        <table>
+            <thead>
+              <tr>
+                <th>Color Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
                 {% for color in colors %}
-                    <li>
-                        <a href="{{path('show_color', {'slug': color.slug})}}">{{color.name}}</a>
-                        <a class="edit-btn" href="{{ path('app_admin_edit_color', {'slug': color.slug}) }}" aria-label="Edit">Edit</a>
-                        <a class="delete-btn" href="{{ path('app_admin_delete_color', {'slug': color.slug}) }}" aria-label="Delete">Delete</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+              <tr>
+                <td><a href="{{path('show_color', {'slug': color.slug})}}">{{color.name}}</a></td>
+                <td>
+                    <a class="edit-btn" href="{{ path('app_admin_edit_color', {'slug': color.slug}) }}" aria-label="Edit">Edit</a>
+                    <a class="delete-btn" href="{{ path('app_admin_delete_color', {'slug': color.slug}) }}" aria-label="Delete">Delete</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>    
         <nav>
             {{knp_pagination_render(colors)}}
         </nav> 

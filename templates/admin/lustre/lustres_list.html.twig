@@ -14,17 +14,25 @@
         {% include "_partials/_admin_nav.html.twig"%}
     </aside>
     <div class="list-wrapper">
-        <div>
-            <ul>
+        <table>
+            <thead>
+              <tr>
+                <th>Lustre Type</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
                 {% for lustre in lustres %}
-                    <li>
-                        <a href="{{path('show_lustre', {'slug': lustre.slug})}}">{{lustre.type}}</a>
-                        <a class="edit-btn" href="{{ path('app_admin_edit_lustre', {'slug': lustre.slug}) }}" aria-label="Edit">Edit</a>
-                        <a class="delete-btn" href="{{ path('app_admin_delete_lustre', {'slug': lustre.slug}) }}" aria-label="Delete">Delete</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+              <tr>
+                <td><a href="{{path('show_lustre', {'slug': lustre.slug})}}">{{lustre.type}}</a></td>
+                <td>
+                    <a class="edit-btn" href="{{ path('app_admin_edit_lustre', {'slug': lustre.slug}) }}" aria-label="Edit">Edit</a>
+                    <a class="delete-btn" href="{{ path('app_admin_delete_lustre', {'slug': lustre.slug}) }}" aria-label="Delete">Delete</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>   
         <nav>
             {{knp_pagination_render(lustres)}}
         </nav> 

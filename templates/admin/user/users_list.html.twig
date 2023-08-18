@@ -12,15 +12,24 @@
     </aside>
     
     <div class="list-wrapper">
-        <div>
-            <ul>
+        <table>
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
                 {% for user in users %}
-                    <li>
-                        <p>{{user.username}}</p>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+              <tr>
+                <td><a href="">{{user.username}}</a></td>
+                <td>
+                    
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>   
     </div>
     <nav>
         {{knp_pagination_render(users)}}
