@@ -23,9 +23,7 @@
                 {% for user in users %}
               <tr>
                 <td><a href="">{{user.username}}</a></td>
-                <td>
-                    
-                </td>
+                <td><a href="{{path('app_admin_anonymize_user', {'id': user.id})}}">Anonymize</a></td>
               </tr>
               {% endfor %}
             </tbody>
