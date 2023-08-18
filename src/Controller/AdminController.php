@@ -55,7 +55,7 @@ class AdminController extends AbstractController
             $entityManager->persist($color);
             $entityManager->flush();
 
-            return $this->redirectToRoute('color');
+            return $this->redirectToRoute('app_admin_color');
         }
 
         return $this->render('admin/color/new_color.html.twig', [
@@ -75,7 +75,7 @@ class AdminController extends AbstractController
             $entityManager->persist($color);
             $entityManager->flush();
 
-            return $this->redirectToRoute('color');
+            return $this->redirectToRoute('app_admin_color');
         }
 
         return $this->render('admin/color/edit_color.html.twig', [
@@ -90,10 +90,10 @@ class AdminController extends AbstractController
         // Exécute la suppression
         $entityManager->flush();
 
-        return $this->redirectToRoute('color');
+        return $this->redirectToRoute('app_admin_color');
     }
 
-    #[Route('/lustre', name: 'lustre')]
+    #[Route('/lustre', name: 'app_admin_lustre')]
     public function lustresList(LustreRepository $lustreRepository, Request $request): Response
     {
         return $this->render('admin/lustre/lustres_list.html.twig', [
@@ -115,7 +115,7 @@ class AdminController extends AbstractController
             $entityManager->persist($lustre);
             $entityManager->flush();
 
-            return $this->redirectToRoute('lustre');
+            return $this->redirectToRoute('app_admin_lustre');
         }
 
         return $this->render('admin/lustre/new_lustre.html.twig', [
@@ -135,7 +135,7 @@ class AdminController extends AbstractController
             $entityManager->persist($lustre);
             $entityManager->flush();
 
-            return $this->redirectToRoute('lustre');
+            return $this->redirectToRoute('app_admin_lustre');
         }
 
         return $this->render('admin/lustre/edit_lustre.html.twig', [
@@ -150,7 +150,7 @@ class AdminController extends AbstractController
         // Exécute la suppression
         $entityManager->flush();
 
-        return $this->redirectToRoute('lustre');
+        return $this->redirectToRoute('app_admin_lustre');
     }
 
     #[Route('/mineral/{slug}/delete', name: 'delete_mineral')]
@@ -224,14 +224,16 @@ class AdminController extends AbstractController
     }
 
     #[Route('/user/{id}/anonymize', name: 'anonymize_user')]
-    public function anonymizeUser(Session $session, User $user, UserRepository $userRepository): Response
+    public function anonymizeUser(User $user, UserRepository $userRepository): Response
     {
+        // Déclare une variable avec le nom d'utilisateur qui sera mis en bdd
         $username = "Deleted User";
         $userRepository->anonymizeUser($user->getId(), $username);
 
         $session = new Session();
         $session->invalidate();
 
-        return $this->redirectToRoute('user');
+        return $this->redirectToRoute('app_admin_user');
     }
+
 }
