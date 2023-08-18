@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Color;
 use App\Entity\Lustre;
 use App\Entity\Mineral;
@@ -16,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -221,4 +223,15 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/user/{id}/anonymize', name: 'anonymize_user')]
+    public function anonymizeUser(Session $session, User $user, UserRepository $userRepository): Response
+    {
+        $username = "Deleted User";
+        $userRepository->anonymizeUser($user->getId(), $username);
+
+        $session = new Session();
+        $session->invalidate();
+
+        return $this->redirectToRoute('user');
+    }
 }
