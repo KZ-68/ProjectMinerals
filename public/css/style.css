@@ -546,6 +546,10 @@ div.advanced-search-bar {
 
 #mineral-figure {
     margin: 55px 20px;
+    width: 350px;
+    height: 300px;
+    border: 2px solid #38A3A5;
+    border-radius: 10px;
 }
 
 #cCarousel {
@@ -568,6 +572,10 @@ div.advanced-search-bar {
     color: white;
     background: #2aa97a4d;
     cursor: pointer;
+}
+
+#cCarousel .arrow:active {
+    background: #2aa97a;
 }
 
 .arrow-symbols {
@@ -972,6 +980,10 @@ small {
 
 
 @media only screen and (min-device-width:768px) and (max-device-width: 1024px) {
+    h2 {
+        width: fit-content;
+    }
+    
     #nav-header {
         flex-direction: row;
     }
@@ -1102,6 +1114,10 @@ small {
 
     .panel {
         display: none;
+    }
+
+    #cCarousel {
+        max-width: 720px;
     }
 
 }
@@ -1295,6 +1311,12 @@ small {
         margin: 30px 20px;
     }
 
+    #mineral-figure {
+        display: flex;
+        justify-content: center;
+    }
+
+
     #variety-title {
         flex-direction: column;
     }
@@ -1306,6 +1328,15 @@ small {
     #add-variety {
         width: 100%;
         padding: 10px 20px 10px 40px;
+    }
+
+    #cCarousel {
+        max-width: 345px;
+    }
+
+    .cCarousel-item {
+        width: 250px;
+        height: 250px;
     }
 
     .anchor-footer:nth-child(-n + 3) {
