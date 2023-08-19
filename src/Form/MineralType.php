@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -25,28 +26,33 @@ class MineralType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Mineral Name',
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control' 
                 ]
             ])
             ->add('formula', TextType::class, [
                 'label' => 'Formula',
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control' 
                 ]
             ])
             ->add('crystal_system', TextType::class, [
                 'label' => 'Crystal System',
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control' 
                 ]
             ])
             ->add('density', NumberType::class, [
-                'scale' => 2
+                'scale' => 2,
+                'required' => false
             ])
             ->add('hardness', IntegerType::class, [
                 'label' => 'Hardness Scale',
                 'empty_data' => 1,
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control',
                     'min' => 1, 'max' => 100
@@ -54,19 +60,22 @@ class MineralType extends AbstractType
             ])
             ->add('fracture', TextType::class, [
                 'label' => 'Fracture',
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control' 
                 ]
             ])
             ->add('streak', TextType::class, [
                 'label' => 'Streak',
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control' 
                 ]
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'name'
+                'choice_label' => 'name',
+                'required' => false
             ])
             ->add('colors', EntityType::class, [
                 'class' => Color::class,
@@ -77,6 +86,7 @@ class MineralType extends AbstractType
                 'expanded'  => false,
                 'multiple'  => true,
                 'by_reference' => false,
+                'required' => false,
                 'attr' => [
                     'class' => 'form-select'
                 ]
@@ -87,9 +97,13 @@ class MineralType extends AbstractType
                 {
                     return $allChoices->getType();
                 },
-                'expanded'  => true,
+                'expanded'  => false,
                 'multiple'  => true,
-                'by_reference' => false
+                'by_reference' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-select'
+                ]
             ])
             ->add('images', FileType::class, [
                 'label' => false,
@@ -98,8 +112,12 @@ class MineralType extends AbstractType
                 'required' => false,
                 'constraints' => [
                 new All ([
-                    new File([
+                    new Image ([
                         'maxSize' => '5000k',
+                        "maxSizeMessage" => 'The size of this image is too big, 
+                        the maximum size autorized is {{ limit }} {{ suffix }}'
+                    ]),
+                    new File([
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/jpg',
