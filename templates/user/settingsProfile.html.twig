@@ -11,23 +11,29 @@
 
         <h1>User Settings</h1>
     <div class="formulaire-wrapper">
-    <p>Change the email adress:</p>
-    <p>{{ form_start(form1name) }}
-    <div class="formulaire">  
-    {{ form_row(form1name.email) }}
-    {{ form_row(form1name.confirmEmail) }}
-    {{ form_row(form1name.valider) }}
-    {{ form_end(form1name) }}</p>
+        <p>Change the email adress:</p>
+        <p>{{ form_start(form1name) }}
+        {{ form_row(form1name.email) }}
+        {{ form_row(form1name.confirmEmail) }}
+        {{ form_row(form1name.valider) }}
+        {{ form_end(form1name) }}</p>
+    </div>
 
+    <div class="formulaire-wrapper">
+        <p>{{ form_start(form2name) }}
+        {{ form_row(form2name.plainPassword) }}
+        {{ form_row(form2name.newPassword, {
+            label: 'New Password'
+        }) }}
+        {{ form_row(form2name.valider) }}
+        {{ form_end(form2name) }}</p>
+    </div>
 
-    <p>{{ form_start(form2name) }}
-    {{ form_row(form2name.plainPassword) }}
-    {{ form_row(form2name.newPassword, {
-        label: 'New Password'
-    }) }}
-    </div> 
-    {{ form_row(form2name.valider) }}
-    {{ form_end(form2name) }}</p>
+    <div class="formulaire-wrapper">
+        {{ form_start(form3name) }}
+        {{ form_row(form3name.username) }}
+        {{ form_row(form3name.send) }}
+        {{ form_end(form3name) }}
     </div>
 
 {% endblock %}
