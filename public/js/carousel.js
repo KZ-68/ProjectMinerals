@@ -34,10 +34,10 @@ next.addEventListener("click", () => {
   }
 });
 
-const mediaQuery510 = window.matchMedia("(max-width: 510px)");
+const mediaQuery375 = window.matchMedia("(max-width: 375px)");
 const mediaQuery770 = window.matchMedia("(max-width: 770px)");
 
-mediaQuery510.addEventListener("change", mediaManagement);
+mediaQuery375.addEventListener("change", mediaManagement);
 mediaQuery770.addEventListener("change", mediaManagement);
 
 let oldViewportWidth = window.innerWidth;
