@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Form\UserEmailType;
 use App\Service\FileUploader;
 use App\Form\UserPasswordType;
+use App\Form\UserUsernameType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,8 +65,8 @@ class UserController extends AbstractController
 
         // Création des deux formulaires séparés
         $form1name = $this->createForm(UserEmailType::class, $user);
-
         $form2name = $this->createForm(UserPasswordType::class, $user);
+        $form3name = $this->createForm(UserUsernameType::class, $user);
 
         // Si la requête est bien une méthode POST: 
         if ($request->isMethod('POST')) {
@@ -124,7 +125,7 @@ class UserController extends AbstractController
                         $entityManager->persist($user);
                         // On envoie les données en bdd
                         $entityManager->flush();
-                        
+
                         $this->addFlash(
                             'success', 
                             'The password has been modified with success !'
@@ -147,11 +148,23 @@ class UserController extends AbstractController
                     
                 
             }
-            
+
+            $form3name->handleRequest($request);
+            if ($form3name->isSubmitted() && $form3name->isValid()) {
+                $oldUsername = $user->getUsername();
+                $newUsername = $form3name->get('username')->getData();
+
+                if ($oldUsername != $newUsername) {
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+                }
+            }
+
         }
         return $this->render('user/settingsProfile.html.twig', [
             'form1name' => $form1name,
-            'form2name' => $form2name
+            'form2name' => $form2name,
+            'form3name' => $form3name
         ]);
     }
 }
