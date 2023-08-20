@@ -4,9 +4,10 @@
 
 {% block body %}
 
-<a href="{{ path('settings_profile', {'id': app.user.id}) }}">User Settings</a>
-
-<a href="{{ path('app_message') }}">Message Box</a>
+<nav class="profile-nav">
+        <a class="anchor-btn" href="{{ path('settings_profile', {'id': app.user.id}) }}">User Settings</a>
+        <a class="anchor-btn" href="{{ path('app_message') }}">Message Box</a>
+</nav>
 
     <h1>Profile Details</h1>
 
