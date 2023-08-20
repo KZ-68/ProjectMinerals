@@ -7,6 +7,7 @@
 body {
     background: #22577A;
     min-height: 100dvh;
+    font-family: 'Noto Sans','lucida sans unicode','lucida grande', tahoma
 }
 
 h1 {
@@ -66,6 +67,7 @@ li {
 table {
     table-layout: fixed;
     width: 100%;
+    border-collapse: collapse;
   }
   
 thead th:nth-child(1) {
@@ -99,6 +101,10 @@ text-align: center;
 
 tfoot th {
 text-align: right;
+}
+
+thead th {
+  border: 3px solid ;
 }
 
 .form-control {
@@ -202,6 +208,10 @@ header {
     font-size: 20px;
 }
 
+.link-right[href="/logout"] {
+    text-decoration: underline;
+}
+
 #nav-right {
     display: flex;
     flex-direction: row;
@@ -269,10 +279,10 @@ header {
     display: flex;
     align-items: center;
     position: absolute;
-    top: 725px;
-    left: 800px;
-    border: 1px solid;
-    border-radius: 15px 15px 15px 15px;
+    top: 790px;
+    left: 790px;
+    border: 2px solid #38A3A5;
+    border-radius: 18px 18px 18px 18px;
 }
 
 .accordion {
@@ -280,7 +290,7 @@ header {
     color: #444;
     cursor: pointer;
     padding: 18px;
-    width: 146px;
+    width: 166px;
     border: none;
     outline: none;
     transition: 0.4s;
@@ -313,7 +323,7 @@ header {
 #minerals-logo {
     position: absolute;
     left: 40%;
-    top: 32%;
+    top: 41%;
     z-index: 1;
 }
 
@@ -323,7 +333,7 @@ header {
     color: white;
     font-size: 50px;
     left: 42%;
-    top: 21%;
+    top: 28%;
     background: none;
     padding: 0;
 }
@@ -443,7 +453,6 @@ div.advanced-search-bar {
 
 #advanced_search_varieties, #advanced_search_colors, #advanced_search_lustres {
     height: 65px;
-    margin: 0px 10px;
     border-radius: 5px;
     width: 100%;
 }
@@ -625,6 +634,27 @@ div.advanced-search-bar {
     object-fit: cover;
     min-height: 246px;
     color: #38A3A5;
+}
+
+.profile-nav {
+    margin: 20px 15px;
+    display: flex;
+    gap: 20px;
+}
+
+.anchor-btn {
+    color: #444;
+    cursor: pointer;
+    padding: 10px;
+    border: 2px solid #38A3A5;
+    border-radius: 10px;
+    font-size: 19px;
+    text-align: center;
+    background: linear-gradient(359deg, #57CC99, #80ED99, #57CC99);
+}
+
+.anchor-btn:active {
+    background: #57CC99;
 }
 
 .profile-wrapper {
@@ -935,8 +965,15 @@ aside.aside-wrapper {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 180px;
+    width: 200px;
     align-items: center;
+}
+
+button#contact_validate {
+    margin: 0px 0px 0px 15px;
+    border-radius: 5px;
+    padding: 4px 10px;
+    background: linear-gradient(0deg, #57CC99, #38A3A5, #57CC99);
 }
 
 footer {
