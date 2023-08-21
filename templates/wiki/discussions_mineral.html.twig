@@ -67,6 +67,14 @@
                         <div class="discussion-textarea">
                             <p>{{comment.content | sanitize_html}}</p>
                             <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
+                            {% if is_granted('ROLE_USER') and app.user == comment.user or is_granted('ROLE_MODERATOR') %}
+                                <form action="{{ path('delete_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}" method="post">
+                                    <button class="delete-btn">Delete this comment</button>
+                                </form>
+                            {% else %}
+                                
+                            {% endif %}
+                            
                         </div>
                     </div>
                 {% endif %}
