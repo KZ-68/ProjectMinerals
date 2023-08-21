@@ -24,7 +24,7 @@
                 </div>
             </hgroup>
             <div class="discussion-textarea">
-                <p>{{discussion.content}}</p>
+                <p>{{discussion.content | sanitize_html}}</p>
                 <a class="answer-link" href="{{ path('new_comment', {'slug': mineral.slug, 'id': discussion.id}) }}">Made a comment</a>
             </div>
         </div>
@@ -40,14 +40,14 @@
                             <h2>Re : {{comment.discussion.subject}}</h2>
                             <h3>Response to comment {{comment.parent.id}} #</h3>
                             <div class="discussion-profile">
-                                <figure id="comment-avatar-header">
+                                <figure id="response-avatar-header">
                                     <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
                                 </figure>
                                 <p>{{comment.user.username}}</p>
                             </div>
                         </hgroup>
                         <div class="discussion-textarea">
-                            <p>{{comment.content}}</p>
+                            <p>{{comment.content | sanitize_html}}</p>
                             <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
                         </div>
                        
@@ -65,7 +65,7 @@
                             </div>
                         </hgroup>
                         <div class="discussion-textarea">
-                            <p>{{comment.content}}</p>
+                            <p>{{comment.content | sanitize_html}}</p>
                             <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
                         </div>
                     </div>
