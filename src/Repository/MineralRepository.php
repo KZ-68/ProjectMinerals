@@ -46,9 +46,7 @@ class MineralRepository extends ServiceEntityRepository
         
         if(!empty($searchData->q)) {
             $data = $data
-                ->innerJoin('m.category', 'c', 'WITH', 'c.id = m.category')  
                 ->where('m.name LIKE :q')
-                ->orWhere('c.name LIKE :q')
                 ->setParameter('q', "%{$searchData->q}%");
         }
         $data = $data 
