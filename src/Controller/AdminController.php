@@ -20,6 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 #[IsGranted('ROLE_ADMIN')]
 #[Route('/admin', name: 'app_admin_')]
@@ -83,8 +84,17 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/color/{slug}/delete', name: 'delete_color')]
-    public function deleteColor(Color $color, EntityManagerInterface $entityManager) {
+    #[Route('/color/{id}/delete', name: 'delete_color', methods: ['POST'])]
+    public function deleteColor(Color $color, EntityManagerInterface $entityManager, Request $request): Response {
+
+        if (
+            !$this->isCsrfTokenValid(
+                'delete' . $color->getId(),
+                $request->request->get('_token')
+        )) {
+            throw new BadRequestHttpException();
+        }
+
         // Prépare la suppression d'une instance de l'objet 
         $entityManager->remove($color);
         // Exécute la suppression
@@ -234,8 +244,18 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin_user');
     }
 
-    #[Route('/user/{id}/delete', name: 'delete_user')]
-    public function deleteUser(User $user, EntityManagerInterface $entityManager) {
+    #[Route('/user/{id}/delete', name: 'delete_user', methods: ['POST'])]
+    public function deleteUser(User $user, EntityManagerInterface $entityManager, Request $request): Response {
+
+        // Vérifie si le jeton CSRF est valide
+        if (
+            !$this->isCsrfTokenValid(
+                'delete' . $user->getId(),
+                $request->request->get('_token')
+        )) {
+            throw new BadRequestHttpException();
+        }
+
         // Prépare la suppression d'une instance de l'objet 
         $entityManager->remove($user);
         // Exécute la suppression
