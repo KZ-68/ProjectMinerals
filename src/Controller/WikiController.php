@@ -373,4 +373,13 @@ class WikiController extends AbstractController
             'lustre' => $lustre
         ]);
     }
+
+    #[Route('/wiki/image', name: 'app_image')]
+    #[IsGranted('PUBLIC_ACCESS')]
+    public function imageslist(ImageRepository $imageRepository, Request $request): Response
+    {
+        return $this->render('wiki/images_list.html.twig', [
+            'images' => $imageRepository->findPaginateImages($request->query->getInt('page', 1))
+        ]);
+    }
 }
