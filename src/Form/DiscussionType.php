@@ -3,12 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Discussion;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class DiscussionType extends AbstractType
 {
@@ -20,7 +20,7 @@ class DiscussionType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('content', TextareaType::class, [
+            ->add('content', CKEditorType::class, [
                 'attr' => [
                     'class' => 'form-textarea'
                 ]
@@ -37,6 +37,7 @@ class DiscussionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Discussion::class,
+            'sanitize_html' => true
         ]);
     }
 }
