@@ -19,6 +19,7 @@ use App\Form\MineralColorType;
 use Doctrine\ORM\EntityManager;
 use App\Form\RespondCommentType;
 use App\Repository\ImageRepository;
+use App\Repository\CommentRepository;
 use App\Repository\MineralRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\DiscussionRepository;
@@ -142,6 +143,29 @@ class WikiController extends AbstractController
         return $this->render('wiki/_respond_comment.html.twig', [
             'form' => $form
         ]);
+    }
+
+    #[Route('/wiki/mineral/{slug}/discussions/{id}/comment/{comment}/delete', name:'delete_comment', methods:['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function deleteComment(Discussion $discussion, Comment $comment, EntityManagerInterface $entityManager): Response {
+
+        $user = $this->getUser();
+
+        if ($user && $user === $comment->getUser()) {
+            // Prépare la suppression d'une instance de l'objet 
+            $entityManager->remove($comment);
+            // Exécute la suppression
+            $entityManager->flush();
+            return $this->redirectToRoute(
+                'discussions_mineral',
+                [
+                'slug' => $discussion->getMineral()->getSlug(), 
+                'id' => $comment->getDiscussion()->getId(),
+                'comment' => $comment->getId()
+                ]
+            );
+        }
+
     }
 
     #[Route('/wiki/mineral/{slug}/discussions', name: 'discussions_mineral')]
