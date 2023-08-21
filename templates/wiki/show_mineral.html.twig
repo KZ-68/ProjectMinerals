@@ -14,15 +14,23 @@
     {% if mineral.category | length > 0 %}
         <a href="{{ path('show_category', {'slug': mineral.category.slug}) }}">{{mineral.category.name}}</a>
     {% else %}
-        <i>Information manquante</i>
+        <i>Missing information</i>
     {% endif %}
 </h1>
 
+{% if image | length > 0 %}
+    <figure id="mineral-figure">
+        {% for image in image %}
+        <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Top Image Mineral">
+        {% endfor %}
+    </figure>
+{% else %}
 <figure id="mineral-figure">
-    {% for image in image %}
-    <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Top Image Mineral">
-    {% endfor %}
+    <p>There's no image available</p>
 </figure>
+{% endif %}
+
+
 
 <section class="section-wiki">
     <h2>Table of Content</h2>

@@ -6,6 +6,7 @@
 
 <h1>Images List</h1>
 
+{% if images | length > 0 %}
 <div class="images-list-wrapper">
     <div>
         <ul>
@@ -19,9 +20,12 @@
         </ul>
     </div>
 </div>
+{% else %}
+<p>There's no image uploaded yet</p>
+{% endif %}
 
 <nav>
     {{knp_pagination_render(images)}}
- </nav>
+</nav>
 
 {% endblock %}
