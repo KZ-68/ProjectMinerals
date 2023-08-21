@@ -25,18 +25,19 @@
             </div>
         </div>
         
-        <div>
-            <div><p>Username: {{app.user.username}}</p></div>
+        <div id="profile-description">
+            <div><p>Username:</p></div>
+            <div><p class="username-info">{{app.user.username}}</p></div>
             <div><p>Role :</p></div>
             <div>
                 {% if is_granted('ROLE_ADMIN') %} 
-                <p>Administrator</p>
+                <p class="role-info">Administrator</p>
                 {% else %}
-                <p>User</p>
+                <p class="role-info">User</p>
                 {% endif %}
             </div>
             <div><p>Email Adress :</p></div>
-            <div><p>{{app.user.email}}</p></div>
+            <div><p id="email-info">{{app.user.email}}</p></div>
         </div>
     </div>
 {% endblock %}
