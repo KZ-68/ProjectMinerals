@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Image;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Image>
@@ -16,7 +18,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ImageRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry, 
+        private PaginatorInterface $paginatorInterface 
+        )
     {
         parent::__construct($registry, Image::class);
     }
@@ -46,6 +51,17 @@ class ImageRepository extends ServiceEntityRepository
             ->setParameter(':id', $mineral);
         return $sub->getQuery()->getResult();
 
+    }
+
+    public function	findPaginateImages(int $page): PaginationInterface {	
+        
+        $data = $this->createQueryBuilder('i')	
+      	    ->orderBy('i.filename', 'ASC')	
+      	    ->getQuery()
+            ->getResult();	
+
+            $images = $this->paginatorInterface->paginate($data, $page, 12);
+            return $images;
     }
 
 //    /**
