@@ -37,12 +37,18 @@ class Comment
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(targetEntity: self::class)]
-    private ?self $parent = null;
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'parent')]
+    #[ORM\JoinColumn(nullable: true)]
+    private Collection $children;
+
+    #[ORM\ManyToOne(targetEntity: Comment::class, inversedBy: 'children')]
+    #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id')]
+    private Comment|null $parent = null;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->children = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -113,6 +119,40 @@ class Comment
     public function getDateTime()
     {
         return $this->createdAt->format("d/m/Y H:i:s")."";
+    }
+
+    public function getChildren(): ?Collection
+    {
+        return $this->children;
+    }
+
+    public function setChildren(?Comment $children): static
+    {
+        $this->children = $children;
+
+        return $this;
+    }
+
+    public function addChild(Comment $child): static
+    {
+        if (!$this->children->contains($child)) {
+            $this->children->add($child);
+            $child->setChildren($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(Comment $child): static
+    {
+        if ($this->children->removeElement($child)) {
+            // set the owning side to null (unless already changed)
+            if ($child->getChildren() === $this) {
+                $child->setChildren(null);
+            }
+        }
+
+        return $this;
     }
 
 }
