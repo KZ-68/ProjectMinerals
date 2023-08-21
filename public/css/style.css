@@ -267,7 +267,7 @@ header {
 }
 
 .sidenav {
-    height: 299px;
+    height: 392px;
     width: 167px;
     position: fixed;
     z-index: 2;
@@ -278,6 +278,17 @@ header {
     transition: right 0.5s ease;
     border-radius: 5px;
     display: none;
+}
+
+.sidenav p {
+    font-size: 18px;
+}
+
+.sidenav .close {
+    position: absolute;
+    top: -5px;
+    left: 9px;
+    font-size: 30px;
 }
 
 #openBtn {
@@ -588,12 +599,15 @@ div.advanced-search-bar {
 }
 
 #mineral-figure {
+    display: flex;
     margin: 55px 20px;
     width: 354px;
     height: 304px;
     border: 2px solid #38A3A5;
     border-radius: 10px;
     overflow: hidden;
+    justify-content: center;
+    align-items: center;
 }
 
 #cCarousel {
@@ -744,11 +758,18 @@ div.advanced-search-bar {
     display: flex;
     flex-direction: column;
     border-right: 2px solid #38A3A5;
-    padding: 0px 20px;
+    padding: 15px 20px;
 }
 
 .message-menu-title {
     width: 100%;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .list-group {
@@ -762,7 +783,7 @@ div.advanced-search-bar {
     border: 1px solid #80ED99;
     border-radius: 15px;
     padding: 0px 20px 30px 20px;
-    margin: 20px 0px;
+    margin: 40px 0px;
     width: 575px;
     background: #38A3A5;
 }
@@ -1106,20 +1127,13 @@ small {
     }
 
     .sidenav {
-        height: 397px;
+        height: 512px;
         width: 226px;
         display: block;
     }
 
     .sidenav.active {
         right: 0px;
-    }
-      
-    .sidenav .close {
-        position: absolute;
-        top: -5px;
-        left: 9px;
-        font-size: 36px;
     }
     
     .burger-icon span {
@@ -1251,8 +1265,8 @@ small {
     .sidenav ul {
         display: flex;
         list-style-type: none;
-        padding: 0;
-        margin: 0;
+        padding: 0px;
+        margin: 10px 0px;
         flex-direction: column;
         gap: 10px;
     }
@@ -1273,13 +1287,6 @@ small {
 
     .sidenav.active {
         right: 0px;
-    }
-      
-    .sidenav .close {
-        position: absolute;
-        top: -5px;
-        left: 9px;
-        font-size: 36px;
     }
     
     .burger-icon span {
