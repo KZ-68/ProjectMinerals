@@ -20,10 +20,9 @@ class Discussion
     #[ORM\Column(length: 100)]
     private ?string $subject = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\Length(min: 2)]
     #[Assert\NotBlank()]
-    #[Assert\NotNull()]
     private ?string $content = null;
 
     #[ORM\Column]
@@ -41,7 +40,7 @@ class Discussion
     private Collection $comments;
 
     #[ORM\Column]
-    private ?bool $isApproved = false;
+    private ?bool $isRemovedByModerator = false;
 
     public function __construct()
     {
@@ -144,14 +143,14 @@ class Discussion
         return $this;
     }
 
-    public function isIsApproved(): ?bool
+    public function isIsRemovedByModerator(): ?bool
     {
-        return $this->isApproved;
+        return $this->isRemovedByModerator;
     }
 
-    public function setIsApproved(bool $isApproved): static
+    public function setIsRemovedByModerator(bool $isRemovedByModerator): static
     {
-        $this->isApproved = $isApproved;
+        $this->isRemovedByModerator = $isRemovedByModerator;
 
         return $this;
     }
