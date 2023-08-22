@@ -21,11 +21,11 @@
         <div class="row">
             <div class="message-resume">
                 <h1>Messagerie</h1>
-                <p>Résumé de la messagerie</p>
-                <p>Reçus : {{ app.user.received|length}}</p>
-                <p>Envoyés : {{app.user.sent|length}} </p>
+                <p>Message summary</p>
+                <p>Received : {{ app.user.received|length}}</p>
+                <p>Sent : {{app.user.sent|length}} </p>
                 <a href="{{ path('send_message', {'id': app.user.id})}}" class="btn btn-primary" role="button" aria-controls="offcanvasExample">
-                    Envoyer un message
+                    Sending a message
                 </a>
             </div>
         </div>
