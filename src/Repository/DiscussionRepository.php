@@ -21,6 +21,17 @@ class DiscussionRepository extends ServiceEntityRepository
         parent::__construct($registry, Discussion::class);
     }
 
+    public function removeDiscussion(int $discussion) {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+        $query = $sub->update('App\Entity\Discussion', 'd')
+                    ->set('d.content', 'NULL')
+                    ->where('d.id = :id')
+                    ->setParameter('id', $discussion)
+                    ->getQuery();
+        $query->execute();
+    }
+
 //    /**
 //     * @return Discussion[] Returns an array of Discussion objects
 //     */
