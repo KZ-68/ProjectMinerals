@@ -9,6 +9,7 @@ use App\Entity\Comment;
 use App\Entity\Mineral;
 use App\Entity\Variety;
 use App\Entity\Category;
+use App\Form\LustreType;
 use App\Form\CommentType;
 use App\Form\MineralType;
 use App\Form\VarietyType;
@@ -145,26 +146,61 @@ class WikiController extends AbstractController
         ]);
     }
 
+    #[Route('/wiki/mineral/{slug}/discussions/{id}/delete', name:'delete_discussion', methods:['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function deleteDiscussion(Discussion $discussion, DiscussionRepository $discussionRepository, EntityManagerInterface $entityManager): Response {
+
+        $currentUser = $this->getUser();
+        
+        if ($discussion->getUser() === $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
+            $removeDiscussion = $discussionRepository->removeDiscussion($discussion->getId());
+        } else if ($discussion->getUser() !== $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
+            $removeDiscussion = $discussionRepository->removeDiscussion($discussion->getId());
+            $discussion->setIsRemovedByModerator(true);
+            $entityManager->persist($discussion);
+            $entityManager->flush();
+        }
+
+        if ($currentUser && $currentUser === $discussion->getUser()) {
+            $removeDiscussion = $discussionRepository->removeDiscussion($discussion->getId());
+        }
+
+        return $this->redirectToRoute(
+            'discussions_mineral',
+            [
+            'slug' => $discussion->getMineral()->getSlug(), 
+            'id' => $discussion->getId(),
+            ]
+        );
+    }
+
     #[Route('/wiki/mineral/{slug}/discussions/{id}/comment/{comment}/delete', name:'delete_comment', methods:['POST'])]
     #[IsGranted('ROLE_USER')]
-    public function deleteComment(Discussion $discussion, Comment $comment, EntityManagerInterface $entityManager): Response {
+    public function deleteComment(Discussion $discussion, Comment $comment, CommentRepository $commentRepository, EntityManagerInterface $entityManager): Response {
 
-        $user = $this->getUser();
+        $currentUser = $this->getUser();
 
-        if ($user && $user === $comment->getUser()) {
-            // Prépare la suppression d'une instance de l'objet 
-            $entityManager->remove($comment);
-            // Exécute la suppression
+        if ($comment->getUser() === $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
+            $removeComment = $commentRepository->removeComment($comment->getId());
+        } else if ($comment->getUser() !== $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
+            $removeComment = $commentRepository->removeComment($comment->getId());
+            $comment->setIsRemovedByModerator(true);
+            $entityManager->persist($comment);
             $entityManager->flush();
-            return $this->redirectToRoute(
-                'discussions_mineral',
-                [
-                'slug' => $discussion->getMineral()->getSlug(), 
-                'id' => $comment->getDiscussion()->getId(),
-                'comment' => $comment->getId()
-                ]
-            );
         }
+
+        if ($currentUser && $currentUser === $comment->getUser()) {
+            $removeComment = $commentRepository->removeComment($comment->getId());
+        }
+
+        return $this->redirectToRoute(
+            'discussions_mineral',
+            [
+            'slug' => $discussion->getMineral()->getSlug(), 
+            'id' => $comment->getDiscussion()->getId(),
+            'comment' => $comment->getId()
+            ]
+        );
 
     }
 
