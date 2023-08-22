@@ -21,6 +21,17 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+    public function removeComment(int $comment) {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+        $query = $sub->update('App\Entity\Comment', 'c')
+                    ->set('c.content', 'NULL')
+                    ->where('c.id = :id')
+                    ->setParameter('id', $comment)
+                    ->getQuery();
+        $query->execute();
+    }
+
 //    /**
 //     * @return Comment[] Returns an array of Comment objects
 //     */
