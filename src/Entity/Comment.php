@@ -20,10 +20,9 @@ class Comment
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\Length(min: 2)]
     #[Assert\NotBlank()]
-    #[Assert\NotNull()]
     private ?string $content = null;
 
     #[ORM\Column]
@@ -44,6 +43,9 @@ class Comment
     #[ORM\ManyToOne(targetEntity: Comment::class, inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id')]
     private Comment|null $parent = null;
+
+    #[ORM\Column]
+    private ?bool $isRemovedByModerator = false;
 
     public function __construct()
     {
@@ -151,6 +153,18 @@ class Comment
                 $child->setChildren(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsRemovedByModerator(): ?bool
+    {
+        return $this->isRemovedByModerator;
+    }
+
+    public function setIsRemovedByModerator(bool $isRemovedByModerator): static
+    {
+        $this->isRemovedByModerator = $isRemovedByModerator;
 
         return $this;
     }
