@@ -11,79 +11,121 @@
 <h1>Discussions Board for {{ mineral.name }}</h1>
 
 {% if mineral.discussions | length > 0 %}
-    {% for discussion in mineral.discussions %}
-        <div class="discussion-card">
-            <hgroup class="discussion-subject">
-                <time datetime="{{discussion.getDateTime}}">{{discussion.getDateTime}}</time>
-                <h2>{{discussion.subject}}</h2>
-                <div class="discussion-profile">
-                    <figure id="discussion-avatar-header">
-                        <img id="avatar-header" src="{{asset('uploads/images/' ~ discussion.user.avatar)}}">
-                    </figure>
-                    <p>{{discussion.user.username}}</p>
-                </div>
-            </hgroup>
-            <div class="discussion-textarea">
-                <p>{{discussion.content | sanitize_html}}</p>
-                <a class="answer-link" href="{{ path('new_comment', {'slug': mineral.slug, 'id': discussion.id}) }}">Made a comment</a>
-            </div>
-        </div>
-        
-
-        {% if discussion.comments | length > 0 %}
-            {% for comment in discussion.comments %}
-                {% if comment.parent | length > 0 %}
-                    
-                    <div class="response-comment-card" id="comment-{{ comment.id }}">
-                        <hgroup class="response-comment-subject">
-                            <time datetime="{{comment.getDateTime}}">{{comment.getDateTime}}</time>
-                            <h2>Re : {{comment.discussion.subject}}</h2>
-                            <h3>Response to comment {{comment.parent.id}} #</h3>
-                            <div class="discussion-profile">
-                                <figure id="response-avatar-header">
-                                    <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
-                                </figure>
-                                <p>{{comment.user.username}}</p>
-                            </div>
-                        </hgroup>
-                        <div class="discussion-textarea">
-                            <p>{{comment.content | sanitize_html}}</p>
-                            <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
-                        </div>
-                       
+    {% for discussion in mineral.discussions %}     
+            <div class="discussion-card">
+                <hgroup class="discussion-subject">
+                    <time datetime="{{discussion.getDateTime}}">{{discussion.getDateTime}}</time>
+                    <h2>{{discussion.subject}}</h2>
+                    <div class="discussion-profile">
+                        <figure id="discussion-avatar-header">
+                            <img id="avatar-header" src="{{asset('uploads/images/' ~ discussion.user.avatar)}}">
+                        </figure>
+                        <p>{{discussion.user.username}}</p>
+                    </div>
+                </hgroup>
+                {% if discussion.content == NULL and discussion.isRemovedByModerator == true %}
+                    <div class="discussion-textarea">
+                        <p>Discussion deleted by a moderator</p>
+                    </div>
+                {% elseif discussion.content == NULL and discussion.isRemovedByModerator == false %}
+                    <div class="discussion-textarea">
+                        <p>Discussion deleted by the user</p>
                     </div>
                 {% else %}
-                    <div class="comment-card" id="comment-{{ comment.id }}">
-                        <hgroup class="comment-subject">
-                            <time datetime="{{comment.getDateTime}}">{{comment.getDateTime}}</time>
-                            <h2>Re : {{comment.discussion.subject}}</h2>
-                            <div class="discussion-profile">
-                                <figure id="comment-avatar-header">
-                                    <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
-                                </figure>
-                                <p>{{comment.user.username}}</p>
-                            </div>
-                        </hgroup>
-                        <div class="discussion-textarea">
-                            <p>{{comment.content | sanitize_html}}</p>
-                            <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
-                            {% if is_granted('ROLE_USER') and app.user == comment.user or is_granted('ROLE_MODERATOR') %}
-                                <form action="{{ path('delete_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}" method="post">
-                                    <button class="delete-btn">Delete this comment</button>
-                                </form>
-                            {% else %}
-                                
-                            {% endif %}
-                            
-                        </div>
+                    <div class="discussion-textarea">
+                        <p>{{discussion.content | sanitize_html}}</p>
+                        <a class="answer-link" href="{{ path('new_comment', {'slug': mineral.slug, 'id': discussion.id}) }}">Made a comment</a>
+                        {% if is_granted('ROLE_USER') and app.user == discussion.user or is_granted('ROLE_MODERATOR') %}
+                        <form action="{{ path('delete_discussion', {'slug': mineral.slug, 'id': discussion.id}) }}" method="post">
+                            <button class="delete-btn">Delete this discussion</button>
+                        </form>
+                        {% else %}
+                        {% endif %}
                     </div>
                 {% endif %}
+            </div>
+            
+            {% if discussion.comments | length > 0 %}
+                {% for comment in discussion.comments %}
+                    {% if comment.parent | length > 0 %}
+                        
+                        <div class="response-comment-card" id="comment-{{ comment.id }}">
+                            <hgroup class="response-comment-subject">
+                                <time datetime="{{comment.getDateTime}}">{{comment.getDateTime}}</time>
+                                <h2>Re : {{comment.discussion.subject}}</h2>
+                                <h3>Response to comment {{comment.parent.id}} #</h3>
+                                <div class="discussion-profile">
+                                    <figure id="response-avatar-header">
+                                        <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
+                                    </figure>
+                                    <p>{{comment.user.username}}</p>
+                                </div>
+                            </hgroup>
+                            {% if comment.content == NULL and comment.isRemovedByModerator == true %}
+                                <div class="discussion-textarea">
+                                    <p>Comment deleted by a moderator</p>
+                                </div>
+                            {% elseif comment.content == NULL and comment.isRemovedByModerator == false %}
+                                <div class="discussion-textarea">
+                                    <p>Comment deleted by the user</p>
+                                </div>
+                            {% else %}
+                            <div class="discussion-textarea">
+                                <p>{{comment.content | sanitize_html}}</p>
+                                <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
+                                {% if is_granted('ROLE_USER') and app.user == comment.user or is_granted('ROLE_MODERATOR') %}
+                                    <form action="{{ path('delete_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}" method="post">
+                                        <button class="delete-btn">Delete this comment</button>
+                                    </form>
+                                {% else %}
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
 
-            {% endfor %}
-        {% else %}
+                    {% else %}
+                        <div class="comment-card" id="comment-{{ comment.id }}">
+                            <hgroup class="comment-subject">
+                                <time datetime="{{comment.getDateTime}}">{{comment.getDateTime}}</time>
+                                <h2>Re : {{comment.discussion.subject}}</h2>
+                                <div class="discussion-profile">
+                                    <figure id="comment-avatar-header">
+                                        <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
+                                    </figure>
+                                    <p>{{comment.user.username}}</p>
+                                </div>
+                            </hgroup>
+                            {% if comment.content == NULL and comment.isRemovedByModerator == true %}
+                                <div class="discussion-textarea">
+                                    <p>Comment deleted by a moderator</p>
+                                </div>
+                            {% elseif comment.content == NULL and comment.isRemovedByModerator == false %}
+                                <div class="discussion-textarea">
+                                    <p>Comment deleted by the user</p>
+                                </div>
+                            {% else %}
+                                <div class="discussion-textarea">
+                                    <p>{{comment.content | sanitize_html}}</p>
+                                    <div class="comment-actions">
+                                        <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
+                                        {% if is_granted('ROLE_USER') and app.user == comment.user or is_granted('ROLE_MODERATOR') %}
+                                            <form action="{{ path('delete_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}" method="post">
+                                                <button class="delete-btn">Delete this comment</button>
+                                            </form>
+                                        {% else %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+            
+            {% endif %}
         
-        {% endif %}
-
     {% endfor %}
 
 {% else %}
