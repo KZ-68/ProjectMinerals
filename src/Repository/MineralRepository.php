@@ -60,12 +60,16 @@ class MineralRepository extends ServiceEntityRepository
 
     public function findByAvancedSearch(AdvancedSearchData $advancedSearchData): PaginationInterface {
         $data = $this
+            // Select de l'objet Mineral avec l'alias m
             ->createQueryBuilder('m');
-            
-
+            // Si l'un des champs de données recherché n'est pas vide :
             if(!empty($advancedSearchData->name)) {
+                // On ajoute à la variable $data :
                 $data = $data
+                // Une chaine de caractère identique au champ existant
                 ->andWhere('m.name LIKE :name')
+                /* On met en paramètre le champ de la classe AdvancedSearchData,
+                pour par la suite préparer la requête dans le controlleur */
                 ->setParameter('name', "%{$advancedSearchData->name}%");
             }
         

@@ -34,16 +34,13 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
         // Si le formulaire est envoyé et est valide :
         if ($form->isSubmitted() && $form->isValid()) {
-            // Par chaînage, on affecte la valeur 1 de la requête à la page
+            // Par chaînage, on affecte la valeur 1 de la requête à la page du modèle
             $searchData->page = $request->query->getInt('page', 1);
             // On récupère la requête qui filtre les noms des minéraux
             $minerals = $mineralRepository->findBySearch($searchData);
-
-            // On redirige vers la liste des minéraux et on affiche un rendu
+            // On redirige vers la liste des minéraux et on affiche un rendu :
             return $this->render('wiki/index.html.twig', [
-                // De la vue du formulaire
-                'form' => $form,
-                // Et du résultat de la requête
+                // Du résultat de la requête
                 'minerals' => $minerals,
             ]);
         }
@@ -51,13 +48,13 @@ class HomeController extends AbstractController
         $form2->handleRequest($request);
         
         if ($form2->isSubmitted() && $form2->isValid()) {
-
+            // Par chaînage, on affecte la valeur 1 de la requête à la page du modèle 
             $advancedSearchData->page = $request->query->getInt('page', 1);
-
+            // On affecte la variable $minerals avec la requête
             $minerals = $mineralRepository->findByAvancedSearch($advancedSearchData);
-
+            // On redirige vers la liste des minéraux et on affiche un rendu :
             return $this->render('wiki/index.html.twig', [
-                'form' => $form2,
+                // Du résultat de la requête
                 'minerals' => $minerals,
             ]);
         }
