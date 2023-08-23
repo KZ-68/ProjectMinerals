@@ -101,6 +101,9 @@ class Mineral
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Discussion::class, orphanRemoval: true)]
     private Collection $discussions;
 
+    #[ORM\ManyToMany(targetEntity: Country::class, inversedBy: 'minerals')]
+    private Collection $countries;
+
     public function __construct()
     {
         $this->colors = new ArrayCollection();
@@ -109,6 +112,7 @@ class Mineral
         $this->createdAt = new \DateTimeImmutable();
         $this->images = new ArrayCollection();
         $this->discussions = new ArrayCollection();
+        $this->countries = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -381,6 +385,30 @@ class Mineral
                 $discussion->setMineral(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Country>
+     */
+    public function getCountries(): Collection
+    {
+        return $this->countries;
+    }
+
+    public function addCountry(Country $country): static
+    {
+        if (!$this->countries->contains($country)) {
+            $this->countries->add($country);
+        }
+
+        return $this;
+    }
+
+    public function removeCountry(Country $country): static
+    {
+        $this->countries->removeElement($country);
 
         return $this;
     }
