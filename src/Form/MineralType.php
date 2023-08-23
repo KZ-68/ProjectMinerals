@@ -133,6 +133,24 @@ class MineralType extends AbstractType
                     
             ],
             ])
+            ->add('country_name', TextType::class, [
+                'mapped' => false,
+                'attr' => [
+                    'class' => 'form-control' 
+                ]
+            ])
+            ->add('latitude', TextType::class, [
+                'mapped' => false,
+                'attr' => [
+                    'readonly' => true
+                ]
+            ])
+            ->add('longitude', TextType::class, [
+                'mapped' => false,
+                'attr' => [
+                    'readonly' => true
+                ]
+            ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-success' 
