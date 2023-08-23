@@ -6,6 +6,7 @@ use App\Entity\Color;
 use App\Entity\Image;
 use App\Entity\Lustre;
 use App\Entity\Comment;
+use App\Entity\Country;
 use App\Entity\Mineral;
 use App\Entity\Variety;
 use App\Entity\Category;
@@ -153,16 +154,16 @@ class WikiController extends AbstractController
         $currentUser = $this->getUser();
         
         if ($discussion->getUser() === $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
-            $removeDiscussion = $discussionRepository->removeDiscussion($discussion->getId());
+            $discussionRepository->removeDiscussion($discussion->getId());
         } else if ($discussion->getUser() !== $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
-            $removeDiscussion = $discussionRepository->removeDiscussion($discussion->getId());
+            $discussionRepository->removeDiscussion($discussion->getId());
             $discussion->setIsRemovedByModerator(true);
             $entityManager->persist($discussion);
             $entityManager->flush();
         }
 
         if ($currentUser && $currentUser === $discussion->getUser()) {
-            $removeDiscussion = $discussionRepository->removeDiscussion($discussion->getId());
+            $discussionRepository->removeDiscussion($discussion->getId());
         }
 
         return $this->redirectToRoute(
@@ -181,16 +182,16 @@ class WikiController extends AbstractController
         $currentUser = $this->getUser();
 
         if ($comment->getUser() === $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
-            $removeComment = $commentRepository->removeComment($comment->getId());
+            $commentRepository->removeComment($comment->getId());
         } else if ($comment->getUser() !== $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
-            $removeComment = $commentRepository->removeComment($comment->getId());
+            $commentRepository->removeComment($comment->getId());
             $comment->setIsRemovedByModerator(true);
             $entityManager->persist($comment);
             $entityManager->flush();
         }
 
         if ($currentUser && $currentUser === $comment->getUser()) {
-            $removeComment = $commentRepository->removeComment($comment->getId());
+            $commentRepository->removeComment($comment->getId());
         }
 
         return $this->redirectToRoute(
@@ -259,6 +260,7 @@ class WikiController extends AbstractController
     {
         $originalColors = new ArrayCollection();
         $originalImages = new ArrayCollection();
+        $country = new Country();
 
         // Pour chaque couleur récupérés :
         foreach ($mineral->getColors() as $color) {
@@ -276,6 +278,9 @@ class WikiController extends AbstractController
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $newImages = $editForm->get('images')->getData();
+            $name = $editForm->get('country_name')->getData();
+            $latitude = $editForm->get('latitude')->getData();
+            $longitude = $editForm->get('longitude')->getData();
 
             foreach ($originalImages as $image) {
                 if (false === $mineral->getImages()->contains($image)) {
@@ -305,7 +310,12 @@ class WikiController extends AbstractController
                     $entityManager->persist($color);
                 }
             }
-
+            $mineral->addCountry($country);
+            $country->setName($name);
+            $country->setLatitude($latitude);
+            $country->setLongitude($longitude);
+            $country->addMineral($mineral);
+            $entityManager->persist($country);
             $entityManager->persist($mineral);
             $entityManager->flush();
 
