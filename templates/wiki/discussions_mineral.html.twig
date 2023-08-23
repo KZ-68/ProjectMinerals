@@ -8,7 +8,8 @@
     <a href="{{ path('new_discussion', {'slug': mineral.slug}) }}">Launch a new discussion</a>
 </div>
 
-<h1>Discussions Board for {{ mineral.name }}</h1>
+    <h1>Discussions Board for {{ mineral.name }}</h1>
+    <hr>
 
 {% if mineral.discussions | length > 0 %}
     {% for discussion in mineral.discussions %}     
