@@ -10,13 +10,17 @@
         <a href="{{path('discussions_mineral', {'slug': mineral.slug})}}">Discussions</a>
 </div>
 
-<h1>{{mineral.name}}<br/>
+<div class="mineral-wrapper">
+<hgroup id="mineral-title">
+    <h1>{{mineral.name}}<br/></h1>
     {% if mineral.category | length > 0 %}
         <a href="{{ path('show_category', {'slug': mineral.category.slug}) }}">{{mineral.category.name}}</a>
     {% else %}
         <i>Missing information</i>
     {% endif %}
-</h1>
+</hgroup>
+
+
 
 {% if image | length > 0 %}
     <figure id="mineral-figure">
@@ -81,6 +85,7 @@
         </p>
     </div>
 </section>
+</div>
 
 <section class="section-wiki">
     <hgroup id="variety-title">
