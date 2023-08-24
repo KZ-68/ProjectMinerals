@@ -42,6 +42,9 @@ class Discussion
     #[ORM\Column]
     private ?bool $isRemovedByModerator = false;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $discussionDeleted = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -158,6 +161,18 @@ class Discussion
     public function getDateTime()
     {
         return $this->createdAt->format("d/m/Y H:i:s")."";
+    }
+
+    public function getDiscussionDeleted(): ?string
+    {
+        return $this->discussionDeleted;
+    }
+
+    public function setDiscussionDeleted(?string $discussionDeleted): static
+    {
+        $this->discussionDeleted = $discussionDeleted;
+
+        return $this;
     }
 
 }
