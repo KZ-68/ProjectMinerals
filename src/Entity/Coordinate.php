@@ -3,28 +3,22 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use App\Repository\CountryRepository;
+use App\Repository\CoordinateRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ApiResource()]
-#[ORM\Entity(repositoryClass: CountryRepository::class)]
-class Country
+#[ORM\Entity(repositoryClass: CoordinateRepository::class)]
+class Coordinate
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $name = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $addedAt = null;
-
-    #[ORM\ManyToMany(targetEntity: Mineral::class, mappedBy: 'countries')]
-    private Collection $minerals;
 
     #[ORM\Column(length: 50)]
     private ?string $latitude = null;
@@ -32,27 +26,18 @@ class Country
     #[ORM\Column(length: 50)]
     private ?string $longitude = null;
 
+    #[ORM\ManyToMany(targetEntity: Mineral::class, mappedBy: 'coordinates')]
+    private Collection $minerals;
+
     public function __construct()
     {
-        $this->minerals = new ArrayCollection();
         $this->addedAt = new \DateTimeImmutable();
+        $this->minerals = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     public function getAddedAt(): ?\DateTimeImmutable
@@ -63,33 +48,6 @@ class Country
     public function setAddedAt(\DateTimeImmutable $addedAt): static
     {
         $this->addedAt = $addedAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Mineral>
-     */
-    public function getMinerals(): Collection
-    {
-        return $this->minerals;
-    }
-
-    public function addMineral(Mineral $mineral): static
-    {
-        if (!$this->minerals->contains($mineral)) {
-            $this->minerals->add($mineral);
-            $mineral->addCountry($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMineral(Mineral $mineral): static
-    {
-        if ($this->minerals->removeElement($mineral)) {
-            $mineral->removeCountry($this);
-        }
 
         return $this;
     }
@@ -114,6 +72,33 @@ class Country
     public function setLongitude(string $longitude): static
     {
         $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Mineral>
+     */
+    public function getMinerals(): Collection
+    {
+        return $this->minerals;
+    }
+
+    public function addMineral(Mineral $mineral): static
+    {
+        if (!$this->minerals->contains($mineral)) {
+            $this->minerals->add($mineral);
+            $mineral->addCoordinate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMineral(Mineral $mineral): static
+    {
+        if ($this->minerals->removeElement($mineral)) {
+            $mineral->removeCoordinate($this);
+        }
 
         return $this;
     }

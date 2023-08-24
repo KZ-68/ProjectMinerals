@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Country;
+use App\Entity\Coordinate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Country>
+ * @extends ServiceEntityRepository<Coordinate>
  *
- * @method Country|null find($id, $lockMode = null, $lockVersion = null)
- * @method Country|null findOneBy(array $criteria, array $orderBy = null)
- * @method Country[]    findAll()
- * @method Country[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Coordinate|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Coordinate|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Coordinate[]    findAll()
+ * @method Coordinate[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CountryRepository extends ServiceEntityRepository
+class CoordinateRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Country::class);
+        parent::__construct($registry, Coordinate::class);
     }
 
 //    /**
-//     * @return Country[] Returns an array of Country objects
+//     * @return Coordinate[] Returns an array of Coordinate objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class CountryRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Country
+//    public function findOneBySomeField($value): ?Coordinate
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

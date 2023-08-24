@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
+use App\Entity\Coordinate;
 use Cocur\Slugify\Slugify;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\MineralRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -101,8 +102,8 @@ class Mineral
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Discussion::class, orphanRemoval: true)]
     private Collection $discussions;
 
-    #[ORM\ManyToMany(targetEntity: Country::class, inversedBy: 'minerals')]
-    private Collection $countries;
+    #[ORM\ManyToMany(targetEntity: Coordinate::class, inversedBy: 'minerals')]
+    private Collection $coordinates;
 
     public function __construct()
     {
@@ -112,7 +113,7 @@ class Mineral
         $this->createdAt = new \DateTimeImmutable();
         $this->images = new ArrayCollection();
         $this->discussions = new ArrayCollection();
-        $this->countries = new ArrayCollection();
+        $this->coordinates = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -390,26 +391,27 @@ class Mineral
     }
 
     /**
-     * @return Collection<int, Country>
+     * @return Collection<int, Coordinate>
      */
-    public function getCountries(): Collection
+    public function getCoordinates(): Collection
     {
-        return $this->countries;
+        return $this->coordinates;
     }
 
-    public function addCountry(Country $country): static
+    public function addCoordinate(Coordinate $coordinate): static
     {
-        if (!$this->countries->contains($country)) {
-            $this->countries->add($country);
+        if (!$this->coordinates->contains($coordinate)) {
+            $this->coordinates->add($coordinate);
         }
 
         return $this;
     }
 
-    public function removeCountry(Country $country): static
+    public function removeCoordinate(Coordinate $coordinate): static
     {
-        $this->countries->removeElement($country);
+        $this->coordinates->removeElement($coordinate);
 
         return $this;
     }
+
 }
