@@ -32,6 +32,18 @@ class DiscussionRepository extends ServiceEntityRepository
         $query->execute();
     }
 
+    public function moveDiscussionDeleted(int $discussion, string $discussionDeleted) {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+        $query = $sub->update('App\Entity\Discussion', 'd')
+                    ->set('d.discussionDeleted', ':discussionDeleted')
+                    ->where('d.id = :id')
+                    ->setParameter('discussionDeleted', $discussionDeleted)
+                    ->setParameter('id', $discussion)
+                    ->getQuery();
+        $query->execute();
+    }
+
 //    /**
 //     * @return Discussion[] Returns an array of Discussion objects
 //     */
