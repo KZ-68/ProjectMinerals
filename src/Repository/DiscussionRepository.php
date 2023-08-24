@@ -44,6 +44,19 @@ class DiscussionRepository extends ServiceEntityRepository
         $query->execute();
     }
 
+    public function restoreDiscussionsDeleted(int $discussion, string $content) {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+        $query = $sub->update('App\Entity\Discussion', 'd')
+                    ->set('d.content', ':content')
+                    ->set('d.discussionDeleted', 'NULL')
+                    ->where('d.id = :id')
+                    ->setParameter('content', $content)
+                    ->setParameter('id', $discussion)
+                    ->getQuery();
+        $query->execute();
+    }
+
 //    /**
 //     * @return Discussion[] Returns an array of Discussion objects
 //     */
