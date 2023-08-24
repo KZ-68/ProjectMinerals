@@ -22,10 +22,12 @@
             </thead>
             <tbody>
               {% for discussion in discussions %}
-                <tr>
-                  <td>{{discussion.discussionDeleted}}</td>
-                  <td><a href=""></a></td>
-                </tr>
+                {% if discussion.discussionDeleted > 0 %}
+                  <tr>
+                    <td>{{discussion.discussionDeleted}}</td>
+                    <td><a href="{{ path('app_admin_restore_discussions_deleted', {'id': discussion.id}) }}">Restore</a></td>
+                  </tr>
+                {% endif %}
               {% endfor %}
             </tbody>
           </table>    
