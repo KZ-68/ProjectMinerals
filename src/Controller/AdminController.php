@@ -7,12 +7,14 @@ use App\Entity\Color;
 use App\Entity\Lustre;
 use App\Entity\Mineral;
 use App\Entity\Category;
+use App\Entity\Discussion;
 use App\Form\AddColorType;
 use App\Form\CategoryType;
 use App\Form\AddLustreType;
 use App\Repository\UserRepository;
 use App\Repository\ColorRepository;
 use App\Repository\LustreRepository;
+use App\Repository\DiscussionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -264,4 +266,21 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin_user');
     }
 
+    #[Route('/discussionsDeleted', name: 'discussions_deleted')]
+    public function discussionsDeletedList(DiscussionRepository $discussionRepository): Response
+    {
+        $discussions = $discussionRepository->findBy([], ['discussionDeleted' => 'ASC']);
+
+        return $this->render('admin/discussion/discussions_deleted_list.html.twig', [
+            'discussions' => $discussions
+        ]);
+    }
+
+    #[Route('/discussionsDeleted/{id}/restore', name: 'restore_discussions_deleted')]
+    public function restoreDiscussionsDeleted(Discussion $discussion, DiscussionRepository $discussionRepository): Response
+    {
+        $discussionRepository->restoreDiscussionsDeleted($discussion->getId(), $discussion->getDiscussionDeleted());
+
+        return $this->redirectToRoute('app_admin_discussions_deleted');
+    }
 }
