@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Deleted Discussion List{% endblock %}
+
+{% block body %}
+
+<h1>Deleted Discussion List</h1>
+<hr>
+
+<div class="list-main">
+    <aside class="aside-wrapper">
+        {% include "_partials/_admin_nav.html.twig"%}
+    </aside>
+
+    <div class="list-wrapper">
+        <table>
+            <thead>
+              <tr>
+                <th>Discussion Content</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for discussion in discussions %}
+                <tr>
+                  <td>{{discussion.discussionDeleted}}</td>
+                  <td><a href=""></a></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>    
+    </div>
+</div>
+
+{% endblock %}
