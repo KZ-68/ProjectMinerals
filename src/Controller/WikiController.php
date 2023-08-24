@@ -6,7 +6,7 @@ use App\Entity\Color;
 use App\Entity\Image;
 use App\Entity\Lustre;
 use App\Entity\Comment;
-use App\Entity\Country;
+use App\Entity\Coordinate;
 use App\Entity\Mineral;
 use App\Entity\Variety;
 use App\Entity\Category;
@@ -156,6 +156,8 @@ class WikiController extends AbstractController
         if ($discussion->getUser() === $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
             $discussionRepository->removeDiscussion($discussion->getId());
         } else if ($discussion->getUser() !== $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
+            $discussionRepository->moveDiscussionDeleted($discussion->getId(), $discussion->getContent());
+
             $discussionRepository->removeDiscussion($discussion->getId());
             $discussion->setIsRemovedByModerator(true);
             $entityManager->persist($discussion);
@@ -260,7 +262,7 @@ class WikiController extends AbstractController
     {
         $originalColors = new ArrayCollection();
         $originalImages = new ArrayCollection();
-        $country = new Country();
+        $coordinate = new Coordinate();
 
         // Pour chaque couleur récupérés :
         foreach ($mineral->getColors() as $color) {
@@ -278,7 +280,6 @@ class WikiController extends AbstractController
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $newImages = $editForm->get('images')->getData();
-            $name = $editForm->get('country_name')->getData();
             $latitude = $editForm->get('latitude')->getData();
             $longitude = $editForm->get('longitude')->getData();
 
@@ -310,12 +311,11 @@ class WikiController extends AbstractController
                     $entityManager->persist($color);
                 }
             }
-            $mineral->addCountry($country);
-            $country->setName($name);
-            $country->setLatitude($latitude);
-            $country->setLongitude($longitude);
-            $country->addMineral($mineral);
-            $entityManager->persist($country);
+            $mineral->addCoordinate($coordinate);
+            $coordinate->setLatitude($latitude);
+            $coordinate->setLongitude($longitude);
+            $coordinate->addMineral($mineral);
+            $entityManager->persist($coordinate);
             $entityManager->persist($mineral);
             $entityManager->flush();
 
