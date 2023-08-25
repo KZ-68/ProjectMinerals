@@ -1,7 +1,7 @@
 let mymap, marqueur // Variable de la map et du marqueur
 
 window.onload = () => {
-    mymap = L.map('mineral-map').setView([51.505, -0.09], 11); // Position sur la map par défaut
+    mymap = L.map('mineral-map').setView([51.505, -0.09], 5); // Position sur la map par défaut
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         minZoom: 1,
@@ -27,14 +27,15 @@ function mapClickListener(e) {
 // Fonction d'ajout de marqueur
 function addMarker(pos) {
     // Condition si un marqueur existe
-    if (marqueur != undefined) {
-        mymap.removeLayer(marqueur)
-    }
-    
+
     marqueur = L.marker(pos, {
         // Autorise le déplacement du marqueur
         draggable: true
     })
+
+    if (marqueur.value == pos ) {
+        mymap.removeLayer(marqueur)
+    }
 
     marqueur.on("draggend", function (e) {
         pos = e.target.getLatLng()
@@ -48,7 +49,7 @@ function addMarker(pos) {
 function getCountry() {
     let country = document.querySelector('#mineral_country_name').value
 
-    const xmlhttp = new XMLHttpRequest
+    let xmlhttp = new XMLHttpRequest
 
     xmlhttp.onreadystatechange = () => {
         // Si la requête est terminée
@@ -60,7 +61,13 @@ function getCountry() {
                 let lng = response[0]["latlng"][1]
                 document.querySelector("#mineral_latitude").value = lat
                 document.querySelector("#mineral_longitude").value = lng
-
+                let pos = [lat, lng]
+                for (let i = 0; i < pos.length; i++) {
+                    addMarker(pos)
+                }
+                
+                mymap.setView(pos, 5)
+                console.log(pos)
             }
         }
     }
@@ -68,4 +75,5 @@ function getCountry() {
     xmlhttp.open("get", `https://restcountries.com/v3.1/name/${country}?format=json`)
 
     xmlhttp.send()
+
 }
