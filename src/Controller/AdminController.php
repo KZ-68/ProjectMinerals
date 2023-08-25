@@ -269,7 +269,7 @@ class AdminController extends AbstractController
     #[Route('/discussionsDeleted', name: 'discussions_deleted')]
     public function discussionsDeletedList(DiscussionRepository $discussionRepository): Response
     {
-        $discussions = $discussionRepository->findBy([], ['discussionDeleted' => 'ASC']);
+        $discussions = $discussionRepository->findBy([], ['content' => 'ASC']);
 
         return $this->render('admin/discussion/discussions_deleted_list.html.twig', [
             'discussions' => $discussions
@@ -279,7 +279,7 @@ class AdminController extends AbstractController
     #[Route('/discussionsDeleted/{id}/restore', name: 'restore_discussions_deleted')]
     public function restoreDiscussionsDeleted(Discussion $discussion, DiscussionRepository $discussionRepository): Response
     {
-        $discussionRepository->restoreDiscussionsDeleted($discussion->getId());
+        $discussionRepository->restoreDiscussion($discussion->getId());
 
         return $this->redirectToRoute('app_admin_discussions_deleted');
     }
