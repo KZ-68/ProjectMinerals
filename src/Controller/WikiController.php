@@ -220,6 +220,7 @@ class WikiController extends AbstractController
     public function new_mineral(FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
         $mineral = new Mineral();
+        $coordinate = new Coordinate();
 
         $form = $this->createForm(MineralType::class, $mineral);
 
@@ -228,6 +229,8 @@ class WikiController extends AbstractController
             $mineral = $form->getData();
             // On récupère une collection d'images
             $images = $form->get('images')->getData();
+            $latitude = $form->get('latitude')->getData();
+            $longitude = $form->get('longitude')->getData();
 
             // Pour chaque image soumise :
             foreach ($images as $image) {
@@ -241,6 +244,11 @@ class WikiController extends AbstractController
                 // On ajoute l'image dans la collection
                 $mineral->addImage($img);
             }
+            $mineral->addCoordinate($coordinate);
+            $coordinate->setLatitude($latitude);
+            $coordinate->setLongitude($longitude);
+            $coordinate->addMineral($mineral);
+            $entityManager->persist($coordinate);
             // On prépare les données pour l'envoi
             $entityManager->persist($mineral);
             // On envoie les données dans la bdd
@@ -310,6 +318,7 @@ class WikiController extends AbstractController
                     $entityManager->persist($color);
                 }
             }
+            
             $mineral->addCoordinate($coordinate);
             $coordinate->setLatitude($latitude);
             $coordinate->setLongitude($longitude);
