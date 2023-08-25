@@ -42,8 +42,8 @@ class Discussion
     #[ORM\Column]
     private ?bool $isDeletedByModerator = false;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $discussionDeleted = null;
+    #[ORM\Column]
+    private ?bool $isDeletedByUser = false;
 
     public function __construct()
     {
@@ -163,14 +163,14 @@ class Discussion
         return $this->createdAt->format("d/m/Y H:i:s")."";
     }
 
-    public function getDiscussionDeleted(): ?string
+    public function isIsDeletedByUser(): ?bool
     {
-        return $this->discussionDeleted;
+        return $this->isDeletedByUser;
     }
 
-    public function setDiscussionDeleted(?string $discussionDeleted): static
+    public function setIsDeletedByUser(bool $isDeletedByUser): static
     {
-        $this->discussionDeleted = $discussionDeleted;
+        $this->isDeletedByUser = $isDeletedByUser;
 
         return $this;
     }
