@@ -22,9 +22,9 @@
             </thead>
             <tbody>
               {% for discussion in discussions %}
-                {% if discussion.discussionDeleted > 0 %}
+                {% if discussion.isDeletedByModerator == true or discussion.isDeletedByUser == true %}
                   <tr>
-                    <td>{{discussion.discussionDeleted}}</td>
+                    <td>{{discussion.content}}</td>
                     <td><a href="{{ path('app_admin_restore_discussions_deleted', {'id': discussion.id}) }}">Restore</a></td>
                   </tr>
                 {% endif %}
