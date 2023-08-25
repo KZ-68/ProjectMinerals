@@ -21,11 +21,34 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    public function removeComment(int $comment) {
+    public function deleteCommentByModerator(int $comment) {
         $em = $this->getEntityManager();
         $sub = $em->createQueryBuilder();
         $query = $sub->update('App\Entity\Comment', 'c')
-                    ->set('c.content', 'NULL')
+                    ->set('c.isDeletedByModerator', 1)
+                    ->where('c.id = :id')
+                    ->setParameter('id', $comment)
+                    ->getQuery();
+        $query->execute();
+    }
+
+    public function deleteCommentByUser(int $comment) {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+        $query = $sub->update('App\Entity\Comment', 'c')
+                    ->set('c.isDeletedByUser', 1)
+                    ->where('c.id = :id')
+                    ->setParameter('id', $comment)
+                    ->getQuery();
+        $query->execute();
+    }
+
+    public function restoreComment(int $comment) {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+        $query = $sub->update('App\Entity\Comment', 'c')
+                    ->set('c.isDeletedByModerator', 0)
+                    ->set('c.isDeletedByUser', 0)
                     ->where('c.id = :id')
                     ->setParameter('id', $comment)
                     ->getQuery();
