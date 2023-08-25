@@ -47,6 +47,9 @@ class Comment
     #[ORM\Column]
     private ?bool $isDeletedByModerator = false;
 
+    #[ORM\Column]
+    private ?bool $isDeletedByUser = false;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -165,6 +168,18 @@ class Comment
     public function setIsDeletedByModerator(bool $isDeletedByModerator): static
     {
         $this->isDeletedByModerator = $isDeletedByModerator;
+
+        return $this;
+    }
+
+    public function isIsDeletedByUser(): ?bool
+    {
+        return $this->isDeletedByUser;
+    }
+
+    public function setIsDeletedByUser(bool $isDeletedByUser): static
+    {
+        $this->isDeletedByUser = $isDeletedByUser;
 
         return $this;
     }
