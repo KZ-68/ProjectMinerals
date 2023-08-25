@@ -41,9 +41,13 @@ class Variety
     #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
+    #[ORM\ManyToMany(targetEntity: Coordinate::class, inversedBy: 'varieties')]
+    private Collection $coordinates;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->coordinates = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -118,6 +122,30 @@ class Variety
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Coordinate>
+     */
+    public function getCoordinates(): Collection
+    {
+        return $this->coordinates;
+    }
+
+    public function addCoordinate(Coordinate $coordinate): static
+    {
+        if (!$this->coordinates->contains($coordinate)) {
+            $this->coordinates->add($coordinate);
+        }
+
+        return $this;
+    }
+
+    public function removeCoordinate(Coordinate $coordinate): static
+    {
+        $this->coordinates->removeElement($coordinate);
 
         return $this;
     }
