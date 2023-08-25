@@ -45,7 +45,7 @@ class Comment
     private Comment|null $parent = null;
 
     #[ORM\Column]
-    private ?bool $isRemovedByModerator = false;
+    private ?bool $isDeletedByModerator = false;
 
     public function __construct()
     {
@@ -157,14 +157,14 @@ class Comment
         return $this;
     }
 
-    public function isIsRemovedByModerator(): ?bool
+    public function isIsDeletedByModerator(): ?bool
     {
-        return $this->isRemovedByModerator;
+        return $this->isDeletedByModerator;
     }
 
-    public function setIsRemovedByModerator(bool $isRemovedByModerator): static
+    public function setIsDeletedByModerator(bool $isDeletedByModerator): static
     {
-        $this->isRemovedByModerator = $isRemovedByModerator;
+        $this->isDeletedByModerator = $isDeletedByModerator;
 
         return $this;
     }

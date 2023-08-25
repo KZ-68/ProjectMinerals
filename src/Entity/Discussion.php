@@ -40,7 +40,7 @@ class Discussion
     private Collection $comments;
 
     #[ORM\Column]
-    private ?bool $isRemovedByModerator = false;
+    private ?bool $isDeletedByModerator = false;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $discussionDeleted = null;
@@ -146,14 +146,14 @@ class Discussion
         return $this;
     }
 
-    public function isIsRemovedByModerator(): ?bool
+    public function isIsDeletedByModerator(): ?bool
     {
-        return $this->isRemovedByModerator;
+        return $this->isDeletedByModerator;
     }
 
-    public function setIsRemovedByModerator(bool $isRemovedByModerator): static
+    public function setIsDeletedByModerator(bool $isDeletedByModerator): static
     {
-        $this->isRemovedByModerator = $isRemovedByModerator;
+        $this->isDeletedByModerator = $isDeletedByModerator;
 
         return $this;
     }

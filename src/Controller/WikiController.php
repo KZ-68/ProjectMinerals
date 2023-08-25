@@ -159,7 +159,6 @@ class WikiController extends AbstractController
             $discussionRepository->moveDiscussionDeleted($discussion->getId(), $discussion->getContent());
 
             $discussionRepository->removeDiscussion($discussion->getId());
-            $discussion->setIsRemovedByModerator(true);
             $entityManager->persist($discussion);
             $entityManager->flush();
         }
@@ -187,7 +186,7 @@ class WikiController extends AbstractController
             $commentRepository->removeComment($comment->getId());
         } else if ($comment->getUser() !== $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
             $commentRepository->removeComment($comment->getId());
-            $comment->setIsRemovedByModerator(true);
+            $comment->setIsDeletedByModerator(true);
             $entityManager->persist($comment);
             $entityManager->flush();
         }

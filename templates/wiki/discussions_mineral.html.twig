@@ -24,11 +24,11 @@
                         <p>{{discussion.user.username}}</p>
                     </div>
                 </hgroup>
-                {% if discussion.content == NULL and discussion.isRemovedByModerator == true %}
+                {% if discussion.content == NULL and discussion.isDeletedByModerator == true %}
                     <div class="discussion-textarea">
                         <p>Discussion deleted by a moderator</p>
                     </div>
-                {% elseif discussion.content == NULL and discussion.isRemovedByModerator == false %}
+                {% elseif discussion.content == NULL and discussion.isDeletedByModerator == false %}
                     <div class="discussion-textarea">
                         <p>Discussion deleted by the user</p>
                     </div>
@@ -62,11 +62,11 @@
                                     <p>{{comment.user.username}}</p>
                                 </div>
                             </hgroup>
-                            {% if comment.content == NULL and comment.isRemovedByModerator == true %}
+                            {% if comment.content == NULL and comment.isDeletedByModerator == true %}
                                 <div class="discussion-textarea">
                                     <p>Comment deleted by a moderator</p>
                                 </div>
-                            {% elseif comment.content == NULL and comment.isRemovedByModerator == false %}
+                            {% elseif comment.content == NULL and comment.isDeletedByModerator == false %}
                                 <div class="discussion-textarea">
                                     <p>Comment deleted by the user</p>
                                 </div>
@@ -96,11 +96,11 @@
                                     <p>{{comment.user.username}}</p>
                                 </div>
                             </hgroup>
-                            {% if comment.content == NULL and comment.isRemovedByModerator == true %}
+                            {% if comment.content == NULL and comment.isDeletedByModerator == true %}
                                 <div class="discussion-textarea">
                                     <p>Comment deleted by a moderator</p>
                                 </div>
-                            {% elseif comment.content == NULL and comment.isRemovedByModerator == false %}
+                            {% elseif comment.content == NULL and comment.isDeletedByModerator == false %}
                                 <div class="discussion-textarea">
                                     <p>Comment deleted by the user</p>
                                 </div>
