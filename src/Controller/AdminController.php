@@ -279,7 +279,7 @@ class AdminController extends AbstractController
     #[Route('/discussionsDeleted/{id}/restore', name: 'restore_discussions_deleted')]
     public function restoreDiscussionsDeleted(Discussion $discussion, DiscussionRepository $discussionRepository): Response
     {
-        $discussionRepository->restoreDiscussionsDeleted($discussion->getId(), $discussion->getDiscussionDeleted());
+        $discussionRepository->restoreDiscussionsDeleted($discussion->getId());
 
         return $this->redirectToRoute('app_admin_discussions_deleted');
     }
