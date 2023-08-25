@@ -119,8 +119,8 @@
     <h2>Countries where {{mineral.name}} can be found</h2>
 
     <div id="mineral-map"></div>
-    {% for country in mineral.countries %}
-    <div id="country-data" data-lat="{{ country.latitude }}" data-lng="{{ country.longitude }}"> 
+    {% for coordinate in mineral.coordinates %}
+    <div class="coordinate-data" data-lat="{{ coordinate.latitude }}" data-lng="{{ coordinate.longitude }}"></div>
     {% endfor %}
     
 </section>
@@ -151,22 +151,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
-    <script>
-        const countries = document.querySelector('div#country-data')
-        mymap = L.map('mineral-map').setView([51.505, -0.09], 5); // Position sur la map par défaut
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            minZoom: 1,
-            maxZoom: 20
-        }).addTo(mymap) // Ajout des tuiles à la map
-        var lat = countries.dataset.lat
-        var lng = countries.dataset.lng
-        for(country in countries) {
-            var marker = new L.marker([lat, lng])
-            .addTo(mymap);
-        }
-        
-    </script>
+    <script src="/js/map.js"></script>
 {% endblock %}
 
 {% endblock %}
