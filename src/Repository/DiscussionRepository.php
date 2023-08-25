@@ -21,37 +21,35 @@ class DiscussionRepository extends ServiceEntityRepository
         parent::__construct($registry, Discussion::class);
     }
 
-    public function removeDiscussion(int $discussion) {
+    public function deleteDiscussionByModerator(int $discussion) {
         $em = $this->getEntityManager();
         $sub = $em->createQueryBuilder();
         $query = $sub->update('App\Entity\Discussion', 'd')
-                    ->set('d.content', 'NULL')
+                    ->set('d.isDeletedByModerator', 1)
                     ->where('d.id = :id')
                     ->setParameter('id', $discussion)
                     ->getQuery();
         $query->execute();
     }
 
-    public function moveDiscussionDeleted(int $discussion, string $discussionDeleted) {
+    public function deleteDiscussionByUser(int $discussion) {
         $em = $this->getEntityManager();
         $sub = $em->createQueryBuilder();
         $query = $sub->update('App\Entity\Discussion', 'd')
-                    ->set('d.discussionDeleted', ':discussionDeleted')
+                    ->set('d.isDeletedByUser', 1)
                     ->where('d.id = :id')
-                    ->setParameter('discussionDeleted', $discussionDeleted)
                     ->setParameter('id', $discussion)
                     ->getQuery();
         $query->execute();
     }
 
-    public function restoreDiscussionsDeleted(int $discussion, string $content) {
+    public function restoreDiscussion(int $discussion) {
         $em = $this->getEntityManager();
         $sub = $em->createQueryBuilder();
         $query = $sub->update('App\Entity\Discussion', 'd')
-                    ->set('d.content', ':content')
-                    ->set('d.discussionDeleted', 'NULL')
+                    ->set('d.isDeletedByModerator', 0)
+                    ->set('d.isDeletedByUser', 0)
                     ->where('d.id = :id')
-                    ->setParameter('content', $content)
                     ->setParameter('id', $discussion)
                     ->getQuery();
         $query->execute();
