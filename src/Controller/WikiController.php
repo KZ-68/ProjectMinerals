@@ -154,17 +154,15 @@ class WikiController extends AbstractController
         $currentUser = $this->getUser();
         
         if ($discussion->getUser() === $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
-            $discussionRepository->removeDiscussion($discussion->getId());
+            $discussionRepository->deleteDiscussionByUser($discussion->getId());
         } else if ($discussion->getUser() !== $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
-            $discussionRepository->moveDiscussionDeleted($discussion->getId(), $discussion->getContent());
-
-            $discussionRepository->removeDiscussion($discussion->getId());
+            $discussionRepository->deleteDiscussionByModerator($discussion->getId());
             $entityManager->persist($discussion);
             $entityManager->flush();
         }
 
         if ($currentUser && $currentUser === $discussion->getUser()) {
-            $discussionRepository->removeDiscussion($discussion->getId());
+            $discussionRepository->deleteDiscussionByUser($discussion->getId());
         }
 
         return $this->redirectToRoute(
@@ -183,16 +181,15 @@ class WikiController extends AbstractController
         $currentUser = $this->getUser();
 
         if ($comment->getUser() === $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
-            $commentRepository->removeComment($comment->getId());
+            $commentRepository->deleteCommentByUser($comment->getId());
         } else if ($comment->getUser() !== $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
-            $commentRepository->removeComment($comment->getId());
-            $comment->setIsDeletedByModerator(true);
+            $commentRepository->deleteCommentByModerator($comment->getId());
             $entityManager->persist($comment);
             $entityManager->flush();
         }
 
         if ($currentUser && $currentUser === $comment->getUser()) {
-            $commentRepository->removeComment($comment->getId());
+            $commentRepository->deleteCommentByUser($comment->getId());
         }
 
         return $this->redirectToRoute(
