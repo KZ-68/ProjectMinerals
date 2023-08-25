@@ -29,10 +29,14 @@ class Coordinate
     #[ORM\ManyToMany(targetEntity: Mineral::class, mappedBy: 'coordinates')]
     private Collection $minerals;
 
+    #[ORM\ManyToMany(targetEntity: Variety::class, mappedBy: 'coordinates')]
+    private Collection $varieties;
+
     public function __construct()
     {
         $this->addedAt = new \DateTimeImmutable();
         $this->minerals = new ArrayCollection();
+        $this->varieties = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -98,6 +102,33 @@ class Coordinate
     {
         if ($this->minerals->removeElement($mineral)) {
             $mineral->removeCoordinate($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Variety>
+     */
+    public function getVarieties(): Collection
+    {
+        return $this->varieties;
+    }
+
+    public function addVariety(Variety $variety): static
+    {
+        if (!$this->varieties->contains($variety)) {
+            $this->varieties->add($variety);
+            $variety->addCoordinate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVariety(Variety $variety): static
+    {
+        if ($this->varieties->removeElement($variety)) {
+            $variety->removeCoordinate($this);
         }
 
         return $this;
