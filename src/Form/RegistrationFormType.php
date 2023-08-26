@@ -42,7 +42,7 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'autocomplete' => 'new-password',
                     'class' => 'form-control',
-                    'onkeyup' => 'checkPasswordStrength()'
+                    'onkeyup' => 'checkPasswordStrengthRegister()'
                 ],
                 'constraints' => [
                     new NotBlank([
