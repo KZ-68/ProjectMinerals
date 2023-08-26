@@ -489,6 +489,41 @@ div.advanced-search-bar {
     width: 100%;
 }
 
+.formulaire-login-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #070707;
+    font-size: 24px;
+    padding: 25px 50px;
+}
+
+.formulaire-login {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 500px;
+}
+
+.info-window{
+    display:none;
+    background:#d4d4d48b;
+    padding: 10px 20px;
+  }
+  
+.one, .two, .three, .four, .five {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    font-size: 15px;
+    justify-content: space-between;
+}
+
+#output-one img, #output-two img, #output-three img, #output-four img, #output-five img {
+    width: 24px;
+}
+
 .mineral-options {
     padding: 20px;
     margin: 10px 10px;
@@ -1289,11 +1324,20 @@ small {
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
     h1 {
-        width: 375px;
+        width: 347px;
+        text-align: center;
     }
     
     h2 {
         width: fit-content;
+    }
+
+    hr {
+        width: 325px;
+        margin: 0px 0px 30px 25px;
+        padding: 3px;
+        background-color: #5ecfb8;
+        border-radius: 5px;
     }
 
     a {
@@ -1527,6 +1571,14 @@ small {
     .list-main {
         flex-direction: column;
         align-items: center;
+    }
+
+    .list-wrapper {
+        align-items: center;
+    }
+
+    .list-wrapper ul {
+        padding: 0;
     }
 
     .list-wrapper a {
