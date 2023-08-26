@@ -30,6 +30,7 @@ hr {
     padding: 3px;
     background-color: #5ecfb8;
     border-radius: 5px;
+    border-style: none;
 }
 
 figcaption {
@@ -410,13 +411,25 @@ input[type="submit"] {
 }
 
 #submit-advanced-search {
-    background-color: #57CC99;
-    color: #444;
-    cursor: pointer;
-    padding: 12px 15px;
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    background: #6fd6c1;
+    padding: 10px 13px;
+    border-radius: 10px;
     border: none;
-    outline: none;
-    font-size: 20px;
+    margin-top: 10px;
+}
+
+button#message_send {
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    background: #6fd6c1;
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
 }
 
 .adv-search-section {
@@ -499,6 +512,22 @@ div.advanced-search-bar {
 }
 
 .formulaire-login {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 500px;
+}
+
+.formulaire-register-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #070707;
+    font-size: 24px;
+    padding: 25px 50px;
+}
+
+.formulaire-register {
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -823,6 +852,17 @@ div.advanced-search-bar {
     margin: 20px 0px;
 }
 
+form[enctype='multipart/form-data'] button {
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    background: #6fd6c1;
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+}
+
 .message-box-wrapper {
     display: flex;
     flex-direction: row;
@@ -905,6 +945,48 @@ div.advanced-search-bar {
     border: 1px solid #dfdfdf;
     height: 130px;
     width: 600px;
+}
+
+form[name='user_email'] {
+    width: 400px;
+}
+
+form[name='user_email'] button {
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    background: #6fd6c1;
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+}
+
+form[name='user_password'] {
+    width: 400px;
+}
+
+
+form[name='user_password'] button {
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    background: #6fd6c1;
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+}
+
+form[name='user_username'] button {
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    background: #6fd6c1;
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
 }
 
 #comment_send {
@@ -1127,10 +1209,14 @@ aside.aside-wrapper {
 }
 
 button#contact_validate {
-    margin: 0px 0px 0px 15px;
-    border-radius: 5px;
-    padding: 4px 10px;
-    background: linear-gradient(0deg, #57CC99, #38A3A5, #57CC99);
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    background: #6fd6c1;
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
 }
 
 footer {
@@ -1516,6 +1602,14 @@ small {
         width: 300px;
     }
 
+    .formulaire-login {
+        width: unset;
+    }
+
+    .formulaire-register {
+        width: unset;
+    }
+
     .pagination {
         justify-content: center;
         align-items: center;
@@ -1526,7 +1620,6 @@ small {
         display: flex;
         justify-content: center;
     }
-
 
     #variety-title {
         flex-direction: column;
