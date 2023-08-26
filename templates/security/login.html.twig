@@ -22,14 +22,7 @@
                 </div>
                 <div>
                     <label for="inputPassword">Password</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" onkeyup="checkPasswordStrength()" required>
-                    <ol class="info-window">
-                        <li class="one">You password must contain at least 1 Uppercase Letter.<div id="output-one"></div></li>
-                        <li class="two">Your password must contain at least 1 lowercase letter.<div id="output-two"></div></li>
-                        <li class="three">You password must contain at least one Number. <p id="output-three"></p></li>
-                        <li class="four">Your password must contain at least 1 "special" character (/>! @ + # $ % ^ & * , ?( ) _ ~ - ). <p id="output-four"></p></li>
-                        <li class="five">Your password must be at least 8 characters long. <p id="output-five"></p></li>
-                    </ol>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
                 </div>
                 <a href="{{path('app_forgot_password_request')}}">Password lost ? Click here</a>
 
@@ -44,12 +37,6 @@
                 </button>
             </div>
         </div>
-        {% block javascripts %}
-            <script src="/js/password_strength.js"></script>
-            <script src="https://code.jquery.com/jquery-3.7.0.js"
-            integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
-            crossorigin="anonymous"></script>
-        {% endblock %}
 </form>
 
 {% endblock %}
