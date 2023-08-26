@@ -27,6 +27,13 @@
         {{ form_row(form2name.newPassword, {
             label: 'New Password'
         }) }}
+        <ol class="info-window">
+            <li class="one">You password must contain at least 1 Uppercase Letter.<div id="output-one"></div></li>
+            <li class="two">Your password must contain at least 1 lowercase letter.<div id="output-two"></div></li>
+            <li class="three">You password must contain at least one Number. <p id="output-three"></p></li>
+            <li class="four">Your password must contain at least 1 "special" character (/>! @ + # $ % ^ & * , ?( ) _ ~ - ). <p id="output-four"></p></li>
+            <li class="five">Your password must be at least 8 characters long. <p id="output-five"></p></li>
+        </ol>
         {{ form_row(form2name.valider) }}
         {{ form_end(form2name) }}</p>
     </div>
@@ -38,4 +45,10 @@
         {{ form_end(form3name) }}
     </div>
 
+    {% block javascript %}
+        <script src="/js/password_strength.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"
+        integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+        crossorigin="anonymous"></script>
+    {% endblock %}
 {% endblock %}
