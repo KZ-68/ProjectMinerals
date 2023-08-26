@@ -1,5 +1,7 @@
 function checkPasswordStrength() {
+    // On déclare une variable et on récupère la valeur de l'input password
     var password = document.getElementById('inputPassword').value;
+    // On déclare des valeurs booléennes :
     var rule1 = false;
     var rule2 = false;
     var rule3 = false;
@@ -7,18 +9,21 @@ function checkPasswordStrength() {
     var rule5 = false;
   
     // Test Rule 1
-    var regex1 = /[A-Z]/g;
-    var regexMatch1 = password.match(regex1);
+    var regex1 = /[A-Z]/g; // Regex pour au moins un caractère Majuscule
+    var regexMatch1 = password.match(regex1); // L'input password doit correspondre au Regex
+    // Si il y a correspondance : 
     if (regexMatch1) {
-      rule1 = true;
+      rule1 = true; // On passe la valeur en true
+      // On ajoute à l'id une image de validation
       document.getElementById('output-one').innerHTML = "<img src='https://cdn4.iconfinder.com/data/icons/momenticons-basic/32x32/accept1.png'>";
+      // Via jQuery, on ajoute à la classe des propriétés css
       $('.one').css({
         'text-decoration': 'line-through',
         'color': 'green'
       });
     }
     // Test Rule 2
-    var regex2 = /[a-z]/g;
+    var regex2 = /[a-z]/g; // Regex pour au moins un caractère minuscule
     var regexMatch2 = password.match(regex2);
     if (regexMatch2) {
       rule2 = true;
@@ -30,7 +35,7 @@ function checkPasswordStrength() {
       });
     }
     // Test Rule 3
-    var regex3 = /[0-9]/g;
+    var regex3 = /[0-9]/g; // Regex pour au moins un caractère numérique
     var regexMatch3 = password.match(regex3);
     if (regexMatch3) {
       rule3 = true;
@@ -41,7 +46,7 @@ function checkPasswordStrength() {
       });
     }
     // Test Rule 4
-    var regex4 = /[!|@|#|$|%|^|&]/g;
+    var regex4 = /[!|@|#|$|%|^|&]/g; // Regex pour au moins un caractère spécial
     var regexMatch4 = password.match(regex4);
     if (regexMatch4) {
       rule4 = true;
@@ -52,6 +57,7 @@ function checkPasswordStrength() {
       });
     }
     // Test Rule 5
+    // Si le password contient au moins 8 caractères :
     if (password.length >= 8) {
       rule5 = true;
       document.getElementById('output-five').innerHTML = "<img src='https://cdn4.iconfinder.com/data/icons/momenticons-basic/32x32/accept1.png'>";
@@ -60,12 +66,18 @@ function checkPasswordStrength() {
         'color': 'green'
       });
     }
-    // Output the result
+    // Output :
+    // Si les cinqs valeurs booléennes sont vraies :
     if (rule1 && rule2 && rule3 && rule4 && rule5) {
+        // Avec jQuery, on fait glisser vers le haut la zone info pour la faire disparaitre
       $('.info-window').slideUp();
     } else {
+        // Sinon, on laisse la zone apparente
       $('.info-window').slideDown();
+
+    // Vérification si chaque valeur booléennes est fausse : 
       if (!rule1) {
+        // On ajoute à l'id une image d'erreur
         document.getElementById('output-one').innerHTML = "<img src='https://cdn4.iconfinder.com/data/icons/momenticons-basic/32x32/delete.png'>";
         $('.one').css({
           'text-decoration': 'none',
@@ -101,6 +113,7 @@ function checkPasswordStrength() {
         });
       }
     }
+    // Si tous les booléans sont faux, donc si il n'y a pas de caractère de saisie :
     if(!rule1 && !rule2 && !rule3 && !rule4 && !rule5) {
        $('.info-window').slideUp();
     }
