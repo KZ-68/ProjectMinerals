@@ -1,6 +1,6 @@
 function checkPasswordStrength() {
     // On déclare une variable et on récupère la valeur de l'input password
-    var password = document.getElementById('inputPassword').value;
+    var password = document.querySelector('input[type=password]').value;
     // On déclare des valeurs booléennes :
     var rule1 = false;
     var rule2 = false;
