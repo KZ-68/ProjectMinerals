@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Variety Mineral Details{% endblock %}
+
+{% block body %}
+
+<hgroup id="mineral-title">
+    <h1>{{variety.name}}<br/></h1>
+    {% if variety.mineral | length > 0 %}
+        Variety Mineral for <a href="{{ path('show_category', {'slug': variety.mineral.slug}) }}">{{variety.mineral.name}}</a>
+    {% else %}
+        <i>Missing information</i>
+    {% endif %}
+</hgroup>
+
+<section class="section-map">
+    <h2>Countries where {{variety.name}} can be found</h2>
+
+    <div id="mineral-map"></div>
+    {% for coordinate in variety.coordinates %}
+    <div class="coordinate-data" data-lat="{{ coordinate.latitude }}" data-lng="{{ coordinate.longitude }}"></div>
+    {% endfor %}
+    
+</section>
+
+<section class="section-wiki">
+    <h2>Images Gallery of {{variety.name}}</h2>
+
+        <div id="cCarousel">
+          <div class="arrow" id="prev"><span class="arrow-symbols">&#8249;</span></div>
+          <div class="arrow" id="next"><span class="arrow-symbols">&#8250;</span></div>
+        
+
+            <div id="carousel-vp">
+                <div id="cCarousel-inner">
+        
+                {% for image in variety.images  %}
+                    <article class="cCarousel-item">
+                        <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Minerals">
+                    </article>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+</section>
+
+{% block javascript %}
+    <script src="/js/carousel.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <script src="/js/map.js"></script>
+{% endblock %}
+
+{% endblock %}
