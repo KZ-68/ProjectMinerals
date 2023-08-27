@@ -105,7 +105,7 @@
         {% endif %}
         
         {% if image.variety.name is not null %}
-            <figcaption>{{image.variety.name}}</figcaption>
+            <figcaption><a href="{{path('show_variety', {'slug': image.variety.slug})}}">{{image.variety.name}}</a></figcaption>
         {% else %}
             <i>Missing information</i>
         {% endif %}
