@@ -368,6 +368,15 @@ class WikiController extends AbstractController
         ]);
     }
 
+    #[Route('/wiki/variety/{slug}/show', name: 'show_variety')]
+    #[IsGranted('PUBLIC_ACCESS')]
+    public function showVariety(Variety $variety): Response
+    {
+        return $this->render('wiki/show_variety.html.twig', [
+            'variety' => $variety
+        ]);
+    }
+
     #[Route('/wiki/mineral/{slug}/show/editColors', name: 'edit_mineral_colors')]
     #[IsGranted('ROLE_USER')]
     public function edit_mineral_colors(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
