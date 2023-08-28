@@ -28,18 +28,47 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->request->get('email', '');
+        if(isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] == 'http://127.0.0.1:8000') {
+            if($request->isMethod('POST')) {
+                if ($request->request->get('raison', '') !== null && empty($request->request->get('raison', ''))) {
+                    if 
+                    (
+                        $request->request->get('email', '') !== null && !empty($request->request->get('email', '')) &&
+                        $request->request->get('password', '') !== null && !empty($request->request->get('password', ''))
+                    ) 
+                    {
+                        $email = $request->request->get('email', '');
 
-        $request->getSession()->set(Security::LAST_USERNAME, $email);
+                        $request->getSession()->set(Security::LAST_USERNAME, $email);
 
-        return new Passport(
-            new UserBadge($email),
-            new PasswordCredentials($request->request->get('password', '')),
-            [
-                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
-                new RememberMeBadge(),
-            ]
-        );
+                        return new Passport(
+                            new UserBadge($email),
+                            new PasswordCredentials($request->request->get('password', '')),
+                            [
+                                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+                                new RememberMeBadge(),
+                            ]
+                        );
+                    }
+                } else {
+                    $response = new Response();
+                    $response->headers->set('Content-Type', 'text/html');
+                    $response->setStatusCode(405);
+                    return $response;
+                }
+                
+            } else {
+                $response = new Response();
+                $response->headers->set('Content-Type', 'text/html');
+                $response->setStatusCode(405);
+                return $response;
+            }
+        } else {
+            $response = new Response();
+            $response->headers->set('Content-Type', 'text/html');
+            $response->setStatusCode(405);
+            return $response;
+        }
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
