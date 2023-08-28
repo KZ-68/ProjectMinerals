@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
@@ -63,6 +64,9 @@ class ContactType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank()
                 ]
+            ])
+            ->add('raison', HiddenType::class, [
+                'mapped' => false
             ])
             ->add('validate', SubmitType::class, [
                 'attr' => [
