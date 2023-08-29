@@ -1627,9 +1627,32 @@ small {
         margin: 30px 20px;
     }
 
+    .mineral-options {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .mineral-options a {
+        font-size: 15px;
+        padding: 10px 13px;
+        width: 160px;
+        text-align: center;
+    }
+
+    #mineral-title h1 {
+        width: 220px;
+        text-align: center;
+    }
+
     #mineral-figure {
         display: flex;
         justify-content: center;
+        width: 270px;
+        height: 270px;
+    }
+
+    #mineral-figure p {
+        font-size: 16px;
     }
 
     #variety-title {
@@ -1638,11 +1661,33 @@ small {
 
     #variety-title h2 {
         margin: 0;
-    }
+    } 
 
     #add-variety {
         width: 100%;
         padding: 10px 20px 10px 40px;
+    }
+
+    #varieties-images {
+        flex-direction: column;
+        height: 318px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .figure-varieties figcaption {
+        text-align: center;
+    }
+
+    .mineral-image {
+        width: 270px;
+        height: 250px;
+    }
+
+    #mineral-map {
+        height: 340px;
+        max-width: 340px;
+        left: 17px;
     }
 
     #cCarousel {
@@ -1650,13 +1695,16 @@ small {
     }
 
     .cCarousel-item {
-        width: 500px;
-        height: 350px;
+        width: 249px;
+        height: 262px;
     }
     
     .cCarousel-item img {
-        min-height: 350px;
+        min-height: 260px;
+        width: 245px;
+        object-fit: unset
     }
+
     .profile-wrapper {
         width: 315px;
     }
