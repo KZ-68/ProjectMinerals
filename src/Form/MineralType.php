@@ -135,6 +135,7 @@ class MineralType extends AbstractType
             ])
             ->add('country_name', TextType::class, [
                 'mapped' => false,
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control' 
                 ]
