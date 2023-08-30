@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Welcome to KZ Minerals!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -44,6 +44,23 @@
                 </div>
 
                 <div id="nav-left">
+                    <div id="icon-wrapper">
+                        <a href="https://www.facebook.com/">
+                            <svg id="facebook-icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 40 40">
+                            <linearGradient id="a" x1="-277.375" x2="-277.375" y1="406.6018" y2="407.5726" gradientTransform="matrix(40 0 0 -39.7778 11115.001 16212.334)" gradientUnits="userSpaceOnUse">
+                              <stop offset="0" stop-color="#0062e0"/>
+                              <stop offset="1" stop-color="#19afff"/>
+                            </linearGradient>
+                            <path fill="url(#a)" d="M16.7 39.8C7.2 38.1 0 29.9 0 20 0 9 9 0 20 0s20 9 20 20c0 9.9-7.2 18.1-16.7 19.8l-1.1-.9h-4.4l-1.1.9z"/>
+                            <path fill="#fff" d="m27.8 25.6.9-5.6h-5.3v-3.9c0-1.6.6-2.8 3-2.8H29V8.2c-1.4-.2-3-.4-4.4-.4-4.6 0-7.8 2.8-7.8 7.8V20h-5v5.6h5v14.1c1.1.2 2.2.3 3.3.3 1.1 0 2.2-.1 3.3-.3V25.6h4.4z"/>
+                            </svg>
+                        </a>
+                        <a href="https://twitter.com/">
+                            <img id="x-icon" src="{{asset('uploads/images/Twitter-X-Icon-PNG.png')}}" alt="X.com icon">
+                        </a>
+                    </div>
+                    
+
                     <div id="accordion-wrapper">
                         <button class="accordion">Menu</button>
                         <div class="panel">
@@ -92,7 +109,6 @@
                         <span></span>
                     </span>
                 </a>
-
             </nav>
         </header>
         {% block body %}{% endblock %}
