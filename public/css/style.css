@@ -133,7 +133,7 @@ thead tr {
 
 .form-control {
     border-radius: 5px;
-    border: 1px solid #696969;
+    border: 2px solid #574f4f;
     height: 35px;
     width: 100%;
 }
@@ -163,7 +163,6 @@ thead tr {
 .formulaire small {
     color: white
 }
-
 
 .comment-wrapper {
     display: flex;
@@ -599,7 +598,11 @@ div.advanced-search-bar {
 
 .options a {
     font-size: 16px;
-    color: white;
+    font-weight: 700;
+    color: black;
+    background: #6fd6c1;
+    padding: 10px 13px;
+    border-radius: 21px;
 }
 
 .list-wrapper {
@@ -732,6 +735,7 @@ div.advanced-search-bar {
     font-size: 28px;
     padding: 7px;
     border-radius: 10px;
+    border: none;
 }
 
 .mineral-wrapper {
@@ -1006,7 +1010,7 @@ form[enctype='multipart/form-data'] button {
     display: flex;
     flex-direction: column;
     border-radius: 5px;
-    border: 1px solid #dfdfdf;
+    border: 2px solid #574f4f;
     height: 130px;
     width: 600px;
 }
@@ -1272,6 +1276,12 @@ aside.aside-wrapper {
     align-items: center;
 }
 
+form[name='contact'] {
+    padding: 25px 20px;
+    background-color: #fcfcfccc;
+    border-radius: 15px;
+}
+
 button#contact_validate {
     font-size: 16px;
     font-weight: 700;
@@ -1491,6 +1501,10 @@ small {
     }
 
     a {
+        font-size: 20px;
+    }
+
+    th {
         font-size: 20px;
     }
 
@@ -1801,14 +1815,32 @@ small {
         font-size: 18px;
     }
 
+    #minerals-list, #categories-list {
+        width: 335px;
+    }
+
+    #minerals-list a:nth-child(1) {
+        margin-right: 15px;
+    }
+
+    #categories-list a:nth-child(1) {
+        margin-right: 15px;
+    }
+
+    a.edit-btn, a.delete-btn {
+        
+        font-size: 14px;
+    }
+
     aside.aside-wrapper {
         border-right: none;
         border-bottom: 1px solid #38A3A5;
         padding-bottom: 40px;
     }
 
-    .actions {
-        flex-direction: column;
+    .actions .delete-btn {
+        font-size: 15px;
+        border: none;
     }
 
     .anchor-footer:nth-child(-n + 3) {
