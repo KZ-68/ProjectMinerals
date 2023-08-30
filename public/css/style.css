@@ -103,7 +103,7 @@ width: 35%;
 
 th {
     font-size: 24px;
-    color: white;
+    color: black;
 }
 
 th, td {
@@ -118,8 +118,8 @@ tfoot th {
 text-align: right;
 }
 
-thead th {
-  border: 3px solid ;
+thead tr {
+    background-color: #5fd6b985;
 }
 
 .actions {
@@ -608,14 +608,60 @@ div.advanced-search-bar {
     margin: 30px 35px;
 }
 
-.list-wrapper ul {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
 .list-wrapper a {
     font-size: 28px;
+}
+
+#minerals-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 700px;
+}
+
+#minerals-list li {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-size: 20px;
+    list-style: none;
+    padding: 20px 15px;
+    border-radius: 5px;
+}
+
+#minerals-list li:nth-child(odd) {
+    background-color: #b2c4df;
+}
+
+#minerals-list li:nth-child(even) {
+    background-color: #d7e2f4;
+}
+
+#categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 700px;
+}
+
+#categories-list li {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-size: 20px;
+    list-style: none;
+    padding: 20px 15px;
+    border-radius: 5px;
+}
+
+#categories-list li:nth-child(odd) {
+    background-color: #b2c4df;
+}
+
+#categories-list li:nth-child(even) {
+    background-color: #d7e2f4;
+}
+
+#categories-list a:nth-child(1) {
+    margin-right: 40px;
 }
 
 .images-list-wrapper {
@@ -685,7 +731,6 @@ div.advanced-search-bar {
     cursor: pointer;
     font-size: 28px;
     padding: 7px;
-    border: 2px solid #38A3A5;
     border-radius: 10px;
 }
 
@@ -1179,9 +1224,9 @@ span.page, span.first, span.previous, span.next, span.last {
 span.current {
     border: 1px solid #38A3A5;
     border-radius: 4px;
-    padding: 9px 5px;
+    padding: 8px 6px;
     background: #38A3A5;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
 }
 
