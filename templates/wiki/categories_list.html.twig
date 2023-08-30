@@ -14,7 +14,7 @@
 
 <div class="list-wrapper">
     <div>
-        <ul>
+        <ul id="categories-list">
             {% for category in categories %}
                 <li>
                     <a href="{{path('show_category', {'slug': category.slug})}}">{{category.name}}</a>
