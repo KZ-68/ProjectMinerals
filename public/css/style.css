@@ -968,17 +968,27 @@ form[enctype='multipart/form-data'] button {
     border-radius: 10px;
 }
 
-.message-resume {
-    border: 1px solid #80ED99;
+.row {
+    background-color: #fcfcfccc;
     border-radius: 15px;
-    padding: 0px 20px 30px 20px;
+    margin: 40px 10px;
+}
+
+.message-resume {
+    border-radius: 15px;
+    padding: 20px 20px 30px 20px;
     margin: 40px 0px;
     width: 575px;
-    background: #38A3A5;
+    display: flex;
+    flex-direction: column;
 }
 
 .message-resume h1 {
     width: 100%;
+    margin: 0px 0px 20px 0px;
+    padding: 15px 15px;
+    background-color: #80ED99;
+    border-radius: 14px;
 }
 
 .message-resume p {
