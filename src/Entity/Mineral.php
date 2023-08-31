@@ -105,6 +105,9 @@ class Mineral
     #[ORM\ManyToMany(targetEntity: Coordinate::class, inversedBy: 'minerals')]
     private Collection $coordinates;
 
+    #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: ModificationHistory::class)]
+    private Collection $modificationHistories;
+
     public function __construct()
     {
         $this->colors = new ArrayCollection();
@@ -114,6 +117,7 @@ class Mineral
         $this->images = new ArrayCollection();
         $this->discussions = new ArrayCollection();
         $this->coordinates = new ArrayCollection();
+        $this->modificationHistories = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -410,6 +414,36 @@ class Mineral
     public function removeCoordinate(Coordinate $coordinate): static
     {
         $this->coordinates->removeElement($coordinate);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ModificationHistory>
+     */
+    public function getModificationHistories(): Collection
+    {
+        return $this->modificationHistories;
+    }
+
+    public function addModificationHistory(ModificationHistory $modificationHistory): static
+    {
+        if (!$this->modificationHistories->contains($modificationHistory)) {
+            $this->modificationHistories->add($modificationHistory);
+            $modificationHistory->setMineral($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModificationHistory(ModificationHistory $modificationHistory): static
+    {
+        if ($this->modificationHistories->removeElement($modificationHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($modificationHistory->getMineral() === $this) {
+                $modificationHistory->setMineral(null);
+            }
+        }
 
         return $this;
     }
