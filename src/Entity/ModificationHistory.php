@@ -25,23 +25,27 @@ class ModificationHistory
     private ?Mineral $mineral = null; // L'entité Mineral qui a été modifiée
 
     #[ORM\Column(type:"json")]
-    private array $changes = []; // Les modifications apportées, stockées au format JSON
+    private ?string $changes; // Les modifications apportées, stockées au format JSON
 
     #[ORM\Column(type:"datetime")]
     private ?\DateTimeImmutable $createdAt = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-    public function getChanges(): ?array
+    public function getChanges(): ?string
     {
         return $this->changes;
     }
 
-    public function setChanges(array $changes): self
+    public function setChanges(string $changes): static
     {
         $this->changes = $changes;
 
@@ -53,7 +57,7 @@ class ModificationHistory
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
         $this->createdAt = $createdAt;
 
@@ -82,5 +86,10 @@ class ModificationHistory
         $this->user = $user;
 
         return $this;
+    }
+
+    public function getDecodedChanges(): ?array
+    {
+        return json_decode($this->changes, true);
     }
 }
