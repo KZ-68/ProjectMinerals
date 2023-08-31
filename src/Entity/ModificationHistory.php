@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use App\Entity\Mineral;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ModificationHistoryRepository;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ModificationHistoryRepository::class)]
 class ModificationHistory
@@ -16,12 +16,12 @@ class ModificationHistory
     #[ORM\Column(type:"integer")]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity:"App\Entity\User", inversedBy:"modificationHistories")]
-    #[ORM\JoinColumn(nullable:false)]
-    private ?UserInterface $user = null; // L'utilisateur qui a effectué la modification
+    #[ORM\ManyToOne(inversedBy: 'modificationHistories')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null; // L'utilisateur qui a effectué la modification
 
-    #[ORM\ManyToOne(targetEntity:"App\Entity\Mineral", inversedBy:"modificationHistories")]
-    #[ORM\JoinColumn(nullable:false)]
+    #[ORM\ManyToOne(inversedBy: 'modificationHistories')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Mineral $mineral = null; // L'entité Mineral qui a été modifiée
 
     #[ORM\Column(type:"json")]
@@ -35,29 +35,6 @@ class ModificationHistory
         return $this->id;
     }
 
-    public function getUser(): ?UserInterface
-    {
-        return $this->user;
-    }
-
-    public function setUser(UserInterface $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getmineral(): ?Mineral
-    {
-        return $this->mineral;
-    }
-
-    public function setmineral(Mineral $mineral): self
-    {
-        $this->mineral = $mineral;
-
-        return $this;
-    }
 
     public function getChanges(): ?array
     {
@@ -79,6 +56,30 @@ class ModificationHistory
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getMineral(): ?Mineral
+    {
+        return $this->mineral;
+    }
+
+    public function setMineral(?Mineral $mineral): static
+    {
+        $this->mineral = $mineral;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
