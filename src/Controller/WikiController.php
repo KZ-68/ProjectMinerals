@@ -15,6 +15,7 @@ use App\Form\CommentType;
 use App\Form\MineralType;
 use App\Form\VarietyType;
 use App\Entity\Discussion;
+use App\Entity\ModificationHistory;
 use App\Form\DiscussionType;
 use App\Service\FileUploader;
 use App\Form\MineralColorType;
@@ -25,6 +26,7 @@ use App\Repository\CommentRepository;
 use App\Repository\MineralRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\DiscussionRepository;
+use App\Repository\ModificationHistoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -365,6 +367,19 @@ class WikiController extends AbstractController
 
         return $this->render('wiki/new_variety.html.twig', [
             'form' => $form
+        ]);
+    }
+
+    
+    #[Route("/wiki/history", name:"mineral_history")]
+    public function showHistory(ModificationHistoryRepository $modificationHistoryRepository): Response
+    {
+        // Récupére l'historique des modifications depuis la base de données.
+        $history = $modificationHistoryRepository->findAll();
+
+        // Affiche l'historique dans un template.
+        return $this->render('wiki/history.html.twig', [
+            'history' => $history,
         ]);
     }
 
