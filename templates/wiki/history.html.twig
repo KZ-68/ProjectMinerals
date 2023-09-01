@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique des Modifications{% endblock %}
+
+{% block body %}
+    <h1>Historique des Modifications</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Mineral</th>
+                <th>Date de Modification</th>
+                <th>Champ Modifié</th>
+                <th>Valeur d'Origine</th>
+                <th>Nouvelle Valeur</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in history %}
+                <tr>
+                    <td>{{ entry.mineral.name }}</td>
+                    <td>{{ entry.createdAt|date('Y-m-d H:i:s') }}</td>
+                    <td>
+                        {% for field, change in entry.changes %}
+                            {{ field }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for field, change in entry.changes %}
+                            {{ change.old }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for field, change in entry.changes %}
+                            {{ change.new }}<br>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
