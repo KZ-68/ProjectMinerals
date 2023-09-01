@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\User;
 use App\Entity\Mineral;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ModificationHistoryRepository;
 
 #[ORM\Entity(repositoryClass: ModificationHistoryRepository::class)]
@@ -25,7 +26,7 @@ class ModificationHistory
     private ?Mineral $mineral = null; // L'entité Mineral qui a été modifiée
 
     #[ORM\Column(type:"json")]
-    private ?string $changes; // Les modifications apportées, stockées au format JSON
+    private $changes; // Les modifications apportées, stockées au format JSON
 
     #[ORM\Column(type:"datetime")]
     private ?\DateTimeImmutable $createdAt = null;
@@ -40,14 +41,14 @@ class ModificationHistory
         return $this->id;
     }
 
-    public function getChanges(): ?string
+    public function getChanges(): ?array
     {
-        return $this->changes;
+        return json_decode($this->changes, true);
     }
 
-    public function setChanges(string $changes): static
+    public function setChanges(array $changes): static
     {
-        $this->changes = $changes;
+        $this->changes = json_encode($changes);
 
         return $this;
     }
@@ -88,8 +89,4 @@ class ModificationHistory
         return $this;
     }
 
-    public function getDecodedChanges(): ?array
-    {
-        return json_decode($this->changes, true);
-    }
 }
