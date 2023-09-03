@@ -18,7 +18,7 @@ class ModificationHistory
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'modificationHistories')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null; // L'utilisateur qui a effectué la modification
 
     #[ORM\ManyToOne(inversedBy: 'modificationHistories')]
@@ -29,11 +29,11 @@ class ModificationHistory
     private $changes; // Les modifications apportées, stockées au format JSON
 
     #[ORM\Column(type:"datetime")]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTime $createdAt = null;
 
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int
