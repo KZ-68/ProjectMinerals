@@ -9,9 +9,8 @@
             <tr>
                 <th>Mineral</th>
                 <th>Date de Modification</th>
-                <th>Champ Modifié</th>
-                <th>Valeur d'Origine</th>
-                <th>Nouvelle Valeur</th>
+                <th>Anciennes Valeurs</th>
+                <th>Nouvelles Valeurs</th>
             </tr>
         </thead>
         <tbody>
@@ -20,18 +19,13 @@
                     <td>{{ entry.mineral.name }}</td>
                     <td>{{ entry.createdAt|date('Y-m-d H:i:s') }}</td>
                     <td>
-                        {% for field, change in entry.changes %}
-                            {{ field }}<br>
+                        {% for change in entry.changes %}
+                            {{ change.0 | json_encode(constant('JSON_PRETTY_PRINT')) }}<br>
                         {% endfor %}
                     </td>
                     <td>
-                        {% for field, change in entry.changes %}
-                            {{ change.old }}<br>
-                        {% endfor %}
-                    </td>
-                    <td>
-                        {% for field, change in entry.changes %}
-                            {{ change.new }}<br>
+                        {% for change in entry.changes %}
+                            {{ change.1 | json_encode(constant('JSON_PRETTY_PRINT')) }}<br>
                         {% endfor %}
                     </td>
                 </tr>
