@@ -86,7 +86,7 @@ table {
   }
   
 thead th:nth-child(1) {
-width: 30%;
+width: 20%;
 }
 
 thead th:nth-child(2) {
@@ -94,11 +94,11 @@ width: 20%;
 }
 
 thead th:nth-child(3) {
-width: 15%;
+width: 20%;
 }
 
 thead th:nth-child(4) {
-width: 35%;
+width: 20%;
 }
 
 th {
@@ -1258,6 +1258,7 @@ aside.aside-wrapper {
     gap: 40px;
     width: fit-content;
     border-right: 1px solid #38A3A5;
+    align-items: center;
 }
 
 .admin-nav {
@@ -1515,11 +1516,16 @@ small {
     }
 
     th {
-        font-size: 20px;
+        font-size: 12px;
     }
 
     td {
         line-height: 40px;
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 10px 0px;
     }
 
     .adv-search-section h2 {
