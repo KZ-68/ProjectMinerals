@@ -1343,6 +1343,12 @@ small {
 }
 }
 
+@media only screen and (max-device-width: 1900px) {
+    .search-bar {
+        top: 900px;
+    }
+}
+
 @media only screen and (max-device-width: 1440px) {
     .search-bar {
         top: 790px;
@@ -1423,10 +1429,18 @@ small {
         padding-right: 25px;
         display: block;
     }
+
+    #facebook-icon {
+        width: 35px;
+    }
+
+    #x-icon {
+        width: 35px;
+    }
     
     #fig-logo {
         font-size: 50px;
-        left: 33%;
+        left: 31%;
         top: 11%;
     }
     
@@ -1623,7 +1637,7 @@ small {
     }
 
     .search-zone {
-        height: 35px;
+        height: 37px;
         width: 180px;
     }
 
@@ -1640,28 +1654,28 @@ small {
     }
     
     #minerals-logo {
-        left: 27%;
-        top: 22%;
+        left: 28%;
+        top: 27%;
         width: 159px;
     }
 
     #fig-logo {
         font-size: 34px;
-        left: 25%;
-        top: 10%;
+        left: 22%;
+        top: 14%;
         width: 194px;
     }
 
     #diaporama {
-        height: 381px;
+        height: 404px;
     }
 
     #diaporama img {
-        height: 376px;
+        height: 400px;
     }
 
     .search-bar {
-        top: 361px;
+        top: 385px;
         left: 69px;
     }
 
