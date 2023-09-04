@@ -1,22 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Historique des Modifications{% endblock %}
+{% block title %}Modifications History{% endblock %}
 
 {% block body %}
-    <h1>Historique des Modifications</h1>
+    <h1>Modifications History</h1>
     <table>
         <thead>
             <tr>
                 <th>Mineral</th>
-                <th>Date de Modification</th>
-                <th>Anciennes Valeurs</th>
-                <th>Nouvelles Valeurs</th>
+                <th>User</th>
+                <th>Modification Date</th>
+                <th>Old Values</th>
+                <th>New Values</th>
             </tr>
         </thead>
         <tbody>
             {% for entry in history %}
                 <tr>
                     <td>{{ entry.mineral.name }}</td>
+                    <td>{{ entry.user.username }}</td>
                     <td>{{ entry.createdAt|date('Y-m-d H:i:s') }}</td>
                     <td>
                         {% for change in entry.changes %}
