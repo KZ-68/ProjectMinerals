@@ -21,13 +21,13 @@
                     <td>{{ entry.user.username }}</td>
                     <td>{{ entry.createdAt|date('Y-m-d H:i:s') }}</td>
                     <td>
-                        {% for change in entry.changes %}
-                            {{ change.0 | json_encode(constant('JSON_PRETTY_PRINT')) }}<br>
+                        {% for key, change in entry.changes %}
+                        {{ key }}: {{ change.0 }}<br>
                         {% endfor %}
                     </td>
                     <td>
-                        {% for change in entry.changes %}
-                            {{ change.1 | json_encode(constant('JSON_PRETTY_PRINT')) }}<br>
+                        {% for key, change in entry.changes %}
+                        {{ key }}: {{ change.1 }}<br>
                         {% endfor %}
                     </td>
                 </tr>
