@@ -26,7 +26,9 @@
                 <li class="four">Your password must contain at least 1 "special" character (/>! @ + # $ % ^ & * , ?( ) _ ~ - ). <p id="output-four"></p></li>
                 <li class="five">Your password must be at least 8 characters long. <p id="output-five"></p></li>
             </ol>
-            {{ form_row(registrationForm.agreeTerms) }}
+            <div class="terms">
+                {{ form_row(registrationForm.agreeTerms) }}
+            </div>
 
             <button type="submit" class="btn">Register</button>
         </div>
