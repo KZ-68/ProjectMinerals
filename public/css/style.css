@@ -554,9 +554,21 @@ div.advanced-search-bar {
 
 .info-window{
     display:none;
-    background:#d4d4d48b;
+    background: #ffffffdb;
     padding: 10px 20px;
+    border-radius: 10px;
   }
+
+.terms input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+
+.terms div {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
   
 .one, .two, .three, .four, .five {
     display: flex;
@@ -718,6 +730,18 @@ div.advanced-search-bar {
     text-decoration: underline;
     background: #80ED99;
     padding: 10px 20px;
+}
+
+button.btn {
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    background: #6fd6c1;
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+    width: 150px;
 }
 
 .edit-btn, .anonymize-btn {
