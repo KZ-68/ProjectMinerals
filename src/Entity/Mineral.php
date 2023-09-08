@@ -406,6 +406,7 @@ class Mineral
     {
         if (!$this->coordinates->contains($coordinate)) {
             $this->coordinates->add($coordinate);
+            $coordinate->addMineral($this);
         }
 
         return $this;
