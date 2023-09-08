@@ -102,7 +102,7 @@ class Mineral
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Discussion::class, orphanRemoval: true)]
     private Collection $discussions;
 
-    #[ORM\ManyToMany(targetEntity: Coordinate::class, inversedBy: 'minerals')]
+    #[ORM\ManyToMany(targetEntity: Coordinate::class, cascade: ['persist'], inversedBy: 'minerals')]
     private Collection $coordinates;
 
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: ModificationHistory::class)]
