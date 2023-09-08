@@ -268,7 +268,7 @@ class WikiController extends AbstractController
     {
         $originalColors = new ArrayCollection();
         $originalImages = new ArrayCollection();
-        $coordinate = new Coordinate();
+        $coordinates = new ArrayCollection();
 
         // Pour chaque couleur récupérés :
         foreach ($mineral->getColors() as $color) {
@@ -280,14 +280,16 @@ class WikiController extends AbstractController
             $originalImages->add($image);
         }
 
+        foreach ($mineral->getCoordinates() as $coordinate) {
+            $coordinates->add($coordinate);
+        }
+
         $editForm = $this->createForm(MineralType::class, $mineral);
 
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $newImages = $editForm->get('images')->getData();
-            $latitude = $editForm->get('latitude')->getData();
-            $longitude = $editForm->get('longitude')->getData();
 
             foreach ($originalImages as $image) {
                 if (false === $mineral->getImages()->contains($image)) {
@@ -317,12 +319,23 @@ class WikiController extends AbstractController
                     $entityManager->persist($color);
                 }
             }
-            
-            $mineral->addCoordinate($coordinate);
+
+            foreach ($coordinates as $coordinate) {
+                if (false === $mineral->getCoordinates()->contains($coordinate)) {
+                    $mineral->removeCoordinate($coordinate);
+
+                    $entityManager->persist($coordinate);
+                }
+            }
+
+            $coordinate = new Coordinate();
+            $latitude = $editForm->get('latitude')->getData();
+            $longitude = $editForm->get('longitude')->getData();
             $coordinate->setLatitude($latitude);
             $coordinate->setLongitude($longitude);
-            $coordinate->addMineral($mineral);
-            $entityManager->persist($coordinate);
+            $coordinates->add($coordinate);
+            $mineral->addCoordinate($coordinate);
+
             $entityManager->persist($mineral);
             $entityManager->flush();
 
