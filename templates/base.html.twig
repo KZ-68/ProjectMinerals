@@ -112,6 +112,9 @@
             </nav>
         </header>
         {% block body %}{% endblock %}
+        <button onclick="topFunction();" class="topBtn">
+            <img src="{{asset('/uploads/images/up_6745208.png')}}">
+        </button>
         <footer>
             <div id="footer-wrapper">
                 <div id="nav-footer">
@@ -128,6 +131,7 @@
         {% block javascripts %}
         <script src="/js/burger_menu.js"></script>
         <script src="/js/accordion.js"></script>
+        <script src="/js/topFunction.js"></script>
         {% endblock %}
     </body>
 </html>
