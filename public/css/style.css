@@ -83,7 +83,7 @@ table {
     table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
-  }
+}
   
 thead th:nth-child(1) {
 width: 20%;
@@ -120,6 +120,19 @@ text-align: right;
 
 thead tr {
     background-color: #5fd6b985;
+}
+
+.topBtn {
+    background: none;
+    border: none;
+    position: fixed;
+    bottom: 65px;
+    right: 15px;
+    cursor: pointer;
+}
+
+.topBtn img {
+    width: 45px;
 }
 
 .actions {
