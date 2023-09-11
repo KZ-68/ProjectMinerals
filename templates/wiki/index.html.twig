@@ -8,10 +8,10 @@
     <a href="{{path('mineral_history')}}">Modifications history</a>
 </div>
 
-<h1>Minerals List</h1>
-<hr>
+<div class="minerals-list-wrapper">
+    <h1>Minerals List</h1>
+    <hr>
 
-<div class="list-wrapper">
     <div>
         <ul id="minerals-list">
             {# Le résultat de la requête affichera pour chaque élément mineral dans minerals : #}
@@ -24,6 +24,8 @@
             {{knp_pagination_render(minerals)}}
         </nav>
     </div>
+</div>>    
 </div>
+
 
 {% endblock %}
