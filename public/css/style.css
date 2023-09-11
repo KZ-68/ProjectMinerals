@@ -38,7 +38,6 @@ figcaption {
     font-size: 20px;
 }
 
-
 p {
     color: black;
     font-size: 20px;
@@ -53,6 +52,10 @@ a {
 i {
     font-size: 18px;
     font-weight: 200;
+}
+
+button {
+    cursor: pointer;
 }
 
 header {
