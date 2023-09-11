@@ -643,11 +643,21 @@ div.advanced-search-bar {
     font-size: 28px;
 }
 
+.minerals-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 30px 175px;
+    align-items: center;
+    border: 2px solid white;
+    border-radius: 15px;
+    background-color: white;
+}
+
 #minerals-list {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 700px;
+    width: 1300px;
 }
 
 #minerals-list li {
