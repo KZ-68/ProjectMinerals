@@ -550,6 +550,10 @@ div.advanced-search-bar {
     flex-direction: column;
     gap: 30px;
     width: 500px;
+    padding: 30px 20px;
+    border: 1px solid #fcfcfccc;
+    border-radius: 15px;
+    background-color: #fcfcfccc;
 }
 
 .formulaire-register-wrapper {
@@ -566,6 +570,22 @@ div.advanced-search-bar {
     flex-direction: column;
     gap: 30px;
     width: 500px;
+    padding: 30px 20px;
+    border: 1px solid #fcfcfccc;
+    border-radius: 15px;
+    background-color: #fcfcfccc;
+}
+
+input#inputEmail.form-control, input#inputPassword.form-control {
+    border-radius: 10px;
+    border: 2px solid #574f4f;
+    height: 35px;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+div.formulaire-login a {
+    text-decoration: underline;
 }
 
 .info-window{
