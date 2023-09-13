@@ -1430,6 +1430,27 @@ small {
     }
 }
 
+@media only screen and (max-device-width: 1024px) {
+    .minerals-list-wrapper {
+        margin: 29px 45px;
+    }
+    
+    .minerals-list-wrapper hr {
+        width: 550px;
+        margin: 0px 0px 30px 0px;
+    }
+    
+    #minerals-list {
+        width: 825px;
+        padding: 0;
+    }
+
+    .pagination {
+        margin: 40px 0px 20px 0px;
+    }
+
+}
+
 @media only screen and (min-device-width:768px) and (max-device-width: 1024px) {
     h2 {
         width: fit-content;
@@ -1570,6 +1591,27 @@ small {
 
     #cCarousel {
         max-width: 720px;
+    }
+
+}
+
+@media only screen and (max-device-width: 768px) {
+    .minerals-list-wrapper {
+        margin: 29px 55px;
+    }
+    
+    .minerals-list-wrapper hr {
+        width: 250px;
+        margin: 0px 0px 30px 0px;
+    }
+    
+    #minerals-list {
+        width: 576px;
+        padding: 0;
+    }
+
+    .pagination {
+        margin: 40px 0px 20px 0px;
     }
 
 }
@@ -1945,5 +1987,44 @@ small {
 
     .anchor-footer:nth-child(-n + 3) {
         display: none;
+    }
+}
+
+@media only screen and (max-device-width : 320px) {
+    .minerals-list-wrapper {
+        margin: 29px 18px;
+    }
+    
+    .minerals-list-wrapper hr {
+        width: 222px;
+        margin: 0px 0px 30px 0px;
+    }
+
+    .minerals-list-wrapper div {
+        width: 245px;
+    }
+
+    #minerals-list, #categories-list {
+        width: 245px;
+    }
+
+    .pagination {
+        margin: 30px 0px;
+    }
+
+    span.current {
+        font-size: 14px;
+    }
+
+    span.page a {
+        font-size: 14px;
+    }
+
+    span.next a {
+        font-size: 14px;
+    }
+
+    span.last a {
+        font-size: 14px;
     }
 }
