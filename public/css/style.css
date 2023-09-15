@@ -58,6 +58,20 @@ button {
     cursor: pointer;
 }
 
+button.btn:active {
+    background: #5ecfb8;
+    font-size: 15px;
+}
+
+button#contact_validate:active {
+    background: #5ecfb8;
+    font-size: 15px;
+}
+
+.mineral-options a:hover {
+    background-color: #57CC99;
+}
+
 header {
     background: #38A3A5;
     padding: 15px 20px;
@@ -1033,9 +1047,18 @@ form[enctype='multipart/form-data'] button {
     align-items: flex-start;
     gap: 20px;
     padding: 15px 20px;
-    border: 1px solid #eeeeee;
-    background-color: #eeeeee;
+    border: 1px solid #fcfcfccc;
+    background-color: #fcfcfccc;
     border-radius: 10px;
+}
+
+.list-group hr {
+    width: 118px;
+    margin: 0;
+    padding: 3px;
+    background-color: #5ecfb8;
+    border-radius: 5px;
+    border-style: none;
 }
 
 .row {
@@ -1066,12 +1089,12 @@ form[enctype='multipart/form-data'] button {
 }
 
 .message-zone {
-    border: 1px solid #80ED99;
+    border: 1px solid #fcfcfccc;
     border-radius: 15px;
     padding: 0px 20px 30px 20px;
     margin: 20px 0px;
     width: 645px;
-    background: #38A3A5;
+    background: #fcfcfccc;
 }
 
 .messages-list-wrapper {
@@ -1297,6 +1320,11 @@ hgroup.response-comment-subject h2 {
     gap: 208px;
 }
 
+span.page:hover, span.first:hover, span.previous:hover, span.next:hover, span.last:hover {
+    background-color: #6fd6c1;
+    border: 1px solid #6fd6c1;
+}
+
 span.page, span.first, span.previous, span.next, span.last {
     border: 1px solid #38A3A5;
     border-radius: 4px;
@@ -1306,10 +1334,10 @@ span.page, span.first, span.previous, span.next, span.last {
 }
 
 span.current {
-    border: 1px solid #38A3A5;
+    border: 1px solid #6fd6c1;
     border-radius: 4px;
     padding: 8px 6px;
-    background: #38A3A5;
+    background: #6fd6c1;
     font-size: 20px;
     font-weight: 700;
 }
