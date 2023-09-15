@@ -6,16 +6,7 @@
 
 <div class="message-box-wrapper">
     <div class="message-menu-wrapper">
-        <div class="message-menu-header">
-            <h2 class="message-menu-title">Message Box Menu</h2>
-        </div>
-        <div class="message-menu-body">
-            <div class="list-group">
-                <a href="{{path('app_message')}}" class="list-group-item list-group-item-action-active">Home</a>
-                <a href="{{path('received_message')}}" class="list-group-item list-group-item-action-active">Received Box</a>
-                <a href="{{path('sent_message')}}" class="list-group-item list-group-item-action-active">Sent Box</a>
-            </div>
-        </div>
+        {% include "_partials/_message_menu.html.twig"%}
     </div>
 
     <div class="message-zone">
