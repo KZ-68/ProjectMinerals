@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifications History{% endblock %}
+
+{% block body %}
+    <h1>Modifications History</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Color</th>
+                <th>User</th>
+                <th>Modification Date</th>
+                <th>Old Values</th>
+                <th>New Values</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in history %}
+                {% if entry.mineral == NULL %}
+                <tr>
+                    <td>{{ entry.color.name }}</td>
+                    <td>{{ entry.user.username }}</td>
+                    <td>{{ entry.createdAt|date('Y-m-d H:i:s') }}</td>
+                    <td>
+                        {% for key, change in entry.changes %}
+                        {{ key }}: {{ change.0 }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for key, change in entry.changes %}
+                        {{ key }}: {{ change.1 }}<br>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
