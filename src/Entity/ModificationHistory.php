@@ -22,7 +22,7 @@ class ModificationHistory
     private ?User $user = null; // L'utilisateur qui a effectué la modification
 
     #[ORM\ManyToOne(inversedBy: 'modificationHistories')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Mineral $mineral = null; // L'entité Mineral qui a été modifiée
 
     #[ORM\Column(type:"json")]
@@ -30,6 +30,10 @@ class ModificationHistory
 
     #[ORM\Column(type:"datetime")]
     private ?\DateTime $createdAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'modificationHistories')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Color $color = null;
 
     public function __construct()
     {
@@ -89,4 +93,15 @@ class ModificationHistory
         return $this;
     }
 
+    public function getColor(): ?Color
+    {
+        return $this->color;
+    }
+
+    public function setColor(?Color $color): static
+    {
+        $this->color = $color;
+
+        return $this;
+    }
 }
