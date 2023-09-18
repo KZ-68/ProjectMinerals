@@ -16,6 +16,7 @@
         </thead>
         <tbody>
             {% for entry in history %}
+                {% if entry.color == NULL %}
                 <tr>
                     <td>{{ entry.mineral.name }}</td>
                     <td>{{ entry.user.username }}</td>
@@ -31,6 +32,7 @@
                         {% endfor %}
                     </td>
                 </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>
