@@ -38,9 +38,13 @@ class Color
     #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
+    #[ORM\OneToMany(mappedBy: 'color', targetEntity: ModificationHistory::class)]
+    private Collection $modificationHistories;
+
     public function __construct()
     {
         $this->minerals = new ArrayCollection();
+        $this->modificationHistories = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -97,6 +101,36 @@ class Color
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ModificationHistory>
+     */
+    public function getModificationHistories(): Collection
+    {
+        return $this->modificationHistories;
+    }
+
+    public function addModificationHistory(ModificationHistory $modificationHistory): static
+    {
+        if (!$this->modificationHistories->contains($modificationHistory)) {
+            $this->modificationHistories->add($modificationHistory);
+            $modificationHistory->setColor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModificationHistory(ModificationHistory $modificationHistory): static
+    {
+        if ($this->modificationHistories->removeElement($modificationHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($modificationHistory->getColor() === $this) {
+                $modificationHistory->setColor(null);
+            }
+        }
 
         return $this;
     }
