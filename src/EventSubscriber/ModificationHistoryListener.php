@@ -38,17 +38,41 @@ class ModificationHistoryListener implements EventSubscriber
             $changeSet = $entityManager->getUnitOfWork()->getEntityChangeSet($mineral);
             $changeSet = $entityManager->getUnitOfWork()->getEntityChangeSet($color);
 
-            // Créez une instance de MineralHistory et enregistrez les modifications.
-            $modificationHistory = new ModificationHistory();
-            $modificationHistory->setMineral($mineral);
-            $modificationHistory->setUser($user);
-            $modificationHistory->setChanges($changeSet);
-            $mineral->addModificationHistory($modificationHistory);
-            $user->addModificationHistory($modificationHistory);
-            // Enregistrez l'historique des modifications.
-            $entityManager->persist($modificationHistory);
-            $entityManager->persist($mineral);
-            $entityManager->flush();
+            $colorsCollection = $mineral->getColors();
+
+            $inserted = $colorsCollection->getInsertDiff();
+            $deleted = $colorsCollection->getDeleteDiff();
+
+            if ($inserted && $deleted) {
+                $modifiedDataColors = [
+                    'color' => [
+                    $inserted[0]->getName(),
+                    $deleted[0]->getName(),
+                    ]
+                ];
+                    // On crée une instance de MineralHistory et on enregistre les modifications.
+                $modificationHistory = new ModificationHistory();
+                $modificationHistory->setMineral($mineral);
+                $modificationHistory->setUser($user);
+                $modificationHistory->setChanges([$modifiedDataColors, $changeSet]);
+                $mineral->addModificationHistory($modificationHistory);
+                $user->addModificationHistory($modificationHistory);
+                // On enregistre l'historique des modifications.
+                $entityManager->persist($modificationHistory);
+                $entityManager->persist($mineral);
+                $entityManager->flush();
+            } else {
+                $modificationHistory = new ModificationHistory();
+                $modificationHistory->setMineral($mineral);
+                $modificationHistory->setUser($user);
+                $modificationHistory->setChanges([$changeSet]);
+                $mineral->addModificationHistory($modificationHistory);
+                $user->addModificationHistory($modificationHistory);
+                // On enregistre l'historique des modifications.
+                $entityManager->persist($modificationHistory);
+                $entityManager->persist($mineral);
+                $entityManager->flush();
+            } 
         }
 
         if($color instanceof Color) {
