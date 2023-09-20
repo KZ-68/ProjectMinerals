@@ -35,6 +35,10 @@ class ModificationHistory
     #[ORM\JoinColumn(nullable: true)]
     private ?Color $color = null;
 
+    #[ORM\ManyToOne(inversedBy: 'modificationHistories')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Lustre $lustre = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -101,6 +105,18 @@ class ModificationHistory
     public function setColor(?Color $color): static
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    public function getLustre(): ?Lustre
+    {
+        return $this->lustre;
+    }
+
+    public function setLustre(?Lustre $lustre): static
+    {
+        $this->lustre = $lustre;
 
         return $this;
     }
