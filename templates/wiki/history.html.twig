@@ -22,13 +22,18 @@
                     <td>{{ entry.user.username }}</td>
                     <td>{{ entry.createdAt|date('Y-m-d H:i:s') }}</td>
                     <td>
-                        {% for key, change in entry.changes %}
-                        {{ key }}: {{ change.0 }}<br>
+                        
+                        {% for keys in entry.changes %}
+                            {% for key, change in keys %}
+                                {{ key }}: {{ change.0 }}<br>
+                            {% endfor %}
                         {% endfor %}
                     </td>
                     <td>
-                        {% for key, change in entry.changes %}
-                        {{ key }}: {{ change.1 }}<br>
+                        {% for keys in entry.changes %}
+                            {% for key, change in keys %}
+                                {{ key }}: {{ change.1 }}<br>
+                            {% endfor %}
                         {% endfor %}
                     </td>
                 </tr>
