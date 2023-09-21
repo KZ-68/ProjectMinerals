@@ -39,6 +39,14 @@ class ModificationHistory
     #[ORM\JoinColumn(nullable: true)]
     private ?Lustre $lustre = null;
 
+    #[ORM\ManyToOne(inversedBy: 'modificationHistories')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Image $image = null;
+
+    #[ORM\ManyToOne(inversedBy: 'modificationHistories')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Coordinate $coordinate = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -117,6 +125,30 @@ class ModificationHistory
     public function setLustre(?Lustre $lustre): static
     {
         $this->lustre = $lustre;
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): static
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getCoordinate(): ?Coordinate
+    {
+        return $this->coordinate;
+    }
+
+    public function setCoordinate(?Coordinate $coordinate): static
+    {
+        $this->coordinate = $coordinate;
 
         return $this;
     }
