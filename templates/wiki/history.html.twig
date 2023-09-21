@@ -25,14 +25,23 @@
                         
                         {% for keys in entry.changes %}
                             {% for key, change in keys %}
-                                {{ key }}: {{ change.0 }}<br>
+                                {% if change.0 is not defined  %}
+                                    
+                                {% else %}
+                                    {{ key }}: {{ change.0 }}<br>
+                                {% endif %}
+                                
                             {% endfor %}
                         {% endfor %}
                     </td>
                     <td>
                         {% for keys in entry.changes %}
                             {% for key, change in keys %}
-                                {{ key }}: {{ change.1 }}<br>
+                                {% if change.1 is not defined %}
+                                    
+                                {% else %}
+                                    {{ key }}: {{ change.1 }}<br>
+                                {% endif %}
                             {% endfor %}
                         {% endfor %}
                     </td>
