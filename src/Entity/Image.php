@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ImageRepository;
+use ApiPlatform\Metadata\ApiResource;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ApiResource()]
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
@@ -27,9 +29,13 @@ class Image
     #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Variety $variety = null;
 
+    #[ORM\OneToMany(mappedBy: 'image', targetEntity: ModificationHistory::class)]
+    private Collection $modificationHistories;
+
     public function __construct()
     {
         $this->addedAt = new \DateTimeImmutable();
+        $this->modificationHistories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -81,6 +87,36 @@ class Image
     public function setVariety(?Variety $variety): static
     {
         $this->variety = $variety;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ModificationHistory>
+     */
+    public function getModificationHistories(): Collection
+    {
+        return $this->modificationHistories;
+    }
+
+    public function addModificationHistory(ModificationHistory $modificationHistory): static
+    {
+        if (!$this->modificationHistories->contains($modificationHistory)) {
+            $this->modificationHistories->add($modificationHistory);
+            $modificationHistory->setImage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModificationHistory(ModificationHistory $modificationHistory): static
+    {
+        if ($this->modificationHistories->removeElement($modificationHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($modificationHistory->getImage() === $this) {
+                $modificationHistory->setImage(null);
+            }
+        }
 
         return $this;
     }
