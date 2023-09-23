@@ -496,4 +496,15 @@ class WikiController extends AbstractController
             'images' => $imageRepository->findPaginateImages($request->query->getInt('page', 1))
         ]);
     }
+
+    #[Route('/wiki/image/{id}/delete', name: 'delete_image')]
+    #[IsGranted('ROLE_USER')]
+    public function deleteImage(Image $image, EntityManagerInterface $entityManager) {
+        // Prépare la suppression d'une instance de l'objet 
+        $entityManager->remove($image);
+        // Exécute la suppression
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_image');
+    }
 }
