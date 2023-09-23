@@ -26,7 +26,7 @@ class ImageRepository extends ServiceEntityRepository
         parent::__construct($registry, Image::class);
     }
 
-    public function findImagesAndNameInMineral($mineral): array {
+    public function findVarietyImagesAndNamesInMineral($mineral): array {
         $em = $this->getEntityManager();
         $sub = $em->createQueryBuilder(); 
         $sub->select('i') 
@@ -37,6 +37,20 @@ class ImageRepository extends ServiceEntityRepository
             ->setParameter(':id', $mineral);
             return $sub->getQuery()->getResult();
 
+    }
+
+    public function findTitleImageSubstitution($mineral): array {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder(); 
+        $sub->select('i') 
+            ->from('App\Entity\Image', 'i') 
+            ->leftJoin('i.variety', 'v')
+            ->leftJoin('v.mineral', 'm')
+            ->where('m.id = :id')
+            ->setMaxResults(1)
+            ->setParameter(':id', $mineral);
+            return $sub->getQuery()->getResult();
+            
     }
 
     public function findImagesById($mineral): array {
