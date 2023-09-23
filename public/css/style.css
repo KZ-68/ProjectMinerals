@@ -754,6 +754,34 @@ div.formulaire-login a {
     justify-content: center;
 }
 
+#images-list-figure {
+    position: relative;
+}
+
+#images-list-figure a {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    display: none;
+}
+
+#images-list-figure:hover a {
+    display: block;
+    animation-name: fade-images-icon;
+    animation-duration: 2.5s;
+    animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+@keyframes fade-images-icon {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 .pagination {
     display: flex;
     flex-direction: row;
