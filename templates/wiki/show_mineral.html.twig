@@ -28,10 +28,16 @@
         <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Top Image Mineral">
         {% endfor %}
     </figure>
+{% elseif image | length == 0 and substitutionImage | length > 0 %} 
+    <figure id="mineral-figure">
+        {% for image in substitutionImage %}
+        <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Top Image Mineral">
+        {% endfor %}
+    </figure>
 {% else %}
-<figure id="mineral-figure">
-    <p>There's no image available</p>
-</figure>
+    <figure id="mineral-figure">
+        <p>There's no image available</p>
+    </figure>
 {% endif %}
 
 
@@ -95,7 +101,7 @@
     
 
     <div id="varieties-images">
-    {% for image in images %}
+    {% for image in varietyImages %}
         
         <figure class="figure-varieties">
         {% if image.filename is not null %}
