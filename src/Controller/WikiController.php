@@ -53,10 +53,12 @@ class WikiController extends AbstractController
     public function showMineral(Mineral $mineral, ImageRepository $imageRepository): Response
     {
         $image = $imageRepository->findImagesById($mineral->getId());
-        $images = $imageRepository->findImagesAndNameInMineral($mineral->getId());
+        $varietyImages = $imageRepository->findVarietyImagesAndNamesInMineral($mineral->getId());
+        $substitutionImage = $imageRepository->findTitleImageSubstitution($mineral->getId());
         return $this->render('wiki/show_mineral.html.twig', [
             'image' => $image,
-            'images' => $images,
+            'varietyImages' => $varietyImages,
+            'substitutionImage' => $substitutionImage,
             'mineral' => $mineral
         ]);
     }
