@@ -354,7 +354,7 @@ class WikiController extends AbstractController
 
     #[Route('/wiki/mineral/{slug}/variety/new', name: 'new_variety')]
     #[IsGranted('ROLE_USER')]
-    public function new_variety(Variety $variety = null, Mineral $mineral, FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
+    public function new_variety(Mineral $mineral, FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
         $variety = new Variety();
         
@@ -374,10 +374,12 @@ class WikiController extends AbstractController
             }
 
             $variety->setMineral($mineral);
+            $mineral->addVariety($variety);
             $entityManager->persist($variety);
+            $entityManager->persist($mineral);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_variety');
+            return $this->redirectToRoute('show_mineral', ['slug' => $mineral->getSlug()]);
         }
 
         return $this->render('wiki/new_variety.html.twig', [
