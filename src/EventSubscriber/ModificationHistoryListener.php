@@ -3,11 +3,12 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Color;
-use App\Entity\Coordinate;
 use App\Entity\Image;
 use App\Entity\Lustre;
 use App\Entity\Mineral;
+use App\Entity\Variety;
 use Doctrine\ORM\Events;
+use App\Entity\Coordinate;
 use App\Entity\ModificationHistory;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\PersistentCollection;
@@ -34,6 +35,7 @@ class ModificationHistoryListener implements EventSubscriber
         $color = $args->getObject();
         $lustre = $args->getObject();
         $image = $args->getObject();
+        $variety = $args->getObject();
        
         $user = $this->tokenStorage->getToken()->getUser();
         
@@ -46,6 +48,7 @@ class ModificationHistoryListener implements EventSubscriber
             $lustresCollection = $mineral->getLustres();
             $imagesCollection = $mineral->getImages();
             $coordinatesCollection = $mineral->getCoordinates();
+            $varietiesCollection = $mineral->getVarieties();
 
             $insertedColors = $colorsCollection->getInsertDiff();
             $deletedColors = $colorsCollection->getDeleteDiff();
@@ -58,6 +61,9 @@ class ModificationHistoryListener implements EventSubscriber
 
             $insertedCoordinates = $coordinatesCollection->getInsertDiff();
             $deletedCoordinates = $coordinatesCollection->getDeleteDiff();
+
+            $insertedVarieties = $varietiesCollection->getInsertDiff();
+            $deletedVarieties = $varietiesCollection->getDeleteDiff();
 
             $modificationHistory = new ModificationHistory();
             $modificationHistory->setMineral($mineral);
@@ -92,6 +98,13 @@ class ModificationHistoryListener implements EventSubscriber
                     ]
                 ];
                 $modificationHistory->setChanges([$modifiedDataCoordinates, $changeSet]);
+            } else if ($deletedVarieties && !$insertedVarieties) {
+                $modifiedDataVarieties = [
+                    'variety' => [
+                    $deletedVarieties[0]->getName()
+                    ]
+                ];
+                $modificationHistory->setChanges([$modifiedDataVarieties, $changeSet]);
             } else if ($insertedColors && !$deletedColors) {
                 $modifiedDataColors = [
                     'color' => [
@@ -121,6 +134,13 @@ class ModificationHistoryListener implements EventSubscriber
                     ]
                 ];
                 $modificationHistory->setChanges([$modifiedDataCoordinates, $changeSet]);
+            } else if ($insertedVarieties && !$deletedVarieties) {
+                $modifiedDataVarieties = [
+                    'variety' => [
+                    $insertedVarieties[0]->getName(),
+                    ]
+                ];
+                $modificationHistory->setChanges([$modifiedDataVarieties, $changeSet]);
             } else if($insertedImages && $insertedCoordinates && !$deletedImages && !$deletedCoordinates) {
                 $modifiedDataImages = [
                     'image' => [
@@ -313,6 +333,33 @@ class ModificationHistoryListener implements EventSubscriber
 
                 $entityManager->persist($modificationHistory);
                 $entityManager->persist($image);
+                $entityManager->flush();
+            } 
+        }
+
+        if($variety instanceof Variety) {
+            $entityManager = $args->getObjectManager();
+
+            $changeSet = $entityManager->getUnitOfWork()->getEntityChangeSet($variety);
+
+            $insertedImages = $imagesCollection->getInsertDiff();
+            $deletedImages = $imagesCollection->getDeleteDiff();
+
+            if ($changeSet != [] && $insertedImages) {
+                $modificationHistory = new ModificationHistory();
+                $modifiedDataImages = [
+                    'image' => [
+                    $insertedImages[0]->getFilename(),
+                    ]
+                ];
+                $modificationHistory->setVariety($variety);
+                $modificationHistory->setUser($user);
+                $modificationHistory->setChanges($modifiedDataImages, $changeSet);
+                $variety->addModificationHistory($modificationHistory);
+                $user->addModificationHistory($modificationHistory);
+
+                $entityManager->persist($modificationHistory);
+                $entityManager->persist($variety);
                 $entityManager->flush();
             } 
         }
