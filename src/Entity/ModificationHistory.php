@@ -47,6 +47,10 @@ class ModificationHistory
     #[ORM\JoinColumn(nullable: true)]
     private ?Coordinate $coordinate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'modificationHistories')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Variety $variety = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -149,6 +153,18 @@ class ModificationHistory
     public function setCoordinate(?Coordinate $coordinate): static
     {
         $this->coordinate = $coordinate;
+
+        return $this;
+    }
+
+    public function getVariety(): ?Variety
+    {
+        return $this->variety;
+    }
+
+    public function setVariety(?Variety $variety): static
+    {
+        $this->variety = $variety;
 
         return $this;
     }
