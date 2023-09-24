@@ -44,10 +44,14 @@ class Variety
     #[ORM\ManyToMany(targetEntity: Coordinate::class, inversedBy: 'varieties')]
     private Collection $coordinates;
 
+    #[ORM\OneToMany(mappedBy: 'variety', targetEntity: ModificationHistory::class)]
+    private Collection $modificationHistories;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->coordinates = new ArrayCollection();
+        $this->modificationHistories = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -146,6 +150,36 @@ class Variety
     public function removeCoordinate(Coordinate $coordinate): static
     {
         $this->coordinates->removeElement($coordinate);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ModificationHistory>
+     */
+    public function getModificationHistories(): Collection
+    {
+        return $this->modificationHistories;
+    }
+
+    public function addModificationHistory(ModificationHistory $modificationHistory): static
+    {
+        if (!$this->modificationHistories->contains($modificationHistory)) {
+            $this->modificationHistories->add($modificationHistory);
+            $modificationHistory->setVariety($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModificationHistory(ModificationHistory $modificationHistory): static
+    {
+        if ($this->modificationHistories->removeElement($modificationHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($modificationHistory->getVariety() === $this) {
+                $modificationHistory->setVariety(null);
+            }
+        }
 
         return $this;
     }
