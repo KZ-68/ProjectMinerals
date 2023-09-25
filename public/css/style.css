@@ -146,6 +146,7 @@ thead tr {
     bottom: 65px;
     right: 15px;
     cursor: pointer;
+    z-index: 999;
 }
 
 .topBtn img {
@@ -807,17 +808,63 @@ div.formulaire-login a {
     margin-left: 40px;
 }
 
-#variety-title {
+#varieties-wrapper {
+    margin: 10px 20px;
+    padding: 15px 15px;
+    border: 1px solid #fcfcfccc;
+    border-radius: 10px;
+    background-color: #fcfcfccc;
+}
+
+#varieties-wrapper h2 {
+    background: none;
+    padding: 10px 20px 10px 40px;
+    margin: 10px 0;
+    width: 435px;
+    border-radius: 5px;
+}
+
+#varieties-wrapper hr {
+    width: 372px;
+    margin: 0px 0px 30px 25px;
+    padding: 3px;
+    background-color: #5ecfb8;
+    border-radius: 5px;
+    border-style: none;
+}
+
+#variety-title-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+}
+
+#variety-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
 }
 
 #add-variety {
-    color: #22577A;
-    text-decoration: underline;
-    background: #80ED99;
-    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    background: #6fd6c1;
+    padding: 10px 13px;
+    border-radius: 21px;
+}
+
+#varieties-images {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    margin: 20px 30px;
+    padding: 20px;
+    border: 2px solid #38A3A5;
+    border-radius: 5px;
+    height: 375px;
 }
 
 button.btn {
@@ -880,20 +927,30 @@ button.btn {
     align-items: center;
 }
 
-#varieties-images {
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-    margin: 20px 30px;
-    padding: 20px;
-    border: 1px solid #38A3A5;
+section.section-map {
+    margin: 10px 20px;
+    padding: 15px 15px;
+    border: 1px solid #fcfcfccc;
+    border-radius: 10px;
+    background-color: #fcfcfccc;
+}
+
+.section-map h2 {
+    background: none;
+    padding: 10px 20px 10px 40px;
+    margin: 15px 0;
+    width: 700px;
     border-radius: 5px;
-    height: 375px;
 }
 
 #mineral-map {
     height: 400px;
     max-width: 400px;
+}
+
+#carousel-wrapper h2 {
+    background: none;
+    margin: 15px 0;
 }
 
 #cCarousel {
@@ -1931,8 +1988,21 @@ small {
         font-size: 16px;
     }
 
+    #variety-title-wrapper {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
     #variety-title {
         flex-direction: column;
+    }
+
+    #varieties-wrapper h2 {
+        width: 309px;
+    }
+
+    #varieties-wrapper hr {
+        width: 260px;
     }
 
     #variety-title h2 {
@@ -1940,15 +2010,16 @@ small {
     } 
 
     #add-variety {
-        width: 100%;
+        width: 11rem;
         padding: 10px 20px 10px 40px;
     }
 
     #varieties-images {
         flex-direction: column;
-        height: 318px;
         justify-content: center;
         align-items: center;
+        height: fit-content;
+        margin: 20px 15px;
     }
 
     .figure-varieties figcaption {
@@ -1956,13 +2027,21 @@ small {
     }
 
     .mineral-image {
-        width: 270px;
-        height: 250px;
+        width: 229px;
+        height: 200px;
+    }
+
+    .section-map h2 {
+        width: 307px;
+    }
+
+    .section-map hr {
+        width: 265px;
     }
 
     #mineral-map {
-        height: 340px;
-        max-width: 340px;
+        height: 300px;
+        max-width: 280px;
         left: 17px;
     }
 
@@ -2043,6 +2122,10 @@ small {
 
     .anchor-footer:nth-child(-n + 3) {
         display: none;
+    }
+
+    .topBtn {
+        bottom: 80px;
     }
 }
 
