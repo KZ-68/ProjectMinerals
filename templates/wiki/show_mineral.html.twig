@@ -94,35 +94,42 @@
 </div>
 
 <section class="section-wiki">
-    <hgroup id="variety-title">
-        <h2>Varieties of {{mineral.name}}</h2>
-        <a id="add-variety" href="{{ path('new_variety', {'slug': mineral.slug}) }}">Add a variety</a>
-    </hgroup>
-    
-
-    <div id="varieties-images">
-    {% for image in varietyImages %}
+    <div id="varieties-wrapper">
+        <div id="variety-title-wrapper">
+            <hgroup id="variety-title">
+                <h2>Varieties of {{mineral.name}}</h2>
+                <hr>
+            </hgroup>
+            <a id="add-variety" href="{{ path('new_variety', {'slug': mineral.slug}) }}">Add a variety</a>
+        </div>
         
-        <figure class="figure-varieties">
-        {% if image.filename is not null %}
-                <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Variety Mineral">
-        {% else %}
-            <i>Missing image</i>
-        {% endif %}
         
-        {% if image.variety.name is not null %}
-            <figcaption><a href="{{path('show_variety', {'slug': image.variety.slug})}}">{{image.variety.name}}</a></figcaption>
-        {% else %}
-            <i>Missing information</i>
-        {% endif %}
-        </figure>
 
-    {% endfor %}
+        <div id="varieties-images">
+        {% for image in varietyImages %}
+            
+            <figure class="figure-varieties">
+            {% if image.filename is not null %}
+                    <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Variety Mineral">
+            {% else %}
+                <i>Missing image</i>
+            {% endif %}
+            
+            {% if image.variety.name is not null %}
+                <figcaption><a href="{{path('show_variety', {'slug': image.variety.slug})}}">{{image.variety.name}}</a></figcaption>
+            {% else %}
+                <i>Missing information</i>
+            {% endif %}
+            </figure>
+
+        {% endfor %}
+        </div>
     </div>
 </section>
 
 <section class="section-map">
     <h2>Countries where {{mineral.name}} can be found</h2>
+    <hr>
 
     <div id="mineral-map"></div>
     {% for coordinate in mineral.coordinates %}
@@ -132,7 +139,9 @@
 </section>
 
 <section class="section-wiki">
-    <h2>Images Gallery of {{mineral.name}}</h2>
+    <div id="carousel-wrapper">
+        <h2>Images Gallery of {{mineral.name}}</h2>
+        <hr>
 
         <div id="cCarousel">
           <div class="arrow" id="prev"><span class="arrow-symbols">&#8249;</span></div>
@@ -150,6 +159,7 @@
                 </div>
             </div>
         </div>
+    </div>
 </section>
 
 {% block javascript %}
