@@ -341,9 +341,15 @@ class ModificationHistoryListener implements EventSubscriber
             $entityManager = $args->getObjectManager();
 
             $changeSet = $entityManager->getUnitOfWork()->getEntityChangeSet($variety);
+            
+            $imagesCollection = $variety->getImages();
+            $coordinatesCollection = $variety->getCoordinates();
 
             $insertedImages = $imagesCollection->getInsertDiff();
             $deletedImages = $imagesCollection->getDeleteDiff();
+
+            $insertedCoordinates = $coordinatesCollection->getInsertDiff();
+            $deletedCoordinates = $coordinatesCollection->getDeleteDiff();
 
             if ($changeSet != [] && $insertedImages) {
                 $modificationHistory = new ModificationHistory();
@@ -352,16 +358,41 @@ class ModificationHistoryListener implements EventSubscriber
                     $insertedImages[0]->getFilename(),
                     ]
                 ];
-                $modificationHistory->setVariety($variety);
-                $modificationHistory->setUser($user);
                 $modificationHistory->setChanges($modifiedDataImages, $changeSet);
-                $variety->addModificationHistory($modificationHistory);
-                $user->addModificationHistory($modificationHistory);
-
-                $entityManager->persist($modificationHistory);
-                $entityManager->persist($variety);
-                $entityManager->flush();
+            } else if ($changeSet != [] && $insertedCoordinates) {
+                $modificationHistory = new ModificationHistory();
+                $modifiedDataCoordinates = [
+                    'coordinate' => [
+                    $insertedCoordinates[0]->getLatitude(),
+                    $insertedCoordinates[0]->getLongitude()
+                    ]
+                ];
+                $modificationHistory->setChanges($modifiedDataCoordinates, $changeSet);
+            } else if ($changeSet != [] && $deletedImages) {
+                $modificationHistory = new ModificationHistory();
+                $modifiedDataImages = [
+                    'image' => [
+                    $deletedImages[0]->getFilename(),
+                    ]
+                ];
+                $modificationHistory->setChanges($modifiedDataImages, $changeSet);
+            } else if ($changeSet != [] && $deletedCoordinates) {
+                $modificationHistory = new ModificationHistory();
+                $modifiedDataCoordinates = [
+                    'coordinate' => [
+                    $deletedCoordinates[0]->getLatitude(),
+                    $deletedCoordinates[0]->getLongitude()
+                    ]
+                ];
+                $modificationHistory->setChanges($modifiedDataCoordinates, $changeSet);
             } 
+            $modificationHistory->setVariety($variety);
+            $modificationHistory->setUser($user);
+            $variety->addModificationHistory($modificationHistory);
+            $user->addModificationHistory($modificationHistory); 
+            $entityManager->persist($modificationHistory);
+            $entityManager->persist($variety);
+            $entityManager->flush();
         }
     }
 }
