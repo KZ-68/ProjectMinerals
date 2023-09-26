@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\Mineral;
+use App\Entity\Variety;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+class MineralVarietiesType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('varieties', EntityType::class, [
+                'class' => Variety::class,
+                'choice_label' => function ($allChoices, $currentChoiceKey)
+                {
+                    return $allChoices->getName();
+                },
+                'expanded'  => false,
+                'multiple'  => true,
+                'by_reference' => false,
+                'attr' => [
+                    'class' => 'form-select'
+                ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-success' 
+                ]
+            ])
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Mineral::class,
+        ]);
+    }
+}
