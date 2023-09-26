@@ -6,7 +6,6 @@ use App\Entity\Color;
 use App\Entity\Image;
 use App\Entity\Lustre;
 use App\Entity\Comment;
-use App\Entity\Coordinate;
 use App\Entity\Mineral;
 use App\Entity\Variety;
 use App\Entity\Category;
@@ -14,19 +13,20 @@ use App\Form\LustreType;
 use App\Form\CommentType;
 use App\Form\MineralType;
 use App\Form\VarietyType;
+use App\Entity\Coordinate;
 use App\Entity\Discussion;
-use App\Entity\ModificationHistory;
 use App\Form\DiscussionType;
 use App\Service\FileUploader;
 use App\Form\MineralColorType;
 use Doctrine\ORM\EntityManager;
 use App\Form\RespondCommentType;
+use App\Form\MineralVarietiesType;
+use App\Entity\ModificationHistory;
 use App\Repository\ImageRepository;
 use App\Repository\CommentRepository;
 use App\Repository\MineralRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\DiscussionRepository;
-use App\Repository\ModificationHistoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -34,6 +34,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Repository\ModificationHistoryRepository;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -428,6 +429,27 @@ class WikiController extends AbstractController
         return $this->render('wiki/edit_mineral_colors.html.twig', [
             'form' => $form,
             'edit' => $mineral->getId()
+        ]);
+    }
+
+    #[Route('/wiki/mineral/{slug}/show/editVarieties', name: 'edit_mineral_varieties')]
+    #[IsGranted('ROLE_USER')]
+    public function edit_mineral_varieties(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+        $form = $this->createForm(MineralVarietiesType::class, $mineral);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mineral = $form->getData();
+            $entityManager->persist($mineral);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('show_mineral', ['slug' => $mineral->getSlug()]);
+        }
+
+        return $this->render('wiki/edit_mineral_varieties.html.twig', [
+            'form' => $form
         ]);
     }
 
