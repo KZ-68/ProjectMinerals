@@ -40,22 +40,20 @@
     </figure>
 {% endif %}
 
-
-
-<section class="section-wiki">
+<section class="table-of-content">
     <h2>Table of Content</h2>
 
     <div>
         <div>
             <ul>
+                <li class="table-list"><a>Details Caracteristics for {{mineral.name}}</a></li>
                 <li class="table-list"><a>Varieties of {{mineral.name}}</a></li>
+                <li class="table-list"><a>Geolocalisation</a></li>
                 <li class="table-list"><a>Gallery of {{mineral.name}}</a></li>
-                <li class="table-list"></li>
-                <li class="table-list"></li>
             </ul>
         </div>
     </div>
-    
+
 </section>
 
 <section class="section-wiki">
@@ -100,7 +98,10 @@
                 <h2>Varieties of {{mineral.name}}</h2>
                 <hr>
             </hgroup>
-            <a id="add-variety" href="{{ path('new_variety', {'slug': mineral.slug}) }}">Add a variety</a>
+            <div class="mineral-options">
+                <a id="add-variety" href="{{ path('new_variety', {'slug': mineral.slug}) }}">Add a new variety</a>
+                <a href="{{path('edit_mineral_varieties', {'slug': mineral.slug})}}">Edit Mineral Varieties List</a>
+            </div>
         </div>
         
         
