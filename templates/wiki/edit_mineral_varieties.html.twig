@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %} 
+
+{% block title %}Add or remove varieties for this mineral{% endblock %}
+
+{% block body %}
+
+<h1>Add or remove varieties for this mineral</h1>
+<hr>
+
+<div class="formulaire">
+    {{ form_start(form) }}
+        {{ form_row(form.varieties) }}
+        {{ form_row(form.submit) }}
+    {{ form_end(form) }}
+</div>
+
+{% endblock %}
