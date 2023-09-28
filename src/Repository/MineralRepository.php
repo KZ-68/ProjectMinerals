@@ -58,7 +58,7 @@ class MineralRepository extends ServiceEntityRepository
         return $minerals;
     }
 
-    public function findByAvancedSearch(AdvancedSearchData $advancedSearchData): PaginationInterface {
+    public function findByAdvancedSearch(AdvancedSearchData $advancedSearchData): PaginationInterface {
         $data = $this
             // Select de l'objet Mineral avec l'alias m
             ->createQueryBuilder('m');
