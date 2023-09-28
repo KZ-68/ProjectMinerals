@@ -531,7 +531,7 @@ button#message_send {
     color: black;
 }
 
-div.advanced-search-bar {
+div#advanced-search-bar {
     display: flex;
     flex-direction: row;
     gap: 40px;
