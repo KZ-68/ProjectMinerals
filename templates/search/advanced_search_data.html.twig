@@ -1,5 +1,4 @@
-<form id="mineral-advancedSearch-form">
-{{ form_start(form2) }}
+{{ form_start(form2, {'attr': {'id': 'search-form'}}) }}
 
 <div id="advanced-search-bar">
     {{ form_row(form2.name)}}
@@ -15,9 +14,14 @@
     {{ form_row(form2.lustres)}}
     <button id="submit-advanced-search" type="submit">search</button>
 </div>
-
 {{ form_end(form2)}}
+
 <div id="search-results">
-    
+{% if app.request.get('name') %}
+    {{response.name}}
+{% else %}
+        
+{% endif %}
 </div>
-</form>
+
+
