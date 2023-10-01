@@ -58,98 +58,99 @@ class MineralRepository extends ServiceEntityRepository
         return $minerals;
     }
 
-    public function findByAdvancedSearch(AdvancedSearchData $advancedSearchData): PaginationInterface {
+    public function findByAdvancedSearch($advancedSearchData): array {
         $data = $this
             // Select de l'objet Mineral avec l'alias m
             ->createQueryBuilder('m');
             // Si l'un des champs de données recherché n'est pas vide :
-            if(!empty($advancedSearchData->name)) {
+            if(!empty($advancedSearchData['name'])) {
                 // On ajoute à la variable $data :
                 $data = $data
                 // Une chaine de caractère identique au champ existant
                 ->andWhere('m.name LIKE :name')
                 /* On met en paramètre le champ de la classe AdvancedSearchData,
                 pour par la suite préparer la requête dans le controlleur */
-                ->setParameter('name', "%{$advancedSearchData->name}%");
+                ->setParameter('name', "%{$advancedSearchData['name']}%");
             }
         
-            if(!empty($advancedSearchData->formula)) {
+            if(!empty($advancedSearchData['formula'])) {
                 $data = $data
                 ->andWhere('m.formula LIKE :formula')
-                ->setParameter('formula', "%{$advancedSearchData->formula}%");
+                ->setParameter('formula', "%{$advancedSearchData['formula']}%");
             }
             
-            if(!empty($advancedSearchData->crystal_system)) {
+            if(!empty($advancedSearchData['crystal_system'])) {
                 $data = $data
                 ->andWhere('m.crystal_system LIKE :crystal_system')
-                ->setParameter('crystal_system', "%{$advancedSearchData->crystal_system}%");
+                ->setParameter('crystal_system', "%{$advancedSearchData['crystal_system']}%");
             }
 
-            if(!empty($advancedSearchData->density)) {
+            if(!empty($advancedSearchData['density'])) {
                 $data = $data
                 ->andWhere('m.density LIKE :density')
-                ->setParameter('density', "%{$advancedSearchData->density}%");
+                ->setParameter('density', "%{$advancedSearchData['density']}%");
             }
             
-            if(!empty($advancedSearchData->hardness)) {
+            if(!empty($advancedSearchData['hardness'])) {
                 $data = $data
                 ->andWhere('m.hardness LIKE :hardness')
-                ->setParameter('hardness', "{$advancedSearchData->hardness}");
+                ->setParameter('hardness', "{$advancedSearchData['hardness']}");
             }
             
-            if(!empty($advancedSearchData->fracture)) {
+            if(!empty($advancedSearchData['fracture'])) {
                 $data = $data
                 ->andWhere('m.fracture LIKE :fracture')
-                ->setParameter('fracture', "%{$advancedSearchData->fracture}%");
+                ->setParameter('fracture', "%{$advancedSearchData['fracture']}%");
             }
             
-            if(!empty($advancedSearchData->streak)) {
+            if(!empty($advancedSearchData['streak'])) {
                 $data = $data
                 ->andWhere('m.streak LIKE :streak')
-                ->setParameter('streak', "%{$advancedSearchData->streak}%");
+                ->setParameter('streak', "%{$advancedSearchData['streak']}%");
             }
 
-            if(!empty($advancedSearchData->category)) {
+            if(!empty($advancedSearchData['category'])) {
                 $data = $data
                 ->innerJoin('m.category', 'c', 'WITH', 'c.id = m.category')
-                ->andWhere('c.name LIKE :category')
-                ->setParameter('category', "%{$advancedSearchData->category->getName()}%");
+                ->andWhere('c.id = :category')
+                ->setParameter('category', $advancedSearchData['category']);
             }
 
-            foreach ($advancedSearchData->varieties as $variety) {
-                if(!empty($variety)) {
-                    $data = $data
+            if(!empty($advancedSearchData['varieties'])) {
+                $data = $data
                     ->leftJoin('m.varieties', 'v')
-                    ->andWhere('v.name LIKE :variety')
-                    ->setParameter('variety', "%{$variety->getName()}%");
+                    ->andWhere('v.id = :variety');
+                foreach ($advancedSearchData['varieties'] as $variety) {
+                    $data = $data
+                    ->setParameter('variety', $variety);
                 }
             }
-
-            foreach ($advancedSearchData->colors as $color) {
-                if(!empty($color)) {
-                    $data = $data
+        
+            if(!empty($advancedSearchData['colors'])) {
+                $data = $data
                     ->leftJoin('m.colors', 'co')
-                    ->andWhere('co.name LIKE :color')
-                    ->setParameter('color', "%{$color->getName()}%");
+                    ->andWhere('co.id = :color');
+                foreach ($advancedSearchData['colors'] as $color) {
+                    $data = $data
+                    ->setParameter('color', $color);
                 }
             }
-            
-            foreach ($advancedSearchData->lustres as $lustre) {
-                if(!empty($lustre)) {
-                    $data = $data
+        
+            if(!empty($advancedSearchData['lustres'])) {
+                $data = $data    
                     ->leftJoin('m.lustres', 'lu')
-                    ->andWhere('lu.type LIKE :lustre')
-                    ->setParameter('lustre', "%{$lustre->getType()}%");
+                    ->andWhere('lu.id = :lustre');
+                foreach ($advancedSearchData['lustres'] as $lustre) {
+                    $data = $data
+                    ->setParameter('lustre', $lustre);
                 }
             }
 
         $data = $data 
             ->getQuery()
             ->getResult();
-        
-        $minerals = $this->paginatorInterface->paginate($data, $advancedSearchData->page, 9);
 
-        return $minerals;
+        return $data;
     }
 
 //    /**
