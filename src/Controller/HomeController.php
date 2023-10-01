@@ -11,10 +11,12 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('PUBLIC_ACCESS')]
+#[Route('/')]
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
@@ -27,7 +29,6 @@ class HomeController extends AbstractController
 
         // On crée un formulaire avec le modèle SearchType
         $form = $this->createForm(SearchType::class, $searchData);
-        
         $form2 = $this->createForm(AdvancedSearchType::class, $advancedSearchData);
 
         // On récupère la requête envoyé par le bouton submit
@@ -45,24 +46,25 @@ class HomeController extends AbstractController
             ]);
         }
 
-        $form2->handleRequest($request);
-        
-        if ($form2->isSubmitted() && $form2->isValid()) {
-            // Par chaînage, on affecte la valeur 1 de la requête à la page du modèle 
-            $advancedSearchData->page = $request->query->getInt('page', 1);
-            // On affecte la variable $minerals avec la requête
-            $minerals = $mineralRepository->findByAvancedSearch($advancedSearchData);
-            // On redirige vers la liste des minéraux et on affiche un rendu :
-            return $this->render('wiki/index.html.twig', [
-                // Du résultat de la requête
-                'minerals' => $minerals,
+        $minerals = $mineralRepository->findPaginateMinerals($request->query->getInt('page', 1));
+        if ($request->isXmlHttpRequest()) {
+            $formData = $request->request->all();
+            $minerals = $mineralRepository->findByAdvancedSearch($formData['advanced_search']);
+            $jsonData = [];
+            foreach ($minerals as $mineral) {
+                $jsonData[] = [
+                    'name' => $mineral->getName() ?? null,
+                ];
+            }
+            return $this->json($jsonData);
+        } else {
+            return $this->render('home/index.html.twig', [
+                'form' => $form,
+                'form2' => $form2,
+                'minerals' => $minerals
             ]);
         }
 
-        return $this->render('home/index.html.twig', [
-            'form' => $form,
-            'form2' => $form2
-        ]);
     }
 
 }
