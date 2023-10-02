@@ -47,7 +47,7 @@ class MineralRepository extends ServiceEntityRepository
         if(!empty($searchData->q)) {
             $data = $data
                 ->where('m.name LIKE :q')
-                ->setParameter('q', "%{$searchData->q}%");
+                ->setParameter('q', $searchData->q);
         }
         $data = $data 
             ->getQuery()
@@ -70,43 +70,43 @@ class MineralRepository extends ServiceEntityRepository
                 ->andWhere('m.name LIKE :name')
                 /* On met en paramètre le champ de la classe AdvancedSearchData,
                 pour par la suite préparer la requête dans le controlleur */
-                ->setParameter('name', "%{$advancedSearchData['name']}%");
+                ->setParameter('name', $advancedSearchData['name']);
             }
         
             if(!empty($advancedSearchData['formula'])) {
                 $data = $data
                 ->andWhere('m.formula LIKE :formula')
-                ->setParameter('formula', "%{$advancedSearchData['formula']}%");
+                ->setParameter('formula', $advancedSearchData['formula']);
             }
             
             if(!empty($advancedSearchData['crystal_system'])) {
                 $data = $data
                 ->andWhere('m.crystal_system LIKE :crystal_system')
-                ->setParameter('crystal_system', "%{$advancedSearchData['crystal_system']}%");
+                ->setParameter('crystal_system', $advancedSearchData['crystal_system']);
             }
 
             if(!empty($advancedSearchData['density'])) {
                 $data = $data
                 ->andWhere('m.density LIKE :density')
-                ->setParameter('density', "%{$advancedSearchData['density']}%");
+                ->setParameter('density', $advancedSearchData['density']);
             }
             
             if(!empty($advancedSearchData['hardness'])) {
                 $data = $data
                 ->andWhere('m.hardness LIKE :hardness')
-                ->setParameter('hardness', "{$advancedSearchData['hardness']}");
+                ->setParameter('hardness', $advancedSearchData['hardness']);
             }
             
             if(!empty($advancedSearchData['fracture'])) {
                 $data = $data
                 ->andWhere('m.fracture LIKE :fracture')
-                ->setParameter('fracture', "%{$advancedSearchData['fracture']}%");
+                ->setParameter('fracture', $advancedSearchData['fracture']);
             }
             
             if(!empty($advancedSearchData['streak'])) {
                 $data = $data
                 ->andWhere('m.streak LIKE :streak')
-                ->setParameter('streak', "%{$advancedSearchData['streak']}%");
+                ->setParameter('streak', $advancedSearchData['streak']);
             }
 
             if(!empty($advancedSearchData['category'])) {
