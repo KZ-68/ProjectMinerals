@@ -17,7 +17,7 @@ class UserType extends AbstractType
     {
         $builder
             ->add('avatar', FileType::class, [
-                'label' => 'Avatar (images file)',
+                'label' => 'Add an Avatar (images file)',
                 // unmapped veut dire que le champ n'est associé à aucun attribut de l'entité
                 'mapped' => false,
                 // Mettre en false pour éviter de devoir remettre le fichier à chaque modification
@@ -38,6 +38,9 @@ class UserType extends AbstractType
                         ],
                         'mimeTypesMessage' => 'Please upload a valid image format',
                     ])
+                ],
+                'attr' => [
+                    'hidden' => true
                 ],
             ])
             ->add('valider', SubmitType::class, [
