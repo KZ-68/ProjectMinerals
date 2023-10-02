@@ -6,6 +6,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
@@ -49,25 +50,18 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
                                 new RememberMeBadge(),
                             ]
                         );
+                    } else {
+                        throw new HttpException(405, 'Method Not Allowed');
                     }
                 } else {
-                    $response = new Response();
-                    $response->headers->set('Content-Type', 'text/html');
-                    $response->setStatusCode(405);
-                    return $response;
+                    throw new HttpException(405, 'Method Not Allowed');
                 }
                 
             } else {
-                $response = new Response();
-                $response->headers->set('Content-Type', 'text/html');
-                $response->setStatusCode(405);
-                return $response;
+                throw new HttpException(405, 'Method Not Allowed');
             }
         } else {
-            $response = new Response();
-            $response->headers->set('Content-Type', 'text/html');
-            $response->setStatusCode(405);
-            return $response;
+            throw new HttpException(405, 'Method Not Allowed');
         }
     }
 
