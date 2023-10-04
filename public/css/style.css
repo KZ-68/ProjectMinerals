@@ -551,6 +551,20 @@ div#advanced-search-bar {
     width: 100%;
 }
 
+#search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+#search-results div {
+    padding: 13px 15px;
+    width: 50%;
+    border: 3px solid #fcfcfccc;
+    background-color: #fcfcfccc;
+    border-radius: 5px;
+}
+
 .formulaire-login-wrapper {
     display: flex;
     flex-direction: column;
@@ -683,9 +697,9 @@ div.formulaire-login a {
     flex-direction: column;
     margin: 30px 175px;
     align-items: center;
-    border: 2px solid white;
+    border: 2px solid #fcfcfccc;
     border-radius: 15px;
-    background-color: white;
+    background-color: #fcfcfccc;
 }
 
 #minerals-list {
