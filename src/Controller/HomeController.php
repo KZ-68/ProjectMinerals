@@ -20,7 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(MineralRepository $mineralRepository, Request $request): Response
+    public function index(MineralRepository $mineralRepository, Request $request, PaginatorInterface $paginator): Response
     {
         // Crée un nouvel objet SearchData
         $searchData = new SearchData();
@@ -50,13 +50,31 @@ class HomeController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             $formData = $request->request->all();
             $minerals = $mineralRepository->findByAdvancedSearch($formData['advanced_search']);
+            $pagination = $paginator->paginate(
+                $minerals,
+                $request->query->getInt('page', 1), 9
+            );
+
             $jsonData = [];
-            foreach ($minerals as $mineral) {
+            foreach ($pagination->getItems() as $mineral) {
                 $jsonData[] = [
+                    'slug' => $mineral->getSlug() ?? null,
                     'name' => $mineral->getName() ?? null,
                 ];
             }
-            return $this->json($jsonData);
+
+            $paginationData = [
+                'totalItems' => $pagination->getTotalItemCount(),
+                'currentPage' => $pagination->getCurrentPageNumber(),
+                'itemsPerPage' => $pagination->getItemNumberPerPage(),
+            ];
+
+            $response = [
+                'data' => $jsonData,
+                'pagination' => $paginationData,
+            ];
+
+            return $this->json($response);
         } else {
             return $this->render('home/index.html.twig', [
                 'form' => $form,
