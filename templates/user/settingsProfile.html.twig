@@ -45,8 +45,9 @@
         {{ form_end(form3name) }}
     </div>
 
-    <div>
-        <button id="btn-popup">Supprimer l'utilisateur</button>
+    <div id="delete-account-zone">
+        <p>Delete the account</p>
+        <button id="btn-popup">Delete</button>
         <div id="popup-wrapper">
             <div class="popup-body"></div>
         </div>
@@ -67,7 +68,6 @@
                     if (typeof data !== 'undefined') {
                         $('.popup-body').html(data);
                         $('body').css({'overflow-y': 'hidden'});
-                        $('body').css({'background-color': '#333'});
                         $('.popup-body').css({'overflow-y': 'auto'});
                         $('.popup-body').fadeIn();
                     }
