@@ -1,0 +1,7 @@
+<div id="popup-delete-wrapper">
+    <h3>Are you sure you want to delete your Account ? That action is irreversible</h3>
+
+    <form action="{{ path('settings_delete_profile', {id: app.user.id}) }}" method="post">
+        <button id="#deleteAccount">Delete Account</button>
+    </form>
+</div>
