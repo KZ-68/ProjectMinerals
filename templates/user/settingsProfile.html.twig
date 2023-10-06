@@ -45,10 +45,51 @@
         {{ form_end(form3name) }}
     </div>
 
+    <div>
+        <button id="btn-popup">Supprimer l'utilisateur</button>
+        <div id="popup-wrapper">
+            <div class="popup-body"></div>
+        </div>
+    </div>
+
     {% block javascript %}
         <script src="/js/password_strength.js"></script>
         <script src="https://code.jquery.com/jquery-3.7.0.js"
         integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
         crossorigin="anonymous"></script>
+        <script>
+            $('#btn-popup').click(function () {
+                $.ajax({
+                    url: '/profile/settings/{{app.user.id}}/popup'
+                })
+                .done(function(data){
+                    console.log(data);
+                    if (typeof data !== 'undefined') {
+                        $('.popup-body').html(data);
+                        $('body').css({'overflow-y': 'hidden'});
+                        $('body').css({'background-color': '#333'});
+                        $('.popup-body').css({'overflow-y': 'auto'});
+                        $('.popup-body').fadeIn();
+                    }
+                })
+                .fail(function (err) {
+                    alert(err.statusText);
+                });
+            });
+            
+            $(document).ready(function(){
+                $("#deleteAccount").on("click",function(e){
+                   $.ajax({
+                url : path('AppBundle\\Controller\\UserController::deleteAccount'),
+                data: {"deletionData":[]}, // Les données à transmettres
+                type : POST,
+                success : function(data){
+                    $('#modal-body').html(data);   
+                }
+                });
+                return false;
+               });
+            });
+        </script>
     {% endblock %}
 {% endblock %}
