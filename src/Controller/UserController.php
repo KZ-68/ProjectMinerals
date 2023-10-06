@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -104,7 +105,7 @@ class UserController extends AbstractController
             } 
             // Inspecte la requête et appelle le formulaire n°2 soumis
             $form2name->handleRequest($request);
-            // Si le foumulaire n°2 est soumis et valide
+            // Si le formulaire n°2 est soumis et valide
             if ($form2name->isSubmitted() && $form2name->isValid()) {
                 // On récupère les données du mot de passe courant et le nouveau que l'on souhaite
                 $oldPassword = $form2name->get('plainPassword')->getData();
@@ -166,5 +167,30 @@ class UserController extends AbstractController
             'form2name' => $form2name,
             'form3name' => $form3name
         ]);
+    }
+
+    #[Route('/profile/settings/{id}/popup', name: 'settings_delete_popup')]
+    public function popupDeleteAccount(User $user, Request $request): Response {
+        $data = $request->get("deletionData");
+        return $this->render('_partials/_delete_account.html.twig', [
+            'data' => $data
+        ]);
+    }
+
+    #[Route('/profile/settings/{id}/popup/delete', name: 'settings_delete_profile', methods:['POST'])]
+    public function deleteAccount(User $user, Request $request, EntityManagerInterface $entityManager, Session $session): Response {
+
+        if ($request->isMethod('POST')) {
+            $userAuthentified = $this->getUser();
+            if($user == $userAuthentified){
+                $this->get('security.token_storage')->setToken(null);
+                
+                $entityManager->remove($user);
+                $entityManager->flush();
+                
+                $session->invalidate(0);
+                return $this->redirectToRoute('app_home');
+            }
+        }
     }
 }
