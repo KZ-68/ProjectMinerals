@@ -554,7 +554,8 @@ div#advanced-search-bar {
 #search-results {
     display: flex;
     flex-direction: column;
-    gap: 10px
+    gap: 10px;
+    border-radius: 5px;
 }
 
 #search-results div {
@@ -778,6 +779,7 @@ div.formulaire-login a {
     right: 8px;
     top: 8px;
     display: none;
+    z-index: 20;
 }
 
 #images-list-figure:hover a {
@@ -809,6 +811,24 @@ div.formulaire-login a {
     width: 350px;
     height: 300px;
 }
+
+.mineral-image:hover {
+    animation-name: fade-images-brightness;
+    animation-duration: 2.5s;
+    animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+    animation-fill-mode: forwards;
+}
+
+@keyframes fade-images-brightness {
+    from {
+        filter: brightness(1);
+    }
+
+    to {
+        filter: brightness(0.5);
+    }
+}
+
 
 .section-wiki {
     margin: 20px 0px;
@@ -1320,13 +1340,27 @@ form[name='user_username'] button {
 }
 
 #popup-delete-wrapper {
+    display: none;
     position: absolute;
-    top: 75vh;
-    left: 45vh;
+    top: 85vh;
+    left: 46vh;
+    right: 46vh;
     background-color: #fcfcfc;
     padding: 40px 35px;
     border-radius: 10px;
     z-index: 10;
+    text-align: center;
+}
+
+button#deleteAccount {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    background: #ff6565;
+    padding: 10px 33px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 20px;
 }
 
 #comment_send {
