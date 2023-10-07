@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 #[IsGranted('ROLE_USER')]
 class UserController extends AbstractController
@@ -178,17 +179,15 @@ class UserController extends AbstractController
     }
 
     #[Route('/profile/settings/{id}/popup/delete', name: 'settings_delete_profile', methods:['POST'])]
-    public function deleteAccount(User $user, Request $request, EntityManagerInterface $entityManager, Session $session): Response {
+    public function deleteAccount(User $user, Request $request, EntityManagerInterface $entityManager, Session $session, TokenStorageInterface $tokenStorage): Response {
 
         if ($request->isMethod('POST')) {
             $userAuthentified = $this->getUser();
             if($user == $userAuthentified){
-                $this->get('security.token_storage')->setToken(null);
-                
                 $entityManager->remove($user);
                 $entityManager->flush();
-                
-                $session->invalidate(0);
+                $tokenStorage->setToken(null);
+                $session->invalidate();
                 return $this->redirectToRoute('app_home');
             }
         }
