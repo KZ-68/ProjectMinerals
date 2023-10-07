@@ -50,28 +50,17 @@ class HomeController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             $formData = $request->request->all();
             $minerals = $mineralRepository->findByAdvancedSearch($formData['advanced_search']);
-            $pagination = $paginator->paginate(
-                $minerals,
-                $request->query->getInt('page', 1), 9
-            );
-
+            
             $jsonData = [];
-            foreach ($pagination->getItems() as $mineral) {
+            foreach ($minerals as $mineral) {
                 $jsonData[] = [
                     'slug' => $mineral->getSlug() ?? null,
                     'name' => $mineral->getName() ?? null,
                 ];
             }
 
-            $paginationData = [
-                'totalItems' => $pagination->getTotalItemCount(),
-                'currentPage' => $pagination->getCurrentPageNumber(),
-                'itemsPerPage' => $pagination->getItemNumberPerPage(),
-            ];
-
             $response = [
-                'data' => $jsonData,
-                'pagination' => $paginationData,
+                'data' => $jsonData
             ];
 
             return $this->json($response);
