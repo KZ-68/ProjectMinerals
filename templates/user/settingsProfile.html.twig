@@ -11,47 +11,50 @@
 
     <h1>User Settings</h1>
     <hr>
+
+    <div id="user-settings-wrapper">
+        <div class="formulaire-wrapper">
+            <p>Change the email adress:</p>
+            <p>{{ form_start(form1name) }}
+            {{ form_row(form1name.email) }}
+            {{ form_row(form1name.confirmEmail) }}
+            {{ form_row(form1name.valider) }}
+            {{ form_end(form1name) }}</p>
+        </div>
     
-    <div class="formulaire-wrapper">
-        <p>Change the email adress:</p>
-        <p>{{ form_start(form1name) }}
-        {{ form_row(form1name.email) }}
-        {{ form_row(form1name.confirmEmail) }}
-        {{ form_row(form1name.valider) }}
-        {{ form_end(form1name) }}</p>
-    </div>
-
-    <div class="formulaire-wrapper">
-        <p>{{ form_start(form2name) }}
-        {{ form_row(form2name.plainPassword) }}
-        {{ form_row(form2name.newPassword, {
-            label: 'New Password'
-        }) }}
-        <ol class="info-window">
-            <li class="one">You password must contain at least 1 Uppercase Letter.<div id="output-one"></div></li>
-            <li class="two">Your password must contain at least 1 lowercase letter.<div id="output-two"></div></li>
-            <li class="three">You password must contain at least one Number. <p id="output-three"></p></li>
-            <li class="four">Your password must contain at least 1 "special" character (/>! @ + # $ % ^ & * , ?( ) _ ~ - ). <p id="output-four"></p></li>
-            <li class="five">Your password must be at least 8 characters long. <p id="output-five"></p></li>
-        </ol>
-        {{ form_row(form2name.valider) }}
-        {{ form_end(form2name) }}</p>
-    </div>
-
-    <div class="formulaire-wrapper">
-        {{ form_start(form3name) }}
-        {{ form_row(form3name.username) }}
-        {{ form_row(form3name.send) }}
-        {{ form_end(form3name) }}
-    </div>
-
-    <div id="delete-account-zone">
-        <p>Delete the account</p>
-        <button id="btn-popup">Delete</button>
-        <div id="popup-wrapper">
-            <div class="popup-body"></div>
+        <div class="formulaire-wrapper">
+            <p>{{ form_start(form2name) }}
+            {{ form_row(form2name.plainPassword) }}
+            {{ form_row(form2name.newPassword, {
+                label: 'New Password'
+            }) }}
+            <ol class="info-window">
+                <li class="one">You password must contain at least 1 Uppercase Letter.<div id="output-one"></div></li>
+                <li class="two">Your password must contain at least 1 lowercase letter.<div id="output-two"></div></li>
+                <li class="three">You password must contain at least one Number. <p id="output-three"></p></li>
+                <li class="four">Your password must contain at least 1 "special" character (/>! @ + # $ % ^ & * , ?( ) _ ~ - ). <p id="output-four"></p></li>
+                <li class="five">Your password must be at least 8 characters long. <p id="output-five"></p></li>
+            </ol>
+            {{ form_row(form2name.valider) }}
+            {{ form_end(form2name) }}</p>
+        </div>
+    
+        <div class="formulaire-wrapper">
+            {{ form_start(form3name) }}
+            {{ form_row(form3name.username) }}
+            {{ form_row(form3name.send) }}
+            {{ form_end(form3name) }}
+        </div>
+    
+        <div id="delete-account-zone">
+            <p>Delete the account</p>
+            <button id="btn-popup">Delete</button>
+            <div id="popup-wrapper">
+                <div class="popup-body"></div>
+            </div>
         </div>
     </div>
+    
 
     {% block javascript %}
         <script src="/js/password_strength.js"></script>
@@ -59,7 +62,7 @@
         integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
         crossorigin="anonymous"></script>
         <script>
-            $('#btn-popup').click(function () {
+            $(document).ready(function () {
                 $.ajax({
                     url: '/profile/settings/{{app.user.id}}/popup'
                 })
@@ -67,15 +70,19 @@
                     console.log(data);
                     if (typeof data !== 'undefined') {
                         $('.popup-body').html(data);
-                        $('body').css({'overflow-y': 'hidden'});
-                        $('.popup-body').css({'overflow-y': 'auto'});
-                        $('.popup-body').fadeIn();
+                        $('#btn-popup').click(function () {
+                            $('#popup-delete-wrapper').fadeIn(300);
+                            $('body').css({'overflow-y': 'hidden'});
+                            $('#popup-delete-wrapper').css({'overflow-y': 'auto'});
+                        })
                     }
                 })
                 .fail(function (err) {
                     alert(err.statusText);
                 });
             });
+
+            
             
             $(document).ready(function(){
                 $("#deleteAccount").on("click",function(e){
