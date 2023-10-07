@@ -18,6 +18,9 @@ $(document).ready(function() {
               });
               $('.adv-search').css('height', '1240px');
               $('.adv-search-fields').css('height', '1209px');
+              $('#search-results').css('overflow-y', 'auto');
+              $('#search-results').css('background-color', '#9affe2b0');
+              $('#search-results').css('padding', '20px');
               resultsContainer.css('margin', '17px 0px');
           },
           error: function (error) {
