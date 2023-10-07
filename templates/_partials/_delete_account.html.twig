@@ -4,4 +4,13 @@
     <form action="{{ path('settings_delete_profile', {id: app.user.id}) }}" method="post">
         <button id="#deleteAccount">Delete Account</button>
     </form>
+    <button type="button" class="close" id="close-modal" data-dismiss="modal" aria-label="Close">Close</button>
 </div>
+
+<script>
+    $('#close-modal').click(function () {
+        $('#popup-delete-wrapper').fadeOut(300);
+        $('body').css({'overflow-y': 'visible'});
+        $('.popup-body').css({'overflow-y': 'unset'});
+    })
+</script>
