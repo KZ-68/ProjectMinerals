@@ -7,13 +7,14 @@
 body {
     background: #d6d7e6;
     min-height: 100dvh;
-    font-family: 'Noto Sans','lucida sans unicode','lucida grande', tahoma
+    font-family: 'Roboto'
 }
 
 h1 {
     padding: 10px 15px 10px 10px;
     margin: 15px 15px;
     width: fit-content;
+    font-family: 'Merriweather Sans';
 }
 
 h2 {
@@ -287,6 +288,11 @@ thead tr {
     align-items: center;
 }
 
+#nav-right a {
+    font-family: 'Merriweather Sans';
+    
+}
+
 .profile-card {
     display: flex;
     flex-direction: column;
@@ -319,6 +325,12 @@ thead tr {
 #avatar-header {
     width: 75px;
     height: 75px;
+}
+
+#user-links {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }
 
 #user-links a {
@@ -649,6 +661,33 @@ div.formulaire-login a {
     width: 24px;
 }
 
+.home-description {
+    margin: 30px 0px;
+    padding: 30px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.home-description div:nth-child(1) {
+    padding: 25px;
+    border: 2px solid white;
+    border-radius: 10px;
+}
+
+.home-description h2 {
+    padding: 10px 20px 10px 20px;
+    margin: 30px 0;
+    width: 334px;
+    border-radius: 5px;
+    color: white;
+    background-color: unset;
+}
+
+.home-description p {
+    color: white;
+}
+
 .mineral-options {
     padding: 20px;
     margin: 10px 10px;
@@ -686,16 +725,6 @@ div.formulaire-login a {
 .list-wrapper {
     display: flex;
     flex-direction: column;
-    margin: 30px 35px;
-}
-
-.list-wrapper a {
-    font-size: 28px;
-}
-
-.minerals-list-wrapper {
-    display: flex;
-    flex-direction: column;
     margin: 30px 175px;
     align-items: center;
     border: 2px solid #fcfcfccc;
@@ -703,7 +732,7 @@ div.formulaire-login a {
     background-color: #fcfcfccc;
 }
 
-#minerals-list {
+#minerals-list, #categories-list {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -725,13 +754,6 @@ div.formulaire-login a {
 
 #minerals-list li:nth-child(even) {
     background-color: #d7e2f4;
-}
-
-#categories-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 700px;
 }
 
 #categories-list li {
@@ -761,6 +783,17 @@ div.formulaire-login a {
     margin: 30px 35px;
 }
 
+#images-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: 1px solid #fcfcfccc;
+    border-radius: 10px;
+    padding: 20px 20px;
+    height: 800px;
+    background-color: #fcfcfccc;
+} 
+
 .images-list-wrapper ul {
     display: flex;
     flex-direction: row;
@@ -768,6 +801,7 @@ div.formulaire-login a {
     align-items: center;
     flex-wrap: wrap;
     justify-content: center;
+    height: 325px;
 }
 
 #images-list-figure {
@@ -917,6 +951,7 @@ button.btn {
     background-color: #57CC99;
     color: #444444;
     cursor: pointer;
+    font-size: 22px;
     padding: 7px;
     border-radius: 10px;
 }
@@ -925,7 +960,7 @@ button.btn {
     background-color: #57CC99;
     color: #444444;
     cursor: pointer;
-    font-size: 28px;
+    font-size: 22px;
     padding: 7px;
     border-radius: 10px;
     border: none;
@@ -1563,7 +1598,7 @@ aside.aside-wrapper {
 }
 
 .admin-nav {
-    border: 1px solid #57CC99;
+    border: 3px solid #57CC99;
     border-radius: 10px;
     width: fit-content;
     display: flex;
@@ -1573,8 +1608,9 @@ aside.aside-wrapper {
 
 .admin-nav-top {
     padding: 10px;
-    border-radius: 8px 8px 0px 0px;
-    background: linear-gradient(90deg, #57CC99, #38A3A5, #57CC99);
+    border-radius: 6px 6px 0px 0px;
+    border: 2px solid #5ecfb8;
+    background: #5ecfb8;
     font-size: 24px;
     text-align: center;
 }
@@ -1611,6 +1647,7 @@ footer {
 
 .anchor-footer {
     font-size: 20px;
+    font-family: 'Merriweather Sans';
 }
 
 #footer-wrapper {
@@ -1661,17 +1698,23 @@ small {
     }
 }
 
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1440px) {
+    #minerals-list, #categories-list{
+        width: 900px;
+    }
+}
+
 @media only screen and (max-device-width: 1024px) {
-    .minerals-list-wrapper {
+    .list-wrapper {
         margin: 29px 45px;
     }
     
-    .minerals-list-wrapper hr {
+    .list-wrapper hr {
         width: 550px;
         margin: 0px 0px 30px 0px;
     }
     
-    #minerals-list {
+    #minerals-list, #categories-list {
         width: 825px;
         padding: 0;
     }
@@ -1820,6 +1863,14 @@ small {
         display: none;
     }
 
+    #minerals-list {
+        width: 680px;
+    }
+
+    #categories-list {
+        width: 680px;
+    }
+
     #cCarousel {
         max-width: 720px;
     }
@@ -1827,16 +1878,21 @@ small {
 }
 
 @media only screen and (max-device-width: 768px) {
-    .minerals-list-wrapper {
+    .list-wrapper {
         margin: 29px 55px;
     }
     
-    .minerals-list-wrapper hr {
+    .list-wrapper hr {
         width: 250px;
         margin: 0px 0px 30px 0px;
     }
     
     #minerals-list {
+        width: 576px;
+        padding: 0;
+    }
+
+    #categories-list {
         width: 576px;
         padding: 0;
     }
@@ -2084,9 +2140,9 @@ small {
     }
 
     .mineral-options a {
-        font-size: 15px;
+        font-size: 19px;
         padding: 10px 13px;
-        width: 160px;
+        width: 195px;
         text-align: center;
     }
 
@@ -2199,19 +2255,11 @@ small {
     }
 
     .list-wrapper {
-        align-items: center;
-    }
-
-    .list-wrapper ul {
-        padding: 0;
-    }
-
-    .list-wrapper a {
-        font-size: 18px;
+        margin: 29px 25px;
     }
 
     #minerals-list, #categories-list {
-        width: 335px;
+        width: 302px;
     }
 
     #minerals-list a:nth-child(1) {
@@ -2222,18 +2270,13 @@ small {
         margin-right: 15px;
     }
 
-    a.edit-btn, a.delete-btn {
-        
-        font-size: 14px;
-    }
-
     aside.aside-wrapper {
         border-right: none;
         border-bottom: 1px solid #38A3A5;
         padding-bottom: 40px;
     }
 
-    .actions .delete-btn {
+    .actions {
         font-size: 15px;
         border: none;
     }
@@ -2248,16 +2291,16 @@ small {
 }
 
 @media only screen and (max-device-width : 320px) {
-    .minerals-list-wrapper {
+    .list-wrapper {
         margin: 29px 18px;
     }
     
-    .minerals-list-wrapper hr {
+    .list-wrapper hr {
         width: 222px;
         margin: 0px 0px 30px 0px;
     }
 
-    .minerals-list-wrapper div {
+    .list-wrapper div {
         width: 245px;
     }
 
