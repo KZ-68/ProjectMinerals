@@ -172,10 +172,7 @@ class UserController extends AbstractController
 
     #[Route('/profile/settings/{id}/popup', name: 'settings_delete_popup')]
     public function popupDeleteAccount(User $user, Request $request): Response {
-        $data = $request->get("deletionData");
-        return $this->render('_partials/_delete_account.html.twig', [
-            'data' => $data
-        ]);
+        return $this->render('_partials/_delete_account.html.twig');
     }
 
     #[Route('/profile/settings/{id}/popup/delete', name: 'settings_delete_profile', methods:['POST'])]

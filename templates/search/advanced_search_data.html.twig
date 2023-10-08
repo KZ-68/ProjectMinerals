@@ -17,6 +17,11 @@
 {{ form_end(form2)}}
 
 <div id="search-results">
+    {% if app.request.get('name') %}
+        {{response.name}}
+    {% else %}
+
+    {% endif %}
 </div>
 
 

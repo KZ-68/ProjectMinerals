@@ -49,7 +49,7 @@ class HomeController extends AbstractController
         $minerals = $mineralRepository->findPaginateMinerals($request->query->getInt('page', 1));
         if ($request->isXmlHttpRequest()) {
             $formData = $request->request->all();
-            $minerals = $mineralRepository->findByAdvancedSearch($formData['advanced_search']);
+            $minerals = $mineralRepository->findByAdvancedSearch($formData);
             
             $jsonData = [];
             foreach ($minerals as $mineral) {
