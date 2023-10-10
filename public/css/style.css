@@ -396,7 +396,7 @@ thead tr {
 .panel {
     display: flex;
     flex-direction: column;
-    padding: 0 18px;
+    padding: 0 23px;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
@@ -404,6 +404,7 @@ thead tr {
     z-index: 6;
     background: #80ED99;
     gap: 5px;
+    align-items: center;
 }
 
 .anchor-panel {
@@ -476,7 +477,7 @@ input[type="submit"] {
     font-weight: 700;
     color: black;
     background: #6fd6c1;
-    padding: 10px 13px;
+    padding: 10px 35px;
     border-radius: 10px;
     border: none;
     margin-top: 10px;
@@ -750,7 +751,6 @@ div.formulaire-login a {
 .options {
     padding: 20px;
     margin-top: 25px;
-    border: 1px solid black;
     text-align: end;
 }
 
@@ -764,13 +764,28 @@ div.formulaire-login a {
 }
 
 .list-wrapper {
+    align-items: center;
+}
+
+.list-wrapper, .admin-list-wrapper {
     display: flex;
     flex-direction: column;
     margin: 30px 175px;
-    align-items: center;
     border: 2px solid #fcfcfccc;
     border-radius: 15px;
     background-color: #fcfcfccc;
+}
+
+.admin-list-wrapper {
+    width: 1000px;
+}
+
+.admin-list-header h1 {
+    margin: 10px 15px 0px 15px;
+}
+
+.admin-list-header hr {
+    width: 180px;
 }
 
 #minerals-list, #categories-list {
@@ -1629,7 +1644,8 @@ span.current {
 }
 
 aside.aside-wrapper {
-    padding: 20px 57px;
+    margin: 30px 35px;
+    padding-right: 57px;
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -1663,6 +1679,16 @@ aside.aside-wrapper {
     gap: 20px;
     width: 200px;
     align-items: center;
+}
+
+#admin-list-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 20px;
+    padding: 10px 20px;
+    border: 2px solid #ade6d8;
+    border-radius: 10px;
 }
 
 form[name='contact'] {
