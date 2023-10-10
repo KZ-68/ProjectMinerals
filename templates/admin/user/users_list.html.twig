@@ -4,44 +4,33 @@
 
 {% block body %}
 
-<h1>Users List</h1>
-<hr>
-
 <div class="list-main">
     <aside class="aside-wrapper">
         {% include "_partials/_admin_nav.html.twig"%}
     </aside>
     
-    <div class="list-wrapper">
-        <table>
-            <thead>
-              <tr>
-                <th>Username</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-              <tr>
-                <td><a href="">{{user.username}}</a></td>
-                <td>
-                    <div class="actions">
-                      <a class="anonymize-btn" href="{{path('app_admin_anonymize_user', {'id': user.id})}}">Anonymize</a>
-                      <form action="{{ path('app_admin_delete_user', {id: user.id}) }}" method="post">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}"/>
-                        <button class="delete-btn">Delete</button>
-                      </form>
-                    </div>
-                    
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>   
+  <div class="admin-list-wrapper">
+    <div class="admin-list-header">
+      <h1 id="admin-list-title">User List :</h1>
+      <hr>
     </div>
+    {% for user in users %}
+    
+    <div id="admin-list-group">
+      <a href="">{{user.username}}</a>
+      <div class="actions">
+        <a class="anonymize-btn" href="{{path('app_admin_anonymize_user', {'id': user.id})}}">Anonymize</a>
+        <form action="{{ path('app_admin_delete_user', {id: user.id}) }}" method="post">
+          <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}"/>
+          <button class="delete-btn">Delete</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
     <nav>
         {{knp_pagination_render(users)}}
     </nav> 
+  </div>
 </div>
 
 {% endblock %}
