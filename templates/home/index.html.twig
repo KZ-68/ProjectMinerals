@@ -43,8 +43,16 @@
 </div>
 </section>
 
-<section class="home-description">
-    <div>
+
+
+<section id="home-description">
+    <div id="description-wrapper">
+        <div id="lightbox1">
+            <figure>
+                <img id="image-zoom1" src="{{asset('uploads/images/Fluorite_and_Calcite_exhibition_4-3.01e3325.width-1600.51eb5a3.jpg')}}">
+            </figure>
+        </div>
+        
         <hgroup>
             <h2>Qu'est-ce que KZ Minerals ?</h2>
             <p>
@@ -59,6 +67,7 @@
 
 {% block javascript %}
     <script src="/js/carousel_auto.js"></script>
+    <script src="/js/lightbox.js"></script>
 {% endblock %}
 
 {% endblock %}
