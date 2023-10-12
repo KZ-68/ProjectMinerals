@@ -704,20 +704,21 @@ div.formulaire-login a {
     color: white;
 }
 
-#image-zoom1 {
+#image-zoom1, .image-zoom2 {
     position: absolute;
     margin-left: auto;
     margin-right: auto;
-    left: 0;
-    right: 0;
     top: 190vh;
     text-align: center;
     width: 350px;
     display: none;
 }
 
-#image-zoom1.active {
+#image-zoom1.active, .image-zoom2.active {
     width: 1350px;
+    top: 0;
+    left: 0;
+    right: 0;
     display: block;
 }
 
@@ -729,6 +730,16 @@ div.formulaire-login a {
     top: 0;
     display: none;
 } 
+
+.lightbox2 {
+    width: 1900px;
+    height: 1295px;
+    position: absolute;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    display: none;
+}
 
 .mineral-options {
     padding: 20px;
