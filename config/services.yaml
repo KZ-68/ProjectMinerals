@@ -24,9 +24,11 @@ services:
         arguments:
             $targetDirectory: '%images_directory%'
 
-    App\EventSubscriber\ModificationHistoryListener:
+    App\EventListener\ModificationHistoryListener:
         tags:
-            - { name: doctrine.event_subscriber }
+            -
+                name: 'doctrine.event_listener'
+                event: 'postUpdate'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
