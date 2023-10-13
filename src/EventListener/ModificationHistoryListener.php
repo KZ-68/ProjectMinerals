@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventSubscriber;
+namespace App\EventListener;
 
 use App\Entity\Color;
 use App\Entity\Image;
@@ -10,23 +10,18 @@ use App\Entity\Variety;
 use Doctrine\ORM\Events;
 use App\Entity\Coordinate;
 use App\Entity\ModificationHistory;
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class ModificationHistoryListener implements EventSubscriber
+class ModificationHistoryListener
 {
 
     public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
-    }
-
-    public function getSubscribedEvents(): array
-    {
-        return [Events::postUpdate];
     }
 
     public function postUpdate(PostUpdateEventArgs $args)
