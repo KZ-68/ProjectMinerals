@@ -8,6 +8,7 @@ use App\Form\UserEmailType;
 use App\Service\FileUploader;
 use App\Form\UserPasswordType;
 use App\Form\UserUsernameType;
+use App\Repository\NotificationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -188,5 +189,15 @@ class UserController extends AbstractController
                 return $this->redirectToRoute('app_home');
             }
         }
+    }
+
+    #[Route('/profile/{id}/notifications', name: 'notifications_center', methods:['GET'])]
+    public function notifications(User $user, Request $request, NotificationRepository $notificationRepository) : Response {
+        if ($request->isMethod('GET')) {
+                $notifications = $notificationRepository->findNotificationsByUser($user->getId());
+        }
+        return $this->render('user/_notifications_modal.html.twig', [
+            'notifications' => $notifications
+        ]);
     }
 }
