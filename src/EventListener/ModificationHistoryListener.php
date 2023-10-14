@@ -31,10 +31,9 @@ class ModificationHistoryListener
         $lustre = $args->getObject();
         $image = $args->getObject();
         $variety = $args->getObject();
-       
-        $user = $this->tokenStorage->getToken()->getUser();
         
         if ($mineral instanceof Mineral) {
+            $user = $this->tokenStorage->getToken()->getUser();
             $entityManager = $args->getObjectManager();
 
             $changeSet = $entityManager->getUnitOfWork()->getEntityChangeSet($mineral);
