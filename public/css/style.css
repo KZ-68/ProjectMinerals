@@ -7,7 +7,8 @@
 body {
     background: #d6d7e6;
     min-height: 100dvh;
-    font-family: 'Roboto'
+    font-family: 'Roboto';
+    padding: 0px;
 }
 
 h1 {
@@ -714,7 +715,15 @@ div.formulaire-login a {
     display: none;
 }
 
-#image-zoom1.active, .image-zoom2.active {
+#image-zoom1.active {
+    width: 1350px;
+    top: 165vh;
+    left: 0;
+    right: 0;
+    display: block;
+}
+
+.image-zoom2.active {
     width: 1350px;
     top: 0;
     left: 0;
@@ -724,7 +733,7 @@ div.formulaire-login a {
 
 #lightbox1 {
     width: 3000px;
-    height: 2732px;
+    height: 2680px;
     position: absolute;
     z-index: 9999;
     top: 0;
@@ -1201,6 +1210,43 @@ section.section-map {
 
 .anchor-btn:active {
     background: #57CC99;
+}
+
+.notification-modal {
+    width: 500px;
+    display: none;
+    position: absolute;
+    top: 3vh;
+    right: 20vh;
+    background-color: #fcfcfc;
+    border-radius: 10px;
+    z-index: 10;
+    text-align: center;
+}
+
+.notification-modal hr {
+    width: 250px;
+}
+
+#notification-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#btn-quit {
+    font-size: 30px;
+    background-color: unset;
+    border: none;
+    margin-top: 20px;
+    margin-right: 20px;
+    height: fit-content;
+}
+
+#notification-body {
+    height: 100px;
+    background-color: #dedede69;
+    margin: 20px 30px;
+    font-size: 10px;
 }
 
 .profile-wrapper {
