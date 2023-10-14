@@ -8,8 +8,7 @@
         <a class="anchor-btn" href="{{ path('settings_profile', {'id': app.user.id}) }}">User Settings</a>
         <a class="anchor-btn" href="{{ path('app_message') }}">Message Box</a>
 </nav>
-
-    
+ 
     <div class="profile-wrapper">
         <h1>Profile Details</h1>
         <hr>
@@ -47,4 +46,29 @@
             </div>
         </div>
     </div>
+    {% block javascript %}
+        <script src="/js/password_strength.js"></script>
+        <script>
+            $(document).ready(function () {
+                $.ajax({
+                    url: '/profile/{{app.user.id}}/notifications'
+                })
+                .done(function(data){
+                    console.log(data);
+                    if (typeof data !== 'undefined') {
+                        $('.modal-body').html(data);
+                        $('#bell-notifications').click(function () {
+                            $('.notification-modal').fadeIn(300);
+                        })
+                        $("#btn-quit").on("click",function(){
+                            $('.notification-modal').fadeOut(300);
+                        });
+                    }
+                })
+                .fail(function (err) {
+                    alert(err.statusText);
+                });
+            });
+        </script>
+    {% endblock %}
 {% endblock %}
