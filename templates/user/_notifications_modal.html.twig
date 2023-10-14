@@ -1,0 +1,17 @@
+<div class="notification-modal">
+    <div id="notification-header">
+        <hgroup>
+            <h1>Notifications Center</h1>
+            <hr>
+        </hgroup>
+        <button id="btn-quit">x</button>
+    </div>
+    <div id="notification-body">
+        {% for notification in notifications %}
+            {{notification.comment.content}}
+        {% endfor %}
+    </div>
+    <div id="notification-footer">
+        <a></a>
+    </div>
+</div>
