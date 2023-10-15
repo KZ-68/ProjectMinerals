@@ -23,52 +23,62 @@ class AdvancedSearchType extends AbstractType
             ->add('name', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'placeholder' => 'Enter a mineral name'
                 ]
             ])
             ->add('formula', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'placeholder' => 'Enter a formula'
                 ]
             ])
             ->add('crystal_system', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'placeholder' => 'Enter a mineral crystal system'
                 ]
             ])
             ->add('density', NumberType::class, [
                 'scale' => 2,
                 'required' => false,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'placeholder' => 'Enter a density'
                 ]
             ])
             ->add('hardness', IntegerType::class, [
                 'label' => 'Hardness Scale',
                 'attr' => [
                     'class' => 'form-control',
-                    'min' => 1, 'max' => 9
+                    'min' => 1, 'max' => 9,
+                    'placeholder' => 'Enter an hardness scale'
                 ],
                 'required' => false
             ])
             ->add('fracture', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'placeholder' => 'Enter a fracture name'
                 ]
             ])
             ->add('streak', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'placeholder' => 'Enter a streak name'
                 ]
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Enter a category name'
+                ]
             ])
             ->add('varieties', EntityType::class, [
                 'class' => Variety::class,
