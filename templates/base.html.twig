@@ -14,27 +14,28 @@
             crossorigin=""/>
             <link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@600&family=Roboto:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
         {% endblock %}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.7.0.js"
         integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
         crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="/js/ajaxSearch.js"></script>
     </head>
     <body>
         <header>
             <nav id="nav-header">
                 <div id="nav-right">
                     {% if app.user and app.request.get('_route') == 'app_profile' %}
-                       <a id="bell-notifications" href="#"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"/></svg></a>
+                       <a id="bell-notifications" aria-controls="modal" href="#"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"/></svg></a>
                        <div class="modal-body"></div>
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN')%}
                     <a class="link-right" href="{{path('app_admin_index')}}">Admin Page</a>
                     {% endif %}
                     <a class="link-right" href="{{path('app_contact')}}">Contact</a>
-                    {% if app.request.get('_route') == 'app_home' %}
+                    {% if app.request.get('_route') == 'home_index' %}
                         <a class="isDisabled" href="#">Home Page</a>
                     {% else %}
-                        <a class="link-right" href="{{ path('app_home') }}">Home Page</a>
+                        <a class="link-right" href="{{ path('home_index') }}">Home Page</a>
                     {% endif %}
                     {% if app.user %}
                     <div class="profile-card">
@@ -55,23 +56,7 @@
                 </div>
 
                 <div id="nav-left">
-                    <div id="icon-wrapper">
-                        <a href="https://www.facebook.com/">
-                            <svg id="facebook-icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 40 40">
-                            <linearGradient id="a" x1="-277.375" x2="-277.375" y1="406.6018" y2="407.5726" gradientTransform="matrix(40 0 0 -39.7778 11115.001 16212.334)" gradientUnits="userSpaceOnUse">
-                              <stop offset="0" stop-color="#0062e0"/>
-                              <stop offset="1" stop-color="#19afff"/>
-                            </linearGradient>
-                            <path fill="url(#a)" d="M16.7 39.8C7.2 38.1 0 29.9 0 20 0 9 9 0 20 0s20 9 20 20c0 9.9-7.2 18.1-16.7 19.8l-1.1-.9h-4.4l-1.1.9z"/>
-                            <path fill="#fff" d="m27.8 25.6.9-5.6h-5.3v-3.9c0-1.6.6-2.8 3-2.8H29V8.2c-1.4-.2-3-.4-4.4-.4-4.6 0-7.8 2.8-7.8 7.8V20h-5v5.6h5v14.1c1.1.2 2.2.3 3.3.3 1.1 0 2.2-.1 3.3-.3V25.6h4.4z"/>
-                            </svg>
-                        </a>
-                        <a href="https://twitter.com/">
-                            <img id="x-icon" src="{{asset('uploads/images/Twitter-X-Icon-PNG.png')}}" alt="X.com icon">
-                        </a>
-                    </div>
-                    
-
+                    <h1>KZ Minerals</h1>
                     <div id="accordion-wrapper">
                         <button class="accordion">Menu</button>
                         <div class="panel">
@@ -98,10 +83,10 @@
                         <li><a class="linkTop" href="{{ path('app_login')}}">Sign In</a></li>
                         <li><a class="linkTop" href="{{ path('app_register')}}">Register</a></li>
                         {% endif %}
-                        {% if app.request.get('_route') == 'app_home' %}
+                        {% if app.request.get('_route') == 'home_index' %}
                             <li><a class="isDisabled" href="#">Home Page</a></li>
                         {% else %}
-                            <li><a class="linkTop" href="{{ path('app_home') }}">Home Page</a></li>
+                            <li><a class="linkTop" href="{{ path('home_index') }}">Home Page</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN') %}
                         <li><a class="linkTop" href="{{path('app_admin_index')}}">Admin Page</a></li>
@@ -131,9 +116,27 @@
                 <div id="nav-footer">
                     <a class="anchor-footer" href="">Privacy Policies</a>
                     <a class="anchor-footer" href="">Code of Conduct</a>
-                    <a class="anchor-footer" href="">Legal Notices</a>
+                    <a class="anchor-footer" href="{{path('privacy_policies')}}">Legal Notices</a>
                     <a class="anchor-footer" href="{{path('app_contact')}}">Contact</a>
                     <a class="anchor-footer" href="">About</a>
+                </div>
+                <div id="icon-wrapper">
+                    <h3>Suivez-nous sur les réseaux sociaux :</h3>
+                    <div id="social-icons-group">
+                        <a href="https://www.facebook.com/">
+                            <svg id="facebook-icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 40 40">
+                            <linearGradient id="a" x1="-277.375" x2="-277.375" y1="406.6018" y2="407.5726" gradientTransform="matrix(40 0 0 -39.7778 11115.001 16212.334)" gradientUnits="userSpaceOnUse">
+                              <stop offset="0" stop-color="#0062e0"/>
+                              <stop offset="1" stop-color="#19afff"/>
+                            </linearGradient>
+                            <path fill="url(#a)" d="M16.7 39.8C7.2 38.1 0 29.9 0 20 0 9 9 0 20 0s20 9 20 20c0 9.9-7.2 18.1-16.7 19.8l-1.1-.9h-4.4l-1.1.9z"/>
+                            <path fill="#fff" d="m27.8 25.6.9-5.6h-5.3v-3.9c0-1.6.6-2.8 3-2.8H29V8.2c-1.4-.2-3-.4-4.4-.4-4.6 0-7.8 2.8-7.8 7.8V20h-5v5.6h5v14.1c1.1.2 2.2.3 3.3.3 1.1 0 2.2-.1 3.3-.3V25.6h4.4z"/>
+                            </svg>
+                        </a>
+                        <a href="https://twitter.com/">
+                            <img id="x-icon" src="{{asset('uploads/images/Twitter-X-Icon-PNG.png')}}" alt="X.com icon">
+                        </a>
+                    </div>
                 </div>
                 <small>&copy; Kevin ZITNIK</small>
             </div>
@@ -143,7 +146,6 @@
         <script src="/js/burger_menu.js"></script>
         <script src="/js/accordion.js"></script>
         <script src="/js/topFunction.js"></script>
-        <script src="/js/ajaxSearch.js"></script>
         {% endblock %}
     </body>
 </html>
