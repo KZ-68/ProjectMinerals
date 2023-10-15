@@ -5,9 +5,9 @@
 {% block body %}
 
 <div class="mineral-options">
-        <a href="{{path('app_admin_delete_mineral', {'slug': mineral.slug})}}">Remove this Page</a>
-        <a href="{{path('edit_mineral', {'slug': mineral.slug})}}">Edit this Page</a>
-        <a href="{{path('discussions_mineral', {'slug': mineral.slug})}}">Discussions</a>
+        <a role="button" href="{{path('app_admin_delete_mineral', {'slug': mineral.slug})}}">Remove this Page</a>
+        <a role="button" href="{{path('edit_mineral', {'slug': mineral.slug})}}">Edit this Page</a>
+        <a role="button" href="{{path('discussions_mineral', {'slug': mineral.slug})}}">Discussions</a>
 </div>
 
 <div class="mineral-wrapper">
@@ -58,43 +58,48 @@
 
 <section class="section-wiki">
 
-    <h2>Detailled Caracteristics for {{mineral.name}}</h2>
+    <div aria-labelledby="caracteristics-heading" id="caracteristics-wrapper">
+        <h2 id="carateristics-heading">Detailled Caracteristics for {{mineral.name}}</h2>
 
-    <div id="caracteristics-wrapper">
         <p>Formula :{{mineral.formula}}</p>
         <p>Crystal System : {{mineral.crystalSystem}}</p>
         <p>Density : {{mineral.density}}</p>
         <p>Hardness : {{mineral.hardness}}</p>
         <p>Fracture : {{mineral.fracture}}</p>
         <p>Streak : {{mineral.streak}}</p>
-        <p>Color : <br/>
-            {% if mineral.colors | length > 0 %}
-                {% for color in mineral.colors %}
-                    <a href="{{path('show_color', {'slug': color.slug}) }}">{{color.name}}, </a>
-                {% endfor %}
-            {% else %}
-                Missing information
-            {% endif %}
-            <a href="{{path('edit_mineral_colors', {'slug': mineral.slug})}}">Add a color</a>
-        </p>
-        <p>Lustre : <br/>
-            {% if mineral.lustres | length > 0 %}
-                {% for lustre in mineral.lustres %}
-                    <a href="{{ path('edit_mineral_lustres', {'slug': mineral.slug}) }}">{{lustre.type}}, </a>
-                {% endfor %}
-            {% else %}
-                Missing information
-            {% endif %}
-            <a href="{{ path('edit_mineral_lustres', {'slug': mineral.slug})}}">Add a lustre</a>
-        </p>
+        <div id="caracteristics-colors">
+            <p>Colors : <br/>
+                {% if mineral.colors | length > 0 %}
+                    {% for color in mineral.colors %}
+                        <a href="{{path('show_color', {'slug': color.slug}) }}">{{color.name}}, </a>
+                    {% endfor %}
+                {% else %}
+                    Missing information
+                {% endif %}
+            </p>
+            <a role="button" class="add-color" href="{{path('edit_mineral_colors', {'slug': mineral.slug})}}">Add a color</a>
+        </div>
+        <div id="caracteristics-lustres">
+            <p>Lustres : <br/>
+                {% if mineral.lustres | length > 0 %}
+                    {% for lustre in mineral.lustres %}
+                        <a href="{{ path('edit_mineral_lustres', {'slug': mineral.slug}) }}">{{lustre.type}}, </a>
+                    {% endfor %}
+                {% else %}
+                    Missing information
+                {% endif %}
+            </p>
+            <a role="button" aria-rol class="add-lustre" href="{{ path('edit_mineral_lustres', {'slug': mineral.slug})}}">Add a lustre</a>
+        </div>
+        
     </div>
 </section>
 </div>
 
-<section class="section-wiki">
+<section aria-labelledby="" class="section-wiki">
     <div id="varieties-wrapper">
         <div id="variety-title-wrapper">
-            <hgroup id="variety-title">
+            <hgroup id="variety-title-group">
                 <h2>Varieties of {{mineral.name}}</h2>
                 <hr>
             </hgroup>
@@ -104,14 +109,12 @@
             </div>
         </div>
         
-        
-
         <div id="varieties-images">
         {% for image in varietyImages %}
             
             <figure class="figure-varieties">
             {% if image.filename is not null %}
-                    <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Variety Mineral">
+                    <img class="varieties-section-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Variety Mineral">
             {% else %}
                 <i>Missing image</i>
             {% endif %}
