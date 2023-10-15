@@ -19,7 +19,7 @@
     <div id="admin-list-group">
       <a href="">{{user.username}}</a>
       <div class="actions">
-        <a class="anonymize-btn" href="{{path('app_admin_anonymize_user', {'id': user.id})}}">Anonymize</a>
+        <a role="button" class="anonymize-btn" href="{{path('app_admin_anonymize_user', {'id': user.id})}}">Anonymize</a>
         <form action="{{ path('app_admin_delete_user', {id: user.id}) }}" method="post">
           <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}"/>
           <button class="delete-btn">Delete</button>

@@ -21,7 +21,7 @@
       <div id="admin-list-group">
         <a href="{{path('show_lustre', {'slug': lustre.slug})}}">{{lustre.type}}</a>
         <div class="actions">
-          <a class="edit-btn" href="{{ path('app_admin_edit_lustre', {'slug': lustre.slug}) }}" aria-label="Edit">Edit</a>
+          <a role="button" class="edit-btn" href="{{ path('app_admin_edit_lustre', {'slug': lustre.slug}) }}" aria-label="Edit">Edit</a>
           <form action="{{ path('app_admin_delete_lustre', {'slug': lustre.slug}) }}" method="post">
             <button class="delete-btn" aria-label="Delete">Delete</a>
           </form>

@@ -21,7 +21,7 @@
     <div id="admin-list-group">
       <a href="{{path('show_color', {'slug': color.slug})}}">{{color.name}}</a></td>
       <div class="actions">
-        <a class="edit-btn" href="{{ path('app_admin_edit_color', {'slug': color.slug}) }}" aria-label="Edit">Edit</a>
+        <a role="button" class="edit-btn" href="{{ path('app_admin_edit_color', {'slug': color.slug}) }}" aria-label="Edit">Edit</a>
         <form action="{{ path('app_admin_delete_color', {id: color.id}) }}" method="post">
           <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ color.id) }}"/>
           <button class="delete-btn">Delete</button>
