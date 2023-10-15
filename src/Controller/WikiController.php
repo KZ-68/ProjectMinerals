@@ -68,6 +68,8 @@ class WikiController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function launchDiscussion(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $discussion = new Discussion();
         $user = $this->getUser();
 
@@ -95,6 +97,8 @@ class WikiController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function newComment(Discussion $discussion, Request $request, EntityManagerInterface $entityManager): Response {
        
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $comment = new Comment();
         $user = $this->getUser();
 
@@ -121,6 +125,8 @@ class WikiController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function respondComment(Comment $comment, Discussion $discussion, Request $request, EntityManagerInterface $entityManager): Response {
         
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $respondComment = new Comment;
 
         $user = $this->getUser();
@@ -156,6 +162,8 @@ class WikiController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function deleteDiscussion(Discussion $discussion, DiscussionRepository $discussionRepository, EntityManagerInterface $entityManager): Response {
 
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $currentUser = $this->getUser();
         
         if ($discussion->getUser() === $currentUser && $currentUser->getRoles('ROLE_MODERATOR')) {
@@ -182,6 +190,8 @@ class WikiController extends AbstractController
     #[Route('/wiki/mineral/{slug}/discussions/{id}/comment/{comment}/delete', name:'delete_comment', methods:['POST'])]
     #[IsGranted('ROLE_USER')]
     public function deleteComment(Discussion $discussion, Comment $comment, CommentRepository $commentRepository, EntityManagerInterface $entityManager): Response {
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $currentUser = $this->getUser();
 
@@ -221,6 +231,8 @@ class WikiController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function new_mineral(FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $mineral = new Mineral();
         $coordinate = new Coordinate();
 
@@ -269,6 +281,8 @@ class WikiController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Mineral $mineral, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $originalColors = new ArrayCollection();
         $originalImages = new ArrayCollection();
         $coordinates = new ArrayCollection();
@@ -357,6 +371,8 @@ class WikiController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function new_variety(Mineral $mineral, FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $variety = new Variety();
         
         $form = $this->createForm(VarietyType::class, $variety);
@@ -530,5 +546,11 @@ class WikiController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_image');
+    }
+
+    #[Route('/privacy_policies', name: 'privacy_policies')]
+    #[IsGranted('PUBLIC_ACCESS')]
+    public function privacyPolicies(Request $request): Response {
+        return $this->render('wiki/privacy/privacy_policies.html.twig');
     }
 }

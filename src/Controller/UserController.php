@@ -26,6 +26,8 @@ class UserController extends AbstractController
     #[Route('/profile', name: 'app_profile')]
     public function index(Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         // Récupère l'utilisateur courant
         $user = $this->getUser();
         // Crée le formulaire par le biais du FormType associé
@@ -173,11 +175,16 @@ class UserController extends AbstractController
 
     #[Route('/profile/settings/{id}/popup', name: 'settings_delete_popup')]
     public function popupDeleteAccount(User $user, Request $request): Response {
+        
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         return $this->render('_partials/_delete_account.html.twig');
     }
 
     #[Route('/profile/settings/{id}/popup/delete', name: 'settings_delete_profile', methods:['POST'])]
     public function deleteAccount(User $user, Request $request, EntityManagerInterface $entityManager, Session $session, TokenStorageInterface $tokenStorage): Response {
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         if ($request->isMethod('POST')) {
             $userAuthentified = $this->getUser();
@@ -186,13 +193,16 @@ class UserController extends AbstractController
                 $entityManager->flush();
                 $tokenStorage->setToken(null);
                 $session->invalidate();
-                return $this->redirectToRoute('app_home');
+                return $this->redirectToRoute('home_index');
             }
         }
     }
 
     #[Route('/profile/{id}/notifications', name: 'notifications_center', methods:['GET'])]
     public function notifications(User $user, Request $request, NotificationRepository $notificationRepository) : Response {
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         if ($request->isMethod('GET')) {
                 $notifications = $notificationRepository->findNotificationsByUser($user->getId());
         }
