@@ -6,9 +6,8 @@ $(document).ready(function() {
 
       $.ajax({
           type: 'POST',
-          url: '/home', 
+          url: 'home', 
           data: formData,
-          dataType: 'json',
           success: function(response) {
               const resultsContainer = $('#search-results');
               resultsContainer.empty();
