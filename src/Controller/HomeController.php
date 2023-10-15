@@ -16,10 +16,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('PUBLIC_ACCESS')]
-#[Route('/')]
+#[Route('/', name: 'home_')]
 class HomeController extends AbstractController
 {
-    #[Route('/home', name: 'app_home')]
+    #[Route('home', name: 'index')]
     public function index(MineralRepository $mineralRepository, Request $request, PaginatorInterface $paginator): Response
     {
         // Crée un nouvel objet SearchData
@@ -49,14 +49,15 @@ class HomeController extends AbstractController
         $minerals = $mineralRepository->findPaginateMinerals($request->query->getInt('page', 1));
         if ($request->isXmlHttpRequest()) {
             $formData = $request->request->all();
-            $minerals = $mineralRepository->findByAdvancedSearch($formData);
-            
+            $minerals = $mineralRepository->findByAdvancedSearch($formData['advanced_search']);
+
             $jsonData = [];
             foreach ($minerals as $mineral) {
                 $jsonData[] = [
                     'slug' => $mineral->getSlug() ?? null,
                     'name' => $mineral->getName() ?? null,
                 ];
+                
             }
 
             $response = [
