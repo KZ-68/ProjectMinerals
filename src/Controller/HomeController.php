@@ -52,13 +52,19 @@ class HomeController extends AbstractController
             $minerals = $mineralRepository->findByAdvancedSearch($formData['advanced_search']);
 
             $jsonData = [];
-            foreach ($minerals as $mineral) {
+            if($minerals === []) {
                 $jsonData[] = [
-                    'slug' => $mineral->getSlug() ?? null,
-                    'name' => $mineral->getName() ?? null,
+                    'name' => 'No Mineral found in the search engine !'
                 ];
-                
+            } else {
+                foreach ($minerals as $mineral) {
+                    $jsonData[] = [
+                        'slug' => $mineral->getSlug() ?? null,
+                        'name' => $mineral->getName() ?? null,
+                    ];
+                }
             }
+            
 
             $response = [
                 'data' => $jsonData
