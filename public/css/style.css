@@ -282,8 +282,8 @@ thead tr {
     font-size: 20px;
 }
 
-.link-right:hover {
-
+header a:hover {
+    color: #4f4f4f;
 }
 
 .link-right[href="/logout"] {
@@ -503,6 +503,10 @@ input[type="submit"] {
     margin-top: 10px;
 }
 
+#submit-advanced-search:hover {
+    color: #4f4f4f
+}
+
 button#message_send {
     font-size: 16px;
     font-weight: 700;
@@ -605,7 +609,7 @@ div#advanced-search-bar {
     align-items: center;
     color: #070707;
     font-size: 24px;
-    padding: 25px 50px;
+    margin: 20px 10px;
 }
 
 .formulaire-login {
@@ -752,7 +756,7 @@ div.formulaire-login a {
 
 #lightbox1 {
     width: 3000px;
-    height: 2680px;
+    height: 2727px;
     position: absolute;
     z-index: 9999;
     top: 0;
@@ -1196,9 +1200,9 @@ section.section-map {
 
 #cCarousel {
     position: relative;
-    max-width: 1600px;
+    max-width: 1400px;
     margin: auto;
-  }
+}
   
 #cCarousel .arrow {
     position: absolute;
@@ -1223,7 +1227,7 @@ section.section-map {
 .arrow-symbols {
     font-size: 32px;
     position: absolute;
-    top: 1px;
+    top: 5px;
 }
 
 #cCarousel #prev {
@@ -1311,6 +1315,10 @@ section.section-map {
     justify-content: space-between;
 }
 
+#notification-header h1, #notification-header hr {
+    margin-bottom: 0;
+}
+
 #btn-quit {
     font-size: 30px;
     background-color: unset;
@@ -1321,10 +1329,18 @@ section.section-map {
 }
 
 #notification-body {
-    height: 100px;
+    height: 146px;
     background-color: #dedede69;
     margin: 20px 30px;
-    font-size: 10px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-x: auto;
+}
+
+#notification-body p {
+    font-size: 16px;
 }
 
 .profile-wrapper {
@@ -1892,18 +1908,24 @@ small {
 }
 }
 
-@media only screen and (max-device-width: 1900px) {
-    .search-bar {
-        top: 900px;
+@media only screen and (min-device-width: 1440px) and (max-device-width: 1900px) {
+    .adv-search-fields {
+        width: 837px;
+        height: 534px;
     }
+    
+    .search-bar {
+        top: 743px;
+        left: 615px;
+    }
+
+    #minerals-list, #categories-list {
+        width: 1025px;
+    }
+    
 }
 
 @media only screen and (max-device-width: 1440px) {
-    .search-bar {
-        top: 790px;
-        left: 609px;
-    }
-
     #cCarousel {
         max-width: 1350px;
     }
@@ -1911,8 +1933,13 @@ small {
 
 @media only screen and (min-device-width: 1024px) and (max-device-width: 1440px) {
     #figure-logo {
-        left: 67vh;
-        right: 67vh;
+        left: 73vh;
+        right: 73vh;
+    }
+
+    .search-bar {
+        top: 95vh;
+        left: 78vh;
     }
 
     #minerals-list, #categories-list{
@@ -2382,6 +2409,10 @@ small {
         width: unset;
     }
 
+    form hr {
+        width: 240px;
+    }
+
     .formulaire-register {
         width: unset;
     }
@@ -2464,11 +2495,12 @@ small {
     }
 
     #varieties-images {
-        flex-direction: column;
-        justify-content: center;
+        flex-direction: row;
+        /* justify-content: center; */
         align-items: center;
         height: fit-content;
         margin: 20px 15px;
+        overflow-x: auto;
     }
 
     .figure-varieties .mineral-image {
@@ -2478,6 +2510,12 @@ small {
 
     .figure-varieties figcaption {
         text-align: center;
+    }
+
+    .varieties-section-image {
+        width: 238px;
+        height: 211px;
+    
     }
 
     .mineral-image {
@@ -2505,13 +2543,21 @@ small {
 
     .cCarousel-item {
         width: 249px;
-        height: 262px;
+        height: 239px;
     }
     
     .cCarousel-item img {
-        min-height: 260px;
+        min-height: 235px;
         width: 245px;
         object-fit: unset
+    }
+
+    #cCarousel .arrow {
+        top: 45%;
+    }
+
+    .arrow-symbols {
+        top: 3px;
     }
 
     .profile-wrapper {
