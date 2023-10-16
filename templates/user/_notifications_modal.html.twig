@@ -8,7 +8,11 @@
     </div>
     <div id="notification-body">
         {% for notification in notifications %}
-            {{notification.comment.content}}
+            <p>
+                {{notification.comment.user.username}}
+                {{notification.comment.content}}
+                {{notification.comment.getDateTime}}
+            </p>
         {% endfor %}
     </div>
     <div id="notification-footer">
