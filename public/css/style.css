@@ -20,15 +20,15 @@ h1 {
 
 h2 {
     background-color: #6fd6c1;
-    padding: 10px 20px 10px 40px;
+    padding: 10px 20px 10px 20px;
     margin: 30px 0;
     width: 700px;
     border-radius: 5px;
 }
 
 hr {
-    width: 654px;
-    margin: 0px 0px 30px 25px;
+    width: 535px;
+    margin: 0px 20px 20px 20px;
     padding: 3px;
     background-color: #5ecfb8;
     border-radius: 5px;
@@ -68,10 +68,6 @@ button.btn:active {
 button#contact_validate:active {
     background: #5ecfb8;
     font-size: 15px;
-}
-
-.mineral-options a:hover {
-    background-color: #57CC99;
 }
 
 header {
@@ -716,7 +712,6 @@ div.formulaire-login a {
 }
 
 #home-description h2 {
-    padding: 10px 20px 10px 20px;
     margin: 0px 0px 30px 0px;
     width: 334px;
     border-radius: 5px;
@@ -773,7 +768,7 @@ div.formulaire-login a {
     display: none;
 }
 
-.mineral-options, .minerals-list-options {
+.mineral-options, .varieties-options, .minerals-list-options {
     padding: 20px;
     margin: 10px 10px;
     margin-top: 25px;
@@ -782,13 +777,17 @@ div.formulaire-login a {
     gap: 20px;
 }
 
-.mineral-options a, .minerals-list-options a {
+.mineral-options a:hover, .varieties-options a:hover {
+    background-color: #57CC99;
+}
+
+.mineral-options a, .varieties-options a, .minerals-list-options a {
     font-size: 16px;
     font-weight: 700;
     color: black;
     background: #6fd6c1;
     padding: 10px 13px;
-    border-radius: 21px;
+    border-radius: 10px;
 }
 
 .mineral-options a:nth-child(1) {
@@ -928,6 +927,21 @@ div.formulaire-login a {
     animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
+#images-list-figure #download {
+    position: absolute;
+    right: 45px;
+    top: 8px;
+    display: none;
+    z-index: 20;
+}  
+
+#images-list-figure:hover #download {
+    display: block;
+    animation-name: fade-images-icon;
+    animation-duration: 2.5s;
+    animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
 @keyframes fade-images-icon {
     from {
         opacity: 0;
@@ -949,7 +963,6 @@ div.formulaire-login a {
 .varieties-section-image {
     width: 350px;
     height: 300px;
-    border: 2px solid #6fd6c1;
     border-radius: 10px;
 }
 
@@ -1022,7 +1035,7 @@ div.formulaire-login a {
     color: black;
     background: #6fd6c1;
     padding: 10px 13px;
-    border-radius: 21px;
+    border-radius: 10px;
 }
 
 #varieties-wrapper {
@@ -1035,7 +1048,6 @@ div.formulaire-login a {
 
 #varieties-wrapper h2 {
     background: none;
-    padding: 10px 20px 10px 40px;
     margin: 10px 0;
     width: 435px;
     border-radius: 5px;
@@ -1064,24 +1076,16 @@ div.formulaire-login a {
     justify-content: space-between;
 }
 
-#add-variety {
-    font-size: 16px;
-    font-weight: 700;
-    color: black;
-    background: #6fd6c1;
-    padding: 10px 13px;
-    border-radius: 21px;
-}
-
 #varieties-images {
     display: flex;
     flex-direction: row;
     gap: 30px;
     margin: 20px 30px;
     padding: 20px;
-    background-color: #d0d0dd70;
+    background-color: #d9d9eb70;
     border-radius: 5px;
     height: 375px;
+    overflow-x: auto;
 }
 
 button.btn {
@@ -1123,7 +1127,13 @@ button.btn {
     background-color: #ff6b6b;
 }
 
-.mineral-wrapper {
+#mineral-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.mineral-zone {
     width: fit-content;
     margin: 5px 20px;
     padding: 15px 13px;
@@ -1131,7 +1141,7 @@ button.btn {
     background-color: #fcfcfccc;
 }
 
-#mineral-title {
+#mineral-header {
     display: flex;
     margin: 20px 20px;
     padding-bottom: 15px;
@@ -1182,7 +1192,6 @@ section.section-map {
 
 .section-map h2 {
     background: none;
-    padding: 10px 20px 10px 40px;
     margin: 15px 0;
     width: 700px;
     border-radius: 5px;
@@ -1191,6 +1200,14 @@ section.section-map {
 #mineral-map {
     height: 400px;
     max-width: 400px;
+    margin: 40px 20px;
+}
+
+#carousel-wrapper {
+    border: 1px solid #fcfcfccc;
+    border-radius: 10px;
+    background-color: #fcfcfccc;
+    margin: 0px 20px;
 }
 
 #carousel-wrapper h2 {
@@ -1200,8 +1217,7 @@ section.section-map {
 
 #cCarousel {
     position: relative;
-    max-width: 1400px;
-    margin: auto;
+    margin: 20px;
 }
   
 #cCarousel .arrow {
@@ -1239,7 +1255,6 @@ section.section-map {
 }
 
 #carousel-vp {
-    width: 1430px;
     height: 400px;
     display: flex;
     align-items: center;
@@ -1252,14 +1267,13 @@ section.section-map {
     display: flex;
     position: absolute;
     transition: 0.3s ease-in-out;
-    gap: 10px;
-    left: 0px;
+    gap: 20px;
+    left: 75px;
   }
   
 .cCarousel-item {
     width: 350px;
     height: 300px;
-    border: 2px solid #38A3A5;
     border-radius: 15px;
     overflow: hidden;
     display: flex;
@@ -1268,7 +1282,6 @@ section.section-map {
 
 .cCarousel-item img {
     width: 100%;
-    object-fit: cover;
     min-height: 246px;
     color: #38A3A5;
 }
@@ -1336,7 +1349,7 @@ section.section-map {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    overflow-x: auto;
+    overflow-y: auto;
 }
 
 #notification-body p {
@@ -1945,6 +1958,16 @@ small {
     #minerals-list, #categories-list{
         width: 900px;
     }
+
+    #cCarousel .arrow {
+        top: 45%;
+        width: 30px;
+        height: 45px;
+    }
+
+    .arrow-symbols {
+        top: 1px;
+    }
 }
 
 @media only screen and (max-device-width: 1024px) {
@@ -2129,10 +2152,6 @@ small {
         width: 275px;
     }
 
-    #varieties-images {
-        overflow-x: auto;
-    }
-
     #carousel-vp {
         width: 500px;
     }
@@ -2146,8 +2165,14 @@ small {
         height: 250px;
     }
 
-    #cCarousel, #cCarousel-inner {
-        gap: 30px;
+    #cCarousel .arrow {
+        top: 45%;
+        width: 30px;
+        height: 45px;
+    }
+
+    .arrow-symbols {
+        top: 1px;
     }
 
 }
@@ -2179,24 +2204,40 @@ small {
 }
 
 @media only screen and (min-device-width: 480px) and (max-device-width: 768px) {
+    #cCarousel .arrow {
+        top: 45%;
+        width: 30px;
+        height: 45px;
+    }
+
+    .arrow-symbols {
+        top: 1px;
+    }
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
     h1 {
         width: 347px;
         text-align: center;
+        font-size: 24px;
     }
     
     h2 {
         width: fit-content;
+        font-size: 20px;
+        padding: 10px 20px 10px 20px;
     }
 
     hr {
         width: 325px;
-        margin: 0px 0px 30px 25px;
+        margin: 0px 0px 30px 18px;
         padding: 3px;
         background-color: #5ecfb8;
         border-radius: 5px;
+    }
+
+    p {
+        font-size: 16px;
     }
 
     a {
@@ -2452,7 +2493,13 @@ small {
         text-align: center;
     }
 
-    #mineral-title h1 {
+    .mineral-zone {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #mineral-header h1 {
         width: 220px;
         text-align: center;
     }
@@ -2466,6 +2513,12 @@ small {
 
     #mineral-figure p {
         font-size: 16px;
+    }
+
+    .table-of-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     #variety-title-wrapper {
@@ -2489,18 +2542,11 @@ small {
         margin: 0;
     } 
 
-    #add-variety {
-        width: 11rem;
-        padding: 10px 20px 10px 40px;
-    }
-
     #varieties-images {
         flex-direction: row;
-        /* justify-content: center; */
         align-items: center;
         height: fit-content;
         margin: 20px 15px;
-        overflow-x: auto;
     }
 
     .figure-varieties .mineral-image {
@@ -2513,15 +2559,23 @@ small {
     }
 
     .varieties-section-image {
-        width: 238px;
-        height: 211px;
-    
+        width: 235px;
+        height: 200px;
+    }
+
+    .mineral-options a, .varieties-options a, .minerals-list-options a {
+        font-size: 13px;
+        text-align: center;
     }
 
     .mineral-image {
         width: 229px;
         height: 200px;
     }
+
+    #caracteristics-colors a, #caracteristics-lustres a {
+        font-size: 12px;
+    }    
 
     .section-map h2 {
         width: 307px;
@@ -2537,27 +2591,42 @@ small {
         left: 17px;
     }
 
+    #carousel-wrapper hr {
+        width: 220px;
+    }
+
     #cCarousel {
-        max-width: 345px;
+        margin: 10px;
+    }
+    
+    #carousel-vp {
+        width: 220px;
+        height: 240px;
+    }
+
+    #cCarousel #cCarousel-inner {
+        left: 0px;
     }
 
     .cCarousel-item {
-        width: 249px;
-        height: 239px;
+        width: 220px;
+        height: 200px;
     }
     
     .cCarousel-item img {
-        min-height: 235px;
-        width: 245px;
+        width: 220px;
+        height: 200px;
         object-fit: unset
     }
 
     #cCarousel .arrow {
         top: 45%;
+        width: 30px;
+        height: 45px;
     }
 
     .arrow-symbols {
-        top: 3px;
+        top: 1px;
     }
 
     .profile-wrapper {
