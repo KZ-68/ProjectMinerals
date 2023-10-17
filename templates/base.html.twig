@@ -8,7 +8,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
             integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
             crossorigin=""/>
@@ -114,9 +114,8 @@
         <footer>
             <div id="footer-wrapper">
                 <div id="nav-footer">
-                    <a class="anchor-footer" href="">Privacy Policies</a>
                     <a class="anchor-footer" href="">Code of Conduct</a>
-                    <a class="anchor-footer" href="{{path('privacy_policies')}}">Legal Notices</a>
+                    <a class="anchor-footer" href="{{path('privacy_policy')}}">Privacy Policy</a>
                     <a class="anchor-footer" href="{{path('app_contact')}}">Contact</a>
                     <a class="anchor-footer" href="">About</a>
                 </div>
