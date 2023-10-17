@@ -17,6 +17,7 @@ use App\Entity\Coordinate;
 use App\Entity\Discussion;
 use App\Form\DiscussionType;
 use App\Service\FileUploader;
+use App\Service\PdfGenerator;
 use App\Form\MineralColorType;
 use Doctrine\ORM\EntityManager;
 use App\Form\RespondCommentType;
@@ -35,8 +36,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\ModificationHistoryRepository;
+use App\Service\FileDownloader;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class WikiController extends AbstractController
 {
@@ -548,9 +551,40 @@ class WikiController extends AbstractController
         return $this->redirectToRoute('app_image');
     }
 
-    #[Route('/privacy_policies', name: 'privacy_policies')]
+    #[Route('/privacy_policy', name: 'privacy_policy')]
     #[IsGranted('PUBLIC_ACCESS')]
-    public function privacyPolicies(Request $request): Response {
-        return $this->render('wiki/privacy/privacy_policies.html.twig');
+    public function privacyPolicy(Request $request): Response {
+        return $this->render('wiki/privacy/privacy_policy.html.twig');
+    }
+
+    #[Route('/wiki/mineral/{slug}/show/pdfgenerator', name:'pdf_generator')]
+    #[IsGranted('PUBLIC_ACCESS')]
+    public function generatePdf(Mineral $mineral, ImageRepository $imageRepository, PdfGenerator $pdfGenerator) {
+        
+        $image = $imageRepository->findImagesById($mineral->getId());
+        $varietyImages = $imageRepository->findVarietyImagesAndNamesInMineral($mineral->getId());
+        $substitutionImage = $imageRepository->findTitleImageSubstitution($mineral->getId());
+        $html = $this->render('wiki/show_mineral.html.twig', [
+                'image' => $image,
+                'varietyImages' => $varietyImages,
+                'substitutionImage' => $substitutionImage,
+                'mineral' => $mineral
+            ]);
+
+        $pdfContent = $pdfGenerator->generate_pdf($html);
+
+        return new Response($pdfContent, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="document.pdf"',
+        ]);
+    }
+
+    #[Route('{filename}/download', name:'download_images')]
+    public function download(FileDownloader $fileDownloader, Image $image): BinaryFileResponse {
+        
+        $imageName = $image->getFilename();
+        $response = $fileDownloader->download($imageName);
+
+        return $response;
     }
 }
