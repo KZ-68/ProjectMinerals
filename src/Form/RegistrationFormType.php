@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -17,8 +18,16 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class RegistrationFormType extends AbstractType
 {
+    private $router;
+
+    function __construct(RouterInterface $router){
+        $this->router = $router;
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $privacy = $this->router->generate('privacy_policy');
+
         $builder
             ->add('username', TextType::class, [
                 'attr' => [
@@ -62,6 +71,8 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
+                'label' => 'I accept the <a href="' . $privacy .'" target="_blank">Privacy Policy</a> and the Terms of Use',
+                'label_html' => true,
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
