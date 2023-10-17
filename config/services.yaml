@@ -24,6 +24,13 @@ services:
         arguments:
             $targetDirectory: '%images_directory%'
 
+    App\Service\FileDownloader:
+        arguments:
+            $targetDirectory: '%images_directory%'        
+
+    App\Service\PdfGeneratorService:
+        arguments: []        
+
     App\EventListener\ModificationHistoryListener:
         tags:
             -
