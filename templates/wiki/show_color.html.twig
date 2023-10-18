@@ -10,9 +10,13 @@
 <div class="list-wrapper">
     <div>
         <ul>
-            {% for mineral in color.minerals %}
-            <li><a href="{{ path('show_mineral', {'slug': mineral.slug}) }}">{{mineral.name}}</a></li>
-            {% endfor %}
+            {% if color.minerals | length > 0 %}
+                {% for mineral in color.minerals %}
+                <li><a href="{{ path('show_mineral', {'slug': mineral.slug}) }}">{{mineral.name}}</a></li>
+                {% endfor %}
+            {% else %}
+                <p>There's no mineral added yet</p>
+            {% endif %}
         </ul>
     </div>
 </div>

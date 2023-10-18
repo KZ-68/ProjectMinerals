@@ -11,9 +11,13 @@
     <div>
         <ul>
             <li>
-                {% for mineral in category.minerals %}
-                    <a href="{{ path('show_mineral', {'slug': mineral.slug}) }}">{{mineral.name}}</a>
-                {% endfor %}
+                {% if category.minerals | length > 0 %}
+                    {% for mineral in category.minerals %}
+                        <a href="{{ path('show_mineral', {'slug': mineral.slug}) }}">{{mineral.name}}</a>
+                    {% endfor %}
+                {% else %}
+                    <p>There's no mineral added yet</p>
+                {% endif %}
             </li>
         </ul>
     </div>
