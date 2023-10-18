@@ -564,19 +564,16 @@ class WikiController extends AbstractController
         $image = $imageRepository->findImagesById($mineral->getId());
         $varietyImages = $imageRepository->findVarietyImagesAndNamesInMineral($mineral->getId());
         $substitutionImage = $imageRepository->findTitleImageSubstitution($mineral->getId());
-        $html = $this->render('wiki/show_mineral.html.twig', [
+        
+        $html = $this->render('wiki/show_mineral_pdf.html.twig', [
                 'image' => $image,
                 'varietyImages' => $varietyImages,
                 'substitutionImage' => $substitutionImage,
                 'mineral' => $mineral
             ]);
 
-        $pdfContent = $pdfGenerator->generate_pdf($html);
+        $pdfGenerator->generate_pdf($html);
 
-        return new Response($pdfContent, 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="document.pdf"',
-        ]);
     }
 
     #[Route('{filename}/download', name:'download_images')]
