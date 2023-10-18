@@ -12,21 +12,26 @@ class PdfGenerator
 
     public function __construct()
     {
+        $this->dompdf = new Dompdf();
+        
         $options = new Options();
         $options->set('defaultFont', 'Roboto');
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isRemoteEnabled', true);
-        $this->dompdf = new Dompdf($options);
+        $options->set('dompdf_dpi', '300');
+        $options->set('A4', 'portrait');
+        $options->set('isJavascriptEnabled', true);
+
+        $this->dompdf->setOptions($options);
     }
 
     public function generate_pdf($html){
     
         $this->dompdf->loadHtml($html);
-        $this->dompdf->setPaper('A4', 'portrait');
         $this->dompdf->render();
-        $this->dompdf->stream("testpdf.pdf", [
-            "Attachment" => true
-        ]);
 
+        $this->dompdf->stream("testpdf.pdf", [
+            "Attachment" => false
+        ]);
     }
 }
