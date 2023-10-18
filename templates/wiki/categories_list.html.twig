@@ -3,7 +3,7 @@
 {% block title %}Categories List{% endblock %}
 
 {% block body %}
-<div class="mineral-options">
+<div class="categories-options">
     {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('app_admin_new_category') }}">Add new category</a>
     {% endif %}
