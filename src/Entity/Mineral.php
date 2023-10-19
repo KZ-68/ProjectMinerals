@@ -108,6 +108,9 @@ class Mineral
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: ModificationHistory::class)]
     private Collection $modificationHistories;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
     public function __construct()
     {
         $this->colors = new ArrayCollection();
@@ -445,6 +448,18 @@ class Mineral
                 $modificationHistory->setMineral(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
