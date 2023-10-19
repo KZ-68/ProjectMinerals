@@ -1,7 +1,12 @@
 *
 {
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #38A3A5;
 }
 
 body {
@@ -41,12 +46,12 @@ figcaption {
 }
 
 p {
-    color: black;
+    color: #000000;
     font-size: 20px;
 }
 
 a {
-    color: black;
+    color: #000000;
     text-decoration: none;
     font-size: 24px;
 }
@@ -71,20 +76,28 @@ button#contact_validate:active {
 }
 
 header {
-    background: #38A3A5;
+    background: var(--primary-color);
     padding: 15px 20px;
+    color: #ffffff;
 }
 
 header a {
-    color: black;
     text-decoration: none;
     font-size: 24px;
 }
 
 footer a {
-    color: black;
+    color: #ffffff;
     text-decoration: none;
     font-size: 24px;
+}
+
+footer h3 {
+    color: #ffffff;
+}
+
+footer small {
+    color: #ffffff;
 }
 
 li {
@@ -211,7 +224,7 @@ thead tr {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: white;
+    color: #ffffff;
     font-size: 24px;
     padding: 25px 50px;
 }
@@ -219,7 +232,8 @@ thead tr {
 .isDisabled {
     cursor: not-allowed;
     opacity: 0.5;
-    font-size: 20px;
+    font-size: 24px;
+    color: #ffffff;
 }
 
 .isDisabled > a {
@@ -275,7 +289,8 @@ thead tr {
 }
 
 .link-right {
-    font-size: 20px;
+    font-size: 24px;
+    color: white
 }
 
 header a:hover {
@@ -302,9 +317,8 @@ header a:hover {
     flex-direction: column;
     align-items: flex-end;
     padding: 10px 20px;
-    border: 1px solid #57CC99;
-    border-radius: 5px;
-    background: #57CC99;
+    border-radius: 14px;
+    background: #6fd6c1;
 }
 
 .profile-card p {
@@ -320,7 +334,7 @@ header a:hover {
 }
 
 #figure-avatar-header {
-    border: 3px solid #22577A;
+    border: 3px solid #818181;
     border-radius: 15px;
     width: 79px;
     height: 79px;
@@ -382,12 +396,12 @@ header a:hover {
     position: absolute;
     top: 790px;
     left: 800px;
-    border: 2px solid #38A3A5;
+    border: 2px solid var(--primary-color);
     border-radius: 18px 18px 18px 18px;
 }
 
 .accordion {
-    background-color: #57CC99;
+    background-color: #6fd6c1;
     color: #444;
     cursor: pointer;
     padding: 18px;
@@ -481,7 +495,7 @@ input[type="submit"] {
 }
 
 #submit-search {
-    background-color: #57CC99;
+    background-color: #5ecfb8;
     color: #444;
     cursor: pointer;
     padding: 11px;
@@ -521,7 +535,6 @@ button#message_send {
 }
 
 .adv-search-section h2 {
-    background: #80ED99;
     padding: 10px 0px 10px 20px;
     margin: 30px 0;
     width: 400px;
@@ -529,21 +542,21 @@ button#message_send {
 
 .adv-search {
     border-radius: 10px;
-    width: 965px;
     height: 665px;
     display: flex;
-    background: #38A3A5;
-    margin: 20px 20px 30px 20px;
+    background-color: var(--primary-color);
+    padding: 20px 35px;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     box-shadow: 0px 5px 3px 0px #827e7e;
+    justify-content: center;
 }
 
 .adv-search-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0px 423px;
+    color: #ffffff;
 }
 
 .adv-search-border {
@@ -553,13 +566,13 @@ button#message_send {
 }
 
 .adv-search-fields {
-    width: 885px;
-    height: 534px;
+    height: 620px;
     display: flex;
     flex-direction: column;
     font-size: 20px;
     gap: 25px;
     justify-content: center;
+    padding: 0px 39px;
 }
 
 .adv-search-fields p {
@@ -572,6 +585,7 @@ div#advanced-search-bar {
     gap: 40px;
     flex-wrap: wrap;
     align-items: center;
+    font-size: 24px;
 }
 
 #advanced_search_category {
@@ -666,7 +680,7 @@ div.formulaire-login a {
 }
 
 .terms a[href="/privacy_policy"] {
-    color: #38A3A5;
+    color: var(--primary-color);
     text-decoration: underline;
 }
 
@@ -702,7 +716,7 @@ div.formulaire-login a {
     cursor: pointer;
 }
 
-#description-wrapper {
+#home-description-wrapper {
     min-height: 700px;
     display: flex;
     justify-content: center;
@@ -765,6 +779,14 @@ div.formulaire-login a {
     display: none;
 }
 
+#lightbox1 figcaption {
+    color: white;
+    font-size: 16px;
+    position: absolute;
+    bottom: 12vh;
+    left: 119vh;
+}
+
 .lightbox2 {
     width: 1900px;
     height: 1295px;
@@ -785,14 +807,14 @@ div.formulaire-login a {
 }
 
 .mineral-options a:hover, .varieties-options a:hover, .minerals-list-options a:hover, .categories-options a:hover, .discussion-options a:hover {
-    background-color: #57CC99;
+    background-color: #37c9ad;
 }
 
 .mineral-options a, .varieties-options a, .minerals-list-options a, .categories-options a, .discussion-options a {
     font-size: 16px;
     font-weight: 700;
     color: black;
-    background: #6fd6c1;
+    background-color: #6fd6c1;
     padding: 10px 13px;
     border-radius: 10px;
 }
@@ -1032,11 +1054,7 @@ form[name='mineral'] {
 }
 
 #caracteristics-wrapper a:hover {
-    color: #4f4f4f;
-}
-
-#caracteristics-wrapper .add-color {
-    color: #4f4f4f;
+    background-color: #37c9ad;
 }
 
 #caracteristics-colors, #caracteristics-lustres {
@@ -1177,7 +1195,7 @@ button.btn {
     margin: 55px 20px;
     width: 354px;
     height: 304px;
-    border: 2px solid #38A3A5;
+    border: 2px solid var(--primary-color);
     border-radius: 10px;
     overflow: hidden;
     justify-content: center;
@@ -1201,6 +1219,22 @@ button.btn {
 
 .table-of-content a {
     text-decoration: underline;
+}
+
+#description-mineral-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background-color: #d0d0dd70;
+    margin: 20px;
+    padding: 10px 20px 40px 20px;
+}
+
+#description-mineral-body p {
+    max-width: 650px;
 }
 
 section.section-map {
@@ -1304,7 +1338,7 @@ section.section-map {
 .cCarousel-item img {
     width: 100%;
     min-height: 246px;
-    color: #38A3A5;
+    color: var(--primary-color);
 }
 
 .profile-nav {
@@ -1402,9 +1436,9 @@ section.section-map {
 .profile-avatar-wrapper {
     padding: 10px 20px;
     margin-bottom: 20px;
-    border: 2px solid #38A3A5;
+    border: 2px solid var(--primary-color);
     border-radius: 10px;
-    background: #38A3A5;
+    background: var(--primary-color);
 }
 
 .figure-avatar {
@@ -1464,7 +1498,7 @@ label[for='user_avatar'] {
     width: 400px;
     display: flex;
     flex-direction: column;
-    border-right: 2px solid #38A3A5;
+    border-right: 2px solid var(--primary-color);
     padding: 15px 20px;
     margin: 20px 0px;
 }
@@ -1648,7 +1682,7 @@ button#deleteAccount {
     border-radius: 5px;
     font-size: 20px;
     padding: 5px 15px;
-    background: linear-gradient(1deg, #38A3A5, #57CC99, #38A3A5);
+    background: linear-gradient(1deg, var(--primary-color), #57CC99, var(--primary-color));
 }
 
 #respond_comment_send {
@@ -1656,7 +1690,7 @@ button#deleteAccount {
     border-radius: 5px;
     font-size: 20px;
     padding: 5px 15px;
-    background: linear-gradient(1deg, #38A3A5, #57CC99, #38A3A5);
+    background: linear-gradient(1deg, var(--primary-color), #57CC99, var(--primary-color));
 }
 
 .discussion-card {
@@ -1672,9 +1706,10 @@ button#deleteAccount {
 }
 
 .discussion-subject {
-    background: linear-gradient(6deg, #678bd2a3, #6265ba, #678bd2a3);
+    background-color: var(--primary-color);
     padding: 20px 0px 15px 20px;
     border-radius: 8px 8px 0px 0px;
+    color: white;
 }
 
 hgroup.discussion-subject h2 {
@@ -1697,7 +1732,7 @@ hgroup.discussion-subject h2 {
 }
 
 #discussion-avatar-header {
-    border: 3px solid #38A3A5;
+    border: 3px solid var(--primary-color);
 }
 
 .discussion-textarea {
@@ -1728,7 +1763,7 @@ hgroup.discussion-subject h2 {
     margin: 0px 0px 0px 15px;
     border-radius: 5px;
     padding: 4px 10px;
-    background: linear-gradient(0deg, #57CC99, #38A3A5, #57CC99);
+    background: linear-gradient(0deg, #57CC99, var(--primary-color), #57CC99);
 }
 
 .comment-card {
@@ -1740,9 +1775,9 @@ hgroup.discussion-subject h2 {
 }
 
 .comment-subject {
-    background: linear-gradient(0deg, #38A3A5, #22577A, #38A3A5);
     padding: 20px 0px 15px 20px;
     border-radius: 8px 8px 0px 0px;
+    background-color: #5ecfb8;
 }
 
 hgroup.comment-subject h2 {
@@ -1765,7 +1800,7 @@ hgroup.comment-subject h2 {
 }
 
 hgroup.response-comment-subject {
-    background-color: #6fd6c1;
+    background-color: #678bd2c2;
     padding: 20px 0px 15px 20px;
     border-radius: 8px 8px 0px 0px;
 }
@@ -1809,7 +1844,7 @@ hgroup.response-comment-subject h2 {
     margin: 0px 0px 0px 15px;
     border-radius: 5px;
     padding: 4px 10px;
-    background: linear-gradient(0deg, #57CC99, #38A3A5, #57CC99);
+    background: linear-gradient(0deg, #57CC99, var(--primary-color), #57CC99);
 }
 
 .comment-card-footer {
@@ -1828,10 +1863,10 @@ span.page:hover, span.first:hover, span.previous:hover, span.next:hover, span.la
 }
 
 span.page, span.first, span.previous, span.next, span.last {
-    border: 1px solid #38A3A5;
+    border: 1px solid var(--primary-color);
     border-radius: 4px;
     padding: 5px 5px;
-    background: #38A3A5;
+    background: var(--primary-color);
     font-weight: 700;
 }
 
@@ -1858,7 +1893,7 @@ aside.aside-wrapper {
     flex-direction: column;
     gap: 40px;
     width: fit-content;
-    border-right: 1px solid #38A3A5;
+    border-right: 1px solid var(--primary-color);
     align-items: center;
 }
 
@@ -1926,7 +1961,7 @@ button#contact_validate {
 }
 
 footer {
-    background: #38A3A5;
+    background: var(--primary-color);
 }
 
 .anchor-footer {
@@ -1947,10 +1982,6 @@ footer {
     flex-direction: row;
     align-items: center;
     gap: 15px
-}
-
-small {
-    color: black;
 }
 
 @media (max-width: 770px) {
@@ -2736,7 +2767,7 @@ small {
         display: flex;
         flex-direction: column;
         border-right: none;
-        border-bottom: 1px solid #38A3A5;
+        border-bottom: 1px solid var(--primary-color);
         padding-bottom: 40px;
         padding-right: 0px;
     }
