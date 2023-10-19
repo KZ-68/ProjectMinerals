@@ -9,6 +9,7 @@
         <a role="button" href="{{path('pdf_generator', {'slug': mineral.slug})}}">Generate a PDF</a>
         <a role="button" href="{{path('edit_mineral', {'slug': mineral.slug})}}">Edit this Page</a>
         <a role="button" href="{{path('discussions_mineral', {'slug': mineral.slug})}}">Discussions</a>
+        <a role="button" class="favorite-btn" href="">Add to favorites</a>
 </div>
 
 <div id="mineral-wrapper">
@@ -54,6 +55,18 @@
                 </div>
             </div>
     
+        </section>
+
+        <section aria-labelledby="description-mineral-heading" class="section-wiki">
+            <div id="description-mineral-wrapper">
+                <div id="description-mineral-header">
+                    <h2 id="description-mineral-heading">Description</h2>
+                </div>
+                
+                <div id="description-mineral-body">
+                    <p>{{mineral.description}}</p>
+                </div>
+            </div>
         </section>
     
         <section class="section-wiki">
