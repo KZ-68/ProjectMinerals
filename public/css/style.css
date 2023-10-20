@@ -172,37 +172,61 @@ thead tr {
     padding: 11px;
 }
 
-.form-control {
-    border-radius: 5px;
-    border: 2px solid #574f4f;
-    height: 35px;
-    width: 100%;
-}
-
-.form-select {
-    border-radius: 5px;
-    border: 1px solid #dfdfdf;
-    height: 140px;
-    width: 100%;
-}
-
 .formulaire-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
     color: #070707;
     font-size: 24px;
-    padding: 25px 50px;
+    padding: 25px 70px;
+    margin: 40px 175px;
+    border-radius: 10px;
+    background-color: var(--primary-color);
 }
 
 .formulaire {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    color: white;
 }
 
 .formulaire small {
     color: white
+}
+
+.formulaire > div > select[id="mineral_category"] {
+    padding: 5px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 2px solid #808080;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 2px solid #808080;
+    height: 45px;
+    width: 100%;
+    font-size: 18px;
+    padding: 10px;
+}
+
+.form-select {
+    border-radius: 5px;
+    border: 2px solid #808080;
+    height: 140px;
+    width: 100%;
+    padding: 5px;
+}
+
+.form-select > option {
+    margin: 10px;
+    font-size: 18px;
+}
+
+form[name='mineral'] {
+    display: flex;
+    flex-direction: column;
+    padding: 50px 250px;
 }
 
 .comment-wrapper {
@@ -821,10 +845,18 @@ div.formulaire-login a {
 
 .mineral-options .favorite-btn {
     background-color: #ffda55;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }
 
 .mineral-options .favorite-btn:hover {
     background-color: #ffd335;
+}
+
+.favorite-btn svg {
+    fill: #000000;
 }
 
 .mineral-options a:nth-child(1) {
@@ -988,15 +1020,6 @@ div.formulaire-login a {
     gap: 10px;
     margin: 40px 0px 20px 30px;
     justify-content: center;
-}
-
-form[name='mineral'] {
-    display: flex;
-    flex-direction: column;
-    padding: 20px 120px;
-    border: 2px solid #fcfcfccc;
-    border-radius: 10px;
-    background-color: #fcfcfccc;
 }
 
 .varieties-section-image {
@@ -2174,10 +2197,14 @@ footer {
         height: 44px;
         font-size: 20px;
     }
+    
+    .adv-search-wrapper {
+        margin: 0px 38px;
+    }
 
     .adv-search {
         width: 689px;
-        height: 980px;
+        height: 1090px;
     }
 
     .adv-search-fields {
@@ -2469,8 +2496,8 @@ footer {
     #figure-logo {
         position: absolute;
         top: 19vh;
-        left: 15vh;
-        right: 15vh;
+        left: 14vh;
+        right: 14vh;
         width: 176px;
         height: 252px;
         display: flex;
@@ -2499,13 +2526,17 @@ footer {
 
     .search-bar {
         top: 430px;
-        left: 69px;
+        left: 73px;
+    }
+
+    .adv-search-wrapper {
+        margin: 0;
     }
 
     .adv-search {
         border-radius: 15px;
         width: 352px;
-        height: 1287px;
+        height: 1214px;
         align-items: center;
         padding: 0px 15px;
     }
@@ -2520,7 +2551,7 @@ footer {
         font-size: 19px;
     }
 
-    div.advanced-search-bar {
+    div#advanced-search-bar {
         display: flex;
         flex-direction: column;
         gap: 25px;
@@ -2528,7 +2559,7 @@ footer {
         align-content: center;
     }
 
-    div.advanced-search-bar div {
+    div#advanced-search-bar div {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -2558,6 +2589,10 @@ footer {
 
     #description-wrapper {
         width: 374px;
+    }
+
+    #home-description {
+        display: block;
     }
 
     #home-description h2 {
