@@ -276,6 +276,7 @@ class ModificationHistoryListener
 
         if($color instanceof Color) {
             $entityManager = $args->getObjectManager();
+            $user = $this->tokenStorage->getToken()->getUser();
 
             $changeSet = $entityManager->getUnitOfWork()->getEntityChangeSet($color);
 
@@ -295,6 +296,7 @@ class ModificationHistoryListener
 
         if($lustre instanceof Lustre) {
             $entityManager = $args->getObjectManager();
+            $user = $this->tokenStorage->getToken()->getUser();
 
             $changeSet = $entityManager->getUnitOfWork()->getEntityChangeSet($lustre);
 
@@ -314,6 +316,7 @@ class ModificationHistoryListener
 
         if($image instanceof Image) {
             $entityManager = $args->getObjectManager();
+            $user = $this->tokenStorage->getToken()->getUser();
 
             $changeSet = $entityManager->getUnitOfWork()->getEntityChangeSet($image);
 
@@ -333,6 +336,7 @@ class ModificationHistoryListener
 
         if($variety instanceof Variety) {
             $entityManager = $args->getObjectManager();
+            $user = $this->tokenStorage->getToken()->getUser();
 
             $changeSet = $entityManager->getUnitOfWork()->getEntityChangeSet($variety);
             
