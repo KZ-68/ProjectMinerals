@@ -47,7 +47,10 @@ class MineralType extends AbstractType
             ])
             ->add('density', NumberType::class, [
                 'scale' => 2,
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('hardness', IntegerType::class, [
                 'label' => 'Hardness Scale',
@@ -143,13 +146,15 @@ class MineralType extends AbstractType
             ->add('latitude', TextType::class, [
                 'mapped' => false,
                 'attr' => [
-                    'readonly' => true
+                    'readonly' => true,
+                    'class' => 'form-control'
                 ]
             ])
             ->add('longitude', TextType::class, [
                 'mapped' => false,
                 'attr' => [
-                    'readonly' => true
+                    'readonly' => true,
+                    'class' => 'form-control'
                 ]
             ])
             ->add('submit', SubmitType::class, [
