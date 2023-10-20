@@ -2,31 +2,46 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ImageRepository;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => 'image:item']),
+        new GetCollection(normalizationContext: ['groups' => 'image:list'])
+    ],
+    order: ['name' => 'DESC'],
+    paginationEnabled: false,
+)]
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 class Image
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['image:item', 'image:list', 'mineral:item', 'variety:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['image:item', 'image:list', 'mineral:item', 'variety:item'])]
     private ?string $filename = null;
 
     #[ORM\Column]
+    #[Groups(['image:item', 'image:list', 'mineral:item', 'variety:item'])]
     private ?\DateTimeImmutable $addedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
+    #[Groups(['image:item'])]
     private ?Mineral $mineral = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
+    #[Groups(['image:item'])]
     private ?Variety $variety = null;
 
     #[ORM\OneToMany(mappedBy: 'image', targetEntity: ModificationHistory::class)]

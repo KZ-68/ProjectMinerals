@@ -2,15 +2,25 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use Cocur\Slugify\Slugify;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\LustreRepository;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => 'lustre:item']),
+        new GetCollection(normalizationContext: ['groups' => 'lustre:list'])
+    ],
+    order: ['type' => 'DESC'],
+    paginationEnabled: false,
+)]
 #[ORM\Entity(repositoryClass: LustreRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(fields: ['slug'], message: 'This slug already exist')]
@@ -19,6 +29,7 @@ class Lustre
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['lustre:item', 'lustre:list', 'mineral:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
@@ -29,12 +40,15 @@ class Lustre
     #[Assert\NoSuspiciousCharacters(
         restrictionLevelMessage: 'The type {{ value }} contains non valid caracters'
     )]
+    #[Groups(['lustre:item', 'lustre:list', 'mineral:item'])]
     private ?string $type = null;
 
     #[ORM\ManyToMany(targetEntity: Mineral::class, inversedBy: 'lustres')]
+    #[Groups(['lustre:item'])]
     private Collection $minerals;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Groups(['lustre:item', 'lustre:list', 'mineral:item'])]
     private ?string $slug = null;
 
     #[ORM\OneToMany(mappedBy: 'lustre', targetEntity: ModificationHistory::class)]

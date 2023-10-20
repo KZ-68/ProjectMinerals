@@ -2,34 +2,51 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\CoordinateRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Repository\CoordinateRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => 'coordinate:item']),
+        new GetCollection(normalizationContext: ['groups' => 'coordinate:list'])
+    ],
+    order: ['latitude' => 'DESC'],
+    paginationEnabled: false,
+
+)]
 #[ORM\Entity(repositoryClass: CoordinateRepository::class)]
 class Coordinate
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['coordinate:item', 'coordinate:list', 'mineral:item', 'variety:item'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['coordinate:item', 'coordinate:list', 'mineral:item', 'variety:item'])]
     private ?\DateTimeImmutable $addedAt = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['coordinate:item', 'mineral:item', 'variety:item'])]
     private ?string $latitude = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['coordinate:item', 'mineral:item', 'variety:item'])]
     private ?string $longitude = null;
 
     #[ORM\ManyToMany(targetEntity: Mineral::class, mappedBy: 'coordinates')]
+    #[Groups(['coordinate:item'])]
     private Collection $minerals;
 
     #[ORM\ManyToMany(targetEntity: Variety::class, mappedBy: 'coordinates')]
+    #[Groups(['coordinate:item'])]
     private Collection $varieties;
 
     #[ORM\OneToMany(mappedBy: 'coordinate', targetEntity: ModificationHistory::class)]

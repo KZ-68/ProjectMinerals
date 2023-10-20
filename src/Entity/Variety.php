@@ -2,16 +2,26 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use Cocur\Slugify\Slugify;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\VarietyRepository;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => 'variety:item']),
+        new GetCollection(normalizationContext: ['groups' => 'variety:list'])
+    ],
+    order: ['name' => 'DESC'],
+    paginationEnabled: false,
+)]
 #[ORM\Entity(repositoryClass: VarietyRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(fields: ['slug'], message: 'This slug already exist')]
@@ -20,6 +30,7 @@ class Variety
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['variety:item', 'variety:list', 'mineral:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
@@ -30,18 +41,23 @@ class Variety
     #[Assert\NoSuspiciousCharacters(
         restrictionLevelMessage: 'The name {{ value }} contains non valid caracters'
     )]
+    #[Groups(['variety:item', 'variety:list', 'mineral:item'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'varieties')]
+    #[Groups(['variety:item'])]
     private ?Mineral $mineral = null;
 
     #[ORM\OneToMany(mappedBy: 'variety', cascade: ['persist'], orphanRemoval: true, targetEntity: Image::class)]
+    #[Groups(['variety:item'])]
     private Collection $images;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Groups(['variety:item', 'variety:list', 'mineral:item'])]
     private ?string $slug = null;
 
     #[ORM\ManyToMany(targetEntity: Coordinate::class, inversedBy: 'varieties')]
+    #[Groups(['variety:item', 'mineral:item'])]
     private Collection $coordinates;
 
     #[ORM\OneToMany(mappedBy: 'variety', targetEntity: ModificationHistory::class)]
