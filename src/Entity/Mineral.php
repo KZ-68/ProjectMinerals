@@ -4,16 +4,26 @@ namespace App\Entity;
 
 use App\Entity\Coordinate;
 use Cocur\Slugify\Slugify;
+use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\MineralRepository;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => 'mineral:item']),
+        new GetCollection(normalizationContext: ['groups' => 'mineral:list'])
+    ],
+    order: ['name' => 'DESC'],
+    paginationEnabled: false,
+)]
 #[ORM\Entity(repositoryClass: MineralRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(fields: ['slug'], message: 'This slug already exist')]
@@ -22,6 +32,7 @@ class Mineral
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['mineral:list', 'mineral:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
@@ -35,6 +46,7 @@ class Mineral
     #[Assert\NoSuspiciousCharacters(
         restrictionLevelMessage: 'The name {{ value }} contains non valid caracters'
     )]
+    #[Groups(['mineral:list', 'mineral:item'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -42,6 +54,7 @@ class Mineral
         type: 'string',
         message: 'The value {{ value }} is not a valid {{ type }}.',
     )]
+    #[Groups(['mineral:item'])]
     private ?string $formula = null;
 
     #[ORM\Column(length: 100, nullable: true)]
@@ -49,10 +62,12 @@ class Mineral
         type: 'string',
         message: 'The value {{ value }} is not a valid {{ type }}.',
     )]
+    #[Groups(['mineral:item'])]
     private ?string $crystal_system = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
     #[Assert\Positive]
+    #[Groups(['mineral:item'])]
     private ?string $density = null;
 
     #[ORM\Column(nullable: true)]
@@ -61,6 +76,7 @@ class Mineral
         type: 'integer',
         message: 'The value {{ value }} is not a valid {{ type }}.',
     )]
+    #[Groups(['mineral:item'])]
     private ?int $hardness = null;
 
     #[ORM\Column(length: 100, nullable: true)]
@@ -68,9 +84,11 @@ class Mineral
         type: 'string',
         message: 'The value {{ value }} is not a valid {{ type }}.',
     )]
+    #[Groups(['mineral:item'])]
     private ?string $fracture = null;
 
     #[ORM\Column]
+    #[Groups(['mineral:list', 'mineral:item'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -78,38 +96,50 @@ class Mineral
         type: 'string',
         message: 'The value {{ value }} is not a valid {{ type }}.',
     )]
+    #[Groups(['mineral:item'])]
     private ?string $streak = null;
 
     #[ORM\ManyToOne(inversedBy: 'minerals')]
     #[ORM\JoinColumn(nullable: true, onDelete:"SET NULL")]
+    #[Groups(['mineral:item'])]
     private ?Category $category = null;
 
     #[ORM\ManyToMany(targetEntity: Color::class, mappedBy: 'minerals')]
+    #[Groups(['mineral:item'])]
     private Collection $colors;
 
     #[ORM\ManyToMany(targetEntity: Lustre::class, mappedBy: 'minerals')]
+    #[Groups(['mineral:item'])]
     private Collection $lustres;
 
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Variety::class)]
+    #[Groups(['mineral:item'])]
     private Collection $varieties;
 
     #[ORM\OneToMany(mappedBy: 'mineral', cascade: ['persist'], orphanRemoval: true, targetEntity: Image::class)]
+    #[Groups(['mineral:item'])]
     private Collection $images;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Groups(['mineral:list', 'mineral:item'])]
     private ?string $slug = null;
 
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Discussion::class, orphanRemoval: true)]
     private Collection $discussions;
 
     #[ORM\ManyToMany(targetEntity: Coordinate::class, cascade: ['persist'], inversedBy: 'minerals')]
+    #[Groups(['mineral:item'])]
     private Collection $coordinates;
 
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: ModificationHistory::class)]
     private Collection $modificationHistories;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['mineral:item'])]
     private ?string $description = null;
+
+    #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Favorite::class, orphanRemoval: true)]
+    private Collection $favorites;
 
     public function __construct()
     {
@@ -121,6 +151,7 @@ class Mineral
         $this->discussions = new ArrayCollection();
         $this->coordinates = new ArrayCollection();
         $this->modificationHistories = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -460,6 +491,36 @@ class Mineral
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favorite>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Favorite $favorite): static
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites->add($favorite);
+            $favorite->setMineral($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Favorite $favorite): static
+    {
+        if ($this->favorites->removeElement($favorite)) {
+            // set the owning side to null (unless already changed)
+            if ($favorite->getMineral() === $this) {
+                $favorite->setMineral(null);
+            }
+        }
 
         return $this;
     }
