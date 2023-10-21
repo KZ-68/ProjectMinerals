@@ -606,7 +606,11 @@ class WikiController extends AbstractController
             $entityManager->persist($favorite);
             $entityManager->flush();
 
-            return $this->json(200);
+            $message = [
+                'message' => 'Wiki page added to your favorite !'
+            ];
+
+            return $this->json(['data' => $message], 200);
         }
         
     }
