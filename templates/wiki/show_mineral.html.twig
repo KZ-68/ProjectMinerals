@@ -7,6 +7,10 @@
 
 {% block body %}
 
+<div id="alert-success">
+    
+</div>
+
 <div class="mineral-options">
         <a role="button" href="{{path('app_admin_delete_mineral', {'slug': mineral.slug})}}">Remove this Page</a>
         <a role="button" href="{{path('pdf_generator', {'slug': mineral.slug})}}">Generate a PDF</a>
