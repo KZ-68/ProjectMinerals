@@ -15,6 +15,7 @@ use App\Form\MineralType;
 use App\Form\VarietyType;
 use App\Entity\Coordinate;
 use App\Entity\Discussion;
+use App\Entity\Favorite;
 use App\Form\DiscussionType;
 use App\Service\FileUploader;
 use App\Service\PdfGenerator;
@@ -40,6 +41,7 @@ use App\Service\FileDownloader;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class WikiController extends AbstractController
 {
@@ -583,5 +585,29 @@ class WikiController extends AbstractController
         $response = $fileDownloader->download($imageName);
 
         return $response;
+    }
+
+    #[Route('/wiki/mineral/{slug}/show/add-favorite', name:'add_favorite')] 
+    #[IsGranted('ROLE_USER')]
+    public function addFavorite(EntityManagerInterface $entityManager, MineralRepository $mineralRepository, Request $request)
+    {
+
+        if($request->isXmlHttpRequest()) {
+            $dataMineralSlug = $request->request->all();
+            $mineral = $mineralRepository->findMineralBySlug($dataMineralSlug['slug']);
+
+            $favorite = new Favorite();
+
+            $user = $this->getUser();
+
+            $favorite->setUser($user);
+            $favorite->setMineral($mineral[0]);
+
+            $entityManager->persist($favorite);
+            $entityManager->flush();
+
+            return $this->json(200);
+        }
+        
     }
 }
