@@ -566,7 +566,7 @@ button#message_send {
 
 .adv-search {
     border-radius: 10px;
-    height: 665px;
+    height: 755px;
     display: flex;
     background-color: var(--primary-color);
     padding: 20px 35px;
@@ -610,6 +610,7 @@ div#advanced-search-bar {
     flex-wrap: wrap;
     align-items: center;
     font-size: 24px;
+    padding: 10px;
 }
 
 #advanced_search_category {
@@ -843,7 +844,7 @@ div.formulaire-login a {
     border-radius: 10px;
 }
 
-.mineral-options .favorite-btn {
+.mineral-options #favorite-btn {
     background-color: #ffda55;
     display: flex;
     justify-content: center;
@@ -851,11 +852,11 @@ div.formulaire-login a {
     gap: 5px;
 }
 
-.mineral-options .favorite-btn:hover {
+.mineral-options #favorite-btn:hover {
     background-color: #ffd335;
 }
 
-.favorite-btn svg {
+#favorite-btn svg {
     fill: #000000;
 }
 
@@ -865,6 +866,18 @@ div.formulaire-login a {
 
 .mineral-options a:nth-child(1):hover {
     background-color: #ff6b6b;
+}
+
+#alert-success {
+    display: none;
+    position: absolute;
+    top: 10vh;
+    right: 20vh;
+    background-color: #fcfcfc;
+    border-radius: 10px;
+    z-index: 10;
+    text-align: center;
+    padding: 20px 10px;
 }
 
 .options {
@@ -1411,6 +1424,7 @@ section.section-map {
 
 #notification-header h1, #notification-header hr {
     margin-bottom: 0;
+    color: #000000;
 }
 
 #btn-quit {
