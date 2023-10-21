@@ -153,6 +153,15 @@ class MineralRepository extends ServiceEntityRepository
         return $data;
     }
 
+    public function findMineralBySlug($slug) {
+        return $this->createQueryBuilder('m')
+           ->andWhere('m.slug = :slug')
+           ->setParameter('slug', $slug)
+           ->getQuery()
+           ->getResult()
+       ;
+    }
+
 //    /**
 //     * @return Mineral[] Returns an array of Mineral objects
 //     */
