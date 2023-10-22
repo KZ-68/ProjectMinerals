@@ -17,8 +17,8 @@ body {
 }
 
 h1 {
-    padding: 10px 15px 10px 10px;
-    margin: 15px 15px;
+    padding: 10px 15px 10px 20px;
+    margin: 10px 0px;
     width: fit-content;
     font-family: 'Merriweather Sans';
 }
@@ -26,7 +26,7 @@ h1 {
 h2 {
     background-color: #6fd6c1;
     padding: 10px 20px 10px 20px;
-    margin: 30px 0;
+    margin: 10px 0px;
     width: 700px;
     border-radius: 5px;
 }
@@ -1467,7 +1467,7 @@ section.section-map {
 }
 
 .profile-wrapper hr {
-    width: 218px;
+    width: 235px;
 }
 
 .profile-avatar-wrapper {
@@ -1479,8 +1479,8 @@ section.section-map {
 }
 
 .figure-avatar {
-    border: 3px solid #22577A;
-    border-radius: 20px;
+    border: 3px solid #818181;
+    border-radius: 10px;
     width: 150px;
     height: 150px;
     margin-bottom: 15px;
@@ -1494,6 +1494,10 @@ section.section-map {
 
 .file-upload-wrapper {
     margin: 20px 0px;
+}
+
+.file-upload-wrapper p {
+    color: #ffffff;
 }
 
 form[name='user'] div {
@@ -1523,6 +1527,29 @@ label[for='user_avatar'] {
 
 #profile-description p {
     font-size: 20px;
+}
+
+#user-favorites {
+    width: 720px;
+    margin-left: 30px;
+    margin-bottom: 30px;
+    padding: 5px 30px 35px 30px;
+    background: #fcfcfccc;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px 0px #a49f9f;
+}
+
+#user-favorites h2 {
+    background-color: unset;
+    width: fit-content;
+}
+
+#user-favorites hr {
+    width: 235px;
+}
+
+#user-favorites p {
+    padding: 10px 20px 10px 20px
 }
 
 .message-box-wrapper {
@@ -1578,20 +1605,47 @@ label[for='user_avatar'] {
 }
 
 .message-resume {
-    border-radius: 15px;
+    border-radius: 10px;
     padding: 20px 20px 30px 20px;
-    margin: 40px 0px;
+    margin: 20px 0px;
     width: 575px;
     display: flex;
     flex-direction: column;
 }
 
-.message-resume h1 {
+#message-resume-heading {
     width: 100%;
-    margin: 0px 0px 20px 0px;
-    padding: 15px 15px;
-    background-color: #80ED99;
-    border-radius: 14px;
+    margin: 0px 0px 10px 0px;
+    padding: 5px 20px;
+}
+
+#message-resume-header hr {
+    width: 150px;
+    margin: 0px 20px 20px 20px;
+}
+
+#message-resume-body {
+    padding-left: 20px;
+}
+
+#message-resume-body h2 {
+    background-color: unset;
+    padding: 10px 20px 10px 0px;
+    width: 255px;
+}
+
+#message-resume-footer {
+    padding-top: 30px;
+    padding-left: 20px;
+}
+
+#message-resume-footer a {
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    background-color: #6fd6c1;
+    padding: 10px 13px;
+    border-radius: 10px;
 }
 
 .message-resume p {
@@ -1611,6 +1665,10 @@ label[for='user_avatar'] {
     display: flex;
     flex-direction: row;
     gap: 115px;
+    border: 2px solid #818181;
+    border-radius: 5px;
+    height: 100px;
+    margin-top: 20px;
 }
 
 .messages-column {
@@ -1762,14 +1820,11 @@ hgroup.discussion-subject h2 {
 }
 
 #discussion-avatar-header, #comment-avatar-header, #response-avatar-header {
-    border-radius: 15px;
+    border: 3px solid #818181;
+    border-radius: 10px;
     width: 79px;
     height: 79px;
     overflow: hidden;
-}
-
-#discussion-avatar-header {
-    border: 3px solid var(--primary-color);
 }
 
 .discussion-textarea {
@@ -1823,11 +1878,6 @@ hgroup.comment-subject h2 {
     margin: 0px 0px 10px 0px;
 }
 
-
-#comment-avatar-header {
-    border: 3px solid #80ED99;
-}
-
 .response-comment-card {
     border-radius: 10px;
     width: 700px;
@@ -1861,10 +1911,6 @@ hgroup.response-comment-subject h2 {
 .response-comment-card time {
     float: right;
     padding-right: 20px;
-}
-
-#response-avatar-header {
-    border: 3px solid #22577A;
 }
 
 .response-comment-card-footer {
@@ -2777,6 +2823,10 @@ footer {
     }
 
     .profile-wrapper {
+        width: 315px;
+    }
+
+    #user-favorites {
         width: 315px;
     }
 
