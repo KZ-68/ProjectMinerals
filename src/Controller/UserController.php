@@ -8,6 +8,7 @@ use App\Form\UserEmailType;
 use App\Service\FileUploader;
 use App\Form\UserPasswordType;
 use App\Form\UserUsernameType;
+use App\Repository\FavoriteRepository;
 use App\Repository\NotificationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,12 +25,17 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class UserController extends AbstractController
 {
     #[Route('/profile', name: 'app_profile')]
-    public function index(Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
+    public function index
+    (
+    Request $request, FileUploader $fileUploader, 
+    EntityManagerInterface $entityManager, FavoriteRepository $favoriteRepository
+    ): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         // Récupère l'utilisateur courant
         $user = $this->getUser();
+        $favorites = $favoriteRepository->findBy(['user' => $user]);
         // Crée le formulaire par le biais du FormType associé
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -50,7 +56,8 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/index.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'favorites' => $favorites
         ]);
     }
 
