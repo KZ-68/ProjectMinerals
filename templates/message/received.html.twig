@@ -11,36 +11,42 @@
     <section class="container">
         <div class="row">
             <div class="message-resume">
-                <h1>Message Box</h1>
-                <p>Messages Resume</p>
-                <p>You received : {{ app.user.received|length}} messages</p>
+                <div id="message-resume-header">
+                    <h1 id="message-resume-heading">Received Box</h1>
+                    <hr>
+                </div>
+                <div id="message-resume-body">
+                    <h2>Messages Resume :</h2>
+                    <p>You have received : {{ app.user.received|length}} messages</p>
+                </div>
+
+                <div class="messages-list-wrapper">
+                    {# Une condition pour mettre en gras quand le message est non lu (isRead == false/0) #}
+                    {% for message in app.user.received %}
+                        {% if message.isRead == 0 %}
+                            {% set bold = "style='font-weight:900'" %}
+                        {% else %}
+                            {% set bold = "" %}
+                        {% endif %}
+                        <div class="messages-column">
+                            <div>Recipient</div>
+                            <div class="{{bold}}">{{ message.recipient.email }}</div>
+                        </div>
+                        <div class="messages-column">
+                            <div>Subject</div>
+                            <div class="{{bold}}"><a href="{{path('read_message', {'id': message.id})}}">{{ message.header }}</a></div>
+                        </div>
+                        <div class="messages-column">
+                            <div>Date</div>
+                            <div class="{{bold}}">{{ message.createdAt | date("m/d/Y") }}</div>
+                        </div>
+                        <div class="messages-column">
+                            <div>Actions</div>
+                            <div><a class="btn btn-danger" href="{{ path('delete_message', {'id': message.id}) }}" aria-label="Delete">Delete</a></div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-        <div class="messages-list-wrapper">
-            {# Une condition pour mettre en gras quand le message est non lu (isRead == false/0) #}
-            {% for message in app.user.received %}
-                {% if message.isRead == 0 %}
-                    {% set bold = "style='font-weight:900'" %}
-                {% else %}
-                    {% set bold = "" %}
-                {% endif %}
-                <div class="messages-column">
-                    <div>Recipient</div>
-                    <div class="{{bold}}">{{ message.recipient.email }}</div>
-                </div>
-                <div class="messages-column">
-                    <div>Subject</div>
-                    <div class="{{bold}}"><a href="{{path('read_message', {'id': message.id})}}">{{ message.header }}</a></div>
-                </div>
-                <div class="messages-column">
-                    <div>Date</div>
-                    <div class="{{bold}}">{{ message.createdAt | date("m/d/Y") }}</div>
-                </div>
-                <div class="messages-column">
-                    <div>Actions</div>
-                    <div><a class="btn btn-danger" href="{{ path('delete_message', {'id': message.id}) }}" aria-label="Delete">Delete</a></div>
-                </div>
-            {% endfor %}
-        </div>
         
     </section> 
 </div>
