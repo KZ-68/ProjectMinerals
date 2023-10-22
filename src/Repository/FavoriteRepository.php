@@ -21,6 +21,18 @@ class FavoriteRepository extends ServiceEntityRepository
         parent::__construct($registry, Favorite::class);
     }
 
+    public function findOneByMineralAndUser($mineral, $user): ?Favorite
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.mineral = :mineral')
+            ->andWhere('f.user = :user')
+            ->setParameter('mineral', $mineral)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
 //    /**
 //     * @return Favorite[] Returns an array of Favorite objects
 //     */
