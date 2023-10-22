@@ -9,25 +9,28 @@ use App\Entity\Comment;
 use App\Entity\Mineral;
 use App\Entity\Variety;
 use App\Entity\Category;
+use App\Entity\Favorite;
 use App\Form\LustreType;
 use App\Form\CommentType;
 use App\Form\MineralType;
 use App\Form\VarietyType;
 use App\Entity\Coordinate;
 use App\Entity\Discussion;
-use App\Entity\Favorite;
 use App\Form\DiscussionType;
 use App\Service\FileUploader;
 use App\Service\PdfGenerator;
 use App\Form\MineralColorType;
+use App\Service\FileDownloader;
 use Doctrine\ORM\EntityManager;
 use App\Form\RespondCommentType;
 use App\Form\MineralVarietiesType;
+use App\Repository\UserRepository;
 use App\Entity\ModificationHistory;
 use App\Repository\ImageRepository;
 use App\Repository\CommentRepository;
 use App\Repository\MineralRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\FavoriteRepository;
 use App\Repository\DiscussionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -37,11 +40,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\ModificationHistoryRepository;
-use App\Service\FileDownloader;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class WikiController extends AbstractController
 {
@@ -56,16 +60,21 @@ class WikiController extends AbstractController
 
     #[Route('/wiki/mineral/{slug}/show', name: 'show_mineral')]
     #[IsGranted('PUBLIC_ACCESS')]
-    public function showMineral(Mineral $mineral, ImageRepository $imageRepository): Response
+    public function showMineral(Mineral $mineral, ImageRepository $imageRepository, FavoriteRepository $favoriteRepository): Response
     {
+        $user = $this->getUser();
+
         $image = $imageRepository->findImagesById($mineral->getId());
         $varietyImages = $imageRepository->findVarietyImagesAndNamesInMineral($mineral->getId());
         $substitutionImage = $imageRepository->findTitleImageSubstitution($mineral->getId());
+        $favorite = $favoriteRepository->findOneByMineralAndUser($mineral->getId(), $user);
+
         return $this->render('wiki/show_mineral.html.twig', [
             'image' => $image,
             'varietyImages' => $varietyImages,
             'substitutionImage' => $substitutionImage,
-            'mineral' => $mineral
+            'mineral' => $mineral, 
+            'favorite' => $favorite
         ]);
     }
 
@@ -610,6 +619,29 @@ class WikiController extends AbstractController
                 'message' => 'Wiki page added to your favorite !'
             ];
 
+            return $this->json(['data' => $message], 200);
+        }
+        
+    }
+
+    #[Route('/wiki/mineral/{slug}/show/remove-favorite', name:'remove_favorite')] 
+    #[IsGranted('ROLE_USER')]
+    public function removeFavorite(EntityManagerInterface $entityManager, FavoriteRepository $favoriteRepository, Request $request)
+    {
+
+        if($request->isXmlHttpRequest()) {
+            $data = $request->request->all();
+            $favorite = $favoriteRepository->find($data['favorite']);
+
+            $user = $this->getUser();
+
+            $entityManager->remove($favorite);
+            $entityManager->flush();
+
+            $message = [
+                'message' => 'Wiki page has been removed to your favorite !'
+            ];
+    
             return $this->json(['data' => $message], 200);
         }
         
