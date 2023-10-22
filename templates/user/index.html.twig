@@ -46,8 +46,19 @@
             </div>
         </div>
     </div>
+
+    <div aria-labelledby="user-favorites-heading" id="user-favorites">
+        <div id="user-favorites-header">
+            <h2 id="user-favorites-heading">Your Favorites Pages</h2>
+            <hr>
+        </div>
+
+        {% for favorite in favorites %}
+            <p><a href="{{path('show_mineral', {'slug': favorite.mineral.slug})}}">{{favorite.mineral.name}}</a></p>
+        {% endfor %}
+    </div>
+
     {% block javascript %}
-        <script src="/js/password_strength.js"></script>
         <script>
             $(document).ready(function () {
                 $.ajax({
