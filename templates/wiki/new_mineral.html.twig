@@ -7,10 +7,11 @@
 <h1>Add a new Mineral</h1>
 <hr>
 
-<div class="formulaire-wrapper">
+<div class="formulaire-wrapper-mineral">
     {{ form_start(form) }}
     <div class="formulaire">
         {{ form_row(form.name) }}
+        {{ form_row(form.image_title, {'attr': {'class': 'upload-image'}})}}
         {{ form_row(form.formula) }}
         {{ form_row(form.crystal_system) }}
         {{ form_row(form.density) }}
@@ -21,6 +22,7 @@
         {{ form_row(form.colors) }}
         {{ form_row(form.lustres) }}
         {{ form_row(form.images) }}
+        {{ form_row(form.description)}}
         {{ form_row(form.country_name) }}
         <div id="mineral-map"></div>
         {{ form_row(form.latitude) }}
