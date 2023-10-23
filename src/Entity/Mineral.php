@@ -141,6 +141,9 @@ class Mineral
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Favorite::class, orphanRemoval: true)]
     private Collection $favorites;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image_title = null;
+
     public function __construct()
     {
         $this->colors = new ArrayCollection();
@@ -521,6 +524,18 @@ class Mineral
                 $favorite->setMineral(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImageTitle(): ?string
+    {
+        return $this->image_title;
+    }
+
+    public function setImageTitle(?string $image_title): static
+    {
+        $this->image_title = $image_title;
 
         return $this;
     }
