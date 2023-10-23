@@ -21,6 +21,7 @@ h1 {
     margin: 10px 0px;
     width: fit-content;
     font-family: 'Merriweather Sans';
+    font-size: 34px;
 }
 
 h2 {
@@ -244,28 +245,71 @@ form[name='mineral'] {
     padding: 50px 250px;
 }
 
+.form-file {
+    border-radius: 5px;
+    height: 45px;
+    width: 100%;
+    font-size: 18px;
+    padding: 10px;
+}
+
+#create-discussion-wrapper {
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+    padding: 25px 70px;
+    margin: 40px 325px;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+}
+
+#create-discussion-header h1 {
+    color: #ffffff;
+}
+
 .comment-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: white;
     font-size: 24px;
     padding: 25px 50px;
+    margin: 30px 434px;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+}
+
+#comment-wrapper-header {
+    color: #ffffff;
+    padding-right: 625px;
+    padding-bottom: 10px;
 }
 
 .comment {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    color: #ffffff;
 }
 
 #response-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #ffffff;
     font-size: 24px;
     padding: 25px 50px;
+    margin: 30px 434px;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+}
+
+#response-comment-header {
+    color: #ffffff;
+    padding-right: 525px;
+    padding-bottom: 10px;
+}
+
+#response-comment-heading {
+    font-size: 34px;
 }
 
 .isDisabled {
@@ -1198,7 +1242,7 @@ button.btn {
     border-radius: 10px;
     border: none;
     margin-top: 10px;
-    width: 150px;
+    width: 120px;
 }
 
 .edit-btn, .anonymize-btn {
@@ -1742,8 +1786,10 @@ label[for='user_avatar'] {
     flex-direction: column;
     border-radius: 5px;
     border: 2px solid #574f4f;
-    height: 130px;
-    width: 600px;
+    height: 200px;
+    width: 750px;
+    font-size: 14px;
+    padding: 10px;
 }
 
 form[name='user_email'] {
@@ -1904,19 +1950,27 @@ hgroup.discussion-subject h2 {
 }
 
 #comment_send {
-    border: 1px solid #57CC99;
-    border-radius: 5px;
-    font-size: 20px;
-    padding: 5px 15px;
-    background: linear-gradient(1deg, var(--primary-color), #57CC99, var(--primary-color));
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    background: #6fd6c1;
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+    width: 120px;
 }
 
 #respond_comment_send {
-    border: 1px solid #57CC99;
-    border-radius: 5px;
-    font-size: 20px;
-    padding: 5px 15px;
-    background: linear-gradient(1deg, var(--primary-color), #57CC99, var(--primary-color));
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    background: #6fd6c1;
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+    width: 120px;
 }
 
 .answer-link {
