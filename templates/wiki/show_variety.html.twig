@@ -4,45 +4,47 @@
 
 {% block body %}
 
-<hgroup id="mineral-title">
-    <h1>{{variety.name}}<br/></h1>
-    {% if variety.mineral | length > 0 %}
-        Variety Mineral for <a href="{{ path('show_category', {'slug': variety.mineral.slug}) }}">{{variety.mineral.name}}</a>
-    {% else %}
-        <i>Missing information</i>
-    {% endif %}
-</hgroup>
-
-<section class="section-map">
-    <h2>Countries where {{variety.name}} can be found</h2>
-
-    <div id="mineral-map"></div>
-    {% for coordinate in variety.coordinates %}
-    <div class="coordinate-data" data-lat="{{ coordinate.latitude }}" data-lng="{{ coordinate.longitude }}"></div>
-    {% endfor %}
+<div id="mineral-variety-wrapper">
+    <hgroup aria-labelledby="mineral-variety-heading" id="mineral-variety-header">
+        <h1 id="mineral-variety-heading">{{variety.name}}<br/></h1>
+        {% if variety.mineral | length > 0 %}
+            Variety Mineral for <a href="{{ path('show_category', {'slug': variety.mineral.slug}) }}">{{variety.mineral.name}}</a>
+        {% else %}
+            <i>Missing information</i>
+        {% endif %}
+    </hgroup>
     
-</section>
-
-<section class="section-wiki">
-    <h2>Images Gallery of {{variety.name}}</h2>
-
-        <div id="cCarousel">
-          <div class="arrow" id="prev"><span class="arrow-symbols">&#8249;</span></div>
-          <div class="arrow" id="next"><span class="arrow-symbols">&#8250;</span></div>
-        
-
-            <div id="carousel-vp">
-                <div id="cCarousel-inner">
-        
-                {% for image in variety.images  %}
-                    <article class="cCarousel-item">
-                        <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Minerals">
-                    </article>
-                {% endfor %}
+    <section aria-labelledby="secion-map-heading" class="section-map">
+        <h2 id="section-map-heading">Countries where {{variety.name}} can be found</h2>
+    
+        <div id="mineral-map"></div>
+        {% for coordinate in variety.coordinates %}
+        <div class="coordinate-data" data-lat="{{ coordinate.latitude }}" data-lng="{{ coordinate.longitude }}"></div>
+        {% endfor %}
+    </section>
+</div> 
+    <section class="section-wiki">
+        <div aria-labelledby="image-gallery-title" id="carousel-wrapper">
+            <h2 id="image-gallery-title">Images Gallery of {{variety.name}}</h2>
+    
+            <div id="cCarousel">
+              <div class="arrow" id="prev"><span class="arrow-symbols">&#8249;</span></div>
+              <div class="arrow" id="next"><span class="arrow-symbols">&#8250;</span></div>
+            
+    
+                <div id="carousel-vp">
+                    <div id="cCarousel-inner">
+            
+                    {% for image in variety.images  %}
+                        <article class="cCarousel-item">
+                            <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Minerals">
+                        </article>
+                    {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-</section>
+    </section>
 
 {% block javascript %}
     <script src="/js/carousel.js"></script>
