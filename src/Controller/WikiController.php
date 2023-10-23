@@ -37,6 +37,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\ModificationHistoryRepository;
@@ -45,6 +46,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class WikiController extends AbstractController
@@ -66,13 +68,13 @@ class WikiController extends AbstractController
 
         $image = $imageRepository->findImagesById($mineral->getId());
         $varietyImages = $imageRepository->findVarietyImagesAndNamesInMineral($mineral->getId());
-        $substitutionImage = $imageRepository->findTitleImageSubstitution($mineral->getId());
+        // $substitutionImage = $imageRepository->findTitleImageSubstitution($mineral->getId());
         $favorite = $favoriteRepository->findOneByMineralAndUser($mineral->getId(), $user);
 
         return $this->render('wiki/show_mineral.html.twig', [
             'image' => $image,
             'varietyImages' => $varietyImages,
-            'substitutionImage' => $substitutionImage,
+            // 'substitutionImage' => $substitutionImage,
             'mineral' => $mineral, 
             'favorite' => $favorite
         ]);
@@ -256,9 +258,18 @@ class WikiController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $mineral = $form->getData();
             // On récupère une collection d'images
+            $titleImage = $form->get('image_title')->getData();
             $images = $form->get('images')->getData();
             $latitude = $form->get('latitude')->getData();
             $longitude = $form->get('longitude')->getData();
+
+            if($titleImage) {
+                $newFileNameTitle = $fileUploader->upload($titleImage);
+                $imgTitle = new Image;
+                $imgTitle->setFileName($newFileNameTitle);
+                $mineral->addImage($imgTitle);
+                $mineral->setImageTitle($newFileNameTitle);
+            }
 
             // Pour chaque image soumise :
             foreach ($images as $image) {
@@ -273,10 +284,12 @@ class WikiController extends AbstractController
                 $mineral->addImage($img);
             }
             $mineral->addCoordinate($coordinate);
-            $coordinate->setLatitude($latitude);
-            $coordinate->setLongitude($longitude);
-            $coordinate->addMineral($mineral);
-            $entityManager->persist($coordinate);
+            if ($latitude && $longitude) {
+                $coordinate->setLatitude($latitude);
+                $coordinate->setLongitude($longitude);
+                $coordinate->addMineral($mineral);
+                $entityManager->persist($coordinate);
+            }
             // On prépare les données pour l'envoi
             $entityManager->persist($mineral);
             // On envoie les données dans la bdd
@@ -293,13 +306,26 @@ class WikiController extends AbstractController
 
     #[Route('/wiki/mineral/{slug}/edit', name: 'edit_mineral')]
     #[IsGranted('ROLE_USER')]
-    public function edit(Mineral $mineral, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    public function edit(
+        Mineral $mineral, ImageRepository $imageRepository, Request $request, 
+        EntityManagerInterface $entityManager, FileUploader $fileUploader
+        ): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $originalColors = new ArrayCollection();
+        $originalLustres = new ArrayCollection();
         $originalImages = new ArrayCollection();
         $coordinates = new ArrayCollection();
+
+        $oldFileNameTitle = $mineral->getImageTitle();
+
+        // On récupère l'image déjà stocké en bdd et dans le dossier uploads pour le formulaire
+        if ($oldFileNameTitle) {
+            $oldFileNameTitlePath = './../public/uploads/images/'.$oldFileNameTitle.'';
+            $file = new File($oldFileNameTitlePath);
+            $mineral->setImageTitle($file->getFilename());
+        } 
 
         // Pour chaque couleur récupérés :
         foreach ($mineral->getColors() as $color) {
@@ -320,6 +346,30 @@ class WikiController extends AbstractController
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $newImageTitle = $editForm->get('image_title')->getData();
+            $newImageTitleForm = $newImageTitle->getClientOriginalName();
+
+            // Si une image de présentation existe et la nouvelle image est différente de l'actuelle :
+            if($oldFileNameTitle && $newImageTitleForm != $oldFileNameTitle) {
+                $oldImageTitle = $imageRepository->findOneBy(['filename' => $oldFileNameTitle]);
+                
+                $newImageTitleFileName = $fileUploader->upload($newImageTitle);
+                
+                $imgTitle = new Image;
+                $imgTitle->setFileName($newImageTitleFileName);
+                $mineral->addImage($imgTitle);
+                $mineral->setImageTitle($newImageTitleFileName);
+
+                $mineral->removeImage($oldImageTitle);
+            } else {
+                $newImageTitleFileName = $fileUploader->upload($newImageTitle);
+                
+                $imgTitle = new Image;
+                $imgTitle->setFileName($newImageTitleFileName);
+                $mineral->addImage($imgTitle);
+                $mineral->setImageTitle($newImageTitleFileName);
+            }
+
             $newImages = $editForm->get('images')->getData();
 
             foreach ($originalImages as $image) {
@@ -351,6 +401,14 @@ class WikiController extends AbstractController
                 }
             }
 
+            foreach ($originalLustres as $lustre) {
+                if (false === $mineral->getLustres()->contains($lustre)) {
+                    $lustre->getMinerals()->removeElement($mineral);
+
+                    $entityManager->persist($lustre);
+                }
+            }
+
             foreach ($coordinates as $coordinate) {
                 if (false === $mineral->getCoordinates()->contains($coordinate)) {
                     $mineral->removeCoordinate($coordinate);
@@ -362,11 +420,12 @@ class WikiController extends AbstractController
             $coordinate = new Coordinate();
             $latitude = $editForm->get('latitude')->getData();
             $longitude = $editForm->get('longitude')->getData();
-            $coordinate->setLatitude($latitude);
-            $coordinate->setLongitude($longitude);
-            $coordinates->add($coordinate);
-            $mineral->addCoordinate($coordinate);
-
+            if ($latitude && $longitude) {
+                $coordinate->setLatitude($latitude);
+                $coordinate->setLongitude($longitude);
+                $coordinates->add($coordinate);
+                $mineral->addCoordinate($coordinate);
+            }
             $entityManager->persist($mineral);
             $entityManager->flush();
 
@@ -375,9 +434,9 @@ class WikiController extends AbstractController
 
         }
 
-        return $this->render('wiki/new_mineral.html.twig', [
+        return $this->render('wiki/edit_mineral.html.twig', [
             'form' => $editForm,
-            'mineralId' => $mineral->getId()
+            'mineral' => $mineral->getId()
         ]);
     } 
 
