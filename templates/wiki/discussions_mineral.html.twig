@@ -14,6 +14,7 @@
 </hgroup>
 
 <div id="discussion-body">
+    <hr>
     {% if mineral.discussions | length > 0 %}
     {% for discussion in mineral.discussions %}     
             <div class="discussion-card">
@@ -133,12 +134,13 @@
             {% else %}
             
             {% endif %}
-        
+            <hr>
     {% endfor %}
-
+                        
 {% else %}
     <p>No Discussion Started</p>
 {% endif %}
+    
 </div>
 
 
