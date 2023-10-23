@@ -31,6 +31,31 @@ class MineralType extends AbstractType
                     'class' => 'form-control' 
                 ]
             ])
+            ->add('image_title', FileType::class, [
+                'label' => 'Image Title',
+                'multiple' => false,
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                new Image ([
+                    'maxSize' => '5000k',
+                    "maxSizeMessage" => 'The size of this image is too big, 
+                    the maximum size autorized is {{ limit }} {{ suffix }}'
+                ]),
+                new File([
+                    'mimeTypes' => [
+                        'image/jpeg',
+                        'image/jpg',
+                        'image/png',
+                        'image/webp',
+                        'image/x-icon',
+                        'image/tiff',
+                        'image/bmp'
+                    ],
+                    'mimeTypesMessage' => 'Please upload a valid image format',
+                ])  
+            ],
+            ])
             ->add('formula', TextType::class, [
                 'label' => 'Formula',
                 'required' => false,
@@ -54,7 +79,6 @@ class MineralType extends AbstractType
             ])
             ->add('hardness', IntegerType::class, [
                 'label' => 'Hardness Scale',
-                'empty_data' => 1,
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
