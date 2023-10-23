@@ -39,18 +39,10 @@
                 <i>Missing information</i>
             {% endif %}
         </hgroup>
-    
-        {% if image | length > 0 %}
+      
+        {% if mineral.imageTitle != null %} 
             <figure id="mineral-figure">
-                {% for image in image %}
-                <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Top Image Mineral">
-                {% endfor %}
-            </figure>
-        {% elseif image | length == 0 and substitutionImage | length > 0 %} 
-            <figure id="mineral-figure">
-                {% for image in substitutionImage %}
-                <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Top Image Mineral">
-                {% endfor %}
+                <img class="mineral-image" src="{{asset('uploads/images/' ~ mineral.imageTitle) }}" alt="Top Image Mineral">
             </figure>
         {% else %}
             <figure id="mineral-figure">
@@ -79,10 +71,19 @@
                 <div id="description-mineral-header">
                     <h2 id="description-mineral-heading">Description</h2>
                 </div>
-                
+                    
+                {% if mineral.description != null %}
                 <div id="description-mineral-body">
                     <p>{{mineral.description}}</p>
                 </div>
+                {% else %}
+                <div id="description-mineral-body">
+                    <p>This description section is empty</p>
+                </div>
+                <div id="description-mineral-footer">
+                    <a href="">Add a description</a>
+                </div>
+                {% endif %}
             </div>
         </section>
     
