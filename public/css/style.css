@@ -180,6 +180,16 @@ thead tr {
     padding: 25px 70px;
     margin: 40px 175px;
     border-radius: 10px;
+}
+
+.formulaire-wrapper-mineral {
+    display: flex;
+    flex-direction: column;
+    color: #070707;
+    font-size: 24px;
+    padding: 25px 70px;
+    margin: 40px 175px;
+    border-radius: 10px;
     background-color: var(--primary-color);
 }
 
@@ -199,6 +209,11 @@ thead tr {
     font-size: 18px;
     border-radius: 5px;
     border: 2px solid #808080;
+}
+
+
+.upload-image {
+    padding-left: 10px;
 }
 
 .form-control {
@@ -347,7 +362,13 @@ header a:hover {
 
 .profile-card p {
     color: black;
-    margin-right: 5px;
+    margin-right: 3px;
+    font-size: 18px;
+}
+
+.profile-card #avatar-header {
+    width: 60px;
+    height: 60px;
 }
 
 .profile-responsive {
@@ -359,9 +380,9 @@ header a:hover {
 
 #figure-avatar-header {
     border: 3px solid #818181;
-    border-radius: 15px;
-    width: 79px;
-    height: 79px;
+    border-radius: 10px;
+    width: 66px;
+    height: 66px;
     overflow: hidden;
 }
 
@@ -378,7 +399,7 @@ header a:hover {
 }
 
 #user-links a {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 #close-modal {
@@ -566,7 +587,7 @@ button#message_send {
 
 .adv-search {
     border-radius: 10px;
-    height: 755px;
+    height: 670px;
     display: flex;
     background-color: var(--primary-color);
     padding: 20px 35px;
@@ -579,7 +600,7 @@ button#message_send {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0px 423px;
+    margin: 0px 344px;
     color: #ffffff;
 }
 
@@ -620,9 +641,14 @@ div#advanced-search-bar {
 }
 
 #advanced_search_varieties, #advanced_search_colors, #advanced_search_lustres {
-    height: 65px;
+    height: 100px;
     border-radius: 5px;
     width: 100%;
+    padding: 10px;
+}
+
+#advanced_search_varieties option, #advanced_search_colors option, #advanced_search_lustres option {
+    font-size: 18px;
 }
 
 #search-results {
@@ -781,7 +807,7 @@ div.formulaire-login a {
 
 #image-zoom1.active {
     width: 1350px;
-    top: 165vh;
+    top: 189vh;
     left: 0;
     right: 0;
     display: block;
@@ -797,10 +823,10 @@ div.formulaire-login a {
 
 #lightbox1 {
     width: 3000px;
-    height: 2589px;
+    height: 2874px;
     position: absolute;
     z-index: 9999;
-    top: 204px;
+    top: 0px;
     display: none;
 }
 
@@ -808,7 +834,7 @@ div.formulaire-login a {
     color: white;
     font-size: 16px;
     position: absolute;
-    bottom: 12vh;
+    bottom: 18vh;
     left: 119vh;
 }
 
@@ -1251,6 +1277,8 @@ button.btn {
     flex-direction: column;
     gap: 10px;
     width: fit-content;
+    padding-top: 20px;
+    padding-left: 20px;
 }
 
 .table-of-content a {
@@ -1271,6 +1299,19 @@ button.btn {
 
 #description-mineral-body p {
     max-width: 650px;
+}
+
+#description-mineral-footer {
+    margin-top: 20px;
+}
+
+#description-mineral-footer a {
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    background-color: #6fd6c1;
+    padding: 10px 13px;
+    border-radius: 10px;
 }
 
 section.section-map {
@@ -1375,6 +1416,24 @@ section.section-map {
     width: 100%;
     min-height: 246px;
     color: var(--primary-color);
+}
+
+#mineral-variety-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#mineral-variety-header {
+    display: flex;
+    margin: 20px 20px;
+    width: fit-content;
+    padding: 0px 200px;
+    padding-bottom: 15px;
+    flex-direction: column;
+    align-items: center;
+    background-color: #6fd6c1;
+    border-radius: 10px;
 }
 
 .profile-nav {
@@ -1569,6 +1628,7 @@ label[for='user_avatar'] {
 
 .message-menu-title {
     width: 100%;
+    margin-bottom: 30px;
 }
 
 .container {
@@ -1772,20 +1832,12 @@ button#deleteAccount {
     margin: 15px 0px;
 }
 
-#comment_send {
-    border: 1px solid #57CC99;
-    border-radius: 5px;
-    font-size: 20px;
-    padding: 5px 15px;
-    background: linear-gradient(1deg, var(--primary-color), #57CC99, var(--primary-color));
-}
-
-#respond_comment_send {
-    border: 1px solid #57CC99;
-    border-radius: 5px;
-    font-size: 20px;
-    padding: 5px 15px;
-    background: linear-gradient(1deg, var(--primary-color), #57CC99, var(--primary-color));
+#discussion-body hr {
+    width: 1000px;
+    border: 1px solid #808080;
+    background-color: unset;
+    padding: 0px;
+    margin: 60px 20px 20px 20px;
 }
 
 .discussion-card {
@@ -1849,6 +1901,22 @@ hgroup.discussion-subject h2 {
 
 .discussion-card-footer .delete-btn {
     margin-left: 15px;
+}
+
+#comment_send {
+    border: 1px solid #57CC99;
+    border-radius: 5px;
+    font-size: 20px;
+    padding: 5px 15px;
+    background: linear-gradient(1deg, var(--primary-color), #57CC99, var(--primary-color));
+}
+
+#respond_comment_send {
+    border: 1px solid #57CC99;
+    border-radius: 5px;
+    font-size: 20px;
+    padding: 5px 15px;
+    background: linear-gradient(1deg, var(--primary-color), #57CC99, var(--primary-color));
 }
 
 .answer-link {
@@ -2023,6 +2091,10 @@ form[name='contact'] {
     border-radius: 15px;
 }
 
+form[name='contact'] label {
+    color: #070707;
+}
+
 button#contact_validate {
     font-size: 16px;
     font-weight: 700;
@@ -2034,13 +2106,20 @@ button#contact_validate {
     margin-top: 10px;
 }
 
-#privacy-policies-wrapper {
+#privacy-policy-wrapper {
     margin: 30px 20px;
 }
 
-#privacy-policies-wrapper h2 {
+#privacy-policy-wrapper h2 {
     background-color: unset;
     padding: 0;
+}
+
+#privacy-policy-body {
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 footer {
@@ -2080,8 +2159,12 @@ footer {
 }
 
 @media only screen and (min-device-width: 1440px) and (max-device-width: 1900px) {
+    .adv-search-wrapper {
+        margin: 0px 200px;
+    }
+
+
     .adv-search-fields {
-        width: 837px;
         height: 534px;
     }
     
@@ -2248,14 +2331,20 @@ footer {
     }
 
     .search-bar {
-        top: 65vh;
+        top: 57vh;
         left: 22vh;
         right: 22vh;
+        width: 327px;
     }
 
     .search-zone {
-        height: 44px;
+        height: 38px;
         font-size: 20px;
+    }
+
+    #submit-search {
+        padding: 8px;
+        font-size: 19px;
     }
     
     .adv-search-wrapper {
@@ -2264,7 +2353,7 @@ footer {
 
     .adv-search {
         width: 689px;
-        height: 1090px;
+        height: 1187px;
     }
 
     .adv-search-fields {
@@ -2281,11 +2370,6 @@ footer {
     
     div#advanced-search-bar > div > label {
         font-size: 23px;
-    }
-
-    #submit-search {
-        padding: 11px;
-        font-size: 19px;
     }
     
     #accordion-wrapper {
@@ -2596,7 +2680,7 @@ footer {
     .adv-search {
         border-radius: 15px;
         width: 352px;
-        height: 1214px;
+        height: 1261px;
         align-items: center;
         padding: 0px 15px;
     }
@@ -2626,7 +2710,6 @@ footer {
     }
 
     #advanced_search_varieties, #advanced_search_colors, #advanced_search_lustres {
-        height: 85px;
         width: 250px;
     }
 
