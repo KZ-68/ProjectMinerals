@@ -33,11 +33,11 @@ class Coordinate
     #[Groups(['coordinate:item', 'coordinate:list', 'mineral:item', 'variety:item'])]
     private ?\DateTimeImmutable $addedAt = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     #[Groups(['coordinate:item', 'mineral:item', 'variety:item'])]
     private ?string $latitude = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     #[Groups(['coordinate:item', 'mineral:item', 'variety:item'])]
     private ?string $longitude = null;
 
