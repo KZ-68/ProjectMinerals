@@ -3,7 +3,10 @@ $(document).ready(function() {
 
     if(favoriteBtn.hasClass('added')) {
         favoriteBtn.on("click", function() {
-            let requestRemove =
+            if(!favoriteBtn.hasClass('added')) {
+                return 0;
+            } else {
+                let requestRemove =
                 $.ajax({
                     type: 'POST',
                     url: '/wiki/mineral/{slug}/show/remove-favorite',
@@ -22,15 +25,10 @@ $(document).ready(function() {
                     $.each(messages, function(index, message) {
                         // Ajout du message dans une balise p
                         const resultItem = $('<p>').html(message);
-                        /* 
-                            Ajout d'un guardian, si il est possible de cliquer plusieurs fois, 
-                            on bloque après le premier message de succès
-                        */
-                        if($('#alert-success p').length < 1) {
-                            messageContainer.append(resultItem);
-                        } else {
-                            return 0;
-                        }
+
+                        messageContainer.append(resultItem);
+                        favoriteBtn.removeClass('added');
+
                     });
         
                     if($('#alert-success p').html().trim()) {
@@ -41,9 +39,16 @@ $(document).ready(function() {
                 requestRemove.fail(function (error) {
                     console.error("Erreur d'exécution du script :", error);
                 });
+            }
+            
         })
     } else {
         favoriteBtn.on("click", function() {
+            console.log(favoriteBtn.hasClass("added"));
+            if(favoriteBtn.hasClass("added")) {
+                console.log('test');
+                return 0;
+            } else {
             let requestAdd =
                 $.ajax({
                     type: 'POST',
@@ -63,11 +68,9 @@ $(document).ready(function() {
                         
                         const resultItem = $('<p>').html(message);
                         
-                        if($('#alert-success p').length < 1) {
                             messageContainer.append(resultItem);
-                        } else {
-                            return 0;
-                        }
+                            favoriteBtn.addClass('added');
+                            
                     });
         
                     if($('#alert-success p').html().trim()) {
@@ -78,7 +81,9 @@ $(document).ready(function() {
                 requestAdd.fail(function (error) {
                     console.error("Erreur d'exécution du script :", error);
                 });
-            });
+            }
+        });
+
     }
     
 });
