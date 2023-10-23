@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MineralType extends AbstractType
 {
@@ -36,6 +37,9 @@ class MineralType extends AbstractType
                 'multiple' => false,
                 'mapped' => false,
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-file'
+                ],
                 'constraints' => [
                 new Image ([
                     'maxSize' => '5000k',
@@ -133,10 +137,13 @@ class MineralType extends AbstractType
                 ]
             ])
             ->add('images', FileType::class, [
-                'label' => false,
+                'label' => 'Mineral Images',
                 'multiple' => true,
                 'mapped' => false,
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-file'
+                ],
                 'constraints' => [
                 new All ([
                     new Image ([
@@ -159,6 +166,13 @@ class MineralType extends AbstractType
                 ])
                     
             ],
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-textarea' 
+                ]
             ])
             ->add('country_name', TextType::class, [
                 'mapped' => false,
