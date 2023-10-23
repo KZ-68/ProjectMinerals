@@ -4,10 +4,10 @@
 
 {% block body %}
 
-<h1>Made a comment</h1>
-<hr>
-
 <div class="comment-wrapper">
+    <div aria-labelledby="comment-wrapper-heading" id="comment-wrapper-header">
+        <h1 id="comment-wrapper-heading">Made a comment</h1>
+    </div>
     {{ form_start(form) }}
     <div class="comment">
         {{ form_row(form.content) }}

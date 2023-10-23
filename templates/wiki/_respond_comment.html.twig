@@ -5,6 +5,9 @@
 {% block body %}
 
 <div id="response-wrapper">
+<div aria-labelledby="response-comment-heading" id="response-comment-header">
+    <h1 id="response-comment-heading">Respond to a comment</h1>
+</div>
     {{ form_start(form) }}
     <div class="comment">
         {{ form_row(form.content) }}

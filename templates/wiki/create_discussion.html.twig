@@ -4,10 +4,10 @@
 
 {% block body %}
 
-<h1>Create a new Discussion</h1>
-<hr>
-
-<div class="formulaire-wrapper">
+<div id="create-discussion-wrapper">
+    <div aria-labelledby="create-discussion-heading" id="create-discussion-header">
+        <h1 id="create-discussion-heading">Create a new Discussion</h1>
+    </div>
     {{ form_start(form) }}
     <div class="formulaire">
         {{ form_row(form.subject) }}
