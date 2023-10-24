@@ -8,8 +8,8 @@ let modals = document.querySelectorAll("div.images-list-modal");
 
 function isDesktopScreen() {
     const mobiles = window.matchMedia("(min-device-width : 320px) and (max-device-width : 480px)");
-    const tabletsPortrait = window.matchMedia("(min-device-width : 768px) and (max-device-width : 1024px) and (orientation: portrait)")
-    const tabletsLandscape = window.matchMedia("(min-device-width : 768px) and (max-device-width : 1024px) and (orientation: landscape)")
+    const tabletsPortrait = window.matchMedia("(min-device-width : 768px) and (max-device-width : 1023px) and (orientation: portrait)")
+    const tabletsLandscape = window.matchMedia("(min-device-width : 768px) and (max-device-width : 1023px) and (orientation: landscape)")
 
     return !mobiles.matches && !tabletsPortrait.matches && !tabletsLandscape.matches;
 }
