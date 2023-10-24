@@ -6,6 +6,7 @@ use Cocur\Slugify\Slugify;
 use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ColorRepository;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,8 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ApiResource(
     operations: [
-        new Get(normalizationContext: ['groups' => 'color:item']),
-        new GetCollection(normalizationContext: ['groups' => 'color:list'])
+        new Get(normalizationContext: ['groups' => 'color:item:read']),
+        new GetCollection(normalizationContext: ['groups' => 'color:list:read'])
     ],
     order: ['name' => 'DESC'],
     paginationEnabled: false,
@@ -31,7 +32,7 @@ class Color
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['color:list', 'color:item', 'mineral:item'])]
+    #[Groups(['color:list:read', 'color:item:read', 'mineral:item:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
@@ -42,15 +43,16 @@ class Color
     #[Assert\NoSuspiciousCharacters(
         restrictionLevelMessage: 'The name {{ value }} contains non valid caracters'
     )]
-    #[Groups(['color:list', 'color:item', 'mineral:item'])]
+    #[Groups(['color:list:read', 'color:item:read', 'mineral:item:read'])]
+    #[ApiProperty(types: ['https://schema.org/name'])]
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Mineral::class, inversedBy: 'colors')]
-    #[Groups(['color:item'])]
+    #[Groups(['color:item:read'])]
     private Collection $minerals;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['color:list', 'color:item', 'mineral:item'])]
+    #[Groups(['color:list:read', 'color:item:read', 'mineral:item:read'])]
     private ?string $slug = null;
 
     #[ORM\OneToMany(mappedBy: 'color', targetEntity: ModificationHistory::class)]

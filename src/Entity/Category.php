@@ -5,6 +5,7 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CategoryRepository;
 use ApiPlatform\Metadata\GetCollection;
@@ -16,8 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ApiResource(
     operations: [
-        new Get(normalizationContext: ['groups' => 'category:item']),
-        new GetCollection(normalizationContext: ['groups' => 'category:list'])
+        new Get(normalizationContext: ['groups' => 'category:item:read']),
+        new GetCollection(normalizationContext: ['groups' => 'category:list:read'])
     ],
     order: ['name' => 'DESC'],
     paginationEnabled: false,
@@ -31,7 +32,7 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['category:item', 'category:list', 'mineral:item'])]
+    #[Groups(['category:item:read', 'category:list:read', 'mineral:item:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
@@ -42,15 +43,16 @@ class Category
     #[Assert\NoSuspiciousCharacters(
         restrictionLevelMessage: 'The name {{ value }} contains non valid caracters'
     )]
-    #[Groups(['category:item', 'category:list', 'mineral:item'])]
+    #[Groups(['category:item:read', 'category:list:read', 'mineral:item:read'])]
+    #[ApiProperty(types: ['https://schema.org/name'])]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Mineral::class)]
-    #[Groups(['category:item'])]
+    #[Groups(['category:item:read'])]
     private Collection $minerals;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['category:item', 'category:list', 'mineral:item'])]
+    #[Groups(['category:item:read', 'category:list:read', 'mineral:item:read'])]
     private ?string $slug = null;
 
     public function __construct()

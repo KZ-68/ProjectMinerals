@@ -5,6 +5,7 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\VarietyRepository;
 use ApiPlatform\Metadata\GetCollection;
@@ -16,8 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ApiResource(
     operations: [
-        new Get(normalizationContext: ['groups' => 'variety:item']),
-        new GetCollection(normalizationContext: ['groups' => 'variety:list'])
+        new Get(normalizationContext: ['groups' => 'variety:item:read']),
+        new GetCollection(normalizationContext: ['groups' => 'variety:list:read'])
     ],
     order: ['name' => 'DESC'],
     paginationEnabled: false,
@@ -30,7 +31,7 @@ class Variety
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['variety:item', 'variety:list', 'mineral:item'])]
+    #[Groups(['variety:item:read', 'variety:list:read', 'mineral:item:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
@@ -41,23 +42,24 @@ class Variety
     #[Assert\NoSuspiciousCharacters(
         restrictionLevelMessage: 'The name {{ value }} contains non valid caracters'
     )]
-    #[Groups(['variety:item', 'variety:list', 'mineral:item'])]
+    #[Groups(['variety:item:read', 'variety:list:read', 'mineral:item:read'])]
+    #[ApiProperty(types: ['https://schema.org/name'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'varieties')]
-    #[Groups(['variety:item'])]
+    #[Groups(['variety:item:read'])]
     private ?Mineral $mineral = null;
 
     #[ORM\OneToMany(mappedBy: 'variety', cascade: ['persist'], orphanRemoval: true, targetEntity: Image::class)]
-    #[Groups(['variety:item'])]
+    #[Groups(['variety:item:read'])]
     private Collection $images;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['variety:item', 'variety:list', 'mineral:item'])]
+    #[Groups(['variety:item:read', 'variety:list:read', 'mineral:item:read'])]
     private ?string $slug = null;
 
     #[ORM\ManyToMany(targetEntity: Coordinate::class, inversedBy: 'varieties')]
-    #[Groups(['variety:item', 'mineral:item'])]
+    #[Groups(['variety:item:read', 'mineral:item:read'])]
     private Collection $coordinates;
 
     #[ORM\OneToMany(mappedBy: 'variety', targetEntity: ModificationHistory::class)]
