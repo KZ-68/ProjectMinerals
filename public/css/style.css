@@ -1557,17 +1557,25 @@ section.section-map {
     height: 146px;
     background-color: #dedede69;
     margin: 20px 30px;
-    padding: 20px 10px;
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
+    padding: 20px 1px;
+    gap: 10px;
     overflow-y: auto;
     color: #000000;
-    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
 }
 
-#notification-body p {
-    font-size: 16px;
+button[role='listitem'] {
+    background: none;
+    border: 1px solid #b1b1b1;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    padding: 5px;
+    margin: 0px 5px;
+    justify-content: space-between;
 }
 
 .profile-wrapper {
