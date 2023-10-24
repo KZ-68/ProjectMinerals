@@ -21,7 +21,7 @@ h1 {
     margin: 10px 0px;
     width: fit-content;
     font-family: 'Merriweather Sans';
-    font-size: 34px;
+    font-size: 32px;
 }
 
 h2 {
@@ -273,7 +273,7 @@ form[name='mineral'] {
     align-items: center;
     font-size: 24px;
     padding: 25px 50px;
-    margin: 30px 434px;
+    margin: 30px 190px;
     border-radius: 10px;
     background-color: var(--primary-color);
 }
@@ -377,7 +377,7 @@ form[name='mineral'] {
 }
 
 header a:hover {
-    color: #4f4f4f;
+    color: #d0d0dd70;
 }
 
 .link-right[href="/logout"] {
@@ -408,6 +408,10 @@ header a:hover {
     color: black;
     margin-right: 3px;
     font-size: 18px;
+}
+
+.profile-card a:hover {
+    color: #818181;
 }
 
 .profile-card #avatar-header {
@@ -525,6 +529,10 @@ header a:hover {
     padding: 10px 0px 10px 0px;
 }
 
+.anchor-panel:hover {
+    color: #818181;
+}
+
 #minerals-logo {
     z-index: 1;
 }
@@ -631,7 +639,7 @@ button#message_send {
 
 .adv-search {
     border-radius: 10px;
-    height: 670px;
+    height: 720px;
     display: flex;
     background-color: var(--primary-color);
     padding: 20px 35px;
@@ -821,7 +829,7 @@ div.formulaire-login a {
 
 #home-description hgroup {
     padding: 25px 25px 30px 25px;
-    margin: 0px 400px;
+    margin: 0px 250px;
     border: 2px solid white;
     border-radius: 10px;
     background-color: #80808036;
@@ -837,6 +845,7 @@ div.formulaire-login a {
 
 #home-description p {
     color: white;
+    font-size: 24px;
 }
 
 #image-zoom1, .image-zoom2 {
@@ -1159,8 +1168,13 @@ div.formulaire-login a {
     background-color: #d0d0dd70;
 }
 
-#caracteristics-wrapper a:hover {
+#caracteristics-wrapper a[role='button']:hover {
     background-color: #37c9ad;
+    color: #000000;
+}
+
+#caracteristics-wrapper a:hover {
+    color:#818181
 }
 
 #caracteristics-colors, #caracteristics-lustres {
@@ -1545,9 +1559,11 @@ section.section-map {
     margin: 20px 30px;
     padding: 20px 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 15px;
     overflow-y: auto;
+    color: #000000;
+    justify-content: space-between;
 }
 
 #notification-body p {
@@ -1675,6 +1691,22 @@ label[for='user_avatar'] {
     margin-bottom: 30px;
 }
 
+#user-settings-wrapper {
+    display: flex;
+    flex-direction: column;
+    color: #070707;
+    font-size: 24px;
+    padding: 25px 70px;
+    margin: 40px 325px;
+    border-radius: 10px;
+    background-color: #fcfcfccc;
+}
+
+#user-settings-wrapper .formulaire-wrapper {
+    align-items: center;
+    margin: 40px 0px;
+}
+
 .container {
     display: flex;
     align-items: center;
@@ -1785,9 +1817,9 @@ label[for='user_avatar'] {
     display: flex;
     flex-direction: column;
     border-radius: 5px;
-    border: 2px solid #574f4f;
+    border: 2px solid #808080;
     height: 200px;
-    width: 750px;
+    width: 530px;
     font-size: 14px;
     padding: 10px;
 }
@@ -1915,6 +1947,7 @@ hgroup.discussion-subject h2 {
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: 10px;
 }
 
 #discussion-avatar-header, #comment-avatar-header, #response-avatar-header {
@@ -2200,23 +2233,28 @@ footer {
     gap: 15px
 }
 
-@media (max-width: 770px) {
-    #carousel-vp {
-      width: 510px;
-    }
-  }
-  
-@media (max-width: 510px) {
-#carousel-vp {
-    width: 250px;
+#nav-footer a:hover {
+    color: #d0d0dd70;
 }
+
+@media only screen and (min-device-width: 1900px) {
+    .adv-search-wrapper {
+        margin: 0px 315px;
+    }
+
+    .comment-wrapper {
+        margin: 30px 400px;
+    }
+
+    #comment-wrapper-header {
+        padding-right: 675px;
+    }
 }
 
 @media only screen and (min-device-width: 1440px) and (max-device-width: 1900px) {
     .adv-search-wrapper {
-        margin: 0px 200px;
+        margin: 0px 142px;
     }
-
 
     .adv-search-fields {
         height: 534px;
@@ -2237,6 +2275,24 @@ footer {
     #cCarousel {
         max-width: 1350px;
     }
+
+    #image-zoom1.active {
+        width: 1284px;
+        top: 198vh;
+        margin: 0px 78px;
+    }
+
+    #lightbox1 {
+        width: 1440px;
+        height: 2825px;
+    }
+
+    #lightbox1 figcaption {
+        font-size: 15px;
+        bottom: 31vh;
+        left: 45vh;
+    }
+    
 }
 
 @media only screen and (min-device-width: 1024px) and (max-device-width: 1440px) {
@@ -2263,9 +2319,42 @@ footer {
     .arrow-symbols {
         top: 1px;
     }
+
+    #comment-wrapper-header {
+        padding-right: 498px;
+    }
+
+    #comment-wrapper-header h1 {
+        width: 310px;
+    }
+    
+    .comment-wrapper {
+        padding: 25px 50px;
+        margin: 30px 68px;
+    }
+
 }
 
 @media only screen and (max-device-width: 1024px) {
+
+
+    #image-zoom1.active {
+        width: 920px;
+        top: 258vh;
+        margin: 0px 52px;
+    }
+
+    #lightbox1 {
+        width: 1024px;
+        height: 3006px;
+    }
+
+    #lightbox1 figcaption {
+        font-size: 11px;
+        bottom: 20vh;
+        left: 30vh;
+    }
+
     .list-wrapper {
         margin: 29px 45px;
     }
@@ -2282,6 +2371,19 @@ footer {
 
     .pagination {
         margin: 40px 0px 20px 0px;
+    }
+
+    #comment-wrapper-header {
+        padding-right: 498px;
+    }
+
+    #comment-wrapper-header h1 {
+        width: 310px;
+    }
+    
+    .comment-wrapper {
+        padding: 25px 50px;
+        margin: 30px 68px;
     }
 
 }
@@ -2482,6 +2584,19 @@ footer {
         top: 1px;
     }
 
+    #comment-wrapper-header {
+        padding-right: 262px;
+    }
+
+    #comment-wrapper-header h1 {
+        width: 310px;
+    }
+    
+    .comment-wrapper {
+        padding: 25px 50px;
+        margin: 30px 68px;
+    }
+
 }
 
 @media only screen and (max-device-width: 768px) {
@@ -2523,6 +2638,18 @@ footer {
         left: 44vh;
         right: 22vh;
         width: 333px;
+    }
+}
+
+@media (max-width: 770px) {
+    #carousel-vp {
+      width: 510px;
+    }
+  }
+  
+@media (max-width: 510px) {
+    #carousel-vp {
+        width: 250px;
     }
 }
 
@@ -2667,6 +2794,28 @@ footer {
         flex-direction: column;
         align-items: flex-start;
         margin: 20px 12px;
+    }
+
+    .comment-wrapper {
+        margin: 30px 26px;
+    }
+
+    #comment-wrapper-header {
+        padding-right: 61px;
+    }
+
+    .form-textarea {
+        width: 257px;
+        height: 104px;
+    }
+
+    #cke_1_top {
+        height: 101px;
+        width: 256px;
+    }
+
+    #cke_1_contents {
+        height: 150px;
     }
 
     #avatar-header {
