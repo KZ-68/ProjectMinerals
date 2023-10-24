@@ -10,11 +10,13 @@ use App\Repository\CoordinateRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Context;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 #[ApiResource(
     operations: [
-        new Get(normalizationContext: ['groups' => 'coordinate:item']),
-        new GetCollection(normalizationContext: ['groups' => 'coordinate:list'])
+        new Get(normalizationContext: ['groups' => 'coordinate:item:read']),
+        new GetCollection(normalizationContext: ['groups' => 'coordinate:list:read'])
     ],
     order: ['latitude' => 'DESC'],
     paginationEnabled: false,
@@ -26,27 +28,28 @@ class Coordinate
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['coordinate:item', 'coordinate:list', 'mineral:item', 'variety:item'])]
+    #[Groups(['coordinate:item:read', 'coordinate:list:read', 'mineral:item:read', 'variety:item:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(['coordinate:item', 'coordinate:list', 'mineral:item', 'variety:item'])]
+    #[Groups(['coordinate:item:read', 'coordinate:list:read', 'mineral:item:read', 'variety:item:read'])]
+    #[Context(normalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'd-m-Y'])]
     private ?\DateTimeImmutable $addedAt = null;
 
     #[ORM\Column(length: 50, nullable: true)]
-    #[Groups(['coordinate:item', 'mineral:item', 'variety:item'])]
+    #[Groups(['coordinate:item:read', 'mineral:item:read', 'variety:item:read'])]
     private ?string $latitude = null;
 
     #[ORM\Column(length: 50, nullable: true)]
-    #[Groups(['coordinate:item', 'mineral:item', 'variety:item'])]
+    #[Groups(['coordinate:item:read', 'mineral:item:read', 'variety:item:read'])]
     private ?string $longitude = null;
 
     #[ORM\ManyToMany(targetEntity: Mineral::class, mappedBy: 'coordinates')]
-    #[Groups(['coordinate:item'])]
+    #[Groups(['coordinate:item:read'])]
     private Collection $minerals;
 
     #[ORM\ManyToMany(targetEntity: Variety::class, mappedBy: 'coordinates')]
-    #[Groups(['coordinate:item'])]
+    #[Groups(['coordinate:item:read'])]
     private Collection $varieties;
 
     #[ORM\OneToMany(mappedBy: 'coordinate', targetEntity: ModificationHistory::class)]

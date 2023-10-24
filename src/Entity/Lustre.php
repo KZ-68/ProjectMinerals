@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ApiResource(
     operations: [
-        new Get(normalizationContext: ['groups' => 'lustre:item']),
-        new GetCollection(normalizationContext: ['groups' => 'lustre:list'])
+        new Get(normalizationContext: ['groups' => 'lustre:item:read']),
+        new GetCollection(normalizationContext: ['groups' => 'lustre:list:read'])
     ],
     order: ['type' => 'DESC'],
     paginationEnabled: false,
@@ -29,7 +29,7 @@ class Lustre
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['lustre:item', 'lustre:list', 'mineral:item'])]
+    #[Groups(['lustre:item:read', 'lustre:list:read', 'mineral:item:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
@@ -40,15 +40,15 @@ class Lustre
     #[Assert\NoSuspiciousCharacters(
         restrictionLevelMessage: 'The type {{ value }} contains non valid caracters'
     )]
-    #[Groups(['lustre:item', 'lustre:list', 'mineral:item'])]
+    #[Groups(['lustre:item:read', 'lustre:list:read', 'mineral:item:read'])]
     private ?string $type = null;
 
     #[ORM\ManyToMany(targetEntity: Mineral::class, inversedBy: 'lustres')]
-    #[Groups(['lustre:item'])]
+    #[Groups(['lustre:item:read'])]
     private Collection $minerals;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['lustre:item', 'lustre:list', 'mineral:item'])]
+    #[Groups(['lustre:item:read', 'lustre:list:read', 'mineral:item:read'])]
     private ?string $slug = null;
 
     #[ORM\OneToMany(mappedBy: 'lustre', targetEntity: ModificationHistory::class)]
