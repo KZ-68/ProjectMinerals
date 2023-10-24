@@ -39,19 +39,6 @@ class ImageRepository extends ServiceEntityRepository
 
     }
 
-    public function findTitleImageSubstitution($mineral): array {
-        $em = $this->getEntityManager();
-        $sub = $em->createQueryBuilder(); 
-        $sub->select('i') 
-            ->from('App\Entity\Image', 'i') 
-            ->leftJoin('i.variety', 'v')
-            ->leftJoin('v.mineral', 'm')
-            ->where('m.id = :id')
-            ->setMaxResults(1)
-            ->setParameter(':id', $mineral);
-            return $sub->getQuery()->getResult();
-            
-    }
 
     public function findImagesById($mineral): array {
         $em = $this->getEntityManager();
