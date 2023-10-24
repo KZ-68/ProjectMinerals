@@ -8,18 +8,21 @@ use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
 use App\Repository\MineralRepository;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Context;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ApiResource(
     operations: [
-        new Get(normalizationContext: ['groups' => 'mineral:item']),
-        new GetCollection(normalizationContext: ['groups' => 'mineral:list'])
+        new Get(normalizationContext: ['groups' => 'mineral:item:read']),
+        new GetCollection(normalizationContext: ['groups' => 'mineral:list:read'])
     ],
     order: ['name' => 'DESC'],
     paginationEnabled: false,
@@ -32,7 +35,7 @@ class Mineral
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['mineral:list', 'mineral:item'])]
+    #[Groups(['mineral:list:read', 'mineral:item:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
@@ -41,12 +44,13 @@ class Mineral
         message: 'The value {{ value }} is not a valid {{ type }}.',
     )]
     #[Assert\NotBlank(
-        message: 'Le nom ne peut pas être laissée vide'
+        message: 'The name need to be specified'
     )]
     #[Assert\NoSuspiciousCharacters(
         restrictionLevelMessage: 'The name {{ value }} contains non valid caracters'
     )]
-    #[Groups(['mineral:list', 'mineral:item'])]
+    #[Groups(['mineral:list:read', 'mineral:item:read'])]
+    #[ApiProperty(types: ['https://schema.org/name'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -54,7 +58,8 @@ class Mineral
         type: 'string',
         message: 'The value {{ value }} is not a valid {{ type }}.',
     )]
-    #[Groups(['mineral:item'])]
+    #[Groups(['mineral:item:read'])]
+    #[ApiProperty(types: ['https://schema.org/molecularFormula'])]
     private ?string $formula = null;
 
     #[ORM\Column(length: 100, nullable: true)]
@@ -62,12 +67,12 @@ class Mineral
         type: 'string',
         message: 'The value {{ value }} is not a valid {{ type }}.',
     )]
-    #[Groups(['mineral:item'])]
+    #[Groups(['mineral:item:read'])]
     private ?string $crystal_system = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
     #[Assert\Positive]
-    #[Groups(['mineral:item'])]
+    #[Groups(['mineral:item:read'])]
     private ?string $density = null;
 
     #[ORM\Column(nullable: true)]
@@ -76,7 +81,7 @@ class Mineral
         type: 'integer',
         message: 'The value {{ value }} is not a valid {{ type }}.',
     )]
-    #[Groups(['mineral:item'])]
+    #[Groups(['mineral:item:read'])]
     private ?int $hardness = null;
 
     #[ORM\Column(length: 100, nullable: true)]
@@ -84,11 +89,12 @@ class Mineral
         type: 'string',
         message: 'The value {{ value }} is not a valid {{ type }}.',
     )]
-    #[Groups(['mineral:item'])]
+    #[Groups(['mineral:item:read'])]
     private ?string $fracture = null;
 
     #[ORM\Column]
-    #[Groups(['mineral:list', 'mineral:item'])]
+    #[Groups(['mineral:list:read', 'mineral:item:read'])]
+    #[Context(normalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'd-m-Y'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -96,52 +102,53 @@ class Mineral
         type: 'string',
         message: 'The value {{ value }} is not a valid {{ type }}.',
     )]
-    #[Groups(['mineral:item'])]
+    #[Groups(['mineral:item:read'])]
     private ?string $streak = null;
 
     #[ORM\ManyToOne(inversedBy: 'minerals')]
     #[ORM\JoinColumn(nullable: true, onDelete:"SET NULL")]
-    #[Groups(['mineral:item'])]
+    #[Groups(['mineral:item:read'])]
     private ?Category $category = null;
 
     #[ORM\ManyToMany(targetEntity: Color::class, mappedBy: 'minerals')]
-    #[Groups(['mineral:item'])]
+    #[Groups(['mineral:item:read'])]
     private Collection $colors;
 
     #[ORM\ManyToMany(targetEntity: Lustre::class, mappedBy: 'minerals')]
-    #[Groups(['mineral:item'])]
+    #[Groups(['mineral:item:read'])]
     private Collection $lustres;
 
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Variety::class)]
-    #[Groups(['mineral:item'])]
+    #[Groups(['mineral:item:read'])]
     private Collection $varieties;
 
     #[ORM\OneToMany(mappedBy: 'mineral', cascade: ['persist'], orphanRemoval: true, targetEntity: Image::class)]
-    #[Groups(['mineral:item'])]
+    #[Groups(['mineral:item:read'])]
     private Collection $images;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['mineral:list', 'mineral:item'])]
+    #[Groups(['mineral:list:read', 'mineral:item:read'])]
     private ?string $slug = null;
 
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Discussion::class, orphanRemoval: true)]
     private Collection $discussions;
 
     #[ORM\ManyToMany(targetEntity: Coordinate::class, cascade: ['persist'], inversedBy: 'minerals')]
-    #[Groups(['mineral:item'])]
+    #[Groups(['mineral:item:read'])]
     private Collection $coordinates;
 
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: ModificationHistory::class)]
     private Collection $modificationHistories;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['mineral:item'])]
+    #[Groups(['mineral:item:read'])]
     private ?string $description = null;
 
     #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Favorite::class, orphanRemoval: true)]
     private Collection $favorites;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['mineral:item:read'])]
     private ?string $image_title = null;
 
     public function __construct()
