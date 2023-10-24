@@ -257,8 +257,9 @@ class WikiController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $mineral = $form->getData();
-            // On récupère une collection d'images
+            
             $titleImage = $form->get('image_title')->getData();
+            // On récupère une collection d'images
             $images = $form->get('images')->getData();
             $latitude = $form->get('latitude')->getData();
             $longitude = $form->get('longitude')->getData();
@@ -347,28 +348,32 @@ class WikiController extends AbstractController
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $newImageTitle = $editForm->get('image_title')->getData();
-            $newImageTitleForm = $newImageTitle->getClientOriginalName();
+            if ($newImageTitle) {
+                $newImageTitleForm = $newImageTitle->getClientOriginalName();
 
-            // Si une image de présentation existe et la nouvelle image est différente de l'actuelle :
-            if($oldFileNameTitle && $newImageTitleForm != $oldFileNameTitle) {
-                $oldImageTitle = $imageRepository->findOneBy(['filename' => $oldFileNameTitle]);
-                
-                $newImageTitleFileName = $fileUploader->upload($newImageTitle);
-                
-                $imgTitle = new Image;
-                $imgTitle->setFileName($newImageTitleFileName);
-                $mineral->addImage($imgTitle);
-                $mineral->setImageTitle($newImageTitleFileName);
+                // Si une image de présentation existe et la nouvelle image est différente de l'actuelle :
+                if($oldFileNameTitle && $newImageTitleForm != $oldFileNameTitle) {
+                    $oldImageTitle = $imageRepository->findOneBy(['filename' => $oldFileNameTitle]);
+                    
+                    $newImageTitleFileName = $fileUploader->upload($newImageTitle);
+                    
+                    $imgTitle = new Image;
+                    $imgTitle->setFileName($newImageTitleFileName);
+                    $mineral->addImage($imgTitle);
+                    $mineral->setImageTitle($newImageTitleFileName);
 
-                $mineral->removeImage($oldImageTitle);
-            } else {
-                $newImageTitleFileName = $fileUploader->upload($newImageTitle);
-                
-                $imgTitle = new Image;
-                $imgTitle->setFileName($newImageTitleFileName);
-                $mineral->addImage($imgTitle);
-                $mineral->setImageTitle($newImageTitleFileName);
+                    $mineral->removeImage($oldImageTitle);
+                } else {
+                    $newImageTitleFileName = $fileUploader->upload($newImageTitle);
+                    
+                    $imgTitle = new Image;
+                    $imgTitle->setFileName($newImageTitleFileName);
+                    $mineral->addImage($imgTitle);
+                    $mineral->setImageTitle($newImageTitleFileName);
+                }
             }
+            
+            
 
             $newImages = $editForm->get('images')->getData();
 
@@ -633,12 +638,10 @@ class WikiController extends AbstractController
         
         $image = $imageRepository->findImagesById($mineral->getId());
         $varietyImages = $imageRepository->findVarietyImagesAndNamesInMineral($mineral->getId());
-        $substitutionImage = $imageRepository->findTitleImageSubstitution($mineral->getId());
         
         $html = $this->render('wiki/show_mineral_pdf.html.twig', [
                 'image' => $image,
                 'varietyImages' => $varietyImages,
-                'substitutionImage' => $substitutionImage,
                 'mineral' => $mineral
             ]);
 
