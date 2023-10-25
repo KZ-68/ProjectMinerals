@@ -8,14 +8,21 @@
     </div>
     <div id="notification-body">
         {% for notification in notifications %}
-            <p>
-                {{notification.comment.user.username}}
-                {{notification.comment.content}}
-                {{notification.comment.getDateTime}}
-            </p>
+                <button role="listitem" id="notification-layout">
+                    {% if notification.comment.user is null %}
+                        <div>User Deleted</div>
+                    {% else %}
+                        <div>{{notification.comment.user.username}}</div>    
+                    {% endif %}
+                    <div>{{notification.comment.content | sanitize_html}}</div>
+                    <time datetime="notification.comment.getDateTime">{{notification.comment.getDateTime}}</time> 
+                </button>
+                
         {% endfor %}
     </div>
     <div id="notification-footer">
         <a></a>
     </div>
+
+    
 </div>

@@ -19,7 +19,11 @@
                 {% if entry.color == NULL %}
                 <tr>
                     <td>{{ entry.mineral.name }}</td>
-                    <td>{{ entry.user.username }}</td>
+                    {% if entry.user is null %}
+                        <td>User Deleted</td>
+                    {% else %}
+                        <td>{{ entry.user.username }}</td>
+                    {% endif %}
                     <td>{{ entry.createdAt|date('Y-m-d H:i:s') }}</td>
                     <td>
                         

@@ -25,7 +25,12 @@
                         <figure id="discussion-avatar-header">
                             <img id="avatar-header" src="{{asset('uploads/images/' ~ discussion.user.avatar)}}">
                         </figure>
-                        <p>{{discussion.user.username}}</p>
+                        {% if discussion.user is null %}
+                            <div>User deleted</div>
+                        {% else %}
+                            <div>{{discussion.user.username}}</div>
+                        {% endif %}
+                        
                     </div>
                 </hgroup>
                 {% if discussion.isDeletedByModerator == true %}
@@ -38,7 +43,7 @@
                     </div>
                 {% else %}
                     <div class="discussion-textarea">
-                        <p>{{discussion.content | sanitize_html}}</p>
+                        <div>{{discussion.content | sanitize_html}}</div>
                     </div>
                     <div class="discussion-card-footer">
                         <a class="answer-link" href="{{ path('new_comment', {'slug': mineral.slug, 'id': discussion.id}) }}">Made a comment</a>
@@ -65,7 +70,12 @@
                                     <figure id="response-avatar-header">
                                         <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
                                     </figure>
-                                    <p>{{comment.user.username}}</p>
+                                    {% if comment.user is null %}
+                                        <div>User deleted</div>
+                                    {% else %}
+                                        <div>{{comment.user.username}}</div>
+                                    {% endif %}
+                                    
                                 </div>
                             </hgroup>
                             {% if comment.isDeletedByModerator == true and comment.isDeletedByUser == false %}
@@ -78,7 +88,7 @@
                                 </div>
                             {% else %}
                                 <div class="discussion-textarea">
-                                    <p>{{comment.content | sanitize_html}}</p>
+                                    <div>{{comment.content | sanitize_html}}</div>
                                 </div>
                                 <div class="response-comment-card-footer">
                                     <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
@@ -101,7 +111,11 @@
                                     <figure id="comment-avatar-header">
                                         <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
                                     </figure>
-                                    <p>{{comment.user.username}}</p>
+                                    {% if comment.user is null %}
+                                        <div>User deleted</div>
+                                    {% else %}
+                                        <div>{{comment.user.username}}</div>
+                                    {% endif %}
                                 </div>
                             </hgroup>
                             {% if comment.isDeletedByModerator == true and comment.isDeletedByUser == false %}
@@ -114,7 +128,7 @@
                                 </div>
                             {% else %}
                                 <div class="discussion-textarea">
-                                    <p>{{comment.content | sanitize_html}}</p>
+                                    <div>{{comment.content | sanitize_html}}</div>
                                 </div>
                                 <div class="comment-card-footer">
                                     <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'id': discussion.id, 'comment': comment.id}) }}">Reply to this comment</a>
