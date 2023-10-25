@@ -1,0 +1,8 @@
+{{ form_start(form, {'attr': {'id': 'mineral-search-form'}}) }}
+
+    <div class="mineral-search-bar">
+        {{ form_widget(form.search, {'attr': {'class': 'mineral-search-zone'} })}}
+        <button id="mineral-submit-search" type="submit">search</button>
+    </div>
+
+{{ form_end(form)}}
