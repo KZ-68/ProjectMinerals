@@ -41,14 +41,60 @@ class MineralRepository extends ServiceEntityRepository
             return $minerals;
     }
 
+    public function findByAjaxSearch($searchData): array {
+        $data = $this->createQueryBuilder('m');
+        
+        if(!empty($searchData['search'])) {
+            $data = $data
+                ->orwhere('m.name LIKE :search')
+                ->orWhere('m.formula LIKE :search')
+                ->orWhere('m.crystal_system LIKE :search')
+                ->orWhere('m.density LIKE :search')
+                ->orWhere('m.hardness LIKE :search')
+                ->orWhere('m.fracture LIKE :search')
+                ->orWhere('m.streak LIKE :search')
+                ->innerJoin('m.category', 'c', 'WITH', 'c.id = m.category')
+                ->join('m.varieties', 'v')
+                ->join('m.colors', 'co')
+                ->join('m.lustres', 'lu')
+                ->orWhere('c.name LIKE :search')
+                ->orWhere('v.name = :search')
+                ->orWhere('co.name = :search')
+                ->orWhere('lu.type = :search')
+                ->setParameter('search', $searchData['search']);
+        }
+        
+        $data = $data 
+            ->getQuery()
+            ->getResult();
+
+        return $data;
+    }
+
     public function findBySearch(SearchData $searchData): PaginationInterface {
         $data = $this->createQueryBuilder('m');
         
-        if(!empty($searchData->q)) {
+        if(!empty($searchData->search)) {
             $data = $data
-                ->where('m.name LIKE :q')
-                ->setParameter('q', $searchData->q);
+                ->innerJoin('m.category', 'c', 'WITH', 'c.id = m.category')
+                ->join('m.varieties', 'v')
+                ->join('m.colors', 'co')
+                ->join('m.lustres', 'lu')
+                ->orwhere('m.name LIKE :search')
+                ->orWhere('m.formula LIKE :search')
+                ->orWhere('m.formula LIKE :search')
+                ->orWhere('m.crystal_system LIKE :search')
+                ->orWhere('m.density LIKE :search')
+                ->orWhere('m.hardness LIKE :search')
+                ->orWhere('m.fracture LIKE :search')
+                ->orWhere('m.streak LIKE :search')
+                ->orWhere('c.name LIKE :search')
+                ->orWhere('v.name LIKE :search')
+                ->orWhere('co.name LIKE :search')
+                ->orWhere('lu.type LIKE :search')
+                ->setParameter('search', $searchData->search);
         }
+        
         $data = $data 
             ->getQuery()
             ->getResult();
