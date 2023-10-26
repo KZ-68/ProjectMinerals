@@ -3,42 +3,53 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-
-    <h1>Register</h1>
-    <hr>
-    
-    <div class="formulaire-register-wrapper">
-        {{ form_errors(registrationForm) }}
-        
-        {{ form_start(registrationForm) }}
-        <div class="formulaire-register">
-            {{ form_row(registrationForm.username) }}
-            {{ form_row(registrationForm.email) }}
-            {{ form_row(registrationForm.plainPassword, {
-                label: 'Password'
-            }) }}
-            <ol class="info-window">
-                <li class="one">You password must contain at least 1 Uppercase Letter.<div id="output-one"></div></li>
-                <li class="two">Your password must contain at least 1 lowercase letter.<div id="output-two"></div></li>
-                <li class="three">You password must contain at least one Number. <p id="output-three"></p></li>
-                <li class="four">Your password must contain at least 1 "special" character (/>! @ + # $ % ^ & * , ?( ) _ ~ - ). <p id="output-four"></p></li>
-                <li class="five">Your password must be at least 8 characters long. <p id="output-five"></p></li>
-            </ol>
-            <div class="terms">
-                {{ form_row(registrationForm.agreeTerms) }}
-            </div>
-
-            <button type="submit" class="btn">Register</button>
+    <div id="register-page-wrapper">
+        <div id="register-column-left">
+            <figure id="register-figure">
+                <img src="{{asset('uploads/images/IMG_20230503_142647.jpg')}}" alt="Fluorine Orange and Violet">
+            </figure>
         </div>
-        {{ form_end(registrationForm) }}
-        {% block javascript %}
-            <script src="/js/password_strength.js"></script>
-            <script src="https://code.jquery.com/jquery-3.7.0.js"
-            integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
-            crossorigin="anonymous"></script>
-        {% endblock %}
+        <div id="register-column-right">
+            {% for flash_error in app.flashes('verify_email_error') %}
+                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+            {% endfor %}
+    
+            <h1>Register</h1>
+            <hr>
+            
+            <div class="formulaire-register-wrapper">
+                {{ form_errors(registrationForm) }}
+                
+                {{ form_start(registrationForm) }}
+                <div class="formulaire-register">
+                    {{ form_row(registrationForm.username) }}
+                    {{ form_row(registrationForm.email) }}
+                    {{ form_row(registrationForm.plainPassword, {
+                        label: 'Password'
+                    }) }}
+                    <ol class="info-window">
+                        <li class="one">You password must contain at least 1 Uppercase Letter.<div id="output-one"></div></li>
+                        <li class="two">Your password must contain at least 1 lowercase letter.<div id="output-two"></div></li>
+                        <li class="three">You password must contain at least one Number. <p id="output-three"></p></li>
+                        <li class="four">Your password must contain at least 1 "special" character (/>! @ + # $ % ^ & * , ?( ) _ ~ - ). <p id="output-four"></p></li>
+                        <li class="five">Your password must be at least 8 characters long. <p id="output-five"></p></li>
+                    </ol>
+                    <div class="terms">
+                        {{ form_row(registrationForm.agreeTerms) }}
+                    </div>
+    
+                    <button type="submit" class="btn">Register</button>
+                </div>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
     </div>
+    
+
+    {% block javascript %}
+        <script src="/js/password_strength.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"
+        integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+        crossorigin="anonymous"></script>
+    {% endblock %}
 {% endblock %}
