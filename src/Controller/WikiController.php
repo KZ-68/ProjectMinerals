@@ -11,9 +11,11 @@ use App\Entity\Variety;
 use App\Entity\Category;
 use App\Entity\Favorite;
 use App\Form\LustreType;
+use App\Form\SearchType;
 use App\Form\CommentType;
 use App\Form\MineralType;
 use App\Form\VarietyType;
+use App\Model\SearchData;
 use App\Entity\Coordinate;
 use App\Entity\Discussion;
 use App\Form\DiscussionType;
@@ -42,11 +44,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\ModificationHistoryRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class WikiController extends AbstractController
@@ -55,7 +57,39 @@ class WikiController extends AbstractController
     #[IsGranted('PUBLIC_ACCESS')]
     public function index(MineralRepository $mineralRepository, Request $request): Response
     {        
+
+        $searchData = new SearchData();
+
+        // On crée un formulaire avec le modèle SearchType
+        $form = $this->createForm(SearchType::class, $searchData);
+
+        if ($request->isXmlHttpRequest()) {
+            $formData = $request->request->all();
+            $minerals = $mineralRepository->findByAjaxSearch($formData['search']);
+            
+            $jsonData = [];
+            if($minerals === []) {
+                $jsonData[] = [
+                    'name' => 'No Mineral found in the search engine !'
+                ];
+            } else {
+                foreach ($minerals as $mineral) {
+                    $jsonData[] = [
+                        'slug' => $mineral->getSlug() ?? null,
+                        'name' => $mineral->getName() ?? null
+                    ];
+                }
+            }
+
+            $response = [
+                'data' => $jsonData
+            ];
+
+            return $this->json($response);
+        }
+        
         return $this->render('wiki/index.html.twig', [
+            'form' => $form,
             'minerals' => $mineralRepository->findPaginateMinerals($request->query->getInt('page', 1))
         ]);
     }
@@ -68,13 +102,11 @@ class WikiController extends AbstractController
 
         $image = $imageRepository->findImagesById($mineral->getId());
         $varietyImages = $imageRepository->findVarietyImagesAndNamesInMineral($mineral->getId());
-        // $substitutionImage = $imageRepository->findTitleImageSubstitution($mineral->getId());
         $favorite = $favoriteRepository->findOneByMineralAndUser($mineral->getId(), $user);
 
         return $this->render('wiki/show_mineral.html.twig', [
             'image' => $image,
             'varietyImages' => $varietyImages,
-            // 'substitutionImage' => $substitutionImage,
             'mineral' => $mineral, 
             'favorite' => $favorite
         ]);
