@@ -4,14 +4,23 @@
 
 {% block body %}
 
-<h1>Edit this color</h1>
-<hr>
+<div id="edit-color-wrapper">
+    <aside class="aside-wrapper">
+        {% include "_partials/_admin_nav.html.twig"%}
+    </aside>
 
-<div class="formulaire">
-    {{ form_start(form) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.minerals)}}
-        {{ form_row(form.submit)}}
-    {{ form_end(form) }}
+    <div aria-labelledby="edit-color-heading" id="edit-color-right">
+        <h1 id="edit-color-heading">Edit this color</h1>
+        <hr>
+
+        <div class="formulaire">
+            {{ form_start(form) }}
+                {{ form_row(form.name) }}
+                {{ form_row(form.minerals)}}
+                {{ form_row(form.submit)}}
+            {{ form_end(form) }}
+        </div>
+    </div>
 </div>
+
 {% endblock %}

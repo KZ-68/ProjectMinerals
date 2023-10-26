@@ -4,18 +4,22 @@
 
 {% block body %}
 
-<h1>Add a color</h1>
-<hr>
+<div id="new-color-wrapper">
+    <aside class="aside-wrapper">
+        {% include "_partials/_admin_nav.html.twig"%}
+    </aside>
 
-<div class="formulaire-wrapper">
-    {{ form_start(form) }}
-    <div class="formulaire">
-        {{ form_row(form.name) }}
-        {{ form_row(form.minerals)}}
-        {{ form_row(form.submit)}}
+    <div aria-labelledby="new-color-heading" id="new-color-right">
+        <h1 id="new-color-heading">Add a color</h1>
+        <hr>
+
+        <div class="formulaire">
+            {{ form_start(form) }}
+                {{ form_row(form.name) }}
+                {{ form_row(form.minerals)}}
+                {{ form_row(form.submit)}}
+            {{ form_end(form) }}
+        </div>
     </div>
-    {{ form_end(form) }}
 </div>
-
-
 {% endblock %}
