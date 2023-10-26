@@ -1,18 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {% block meta %}
-    <meta name="description" content="Basé sur le concept de wiki, vous pouvez ajouter de nouvelles pages de minéraux ou en modifier une déjà disponible sur le site,
-    vous pouvez également discuter et débattre avec les autres utilisateurs sur les modifications qui ont été apportés.">
+    <meta name="description" content="Based on the wiki concept, you can add new mineral pages or modify one already available on the site, you can also discuss and debate with other users about the changes that have been made.">
 {% endblock %}
 
 {% block title %}Home Page{% endblock %}
 
 {% block body %}
 
-<figure id="figure-logo">
-    <img id="minerals-logo" alt="mineral logo unicolor" src="{{ asset('uploads/images/minerals.png')}}">
-    <h1 id="fig-logo-title">KZ Minerals</h1>
-</figure>
+
+<div aria-labelledby="fig-logo-title" id="carousel-top-wrapper">
+    <figure id="figure-logo">
+        <img id="minerals-logo" alt="mineral logo unicolor" src="{{ asset('uploads/images/minerals.png')}}">
+        <h1 id="fig-logo-title">KZ Minerals</h1>
+    </figure>
+    <aside id="carousel-top-column-right">
+        <hgroup aria-labelledby="carousel-top-heading" id="carousel-top-presentation">
+            <h2 id="carousel-top-heading">Whats KZ Minerals ?</h2>
+            <p>
+                Out of my passion for collecting various minerals at dedicated shows and exchanges, I designed this site to allow us to share the knowledge we have about minerals.</br> 
+                </br>
+                Based on the wiki concept, you can add new mineral pages or modify one already available on the site, you can also discuss and debate with other users about the changes that have been made.
+            </p>
+        </hgroup>
+
+        {% include "search/search_data.html.twig" with {
+            form: form
+        } only %}
+    </aside>
+</div>
+
 <div id="carousel1">
     <figure id="diaporama">
         <img src="{{ asset('uploads/images/sainte-marie-aux-mines-photo.jpg') }}">
@@ -24,10 +41,6 @@
         <img src="{{ asset('uploads/images/vallee_ste_marie_09-2014_001.jpg') }}">
     </figure>
 </div>
-
-{% include "search/search_data.html.twig" with {
-    form: form
-} only %}
 
 <section class="adv-search-section">
     <h2>Advanced Search</h2>
@@ -60,16 +73,26 @@
             </figure>
         </div>
         
-        <hgroup>
-            <h2>Qu'est-ce que KZ Minerals ?</h2>
-            <p>
-                Par passion de collecter divers minéraux lors de salons et de bourses dédiés,
-                j'ai conçu ce site afin de permettre de partager les connaissances que nous avons sur les minéraux.</br>
-                </br>
-                Basé sur le concept de wiki, vous pouvez ajouter de nouvelles pages de minéraux ou en modifier une déjà disponible sur le site,
-                vous pouvez également discuter et débattre avec les autres utilisateurs sur les modifications qui ont été apportés.
-            </p>
-        </hgroup>
+        <section>
+            <h3>KZ Minerals with statistics :</h3>
+            <div id="home-statistics-wrapper">
+                <hgroup>
+                    <h4>{{mineralsCount}}</h4>
+                    <p>
+                        Minerals Wiki Page has been Created</br>
+                        through the whole site.
+                    </p>
+                </hgroup>
+    
+                <hgroup>
+                    <h4>{{varietiesCount}}</h4>
+                    <p>
+                        Minerals Varieties created
+                    </p>
+                </hgroup>
+            </div>
+            
+        </section>
     </div>
 </section>
 
