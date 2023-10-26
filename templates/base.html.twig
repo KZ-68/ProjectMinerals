@@ -43,12 +43,6 @@
                         <a class="link-right" href="{{path('app_contact')}}">Contact</a>
                     {% endif %}
 
-                    {% if app.request.get('_route') == 'home_index' %}
-                        <a class="isDisabled" href="#">Home Page</a>
-                    {% else %}
-                        <a class="link-right" href="{{ path('home_index') }}">Home Page</a>
-                    {% endif %}
-
                     {% if app.user %}
                     <div class="profile-card">
                         <figure id="figure-avatar-header">
@@ -68,7 +62,7 @@
                 </div>
 
                 <div id="nav-left">
-                    <h1>KZ Minerals</h1>
+                    <a id="logo-header" href="{{ path('home_index') }}">KZ Minerals</a>
                     <div id="accordion-wrapper">
                         <button class="accordion">Menu</button>
                         <div class="panel">
@@ -119,7 +113,9 @@
                 </a>
             </nav>
         </header>
+
         {% block body %}{% endblock %}
+        
         <button onclick="topFunction();" class="topBtn">
             <img src="{{asset('/uploads/images/up_6745208.png')}}">
         </button>
