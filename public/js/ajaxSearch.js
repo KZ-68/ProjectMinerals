@@ -11,14 +11,11 @@ $(document).ready(function() {
             success: function(response) {
                 const resultsContainer = $('#minerals-list');
                 resultsContainer.empty();
-                for (var data in response) {
-                    console.log(response);
-                    if (response.hasOwnProperty(data)) { 
-                        const resultItem = $('<li>').html(response[data].name);
-                        resultsContainer.append(resultItem);
-                        resultsContainer.append('</li>');
-                    }
-                }
+                $.each(response.data, function(index, result) {
+                    const resultItem = $('<li>').html(result.name);
+                    resultsContainer.append(resultItem);
+                    resultsContainer.append('</li>');
+                });
                 resultsContainer.css('margin', '17px 0px');
             },
             error: function (error) {
