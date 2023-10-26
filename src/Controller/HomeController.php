@@ -7,6 +7,7 @@ use App\Model\SearchData;
 use App\Form\AdvancedSearchType;
 use App\Model\AdvancedSearchData;
 use App\Repository\MineralRepository;
+use App\Repository\VarietyRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route('home', name: 'index')]
-    public function index(MineralRepository $mineralRepository, Request $request, PaginatorInterface $paginator): Response
+    public function index(MineralRepository $mineralRepository, VarietyRepository $varietyRepository, Request $request, PaginatorInterface $paginator): Response
     {
         // Crée un nouvel objet SearchData
         $searchData = new SearchData();
@@ -29,6 +30,7 @@ class HomeController extends AbstractController
 
         // On crée un formulaire avec le modèle SearchType
         $form = $this->createForm(SearchType::class, $searchData);
+
         $form2 = $this->createForm(AdvancedSearchType::class, $advancedSearchData);
 
         // On récupère la requête envoyé par le bouton submit
@@ -42,11 +44,14 @@ class HomeController extends AbstractController
             // On redirige vers la liste des minéraux et on affiche un rendu :
             return $this->render('wiki/index.html.twig', [
                 // Du résultat de la requête
+                'form' => $form,
                 'minerals' => $minerals,
             ]);
         }
 
         $minerals = $mineralRepository->findPaginateMinerals($request->query->getInt('page', 1));
+        $mineralsCount = $mineralRepository->findMineralsCount();
+        $varietiesCount = $varietyRepository->findVarietiesCount();
         if ($request->isXmlHttpRequest()) {
             $formData = $request->request->all();
             $minerals = $mineralRepository->findByAdvancedSearch($formData['advanced_search']);
@@ -65,7 +70,6 @@ class HomeController extends AbstractController
                 }
             }
             
-
             $response = [
                 'data' => $jsonData
             ];
@@ -75,7 +79,9 @@ class HomeController extends AbstractController
             return $this->render('home/index.html.twig', [
                 'form' => $form,
                 'form2' => $form2,
-                'minerals' => $minerals
+                'minerals' => $minerals,
+                'mineralsCount' => $mineralsCount,
+                'varietiesCount' => $varietiesCount
             ]);
         }
 
