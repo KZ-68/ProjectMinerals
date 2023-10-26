@@ -79,6 +79,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->modificationHistories = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->avatar = 'sbcf-default-avatar.png';
     }
 
     public function getId(): ?int
