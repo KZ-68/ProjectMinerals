@@ -21,6 +21,13 @@ class VarietyRepository extends ServiceEntityRepository
         parent::__construct($registry, Variety::class);
     }
 
+    public function findVarietiesCount() {
+        return $this->createQueryBuilder('v')
+            ->select('count(v.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 //    /**
 //     * @return Variety[] Returns an array of Variety objects
 //     */
