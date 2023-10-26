@@ -9,8 +9,8 @@ use App\Service\FileUploader;
 use App\Form\UserPasswordType;
 use App\Form\UserUsernameType;
 use App\Repository\FavoriteRepository;
-use App\Repository\NotificationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\NotificationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -72,7 +73,7 @@ class UserController extends AbstractController
         }
 
         if ($this->getUser() !== $user) {
-            return $this->redirectToRoute('app_session');
+            throw new AccessDeniedException;
         }
 
         // Création des deux formulaires séparés
@@ -185,6 +186,14 @@ class UserController extends AbstractController
         
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
+        if(!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        if ($this->getUser() !== $user) {
+            throw new AccessDeniedException;
+        }
+
         return $this->render('_partials/_delete_account.html.twig');
     }
 
@@ -192,6 +201,14 @@ class UserController extends AbstractController
     public function deleteAccount(User $user, Request $request, EntityManagerInterface $entityManager, Session $session, TokenStorageInterface $tokenStorage): Response {
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        if(!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        if ($this->getUser() !== $user) {
+            throw new AccessDeniedException;
+        }
 
         if ($request->isMethod('POST')) {
             $userAuthentified = $this->getUser();
@@ -209,6 +226,14 @@ class UserController extends AbstractController
     public function notifications(User $user, Request $request, NotificationRepository $notificationRepository) : Response {
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        if(!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        if ($this->getUser() !== $user) {
+            throw new AccessDeniedException;
+        }
         
         if ($request->isMethod('GET')) {
                 $notifications = $notificationRepository->findNotificationsByUser($user->getId());
