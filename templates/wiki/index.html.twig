@@ -9,8 +9,17 @@
 </div>
 
 <div class="list-wrapper">
-    <h1>Minerals List</h1>
-    <hr>
+    <div id="list-wrapper-header">
+        <hgroup>
+            <h1>Minerals List</h1>
+            <hr>
+        </hgroup>
+        <div id="list-wrapper-search">
+            {% include "wiki/_minerals_list_search.html.twig" with {
+                form: form
+            } only %}
+        </div>
+    </div>
 
     <div>
         <ul id="minerals-list">
@@ -20,11 +29,18 @@
             <li><a href="{{path('show_mineral', {'slug': mineral.slug})}}">{{mineral.name}}</a></li>
             {% endfor %}
         </ul>
+        {% if app.request.get('name') %}
+            {{response.name}}
+        {% else %}
+
+        {% endif %}
         <nav>
             {{knp_pagination_render(minerals)}}
         </nav>
     </div>
 </div>
 
-
+    {% block javascript %}
+    <script src="/js/ajaxSearch.js"></script>
+    {% endblock %}
 {% endblock %}
