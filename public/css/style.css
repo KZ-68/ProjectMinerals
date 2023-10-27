@@ -469,7 +469,14 @@ header a:hover {
 }
 
 #close-modal {
-    margin: 0px 0px 10px 0px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    background: #6fd6c1;
+    padding: 10px 33px;
+    border-radius: 10px;
+    border: none;
+    margin: 15px 0px;
 }
 
 .sidenav {
@@ -507,35 +514,15 @@ header a:hover {
     border-radius: 25px 25px 25px 25px;
     justify-content: center;
 }
-
-.accordion {
-    background-color: #6fd6c1;
-    color: #444;
-    cursor: pointer;
-    padding: 18px;
-    width: 166px;
-    border: none;
-    outline: none;
-    transition: 0.4s;
-    font-size: 19px;
-    text-align: center;
-}
-  
-.active, .accordion:hover {
-    background-color: #5ecfb8;
-}
   
 .panel {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     padding: 0px 23px;
     max-height: 0;
-    overflow: hidden;
     transition: max-height 0.2s ease-out;
-    position: absolute;
-    z-index: 6;
     background-color: #fcfcfccc;
-    gap: 4px;
+    gap: 50px;
     align-items: center;
 }
 
@@ -926,6 +913,12 @@ div.formulaire-login a {
 #home-description p {
     color: white;
     font-size: 20px;
+}
+
+#home-statistics-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 75px;
 }
 
 #image-zoom1, .image-zoom2 {
@@ -1471,6 +1464,11 @@ button.btn {
     border-radius: 10px;
 }
 
+#mineral-image-title-zone {
+    display: flex;
+    justify-content: center;
+}
+
 #mineral-figure {
     display: flex;
     margin: 55px 20px;
@@ -1630,6 +1628,8 @@ section.section-map {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .cCarousel-item img {
@@ -1965,6 +1965,15 @@ label[for='user_avatar'] {
     background: #fcfcfccc;
 }
 
+form[name='message'] label {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+form[name='message'] div {
+    margin-top: 20px;
+}
+
 .messages-list-wrapper {
     display: flex;
     flex-direction: row;
@@ -1987,7 +1996,7 @@ label[for='user_avatar'] {
     border-radius: 5px;
     border: 2px solid #808080;
     height: 200px;
-    width: 530px;
+    width: 100%;
     font-size: 14px;
     padding: 10px;
 }
@@ -2345,7 +2354,12 @@ aside.aside-wrapper {
     border-radius: 10px;
 }
 
-form[name='contact'] {
+.contact-wrapper {
+    display: flex;
+    flex-direction: column;
+    color: #070707;
+    font-size: 24px;
+    margin: 40px 350px;
     padding: 25px 20px;
     background-color: #fcfcfccc;
     border-radius: 15px;
