@@ -116,7 +116,6 @@ class WikiController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function launchDiscussion(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         
         $discussion = new Discussion();
         $user = $this->getUser();
@@ -145,7 +144,6 @@ class WikiController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function newComment(Discussion $discussion, Request $request, EntityManagerInterface $entityManager): Response {
        
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $comment = new Comment();
         $user = $this->getUser();
@@ -173,7 +171,6 @@ class WikiController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function respondComment(Comment $comment, Discussion $discussion, Request $request, EntityManagerInterface $entityManager): Response {
         
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $respondComment = new Comment;
 
@@ -210,7 +207,6 @@ class WikiController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function deleteDiscussion(Discussion $discussion, DiscussionRepository $discussionRepository, EntityManagerInterface $entityManager): Response {
 
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $currentUser = $this->getUser();
         
@@ -239,7 +235,6 @@ class WikiController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function deleteComment(Discussion $discussion, Comment $comment, CommentRepository $commentRepository, EntityManagerInterface $entityManager): Response {
 
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $currentUser = $this->getUser();
 
@@ -279,7 +274,6 @@ class WikiController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function new_mineral(FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $mineral = new Mineral();
         $coordinate = new Coordinate();
@@ -344,35 +338,8 @@ class WikiController extends AbstractController
         EntityManagerInterface $entityManager, FileUploader $fileUploader
         ): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-        $originalColors = new ArrayCollection();
-        $originalLustres = new ArrayCollection();
-        $originalImages = new ArrayCollection();
-        $coordinates = new ArrayCollection();
 
         $oldFileNameTitle = $mineral->getImageTitle();
-
-        // On récupère l'image déjà stocké en bdd et dans le dossier uploads pour le formulaire
-        if ($oldFileNameTitle) {
-            $oldFileNameTitlePath = './../public/uploads/images/'.$oldFileNameTitle.'';
-            $file = new File($oldFileNameTitlePath);
-            $mineral->setImageTitle($file->getFilename());
-        } 
-
-        // Pour chaque couleur récupérés :
-        foreach ($mineral->getColors() as $color) {
-            // On ajoute la couleur dans la Collection
-            $originalColors->add($color);
-        }
-
-        foreach ($mineral->getImages() as $image) {
-            $originalImages->add($image);
-        }
-
-        foreach ($mineral->getCoordinates() as $coordinate) {
-            $coordinates->add($coordinate);
-        }
 
         $editForm = $this->createForm(MineralType::class, $mineral);
 
@@ -405,11 +372,9 @@ class WikiController extends AbstractController
                 }
             }
             
-            
-
             $newImages = $editForm->get('images')->getData();
 
-            foreach ($originalImages as $image) {
+            foreach ($mineral->getImages() as $image) {
                 if (false === $mineral->getImages()->contains($image)) {
                     $mineral->removeImage($image);
 
@@ -425,20 +390,17 @@ class WikiController extends AbstractController
             }
 
             // Supprime la relation entre la couleur et le mineral
-            foreach ($originalColors as $color) {
+            foreach ($mineral->getColors() as $color) {
                 // Si en essayant de récupérer la couleur contenu dans le mineral on obtient false :
                 if (false === $mineral->getColors()->contains($color)) {
                     // Supprime le mineral de la couleur
                     $color->getMinerals()->removeElement($mineral);
 
-                    // Dans le cas d'une relation many-to-one, décommenter la ligne suivante :
-                    // $color->setMineral(null);
-
                     $entityManager->persist($color);
                 }
             }
 
-            foreach ($originalLustres as $lustre) {
+            foreach ($mineral->getLustres() as $lustre) {
                 if (false === $mineral->getLustres()->contains($lustre)) {
                     $lustre->getMinerals()->removeElement($mineral);
 
@@ -446,7 +408,7 @@ class WikiController extends AbstractController
                 }
             }
 
-            foreach ($coordinates as $coordinate) {
+            foreach ($mineral->getCoordinates() as $coordinate) {
                 if (false === $mineral->getCoordinates()->contains($coordinate)) {
                     $mineral->removeCoordinate($coordinate);
 
@@ -460,7 +422,6 @@ class WikiController extends AbstractController
             if ($latitude && $longitude) {
                 $coordinate->setLatitude($latitude);
                 $coordinate->setLongitude($longitude);
-                $coordinates->add($coordinate);
                 $mineral->addCoordinate($coordinate);
             }
             $entityManager->persist($mineral);
@@ -481,7 +442,6 @@ class WikiController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function new_variety(Mineral $mineral, FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         
         $variety = new Variety();
         
