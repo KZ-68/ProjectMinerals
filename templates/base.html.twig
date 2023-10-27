@@ -10,6 +10,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
         <link type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
             integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -150,6 +151,7 @@
         </footer>
 
         {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
         <script src="/js/burger_menu.js"></script>
         <script src="/js/accordion.js"></script>
         <script src="/js/topFunction.js"></script>
