@@ -17,6 +17,10 @@ class MessageController extends AbstractController
     #[Route('/message', name: 'app_message')]
     public function index(): Response
     {
+        if(!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
         return $this->render('message/index.html.twig', [
             'controller_name' => 'MessageController',
         ]);
@@ -26,6 +30,10 @@ class MessageController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function send(Message $message = null, Request $request, EntityManagerInterface $entityManager): Response
     {
+        if(!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
         if (!$message) {
             $message = new Message();
         }
@@ -59,14 +67,24 @@ class MessageController extends AbstractController
     }
 
     #[Route('/message/received', name: 'received_message')]
+    #[IsGranted('ROLE_USER')]
     public function received(): Response
     {
+        if(!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
         return $this->render('message/received.html.twig');
     }
 
     #[Route('/message/sent', name: 'sent_message')]
+    #[IsGranted('ROLE_USER')]
     public function sent(): Response
     {
+        if(!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
         return $this->render('message/sent.html.twig');
     }
 
@@ -74,6 +92,9 @@ class MessageController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function readMessage(Message $message, EntityManagerInterface $entityManager): Response 
     {
+        if(!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         // Si is_read n'est pas set à true :
         if (!$message->isIsRead(true)) {
             // On set en true la colonne is_read, le message est désormais marqué comme lu
@@ -92,6 +113,10 @@ class MessageController extends AbstractController
     #[Route('/message/received/{id}/delete', name: 'delete_message')]
     #[IsGranted('ROLE_USER')]
     public function deletemessage(Message $message, EntityManagerInterface $entityManager) {
+        
+        if(!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         
         $entityManager->remove($message);
         $entityManager->flush();
