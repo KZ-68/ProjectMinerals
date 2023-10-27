@@ -32,7 +32,10 @@ class UserController extends AbstractController
     EntityManagerInterface $entityManager, FavoriteRepository $favoriteRepository
     ): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        if(!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
 
         // Récupère l'utilisateur courant
         $user = $this->getUser();
@@ -62,10 +65,13 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/profile/settings/{id}', name: 'settings_profile', methods:['GET', 'POST'])]
+    #[Route('/profile/settings/', name: 'settings_profile', methods:['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function editSettings(User $user, Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
+    public function editSettings(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
     {
+
+
+        $user = $this->getUser();
 
         // Fait une redirection si aucun utilisateur en session est trouvé
         if(!$this->getUser()) {
@@ -144,7 +150,7 @@ class UserController extends AbstractController
                             'The password has been modified with success !'
                         );
                         
-                        return $this->redirectToRoute('settings_profile', ['id' => $user->getId()]);
+                        return $this->redirectToRoute('settings_profile');
                         
                     } else {
                         $this->addFlash(
@@ -181,26 +187,24 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/profile/settings/{id}/popup', name: 'settings_delete_popup')]
-    public function popupDeleteAccount(User $user, Request $request): Response {
+    #[Route('/profile/settings/popup', name: 'settings_delete_popup')]
+    public function popupDeleteAccount(Request $request): Response {
         
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $user = $this->getUser();
 
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
 
-        if ($this->getUser() !== $user) {
-            throw new AccessDeniedException;
-        }
-
         return $this->render('_partials/_delete_account.html.twig');
     }
 
-    #[Route('/profile/settings/{id}/popup/delete', name: 'settings_delete_profile', methods:['POST'])]
-    public function deleteAccount(User $user, Request $request, EntityManagerInterface $entityManager, Session $session, TokenStorageInterface $tokenStorage): Response {
+    #[Route('/profile/settings/popup/delete', name: 'settings_delete_profile', methods:['POST'])]
+    public function deleteAccount(Request $request, EntityManagerInterface $entityManager, Session $session, TokenStorageInterface $tokenStorage): Response {
 
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $user = $this->getUser();
 
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
@@ -222,10 +226,11 @@ class UserController extends AbstractController
         }
     }
 
-    #[Route('/profile/{id}/notifications', name: 'notifications_center', methods:['GET'])]
-    public function notifications(User $user, Request $request, NotificationRepository $notificationRepository) : Response {
+    #[Route('/profile/notifications', name: 'notifications_center', methods:['GET'])]
+    public function notifications(Request $request, NotificationRepository $notificationRepository) : Response {
 
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $user = $this->getUser();
 
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
@@ -236,7 +241,7 @@ class UserController extends AbstractController
         }
         
         if ($request->isMethod('GET')) {
-                $notifications = $notificationRepository->findNotificationsByUser($user->getId());
+                $notifications = $notificationRepository->findNotificationsByUser($user);
         }
         return $this->render('user/_notifications_modal.html.twig', [
             'notifications' => $notifications
