@@ -5,7 +5,7 @@
 {% block body %}
 
 <nav class="profile-nav">
-        <a class="anchor-btn" href="{{ path('settings_profile', {'id': app.user.id}) }}">User Settings</a>
+        <a class="anchor-btn" href="{{ path('settings_profile')}}">User Settings</a>
         <a class="anchor-btn" href="{{ path('app_message') }}">Message Box</a>
 </nav>
  
@@ -62,7 +62,7 @@
         <script>
             $(document).ready(function () {
                 $.ajax({
-                    url: '/profile/{{app.user.id}}/notifications'
+                    url: '/profile/notifications'
                 })
                 .done(function(data){
                     console.log(data);
