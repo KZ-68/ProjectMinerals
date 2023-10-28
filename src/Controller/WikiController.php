@@ -42,6 +42,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use App\Repository\ModificationHistoryRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -112,6 +113,15 @@ class WikiController extends AbstractController
         ]);
     }
 
+    #[Route('/wiki/mineral/{slug}/discussions', name: 'discussions_list')]
+    #[IsGranted('ROLE_USER')]
+    public function discussionsList(Mineral $mineral):Response {
+
+        return $this->render('wiki/discussions_list.html.twig', [
+            'mineral' => $mineral
+        ]);
+    }
+
     #[Route('/wiki/mineral/{slug}/discussions/createDiscussion', name: 'new_discussion')]
     #[IsGranted('ROLE_USER')]
     public function launchDiscussion(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
@@ -132,7 +142,7 @@ class WikiController extends AbstractController
             $entityManager->persist($discussion);
             $entityManager->flush();
 
-            return $this->redirectToRoute('discussions_mineral', ['slug' => $mineral->getSlug()]);
+            return $this->redirectToRoute('discussions_list', ['slug' => $mineral->getSlug()]);
         }
 
         return $this->render('wiki/create_discussion.html.twig', [
@@ -140,11 +150,27 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/{id}/newComment', name: 'new_comment')]
-    #[IsGranted('ROLE_USER')]
-    public function newComment(Discussion $discussion, Request $request, EntityManagerInterface $entityManager): Response {
-       
+    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}', name: 'discussion_mineral')]
+    #[IsGranted('PUBLIC_ACCESS')]
+    public function discussion( 
+        #[MapEntity(mapping: ['slug' => 'slug'])] Mineral $mineral,
+        #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion
+        ): Response
+    {
+        return $this->render('wiki/discussions_mineral.html.twig', [
+            'mineral' => $mineral,
+            'discussion' => $discussion
+        ]);
+    }
 
+    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/newComment', name: 'new_comment')]
+    #[IsGranted('ROLE_USER')]
+    public function newComment(
+        #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
+        Request $request, 
+        EntityManagerInterface $entityManager
+        ): Response {
+       
         $comment = new Comment();
         $user = $this->getUser();
 
@@ -159,7 +185,10 @@ class WikiController extends AbstractController
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('discussions_mineral', ['slug' => $discussion->getMineral()->getSlug(), 'id' => $discussion->getId()]);
+            return $this->redirectToRoute(
+                'discussion_mineral', ['slug' => $discussion->getMineral()->getSlug(), 
+                'discussionSlug' => $discussion->getSlug()]
+            );
         }
 
         return $this->render('wiki/new_comment.html.twig', [
@@ -167,11 +196,15 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/{id}/comment/{comment}/respond', name: 'respond_comment')]
+    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{comment}/respond', name: 'respond_comment')]
     #[IsGranted('ROLE_USER')]
-    public function respondComment(Comment $comment, Discussion $discussion, Request $request, EntityManagerInterface $entityManager): Response {
+    public function respondComment(
+        Comment $comment, 
+        #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
+        Request $request, 
+        EntityManagerInterface $entityManager
+        ): Response {
         
-
         $respondComment = new Comment;
 
         $user = $this->getUser();
@@ -189,10 +222,10 @@ class WikiController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute(
-                'discussions_mineral',
+                'discussion_mineral',
                 [
                 'slug' => $discussion->getMineral()->getSlug(), 
-                'id' => $comment->getDiscussion()->getId(),
+                'discussionSlug' => $comment->getDiscussion()->getSlug(),
                 'comment' => $comment->getId()
                 ]
             );
@@ -203,9 +236,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/{id}/delete', name:'delete_discussion', methods:['POST'])]
+    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/delete', name:'delete_discussion', methods:['POST'])]
     #[IsGranted('ROLE_USER')]
-    public function deleteDiscussion(Discussion $discussion, DiscussionRepository $discussionRepository, EntityManagerInterface $entityManager): Response {
+    public function deleteDiscussion(
+        #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
+        DiscussionRepository $discussionRepository, 
+        EntityManagerInterface $entityManager
+        ): Response {
 
 
         $currentUser = $this->getUser();
@@ -223,18 +260,22 @@ class WikiController extends AbstractController
         }
 
         return $this->redirectToRoute(
-            'discussions_mineral',
+            'discussion_mineral',
             [
             'slug' => $discussion->getMineral()->getSlug(), 
-            'id' => $discussion->getId(),
+            'discussionSlug' => $discussion->getSlug(),
             ]
         );
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/{id}/comment/{comment}/delete', name:'delete_comment', methods:['POST'])]
+    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{comment}/delete', name:'delete_comment', methods:['POST'])]
     #[IsGranted('ROLE_USER')]
-    public function deleteComment(Discussion $discussion, Comment $comment, CommentRepository $commentRepository, EntityManagerInterface $entityManager): Response {
-
+    public function deleteComment(
+        #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
+        Comment $comment, 
+        CommentRepository $commentRepository, 
+        EntityManagerInterface $entityManager
+        ): Response {
 
         $currentUser = $this->getUser();
 
@@ -254,20 +295,11 @@ class WikiController extends AbstractController
             'discussions_mineral',
             [
             'slug' => $discussion->getMineral()->getSlug(), 
-            'id' => $comment->getDiscussion()->getId(),
+            'discussionSlug' => $comment->getDiscussion()->getSlug(),
             'comment' => $comment->getId()
             ]
         );
 
-    }
-
-    #[Route('/wiki/mineral/{slug}/discussions', name: 'discussions_mineral')]
-    #[IsGranted('PUBLIC_ACCESS')]
-    public function discussions(Mineral $mineral): Response
-    {
-        return $this->render('wiki/discussions_mineral.html.twig', [
-            'mineral' => $mineral
-        ]);
     }
 
     #[Route('/wiki/mineral/new', name: 'new_mineral')]
