@@ -4,14 +4,18 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Cocur\Slugify\Slugify;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\DiscussionRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ApiResource()]
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: DiscussionRepository::class)]
+#[UniqueEntity(fields: ['slug'], message: 'This slug already exist')]
 class Discussion
 {
     #[ORM\Id]
@@ -47,10 +51,18 @@ class Discussion
     #[ORM\Column]
     private ?bool $isDeletedByUser = false;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist() {
+        $this->slug = (new Slugify())->slugify($this->subject);
     }
 
     public function getId(): ?int
@@ -173,6 +185,18 @@ class Discussion
     public function setIsDeletedByUser(bool $isDeletedByUser): static
     {
         $this->isDeletedByUser = $isDeletedByUser;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }
