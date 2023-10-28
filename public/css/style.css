@@ -527,7 +527,8 @@ header a:hover {
 }
 
 .anchor-panel {
-    font-size: 18px;
+    font-size: 22px;
+    font-weight: 700;
     padding: 10px 0px 10px 0px;
 }
 
@@ -981,7 +982,7 @@ div.formulaire-login a {
     right: 5vh;
 }
 
-.mineral-options, .varieties-options, .minerals-list-options, .categories-options, .discussion-options {
+.mineral-options, .varieties-options, .minerals-list-options, .categories-options, .discussions-list-options {
     padding: 20px;
     margin: 10px 10px;
     margin-top: 25px;
@@ -990,11 +991,11 @@ div.formulaire-login a {
     gap: 20px;
 }
 
-.mineral-options a:hover, .varieties-options a:hover, .minerals-list-options a:hover, .categories-options a:hover, .discussion-options a:hover {
+.mineral-options a:hover, .varieties-options a:hover, .minerals-list-options a:hover, .categories-options a:hover, .discussions-list-options a:hover {
     background-color: #37c9ad;
 }
 
-.mineral-options a, .varieties-options a, .minerals-list-options a, .categories-options a, .discussion-options a {
+.mineral-options a, .varieties-options a, .minerals-list-options a, .categories-options a, .discussions-list-options a {
     font-size: 16px;
     font-weight: 700;
     color: black;
@@ -2085,6 +2086,33 @@ button#deleteAccount {
     border-radius: 10px;
     border: none;
     margin: 15px 0px;
+}
+
+#discussions-list-body {
+    margin: 50px 200px;
+    padding: 25px 0px;
+    border-radius: 10px;
+    background-color: #fcfcfcfc;
+}
+
+#discussions-list {
+    margin-top: 50px;
+}
+
+.discussion-item {
+    display: flex;
+    margin: 20px 0px;
+    padding: 25px 20px;
+    border-top: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+}
+
+.discussion-item-main {
+    padding-right: 730px;
+}
+
+.discussion-item-stats {
+    padding-right: 85px;
 }
 
 #discussion-body hr {
