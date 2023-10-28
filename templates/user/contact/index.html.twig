@@ -3,10 +3,11 @@
 {% block title %}Contact{% endblock %}
 
 {% block body %}
-<h1>Contact us</h1>
-<hr>
 
-<div class="formulaire-wrapper">
+
+<div aria-labelledby="contact-heading" class="contact-wrapper">
+    <h1 id="contact-heading">Contact us</h1>
+    <hr>
     {{ form_start(form) }}
     <div class="formulaire">
         {{ form_row(form.lastName)}}
