@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Discussions List{% endblock %}
+
+{% block body %}
+
+<div class="discussions-list-options">
+    <a href="{{ path('new_discussion', {'slug': mineral.slug}) }}">Launch a new discussion</a>
+</div>
+
+
+<div id="discussions-list-body">
+    <hgroup id="discussions-list-header">
+        <h1>Discussions List for {{mineral.name}}</h1>
+        <hr>
+    </hgroup>
+
+    <ol id="discussions-list">
+        {% for discussion in mineral.discussions %}
+            <li class="discussion-item">
+                <div class="discussion-item-main">
+                    <a href="{{path('discussion_mineral', {'slug': mineral.slug, 'discussionSlug': discussion.slug})}}">{{discussion.subject}}</a>
+                </div>
+                {% if discussion.comments | length > 0 %}
+                    <div class="discussion-item-stats">{{discussion.comments | length}} comments</div>
+                {% else %}
+                    <div class="discussion-item-stats">0 comments</div>
+                {% endif %}
+                
+                <div class="discussion-item-lastCommentUser">
+                    {% if discussion.comments | length > 0 %}
+                        {% for comment in discussion.comments %}
+                            <div class="discussion-lastCommentUser-avatar"></div>
+                            <div class="discussion-lastCommentUser-data">
+                                <span></span>
+                                <time></time>
+                            </div>
+                        {% endfor %}
+                    {% else %} 
+                        <span>No comments yet</span>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+        
+    </ol>
+</div>
+
+{% endblock %}
