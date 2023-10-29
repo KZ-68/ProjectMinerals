@@ -28,6 +28,7 @@ class AddLustreType extends AbstractType
             {
                 return $allChoices->getName();
             },
+            'required' => false,
             'expanded'  => false,
             'multiple'  => true,
             'by_reference' => false,
