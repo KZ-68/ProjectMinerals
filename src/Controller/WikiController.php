@@ -19,6 +19,7 @@ use App\Model\SearchData;
 use App\Entity\Coordinate;
 use App\Entity\Discussion;
 use App\Form\DiscussionType;
+use App\Form\EditMineralType;
 use App\Service\FileUploader;
 use App\Service\PdfGenerator;
 use App\Form\MineralColorType;
@@ -373,17 +374,15 @@ class WikiController extends AbstractController
 
         $oldFileNameTitle = $mineral->getImageTitle();
 
-        $editForm = $this->createForm(MineralType::class, $mineral);
+        $editForm = $this->createForm(EditMineralType::class, $mineral);
 
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $newImageTitle = $editForm->get('image_title')->getData();
             if ($newImageTitle) {
-                $newImageTitleForm = $newImageTitle->getClientOriginalName();
 
-                // Si une image de présentation existe et la nouvelle image est différente de l'actuelle :
-                if($oldFileNameTitle && $newImageTitleForm != $oldFileNameTitle) {
+                if($oldFileNameTitle) {
                     $oldImageTitle = $imageRepository->findOneBy(['filename' => $oldFileNameTitle]);
                     
                     $newImageTitleFileName = $fileUploader->upload($newImageTitle);
@@ -406,6 +405,13 @@ class WikiController extends AbstractController
             
             $newImages = $editForm->get('images')->getData();
 
+            foreach ($newImages as $image) {
+                $newFileName = $fileUploader->upload($image);
+                $img = new Image;
+                $img->setFileName($newFileName);
+                $mineral->addImage($img);
+            }
+
             foreach ($mineral->getImages() as $image) {
                 if (false === $mineral->getImages()->contains($image)) {
                     $mineral->removeImage($image);
@@ -414,20 +420,12 @@ class WikiController extends AbstractController
                 }
             }
 
-            foreach ($newImages as $image) {
-                $newFileName = $fileUploader->upload($image);
-                $img = new Image;
-                $img->setFileName($newFileName);
-                $mineral->addImage($img);
-            }
-
             // Supprime la relation entre la couleur et le mineral
             foreach ($mineral->getColors() as $color) {
                 // Si en essayant de récupérer la couleur contenu dans le mineral on obtient false :
                 if (false === $mineral->getColors()->contains($color)) {
                     // Supprime le mineral de la couleur
                     $color->getMinerals()->removeElement($mineral);
-
                     $entityManager->persist($color);
                 }
             }
@@ -435,7 +433,6 @@ class WikiController extends AbstractController
             foreach ($mineral->getLustres() as $lustre) {
                 if (false === $mineral->getLustres()->contains($lustre)) {
                     $lustre->getMinerals()->removeElement($mineral);
-
                     $entityManager->persist($lustre);
                 }
             }
@@ -443,7 +440,6 @@ class WikiController extends AbstractController
             foreach ($mineral->getCoordinates() as $coordinate) {
                 if (false === $mineral->getCoordinates()->contains($coordinate)) {
                     $mineral->removeCoordinate($coordinate);
-
                     $entityManager->persist($coordinate);
                 }
             }
@@ -451,7 +447,7 @@ class WikiController extends AbstractController
             $coordinate = new Coordinate();
             $latitude = $editForm->get('latitude')->getData();
             $longitude = $editForm->get('longitude')->getData();
-            if ($latitude && $longitude) {
+            if ($latitude != null && $longitude != null) {
                 $coordinate->setLatitude($latitude);
                 $coordinate->setLongitude($longitude);
                 $mineral->addCoordinate($coordinate);
