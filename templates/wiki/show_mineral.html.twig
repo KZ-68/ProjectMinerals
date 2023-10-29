@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block meta %}
-    <meta name="description" content="{{mineral.description}}">
+    <meta name="description" content="The Mineral , in the Category , has a chemical formula , and a hardness scale of ">
 {% endblock %}
 
 {% block title %}Mineral Details{% endblock %}
@@ -15,7 +15,7 @@
         <a role="button" href="{{path('app_admin_delete_mineral', {'slug': mineral.slug})}}">Remove this Page</a>
         <a role="button" href="{{path('pdf_generator', {'slug': mineral.slug})}}">Generate a PDF</a>
         <a role="button" href="{{path('edit_mineral', {'slug': mineral.slug})}}">Edit this Page</a>
-        <a role="button" href="{{path('discussions_mineral', {'slug': mineral.slug})}}">Discussions</a>
+        <a role="button" href="{{path('discussions_list', {'slug': mineral.slug})}}">Discussions</a>
         
         {% if favorite %}
             <a role="button" id="favorite-btn" class="added" style="background-color: #edbe17" href="#" data-slug="{{mineral.slug}}" data-favorite="{{favorite.id}}">
@@ -39,17 +39,19 @@
                 <i>Missing information</i>
             {% endif %}
         </hgroup>
-      
-        {% if mineral.imageTitle != null %} 
+        
+        <div id="mineral-image-title-zone">
+            {% if mineral.imageTitle != null %} 
             <figure id="mineral-figure">
                 <img class="mineral-image" src="{{asset('uploads/images/' ~ mineral.imageTitle) }}" alt="Top Image Mineral">
             </figure>
-        {% else %}
-            <figure id="mineral-figure">
-                <p>There's no image available</p>
-            </figure>
-        {% endif %}
-    
+            {% else %}
+                <figure id="mineral-figure">
+                    <p>There's no image available</p>
+                </figure>
+            {% endif %}
+        </div>
+        
         <section aria-labelledby="toc-title" class="table-of-content">
             <h2 id="toc-title" >Table of Content</h2>
     
@@ -92,12 +94,12 @@
             <div aria-labelledby="caracteristics-heading" id="caracteristics-wrapper">
                 <h2 id="carateristics-heading">Detailled Caracteristics for {{mineral.name}}</h2>
     
-                <p>Formula :{{mineral.formula}}</p>
-                <p>Crystal System : {{mineral.crystalSystem}}</p>
-                <p>Density : {{mineral.density}}</p>
-                <p>Hardness : {{mineral.hardness}}</p>
-                <p>Fracture : {{mineral.fracture}}</p>
-                <p>Streak : {{mineral.streak}}</p>
+                <p>Formula: {{mineral.formula}}</p>
+                <p>Crystal System: {{mineral.crystalSystem}}</p>
+                <p>Density: {{mineral.density}}</p>
+                <p>Hardness: {{mineral.hardness}}</p>
+                <p>Fracture: {{mineral.fracture}}</p>
+                <p>Streak: {{mineral.streak}}</p>
                 <div id="caracteristics-colors">
                     <p>Colors : <br/>
                         {% if mineral.colors | length > 0 %}
@@ -120,7 +122,7 @@
                             Missing information
                         {% endif %}
                     </p>
-                    <a role="button" aria-rol class="add-lustre" href="{{ path('edit_mineral_lustres', {'slug': mineral.slug})}}">Add a lustre</a>
+                    <a role="button" aria-role="button" class="add-lustre" href="{{ path('edit_mineral_lustres', {'slug': mineral.slug})}}">Add a lustre</a>
                 </div>
                 
             </div>
@@ -139,6 +141,9 @@
         </div>
         
         <div id="varieties-images">
+            {% if varietyImages | length < 0 %}
+                <i>There's no image</i>
+            {% endif %}
         {% for image in varietyImages %}
             
             <figure class="figure-varieties">
@@ -187,12 +192,18 @@
 
             <div id="carousel-vp">
                 <div id="cCarousel-inner">
-        
-                {% for image in mineral.images  %}
+                {% if mineral.images | length > 0 %}
+                    {% for image in mineral.images  %}
+                        <figure class="cCarousel-item">
+                            <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Minerals">
+                        </figure>
+                    {% endfor %}
+                {% else %}
                     <figure class="cCarousel-item">
-                        <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Minerals">
+                        <i>There's no image in this Gallery</i>
                     </figure>
-                {% endfor %}
+                {% endif %}
+                
                 </div>
             </div>
         </div>
