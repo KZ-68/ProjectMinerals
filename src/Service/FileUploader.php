@@ -28,7 +28,8 @@ class FileUploader
         try {
             $file->move($this->getTargetDirectory(), $fileName);
         } catch (FileException $e) {
-            // Gère les exceptions dans le cas où un problème arrive durant l'upload
+            // Gère les exceptions dans le cas où un problème survient durant l'upload
+            return null;
         }
         // Met à jour la propriété 'originaleFilename' pour stocker le nom du fichier image
         // au lieu de son contenu
