@@ -3,6 +3,7 @@
 namespace App\EventListener;
 
 use App\Entity\Comment;
+use App\Entity\Discussion;
 use App\Entity\Notification;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Event\PostPersistEventArgs;
@@ -14,10 +15,26 @@ class NotificationListener
     {
         $notification = new Notification();
         $comment = $args->getObject();
-       
+
         if ($comment instanceof Comment) {
             $entityManager = $args->getObjectManager();
             $commentRepository = $entityManager->getRepository('App\Entity\Comment');
+
+            if ($comment->getParent() === null) {
+                $commentUser = $comment->getUser();
+                $commentDiscussion = $comment->getDiscussion();
+
+                $notification->setUser($commentUser);
+                $notification->setComment($comment);
+                $notification->setDiscussion($commentDiscussion);
+
+                $commentUser->addNotification($notification);
+
+                $entityManager->persist($notification);
+                $entityManager->persist($commentUser);
+                $entityManager->flush();
+                
+            }
             
             if ($comment->getParent() !== null) {
                 $parent_comment_user = $comment->getParent()->getUser();
