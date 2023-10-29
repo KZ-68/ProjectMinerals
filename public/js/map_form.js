@@ -1,4 +1,6 @@
 let mymap, marqueur // Variable de la map et du marqueur
+let countryName = document.querySelector('#mineral_country_name');
+let editCountryName = document.querySelector('#edit_mineral_country_name');
 
 window.onload = () => {
     mymap = L.map('mineral-map').setView([51.505, -0.09], 5); // Position sur la map par défaut
@@ -8,7 +10,11 @@ window.onload = () => {
         maxZoom: 20
     }).addTo(mymap) // Ajout des tuiles à la map
     mymap.on("click", mapClickListener) // Ajout de l'événement au clic sur la map
-    document.querySelector('#mineral_country_name').addEventListener('blur', getCountry)
+    if(countryName){
+        countryName.addEventListener('blur', getCountry);
+    } else {
+        editCountryName.addEventListener('blur', getCountry);
+    }
 }
 
 // Fonction de l'événement au clic
@@ -47,33 +53,65 @@ function addMarker(pos) {
 }
 
 function getCountry() {
-    let country = document.querySelector('#mineral_country_name').value
 
-    let xmlhttp = new XMLHttpRequest
+    if(countryName) {
+        let country = countryName.value
 
-    xmlhttp.onreadystatechange = () => {
-        // Si la requête est terminée
-        if(xmlhttp.readyState == 4) {
-            if (xmlhttp.status = 200) {
-                let response = JSON.parse(xmlhttp.response)
+        let xmlhttp = new XMLHttpRequest
 
-                let lat = response[0]["latlng"][0]
-                let lng = response[0]["latlng"][1]
-                document.querySelector("#mineral_latitude").value = lat
-                document.querySelector("#mineral_longitude").value = lng
-                let pos = [lat, lng]
-                for (let i = 0; i < pos.length; i++) {
-                    addMarker(pos)
+        xmlhttp.onreadystatechange = () => {
+            // Si la requête est terminée
+            if(xmlhttp.readyState == 4) {
+                if (xmlhttp.status = 200) {
+                    let response = JSON.parse(xmlhttp.response)
+
+                    let lat = response[0]["latlng"][0]
+                    let lng = response[0]["latlng"][1]
+                    document.querySelector("#mineral_latitude").value = lat
+                    document.querySelector("#mineral_longitude").value = lng
+                    let pos = [lat, lng]
+                    for (let i = 0; i < pos.length; i++) {
+                        addMarker(pos)
+                    }
+                    
+                    mymap.setView(pos, 5)
+                    console.log(pos)
                 }
-                
-                mymap.setView(pos, 5)
-                console.log(pos)
             }
         }
+
+        xmlhttp.open("get", `https://restcountries.com/v3.1/name/${country}?format=json`)
+
+        xmlhttp.send()
+    } else {
+        let country = editCountryName.value
+
+        let xmlhttp = new XMLHttpRequest
+
+        xmlhttp.onreadystatechange = () => {
+            // Si la requête est terminée
+            if(xmlhttp.readyState == 4) {
+                if (xmlhttp.status = 200) {
+                    let response = JSON.parse(xmlhttp.response)
+
+                    let lat = response[0]["latlng"][0]
+                    let lng = response[0]["latlng"][1]
+                    document.querySelector("#edit_mineral_latitude").value = lat
+                    document.querySelector("#edit_mineral_longitude").value = lng
+                    let pos = [lat, lng]
+                    for (let i = 0; i < pos.length; i++) {
+                        addMarker(pos)
+                    }
+                    
+                    mymap.setView(pos, 5)
+                    console.log(pos)
+                }
+            }
+        }
+
+        xmlhttp.open("get", `https://restcountries.com/v3.1/name/${country}?format=json`)
+
+        xmlhttp.send()
     }
-
-    xmlhttp.open("get", `https://restcountries.com/v3.1/name/${country}?format=json`)
-
-    xmlhttp.send()
-
+    
 }
