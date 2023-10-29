@@ -23,9 +23,13 @@ class Notification
     #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Comment $comment = null;
+
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Discussion $discussion = null;
 
     public function __construct()
     {
@@ -81,6 +85,18 @@ class Notification
     public function setComment(Comment $comment): static
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getDiscussion(): ?Discussion
+    {
+        return $this->discussion;
+    }
+
+    public function setDiscussion(?Discussion $discussion): static
+    {
+        $this->discussion = $discussion;
 
         return $this;
     }
