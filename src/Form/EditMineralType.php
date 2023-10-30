@@ -18,6 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class EditMineralType extends AbstractType
 {
@@ -31,13 +33,15 @@ class EditMineralType extends AbstractType
                     'class' => 'form-control' 
                 ]
             ])
-            ->add('image_title', FileType::class, [
+            ->add('image_title', DropzoneType::class, [
                 'label' => 'Image Title',
                 'multiple' => false,
                 'mapped' => false,
                 'required' => false,
+                'attr' => [
+                    'data-controller' => 'mydropzone'
+                ],
                 'constraints' => [
-                new All ([
                     new Image ([
                         'maxSize' => '5000k',
                         "maxSizeMessage" => 'The size of this image is too big, 
@@ -54,9 +58,7 @@ class EditMineralType extends AbstractType
                             'image/bmp'
                         ],
                         'mimeTypesMessage' => 'Please upload a valid image format',
-                    ])
-                ])
-                    
+                    ])  
             ],
             ])
             ->add('formula', TextType::class, [
@@ -136,9 +138,10 @@ class EditMineralType extends AbstractType
                     'class' => 'form-select'
                 ]
             ])
-            ->add('images', FileType::class, [
+            ->add('images', DropzoneType::class, [
                 'label' => false,
                 'multiple' => true,
+                'mapped' => false,
                 'required' => false,
                 'constraints' => [
                 new All ([
@@ -162,6 +165,13 @@ class EditMineralType extends AbstractType
                 ])
                     
             ],
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-textarea' 
+                ]
             ])
             ->add('country_name', TextType::class, [
                 'mapped' => false,
