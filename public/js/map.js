@@ -8,6 +8,9 @@ let coordinates = document.querySelectorAll('.coordinate-data')
                 maxZoom: 20
             }).addTo(mymap) // Ajout des tuiles à la map
             for(coordinate in coordinates) { 
+                if(!coordinates[coordinate].dataset) {
+                    break;
+                }
                 let lat = coordinates[coordinate].dataset.lat
                 let lng = coordinates[coordinate].dataset.lng
 
