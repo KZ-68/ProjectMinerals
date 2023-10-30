@@ -29,6 +29,7 @@ use App\Form\RespondCommentType;
 use App\Form\MineralVarietiesType;
 use App\Repository\UserRepository;
 use App\Entity\ModificationHistory;
+use App\Form\EditMetaDescriptionType;
 use App\Repository\ImageRepository;
 use App\Repository\CommentRepository;
 use App\Repository\MineralRepository;
@@ -98,7 +99,11 @@ class WikiController extends AbstractController
 
     #[Route('/wiki/mineral/{slug}/show', name: 'show_mineral')]
     #[IsGranted('PUBLIC_ACCESS')]
-    public function showMineral(Mineral $mineral, ImageRepository $imageRepository, FavoriteRepository $favoriteRepository): Response
+    public function showMineral(
+        Mineral $mineral, 
+        ImageRepository $imageRepository, 
+        FavoriteRepository $favoriteRepository
+        ): Response
     {
         $user = $this->getUser();
 
@@ -402,7 +407,6 @@ class WikiController extends AbstractController
                     $mineral->setImageTitle($newImageTitleFileName);
                 }
             }
-            
             $newImages = $editForm->get('images')->getData();
 
             foreach ($newImages as $image) {
@@ -462,7 +466,7 @@ class WikiController extends AbstractController
 
         return $this->render('wiki/edit_mineral.html.twig', [
             'form' => $editForm,
-            'mineral' => $mineral->getId()
+            'mineral' => $mineral
         ]);
     } 
 
@@ -725,7 +729,28 @@ class WikiController extends AbstractController
             ];
     
             return $this->json(['data' => $message], 200);
+        }   
+    }
+
+    #[Route('/wiki/mineral/{slug}/show/change-meta-description', name:'change_meta_description')] 
+    #[IsGranted('ROLE_ADMIN')]
+    public function changeMetaDescription(Mineral $mineral, Request $request, EntityManagerInterface $entityManager):Response {
+
+        $form = $this->createForm(EditMetaDescriptionType::class, $mineral);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mineral = $form->getData();
+
+            $entityManager->persist($mineral);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('show_mineral', ['slug' => $mineral->getSlug()]);
         }
-        
+
+        return $this->render('wiki/change_meta_description.html.twig', [
+            'form' => $form
+        ]);
     }
 }
