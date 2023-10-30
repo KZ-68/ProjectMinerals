@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 {% block meta %}
-    <meta name="description" content="The Mineral , in the Category , has a chemical formula , and a hardness scale of ">
+    {% if mineral.metadescription != null %}
+        <meta name="description" content="{{mineral.metadescription}}">
+    {% else %}
+        <meta name="description" content="">
+    {% endif %}
+    
 {% endblock %}
 
 {% block title %}Mineral Details{% endblock %}
@@ -16,6 +21,10 @@
         <a role="button" href="{{path('pdf_generator', {'slug': mineral.slug})}}">Generate a PDF</a>
         <a role="button" href="{{path('edit_mineral', {'slug': mineral.slug})}}">Edit this Page</a>
         <a role="button" href="{{path('discussions_list', {'slug': mineral.slug})}}">Discussions</a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a role="button" href="{{path('change_meta_description', {'slug': mineral.slug})}}">Change Meta Description</a>
+        {% endif %}
+       
         
         {% if favorite %}
             <a role="button" id="favorite-btn" class="added" style="background-color: #edbe17" href="#" data-slug="{{mineral.slug}}" data-favorite="{{favorite.id}}">
@@ -58,10 +67,10 @@
             <div>
                 <div>
                     <ul>
-                        <li class="table-list"><a>Details Caracteristics for {{mineral.name}}</a></li>
-                        <li class="table-list"><a>Varieties of {{mineral.name}}</a></li>
-                        <li class="table-list"><a>Geolocalisation</a></li>
-                        <li class="table-list"><a>Gallery of {{mineral.name}}</a></li>
+                        <li class="table-list"><a href="#carateristics-heading">Detailled Caracteristics for {{mineral.name}}</a></li>
+                        <li class="table-list"><a href="#variety-title">Varieties of {{mineral.name}}</a></li>
+                        <li class="table-list"><a href="#section-map-title">Countries where {{mineral.name}} can be found</a></li>
+                        <li class="table-list"><a href="#image-gallery-title">Gallery of {{mineral.name}}</a></li>
                     </ul>
                 </div>
             </div>
@@ -93,38 +102,38 @@
     
             <div aria-labelledby="caracteristics-heading" id="caracteristics-wrapper">
                 <h2 id="carateristics-heading">Detailled Caracteristics for {{mineral.name}}</h2>
-    
-                <p>Formula: {{mineral.formula}}</p>
-                <p>Crystal System: {{mineral.crystalSystem}}</p>
-                <p>Density: {{mineral.density}}</p>
-                <p>Hardness: {{mineral.hardness}}</p>
-                <p>Fracture: {{mineral.fracture}}</p>
-                <p>Streak: {{mineral.streak}}</p>
-                <div id="caracteristics-colors">
-                    <p>Colors : <br/>
-                        {% if mineral.colors | length > 0 %}
-                            {% for color in mineral.colors %}
-                                <a href="{{path('show_color', {'slug': color.slug}) }}">{{color.name}}, </a>
-                            {% endfor %}
-                        {% else %}
-                            Missing information
-                        {% endif %}
-                    </p>
-                    <a role="button" class="add-color" href="{{path('edit_mineral_colors', {'slug': mineral.slug})}}">Add a color</a>
+                <div id="caracteristics-body">
+                    <p>Formula: {{mineral.formula}}</p>
+                    <p>Crystal System: {{mineral.crystalSystem}}</p>
+                    <p>Density: {{mineral.density}}</p>
+                    <p>Hardness: {{mineral.hardness}}</p>
+                    <p>Fracture: {{mineral.fracture}}</p>
+                    <p>Streak: {{mineral.streak}}</p>
+                    <div id="caracteristics-colors">
+                        <p>Colors : <br/>
+                            {% if mineral.colors | length > 0 %}
+                                {% for color in mineral.colors %}
+                                    <a href="{{path('show_color', {'slug': color.slug}) }}">{{color.name}}, </a>
+                                {% endfor %}
+                            {% else %}
+                                Missing information
+                            {% endif %}
+                        </p>
+                        <a role="button" class="add-color" href="{{path('edit_mineral_colors', {'slug': mineral.slug})}}">Add a color</a>
+                    </div>
+                    <div id="caracteristics-lustres">
+                        <p>Lustres : <br/>
+                            {% if mineral.lustres | length > 0 %}
+                                {% for lustre in mineral.lustres %}
+                                    <a href="{{ path('edit_mineral_lustres', {'slug': mineral.slug}) }}">{{lustre.type}}, </a>
+                                {% endfor %}
+                            {% else %}
+                                Missing information
+                            {% endif %}
+                        </p>
+                        <a role="button" aria-role="button" class="add-lustre" href="{{ path('edit_mineral_lustres', {'slug': mineral.slug})}}">Add a lustre</a>
+                    </div>
                 </div>
-                <div id="caracteristics-lustres">
-                    <p>Lustres : <br/>
-                        {% if mineral.lustres | length > 0 %}
-                            {% for lustre in mineral.lustres %}
-                                <a href="{{ path('edit_mineral_lustres', {'slug': mineral.slug}) }}">{{lustre.type}}, </a>
-                            {% endfor %}
-                        {% else %}
-                            Missing information
-                        {% endif %}
-                    </p>
-                    <a role="button" aria-role="button" class="add-lustre" href="{{ path('edit_mineral_lustres', {'slug': mineral.slug})}}">Add a lustre</a>
-                </div>
-                
             </div>
         </section>
     </div>
@@ -200,7 +209,7 @@
                     {% endfor %}
                 {% else %}
                     <figure class="cCarousel-item">
-                        <i>There's no image in this Gallery</i>
+                        <p>There's no image in this Gallery</p>
                     </figure>
                 {% endif %}
                 
