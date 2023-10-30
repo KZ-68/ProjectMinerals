@@ -127,6 +127,10 @@ class Mineral
     private Collection $images;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Assert\Type(
+        type: 'string',
+        message: 'The value is not a valid {{ type }}.',
+    )]
     #[Groups(['mineral:list:read', 'mineral:item:read'])]
     private ?string $slug = null;
 
@@ -141,6 +145,10 @@ class Mineral
     private Collection $modificationHistories;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Type(
+        type: 'string',
+        message: 'The value is not a valid {{ type }}.',
+    )]
     #[Groups(['mineral:item:read'])]
     private ?string $description = null;
 
@@ -150,6 +158,14 @@ class Mineral
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['mineral:item:read'])]
     private ?string $image_title = null;
+
+    #[ORM\Column(length: 150, nullable: true)]
+    #[Assert\Type(
+        type: 'string',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
+    #[Groups(['mineral:list:read','mineral:item:read'])]
+    private ?string $meta_description = null;
 
     public function __construct()
     {
@@ -543,6 +559,18 @@ class Mineral
     public function setImageTitle(?string $image_title): static
     {
         $this->image_title = $image_title;
+
+        return $this;
+    }
+
+    public function getMetaDescription(): ?string
+    {
+        return $this->meta_description;
+    }
+
+    public function setMetaDescription(?string $meta_description): static
+    {
+        $this->meta_description = $meta_description;
 
         return $this;
     }
