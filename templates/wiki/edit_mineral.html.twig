@@ -25,6 +25,9 @@
         {{ form_row(form.description) }}
         {{ form_row(form.country_name) }}
         <div id="mineral-map"></div>
+        {% for coordinate in mineral.coordinates %}
+            <div class="coordinate-data" data-lat="{{ coordinate.latitude }}" data-lng="{{ coordinate.longitude }}"></div>
+        {% endfor %}
         {{ form_row(form.latitude) }}
         {{ form_row(form.longitude) }}
         {{ form_row(form.submit) }}
