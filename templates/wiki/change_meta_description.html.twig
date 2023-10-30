@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Change Meta Description{% endblock %}
+
+{% block body %}
+
+<div aria-labelledby="change-meta-description-heading" class="change-meta-description-wrapper">
+    
+    <div id="change-meta-description-header">
+        <h1 id="change-meta-description-heading">Change Meta Description</h1>
+        <hr>
+    </div>
+    
+    <div id="change-meta-description-body">
+        {{ form_start(form) }}
+            {{ form_row(form.meta_description) }}
+            {{ form_row(form.submit) }}
+        {{ form_end(form) }}
+    </div>
+        
+</div>
+
+{% endblock %}
