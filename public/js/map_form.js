@@ -1,6 +1,8 @@
-let mymap, marqueur // Variable de la map et du marqueur
+let mymap, marker, oldmarker // Variable de la map et du marqueur
+oldmarker = marker;
 let countryName = document.querySelector('#mineral_country_name');
 let editCountryName = document.querySelector('#edit_mineral_country_name');
+let coordinates = document.querySelectorAll('.coordinate-data');
 
 window.onload = () => {
     mymap = L.map('mineral-map').setView([51.505, -0.09], 5); // Position sur la map par défaut
@@ -9,7 +11,40 @@ window.onload = () => {
         minZoom: 1,
         maxZoom: 20
     }).addTo(mymap) // Ajout des tuiles à la map
+    
+    for(coordinate in coordinates) { 
+        if(!coordinates[coordinate].dataset) {
+            break;
+        }
+        let lat = coordinates[coordinate].dataset.lat
+        let lng = coordinates[coordinate].dataset.lng
+
+        marker = new L.marker([lat, lng])
+            .addTo(mymap);
+            mymap.setView([lat, lng], 4)
+            
+        const xmlhttp = new XMLHttpRequest
+
+        xmlhttp.onreadystatechange = () => {
+            // Si la requête est terminée
+            if(xmlhttp.readyState == 4) {
+                if (xmlhttp.status = 200) {
+                    let response = JSON.parse(xmlhttp.response)
+
+                    let country = response['address']['country']
+                    marker.bindPopup("<p>"+country+"</p>")
+                }
+            }
+        }
+
+        xmlhttp.open("get", "https://geocode.maps.co/reverse?lat="+lat+"&lon="+lng+"")
+
+        xmlhttp.send()
+
+    }
+    
     mymap.on("click", mapClickListener) // Ajout de l'événement au clic sur la map
+    
     if(countryName){
         countryName.addEventListener('blur', getCountry);
     } else {
@@ -23,33 +58,29 @@ function mapClickListener(e) {
     let pos = e.latlng
 
     // Ajout d'un marqueur
-        addMarker(pos)
+    addMarker(pos)
 
     // Affiche les coordonnées correspondantes dans le formulaire
-    document.querySelector("#mineral_latitude").value = pos.lat // Coordonées de latitude
-    document.querySelector("#mineral_longitude").value = pos.lng // Coordonnées de longitude
+    if(countryName) {
+        document.querySelector("#mineral_latitude").value = pos.lat // Coordonées de latitude
+        document.querySelector("#mineral_longitude").value = pos.lng // Coordonnées de longitude
+    } else {
+        document.querySelector("#edit_mineral_latitude").value = pos.lat // Coordonées de latitude
+        document.querySelector("#edit_mineral_longitude").value = pos.lng // Coordonnées de longitude
+    }
+    
 }
 
 // Fonction d'ajout de marqueur
 function addMarker(pos) {
+    
     // Condition si un marqueur existe
-
-    marqueur = L.marker(pos, {
+    marker = new L.marker(pos, {
         // Autorise le déplacement du marqueur
         draggable: true
     })
 
-    if (marqueur.value == pos ) {
-        mymap.removeLayer(marqueur)
-    }
-
-    marqueur.on("draggend", function (e) {
-        pos = e.target.getLatLng()
-        document.querySelector("#mineral_latitude").value = pos.lat
-        document.querySelector("#mineral_longitude").value = pos.lng
-    })
-
-    marqueur.addTo(mymap) // Ajout du marqueur à la map
+    marker.addTo(mymap) // Ajout du marqueur à la map
 }
 
 function getCountry() {
