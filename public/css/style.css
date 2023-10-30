@@ -214,6 +214,24 @@ thead tr {
     background-color: #fcfcfccc;
 }
 
+.change-meta-description-wrapper {
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+    padding: 22px 0px;
+    margin: 233px 400px;
+    border-radius: 10px;
+    background-color: #fcfcfccc;
+}
+
+#change-meta-description-header hr {
+    width: 326px;
+}
+
+#change-meta-description-body {
+    padding: 25px 100px;
+}
+
 .formulaire {
     display: flex;
     flex-direction: column;
