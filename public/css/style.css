@@ -6,13 +6,13 @@
 }
 
 :root {
-    --primary-color: #3CADAF;
+    --primary-color: #233143;
 }
 
 body {
     background: #d6d7e6;
     min-height: 100dvh;
-    font-family: 'Roboto';
+    font-family: 'Roboto Condensed';
     position: relative;
 }
 
@@ -20,7 +20,7 @@ h1 {
     padding: 10px 15px 10px 20px;
     margin: 10px 0px;
     width: fit-content;
-    font-family: 'Merriweather Sans';
+    
     font-size: 32px;
 }
 
@@ -30,7 +30,6 @@ h2 {
     margin: 10px 0px;
     width: 700px;
     border-radius: 5px;
-    font-family: 'Merriweather Sans';
 }
 
 hr {
@@ -98,17 +97,18 @@ footer {
 }
 
 footer a {
-    color: #000000;
+    color: #ffffff;
     text-decoration: none;
     font-size: 24px;
 }
 
 footer h3 {
-    color: #000000;
+    color: #ffffff;
 }
 
 footer small {
-    color: #000000;
+    color: #ffffff;
+    font-size: 16px;
 }
 
 .sf-toolbar-clearer {
@@ -167,6 +167,8 @@ thead tr {
 #logo-header {
     font-size: 30px;
     font-weight: 700;
+    color: #ffffff;
+    font-family: 'Oswald';
 }
 
 .topBtn {
@@ -205,12 +207,11 @@ thead tr {
 .formulaire-wrapper-mineral {
     display: flex;
     flex-direction: column;
-    color: #070707;
     font-size: 24px;
     padding: 25px 0px;
     margin: 40px 289px;
     border-radius: 10px;
-    background-color: var(--primary-color);
+    background-color: #fcfcfccc;
 }
 
 .formulaire {
@@ -218,6 +219,7 @@ thead tr {
     flex-direction: column;
     gap: 30px;
     color: #000000;
+    font-weight: 700;
 }
 
 .formulaire small {
@@ -231,9 +233,66 @@ thead tr {
     border: 2px solid #808080;
 }
 
-
 .upload-image {
     padding-left: 10px;
+}
+
+.dropzone-preview-image {
+    flex-basis: 0;
+    min-width: 100px;
+    max-width: 100px;
+    height: 68px;
+    margin-right: 10px;
+    background-size: contain;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
+
+.dropzone-preview-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+    background: 0 0;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+    -webkit-appearance: none;
+}
+
+.dropzone-input {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.dropzone-preview-button::before {
+    content: '×';
+    padding: 3px 7px;
+    cursor: pointer;
+}
+
+.dropzone-container {
+    position: relative;
+    display: flex;
+    min-height: 100px;
+    border: 2px dashed #bbb;
+    align-items: center;
+    padding: 20px 10px;
+    justify-content: center;
 }
 
 .form-control {
@@ -259,6 +318,12 @@ thead tr {
 }
 
 form[name='mineral'] {
+    display: flex;
+    flex-direction: column;
+    padding: 50px 250px;
+}
+
+form[name='edit_mineral'] {
     display: flex;
     flex-direction: column;
     padding: 50px 250px;
@@ -392,7 +457,8 @@ form[name='mineral'] {
 
 .link-right {
     font-size: 24px;
-    color: #000000
+    font-weight: 700;
+    color: #ffffff;
 }
 
 header a:hover {
@@ -410,10 +476,6 @@ header a:hover {
     align-items: center;
 }
 
-#nav-right a {
-    font-family: 'Merriweather Sans';
-}
-
 .profile-card {
     display: flex;
     flex-direction: column;
@@ -423,7 +485,7 @@ header a:hover {
 }
 
 .profile-card p {
-    color: black;
+    color: #ffffff;
     margin-right: 3px;
     font-size: 18px;
 }
@@ -466,6 +528,7 @@ header a:hover {
 
 #user-links a {
     font-size: 16px;
+    color: #ffffff;
 }
 
 #close-modal {
@@ -527,9 +590,10 @@ header a:hover {
 }
 
 .anchor-panel {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
     padding: 10px 0px 10px 0px;
+    color: #ffffff;
 }
 
 .anchor-panel:hover {
@@ -564,8 +628,9 @@ header a:hover {
 
 #carousel-top-presentation p {
     color: #ffffff;
-    font-size: 20px;
+    font-size: 22px;
     padding-bottom: 10px;
+    font-family: 'Oswald';
 }
 
 #minerals-logo {
@@ -578,7 +643,7 @@ header a:hover {
     z-index: 1;
     color: white;
     margin: 0;
-    width: 221px;
+    font-family: 'Oswald';
 }
 
 #figure-logo {
@@ -670,7 +735,7 @@ button#message_send {
 
 .adv-search {
     border-radius: 10px;
-    height: 720px;
+    height: 765px;
     display: flex;
     background-color: var(--primary-color);
     padding: 20px 35px;
@@ -701,6 +766,8 @@ button#message_send {
     gap: 25px;
     justify-content: center;
     padding: 0px 39px;
+    color: #ffffff;
+    font-weight: 700;
 }
 
 .adv-search-fields p {
@@ -907,13 +974,14 @@ div.formulaire-login a {
 }
 
 #home-description h4 {
-    font-size: 24px;
+    font-size: 26px;
     color: #ffffff;
 }
 
 #home-description p {
     color: white;
-    font-size: 20px;
+    font-size: 22px;
+    font-family: 'Oswald';
 }
 
 #home-statistics-wrapper {
@@ -1084,8 +1152,10 @@ div.formulaire-login a {
 }
 
 .mineral-search-bar {
-    border: 2px solid var(--primary-color);
+    border: 2px solid #818181;
     border-radius: 18px 18px 18px 18px;
+    display: flex;
+    flex-direction: row;
 }
 
 .mineral-search-zone {
@@ -1098,12 +1168,13 @@ div.formulaire-login a {
 
 #mineral-submit-search {
     background-color: #5ecfb8;
-    color: #444;
+    color: #000000;
     cursor: pointer;
     padding: 11px;
     border: none;
     outline: none;
     border-radius: 0px 15px 15px 0px;
+    font-weight: 700;
 }
 
 .admin-list-wrapper {
@@ -1166,14 +1237,7 @@ form[name='add_color'] div, form[name='add_lustre'] div {
     list-style: none;
     padding: 20px 15px;
     border-radius: 5px;
-}
-
-#minerals-list li:nth-child(odd) {
     background-color: #b2c4df;
-}
-
-#minerals-list li:nth-child(even) {
-    background-color: #d7e2f4;
 }
 
 #categories-list li {
@@ -1182,14 +1246,11 @@ form[name='add_color'] div, form[name='add_lustre'] div {
     list-style: none;
     padding: 20px 15px;
     border-radius: 5px;
-}
-
-#categories-list li:nth-child(odd) {
     background-color: #b2c4df;
 }
 
-#categories-list li:nth-child(even) {
-    background-color: #d7e2f4;
+#minerals-list a, #categories-list a {
+    font-weight: 500;
 }
 
 #categories-list a:nth-child(1) {
@@ -1332,6 +1393,12 @@ form[name='add_color'] div, form[name='add_lustre'] div {
     color:#818181
 }
 
+#caracteristics-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 #caracteristics-colors, #caracteristics-lustres {
     display: flex;
     flex-direction: row;
@@ -1403,7 +1470,7 @@ form[name='add_color'] div, form[name='add_lustre'] div {
 }
 
 button.btn {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     color: black;
     background: #6fd6c1;
@@ -1552,6 +1619,10 @@ section.section-map {
     max-width: 400px;
     margin: 40px 20px;
     border-radius: 10px;
+}
+
+.coordinate-data {
+    display: none;
 }
 
 #carousel-wrapper {
@@ -2329,25 +2400,23 @@ hgroup.response-comment-subject h3 {
     border-radius: 0px 0px 10px 10px;
 }
 
-span.page:hover, span.first:hover, span.previous:hover, span.next:hover, span.last:hover {
-    background-color: #6fd6c1;
-    border: 1px solid #6fd6c1;
+span.page, span.first, span.previous, span.next, span.last {
+    border-radius: 4px;
+    padding: 7px 10px;
+    background-color: #5ecfb8;
+    font-weight: 700;
+    font-size: 22px;
 }
 
-span.page, span.first, span.previous, span.next, span.last {
-    border: 1px solid var(--primary-color);
-    border-radius: 4px;
-    padding: 5px 5px;
-    background: var(--primary-color);
-    font-weight: 700;
+span.page:hover, span.first:hover, span.previous:hover, span.next:hover, span.last:hover {
+    background-color: #38A3A5;
 }
 
 span.current {
-    border: 1px solid #6fd6c1;
     border-radius: 4px;
-    padding: 8px 6px;
-    background: #6fd6c1;
-    font-size: 20px;
+    padding: 7px 10px;
+    background: #38A3A5;
+    font-size: 22px;
     font-weight: 700;
 }
 
@@ -2450,7 +2519,7 @@ button#contact_validate {
 
 .anchor-footer {
     font-size: 20px;
-    font-family: 'Merriweather Sans';
+    color: #ffffff;
 }
 
 #footer-wrapper {
@@ -2474,7 +2543,7 @@ button#contact_validate {
 
 @media only screen and (min-device-width: 1900px) {
     .adv-search-wrapper {
-        margin: 0px 315px;
+        margin: 0px 333px;
     }
 
     .comment-wrapper {
@@ -2801,6 +2870,18 @@ button#contact_validate {
 
     #categories-list {
         width: 680px;
+    }
+
+    .formulaire-wrapper-mineral {
+        margin: 40px 62px;
+    }
+
+    form[name='mineral'] {
+        padding: 50px 100px;
+    }
+
+    form[name='edit_mineral'] {
+        padding: 50px 100px;
     }
 
     .mineral-image {
@@ -3165,6 +3246,14 @@ button#contact_validate {
         width: 250px;
     }
 
+    form[name='mineral'] {
+        padding: 50px 28px;
+    }
+
+    form[name='edit_mineral'] {
+        padding: 50px 28px;
+    }
+
     .formulaire-wrapper-mineral {
         font-size: 20px;
         padding: 25px 0px;
@@ -3363,7 +3452,7 @@ button#contact_validate {
     }
 
     #cCarousel .arrow {
-        top: 45%;
+        top: 30%;
         width: 30px;
         height: 45px;
     }
