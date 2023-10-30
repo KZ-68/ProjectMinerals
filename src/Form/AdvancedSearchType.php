@@ -76,9 +76,7 @@ class AdvancedSearchType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'required' => false,
-                'attr' => [
-                    'placeholder' => 'Enter a category name'
-                ]
+                'placeholder' => 'Choose a category'
             ])
             ->add('varieties', EntityType::class, [
                 'class' => Variety::class,
