@@ -35,32 +35,40 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {    
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
+        if ($form->isSubmitted() && $form->isValid()) {  
+            $agreeTerms = $form->get('agreeTerms')->getData();
+            if($agreeTerms === true) {
+                // encode the plain password
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
+
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                // generate a signed url and email it to the user
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('kz-minerals-mailer@exemple.com', 'KZ Minerals Mailer'))
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                );
+
+                return $userAuthenticator->authenticateUser(
                     $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+                    $authenticator,
+                    $request
+                );
+            } else {
+                $this->addFlash('error', 'We need your consent for the registration');
+                return $this->redirectToRoute('app_register');
+            }
 
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('kz-minerals-mailer@exemple.com', 'KZ Minerals Mailer'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
-
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+            
         }
 
         return $this->render('registration/register.html.twig', [
