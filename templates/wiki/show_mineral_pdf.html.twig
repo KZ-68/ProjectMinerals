@@ -1,4 +1,4 @@
-{% block title %}{% endblock %}
+{% block title %}Mineral Details{% endblock %}
 
 {% block body %}
 <!DOCTYPE html>
@@ -7,182 +7,215 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link type="text/css" rel="stylesheet" href="{{ absolute_url(asset('css/style.css')) }}">
+   
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@600&family=Roboto:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+        
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@700&family=Oswald:wght@400;600;700&family=Roboto+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300&family=Roboto:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="{{ absolute_url(asset('css/pdf.css')) }}">
     </head>
     <body>
         <div class="mineral-options">
-                <a role="button" href="{{path('app_admin_delete_mineral', {'slug': mineral.slug})}}">Remove this Page</a>
-                <a role="button" href="{{path('pdf_generator', {'slug': mineral.slug})}}">Generate a PDF</a>
-                <a role="button" href="{{path('edit_mineral', {'slug': mineral.slug})}}">Edit this Page</a>
-                <a role="button" href="{{path('discussions_mineral', {'slug': mineral.slug})}}">Discussions</a>
-        </div>
-
-        <div id="mineral-wrapper">
-            <div aria-labelledby="mineral-title" class="mineral-zone">
-                <hgroup id="mineral-header">
-                    <h1 id="mineral-title">{{mineral.name}}<br/></h1>
-                    {% if mineral.category | length > 0 %}
-                        <a href="{{ path('show_category', {'slug': mineral.category.slug}) }}">{{mineral.category.name}}</a>
-                    {% else %}
-                        <i>Missing information</i>
-                    {% endif %}
-                </hgroup>
+            <a role="button" href="">Remove this Page</a>
+            <a role="button" href="">Generate a PDF</a>
+            <a role="button" href="">Edit this Page</a>
+            <a role="button" href="">Discussions</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a role="button" href="">Change Meta Description</a>
+            {% endif %}
+           
+            <a role="button" id="favorite-btn" href="#" data-slug="{{mineral.slug}}">
+                Add to favorites <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"/></svg>
+            </a>
             
-                {% if image | length > 0 %}
-                    <figure id="mineral-figure">
-                        {% for image in image %}
-                        <img class="mineral-image" src="{{ absolute_url(asset('uploads/images/' ~ image.filename)) }}" alt="Top Image Mineral">
-                        {% endfor %}
-                    </figure>
-                {% elseif image | length == 0 and substitutionImage | length > 0 %} 
-                    <figure id="mineral-figure">
-                        {% for image in substitutionImage %}
-                        <img class="mineral-image" src="{{ absolute_url(asset('uploads/images/' ~ image.filename)) }}" alt="Top Image Mineral">
-                        {% endfor %}
-                    </figure>
+    </div>
+    
+    <div id="mineral-wrapper">
+        <div aria-labelledby="mineral-title" class="mineral-zone">
+            <hgroup id="mineral-header">
+                <h1 id="mineral-title">{{mineral.name}}<br/></h1>
+                {% if mineral.category | length > 0 %}
+                    <a href="">{{mineral.category.name}}</a>
+                {% else %}
+                    <i>Missing information</i>
+                {% endif %}
+            </hgroup>
+            
+            <div id="mineral-image-title-zone">
+                {% if mineral.imageTitle != null %} 
+                <figure id="mineral-figure">
+                    <img class="mineral-image" src="{{ absolute_url(asset('uploads/images/' ~ mineral.imageTitle)) }}" alt="Top Image Mineral">
+                </figure>
                 {% else %}
                     <figure id="mineral-figure">
                         <p>There's no image available</p>
                     </figure>
                 {% endif %}
+            </div>
             
-                <section aria-labelledby="toc-title" class="table-of-content">
-                    <h2 id="toc-title" >Table of Content</h2>
-            
+            <section aria-labelledby="toc-title" class="table-of-content">
+                <h2 id="toc-title" >Table of Content</h2>
+        
+                <div>
                     <div>
-                        <div>
-                            <ul>
-                                <li class="table-list"><a>Details Caracteristics for {{mineral.name}}</a></li>
-                                <li class="table-list"><a>Varieties of {{mineral.name}}</a></li>
-                                <li class="table-list"><a>Geolocalisation</a></li>
-                                <li class="table-list"><a>Gallery of {{mineral.name}}</a></li>
-                            </ul>
-                        </div>
+                        <ul>
+                            <li class="table-list"><a href="#carateristics-heading">Detailled Caracteristics for {{mineral.name}}</a></li>
+                            <li class="table-list"><a href="#variety-title">Varieties of {{mineral.name}}</a></li>
+                            <li class="table-list"><a href="#section-map-title">Countries where {{mineral.name}} can be found</a></li>
+                            <li class="table-list"><a href="#image-gallery-title">Gallery of {{mineral.name}}</a></li>
+                        </ul>
                     </div>
-            
-                </section>
-            
-                <section class="section-wiki">
-            
-                    <div aria-labelledby="caracteristics-heading" id="caracteristics-wrapper">
-                        <h2 id="carateristics-heading">Detailled Caracteristics for {{mineral.name}}</h2>
-            
-                        <p>Formula :{{mineral.formula}}</p>
-                        <p>Crystal System : {{mineral.crystalSystem}}</p>
-                        <p>Density : {{mineral.density}}</p>
-                        <p>Hardness : {{mineral.hardness}}</p>
-                        <p>Fracture : {{mineral.fracture}}</p>
-                        <p>Streak : {{mineral.streak}}</p>
+                </div>
+        
+            </section>
+    
+            <section aria-labelledby="description-mineral-heading" class="section-wiki">
+                <div id="description-mineral-wrapper">
+                    <div id="description-mineral-header">
+                        <h2 id="description-mineral-heading">Description</h2>
+                    </div>
+                        
+                    {% if mineral.description != null %}
+                    <div id="description-mineral-body">
+                        <p>{{mineral.description}}</p>
+                    </div>
+                    {% else %}
+                    <div id="description-mineral-body">
+                        <p>This description section is empty</p>
+                    </div>
+                    <div id="description-mineral-footer">
+                        <a href="">Add a description</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </section>
+        
+            <section class="section-wiki">
+        
+                <div aria-labelledby="caracteristics-heading" id="caracteristics-wrapper">
+                    <h2 id="carateristics-heading">Detailled Caracteristics for {{mineral.name}}</h2>
+                    <div id="caracteristics-body">
+                        <p>Formula: {{mineral.formula}}</p>
+                        <p>Crystal System: {{mineral.crystalSystem}}</p>
+                        <p>Density: {{mineral.density}}</p>
+                        <p>Hardness: {{mineral.hardness}}</p>
+                        <p>Fracture: {{mineral.fracture}}</p>
+                        <p>Streak: {{mineral.streak}}</p>
                         <div id="caracteristics-colors">
                             <p>Colors : <br/>
                                 {% if mineral.colors | length > 0 %}
                                     {% for color in mineral.colors %}
-                                        <a href="{{path('show_color', {'slug': color.slug}) }}">{{color.name}}, </a>
+                                        <a href="">{{color.name}}, </a>
                                     {% endfor %}
                                 {% else %}
                                     Missing information
                                 {% endif %}
                             </p>
-                            <a role="button" class="add-color" href="{{path('edit_mineral_colors', {'slug': mineral.slug})}}">Add a color</a>
+                            <a role="button" class="add-color" href="">Add a color</a>
                         </div>
                         <div id="caracteristics-lustres">
                             <p>Lustres : <br/>
                                 {% if mineral.lustres | length > 0 %}
                                     {% for lustre in mineral.lustres %}
-                                        <a href="{{ path('edit_mineral_lustres', {'slug': mineral.slug}) }}">{{lustre.type}}, </a>
+                                        <a href="">{{lustre.type}}, </a>
                                     {% endfor %}
                                 {% else %}
                                     Missing information
                                 {% endif %}
                             </p>
-                            <a role="button" aria-rol class="add-lustre" href="{{ path('edit_mineral_lustres', {'slug': mineral.slug})}}">Add a lustre</a>
+                            <a role="button" aria-role="button" class="add-lustre" href="">Add a lustre</a>
                         </div>
-                        
                     </div>
-                </section>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    
+    <section class="section-wiki">
+        <div id="varieties-wrapper">
+            <div aria-labelledby="variety-title" id="variety-title-wrapper">
+                <hgroup id="variety-title-group">
+                    <h2 id="variety-title">Varieties of {{mineral.name}}</h2>
+                    <hr>
+                </hgroup>
+            </div>
+            
+            <div id="varieties-images">
+                {% if varietyImages | length < 0 %}
+                    <i>There's no image</i>
+                {% endif %}
+            {% for image in varietyImages %}
+                
+                <figure class="figure-varieties">
+                {% if image.filename is not null %}
+                        <img class="varieties-section-image" src="{{ absolute_url(asset('uploads/images/' ~ image.filename)) }}" alt="Variety Mineral">
+                {% else %}
+                    <i>Missing image</i>
+                {% endif %}
+                
+                {% if image.variety.name is not null %}
+                    <figcaption><a href="">{{image.variety.name}}</a></figcaption>
+                {% else %}
+                    <i>Missing information</i>
+                {% endif %}
+                </figure>
+    
+            {% endfor %}
+            </div>
+            <div class="varieties-options">
+                <a id="add-variety" href="">Add a new variety</a>
+                <a href="">Edit Mineral Varieties List</a>
             </div>
         </div>
-
-
-        <section class="section-wiki">
-            <div id="varieties-wrapper">
-                <div aria-labelledby="variety-title" id="variety-title-wrapper">
-                    <hgroup id="variety-title-group">
-                        <h2 id="variety-title">Varieties of {{mineral.name}}</h2>
-                        <hr>
-                    </hgroup>
-                </div>
-                
-                <div id="varieties-images">
-                {% for image in varietyImages %}
-                    
-                    <figure class="figure-varieties">
-                    {% if image.filename is not null %}
-                            <img class="varieties-section-image" src="{{ absolute_url(asset('uploads/images/' ~ image.filename)) }}" alt="Variety Mineral">
-                    {% else %}
-                        <i>Missing image</i>
-                    {% endif %}
-                    
-                    {% if image.variety.name is not null %}
-                        <figcaption><a href="{{path('show_variety', {'slug': image.variety.slug})}}">{{image.variety.name}}</a></figcaption>
-                    {% else %}
-                        <i>Missing information</i>
-                    {% endif %}
-                    </figure>
-
-                {% endfor %}
-                </div>
-                <div class="varieties-options">
-                    <a id="add-variety" href="{{ path('new_variety', {'slug': mineral.slug}) }}">Add a new variety</a>
-                    <a href="{{path('edit_mineral_varieties', {'slug': mineral.slug})}}">Edit Mineral Varieties List</a>
-                </div>
-            </div>
-        </section>
-
-        <section aria-labelledby="section-map-title" class="section-map">
-            <h2 id="section-map-title" >Countries where {{mineral.name}} can be found</h2>
+    </section>
+    
+    <section aria-labelledby="section-map-title" class="section-map">
+        <h2 id="section-map-title" >Countries where {{mineral.name}} can be found</h2>
+        <hr>
+    
+        <div id="mineral-map"></div>
+        {% for coordinate in mineral.coordinates %}
+        <div class="coordinate-data" data-lat="{{ coordinate.latitude }}" data-lng="{{ coordinate.longitude }}"></div>
+        {% endfor %}
+        
+    </section>
+    
+    <section class="section-wiki">
+        <div aria-labelledby="image-gallery-title" id="carousel-wrapper">
+            <h2 id="image-gallery-title">Images Gallery of {{mineral.name}}</h2>
             <hr>
-
-            <div id="mineral-map"></div>
-            {% for coordinate in mineral.coordinates %}
-            <div class="coordinate-data" data-lat="{{ coordinate.latitude }}" data-lng="{{ coordinate.longitude }}"></div>
-            {% endfor %}
+    
+            <div id="cCarousel">
+              <div class="arrow" id="prev"><span class="arrow-symbols">&#8249;</span></div>
+              <div class="arrow" id="next"><span class="arrow-symbols">&#8250;</span></div>
             
-        </section>
-
-        <section class="section-wiki">
-            <div aria-labelledby="image-gallery-title" id="carousel-wrapper">
-                <h2 id="image-gallery-title">Images Gallery of {{mineral.name}}</h2>
-                <hr>
-
-                <div id="cCarousel">
-                <div class="arrow" id="prev"><span class="arrow-symbols">&#8249;</span></div>
-                <div class="arrow" id="next"><span class="arrow-symbols">&#8250;</span></div>
-                
-
-                    <div id="carousel-vp">
-                        <div id="cCarousel-inner">
-                
+    
+                <div id="carousel-vp">
+                    <div id="cCarousel-inner">
+                    {% if mineral.images | length > 0 %}
                         {% for image in mineral.images  %}
                             <figure class="cCarousel-item">
                                 <img class="mineral-image" src="{{ absolute_url(asset('uploads/images/' ~ image.filename)) }}" alt="Minerals">
                             </figure>
                         {% endfor %}
-                        </div>
+                    {% else %}
+                        <figure class="cCarousel-item">
+                            <p>There's no image in this Gallery</p>
+                        </figure>
+                    {% endif %}
+                    
                     </div>
                 </div>
             </div>
-        </section>
-
+        </div>
+    </section>
         <script src="/js/carousel.js"></script>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
         <script src="/js/map.js"></script>
-
+        <script src="/js/ajaxFavorite.js"></script>
     </body>
 {% endblock %}
 </html>
