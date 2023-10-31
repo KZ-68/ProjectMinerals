@@ -15,7 +15,7 @@ class PdfGenerator
         $this->dompdf = new Dompdf();
         
         $options = new Options();
-        $options->set('defaultFont', 'Roboto');
+        $options->set('defaultFont', 'Roboto Condensed');
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isRemoteEnabled', true);
         $options->set('dompdf_dpi', '300');
