@@ -14,7 +14,7 @@
                     {% else %}
                         <div>{{notification.comment.user.username}}</div>    
                     {% endif %}
-                    <div>{{notification.comment.content | sanitize_html}}</div>
+                    <a href="{{path('discussion_mineral', {'slug': notification.comment.discussion.mineral.slug, 'discussionSlug': notification.comment.discussion.slug})}}">{{notification.comment.content | sanitize_html}}</a>
                     <time datetime="notification.comment.getDateTime">{{notification.comment.getDateTime}}</time> 
                 </button>
                 
