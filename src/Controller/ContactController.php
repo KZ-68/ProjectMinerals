@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 #[IsGranted('PUBLIC_ACCESS')]
 class ContactController extends AbstractController
@@ -27,7 +29,7 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            if(isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] == 'http://127.0.0.1:8000') {
+            if(isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] == 'http://127.0.0.1:8000' || $_SERVER['HTTP_ORIGIN'] == 'http://127.0.0.1:8001') {
                 if($request->isMethod('POST')) {
                     if ($form->get('raison')->getData() == null && empty($form->get('raison')->getData())) {
                         if 
@@ -57,23 +59,14 @@ class ContactController extends AbstractController
                             return $this->redirectToRoute('app_contact');
                         }
                     } else {
-                        $response = new Response();
-                        $response->headers->set('Content-Type', 'text/html');
-                        $response->setStatusCode(405);
-                        return $response;
+                        throw new AccessDeniedHttpException();
                     }
                     
                 } else {
-                    $response = new Response();
-                    $response->headers->set('Content-Type', 'text/html');
-                    $response->setStatusCode(405);
-                    return $response;
+                    throw new MethodNotAllowedException(['method' => 'POST']);
                 }
             } else {
-                $response = new Response();
-                $response->headers->set('Content-Type', 'text/html');
-                $response->setStatusCode(405);
-                return $response;
+                throw new AccessDeniedHttpException();
             }
         
         }
