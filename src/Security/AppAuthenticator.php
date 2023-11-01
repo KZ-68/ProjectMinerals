@@ -6,7 +6,9 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
@@ -29,7 +31,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        if(isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] == 'http://127.0.0.1:8000') {
+        if(isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] == 'http://127.0.0.1:8000' || $_SERVER['HTTP_ORIGIN'] == 'http://127.0.0.1:8001') {
             if($request->isMethod('POST')) {
                 if ($request->request->get('raison', '') !== null && empty($request->request->get('raison', ''))) {
                     if 
@@ -51,17 +53,17 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
                             ]
                         );
                     } else {
-                        throw new HttpException(405, 'Method Not Allowed');
+                        throw new AccessDeniedHttpException();
                     }
                 } else {
-                    throw new HttpException(405, 'Method Not Allowed');
+                    throw new AccessDeniedHttpException();
                 }
                 
             } else {
-                throw new HttpException(405, 'Method Not Allowed');
+                throw new MethodNotAllowedException(['method' => 'POST']);
             }
         } else {
-            throw new HttpException(405, 'Method Not Allowed');
+            throw new AccessDeniedHttpException();
         }
     }
 
