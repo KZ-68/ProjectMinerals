@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Notification;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\UserEmailType;
@@ -70,16 +71,11 @@ class UserController extends AbstractController
     public function editSettings(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
     {
 
-
         $user = $this->getUser();
 
         // Fait une redirection si aucun utilisateur en session est trouvé
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
-        }
-
-        if ($this->getUser() !== $user) {
-            throw new AccessDeniedException;
         }
 
         // Création des deux formulaires séparés
@@ -210,13 +206,8 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        if ($this->getUser() !== $user) {
-            throw new AccessDeniedException;
-        }
-
         if ($request->isMethod('POST')) {
-            $userAuthentified = $this->getUser();
-            if($user == $userAuthentified){
+            if($user){
                 $entityManager->remove($user);
                 $entityManager->flush();
                 $tokenStorage->setToken(null);
@@ -229,15 +220,10 @@ class UserController extends AbstractController
     #[Route('/profile/notifications', name: 'notifications_center', methods:['GET'])]
     public function notifications(Request $request, NotificationRepository $notificationRepository) : Response {
 
-
         $user = $this->getUser();
 
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
-        }
-
-        if ($this->getUser() !== $user) {
-            throw new AccessDeniedException;
         }
         
         if ($request->isMethod('GET')) {
@@ -246,5 +232,29 @@ class UserController extends AbstractController
         return $this->render('user/_notifications_modal.html.twig', [
             'notifications' => $notifications
         ]);
+    }
+
+    #[Route('/profile/notifications/{id}/read', name: 'read_notification')]
+    public function readNotifications(Request $request, EntityManagerInterface $entityManager, Notification $notification) : Response {
+
+        $user = $this->getUser();
+
+        if(!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+        
+        if ($request->isMethod('POST')) {
+                
+                if (!$notification->isIsRead(true)) {
+
+                    $notification->setIsRead(true);
+                
+                    $entityManager->persist($notification);
+                    $entityManager->flush();
+                } 
+                
+                return $this->redirectToRoute('discussion_mineral', ['slug' => $notification->getComment()->getDiscussion()->getMineral()->getSlug(), 'discussionSlug' => $notification->getComment()->getDiscussion()->getSlug()]);
+
+        } 
     }
 }
