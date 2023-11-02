@@ -159,14 +159,6 @@ class Mineral
     #[Groups(['mineral:item:read'])]
     private ?string $image_title = null;
 
-    #[ORM\Column(length: 150, nullable: true)]
-    #[Assert\Type(
-        type: 'string',
-        message: 'The value {{ value }} is not a valid {{ type }}.',
-    )]
-    #[Groups(['mineral:list:read','mineral:item:read'])]
-    private ?string $meta_description = null;
-
     public function __construct()
     {
         $this->colors = new ArrayCollection();
@@ -182,7 +174,7 @@ class Mineral
 
     #[ORM\PrePersist]
     public function prePersist() {
-        $this->slug = (new Slugify())->slugify($this->name);
+        $this->slug = (new Slugify())->slugify($this->name.uniqid());
     }
 
     public function getId(): ?int
@@ -559,18 +551,6 @@ class Mineral
     public function setImageTitle(?string $image_title): static
     {
         $this->image_title = $image_title;
-
-        return $this;
-    }
-
-    public function getMetaDescription(): ?string
-    {
-        return $this->meta_description;
-    }
-
-    public function setMetaDescription(?string $meta_description): static
-    {
-        $this->meta_description = $meta_description;
 
         return $this;
     }
