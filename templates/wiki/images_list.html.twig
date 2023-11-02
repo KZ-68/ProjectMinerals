@@ -4,11 +4,14 @@
 
 {% block body %}
 
-<h1>Images List</h1>
-
-{% if images | length > 0 %}
-<div class="images-list-wrapper">
+<div aria-labelledby="images-list-heading" class="images-list-wrapper">
+    <div id="images-list-header">
+        <h1 id="images-list-heading">Images List</h1>
+        <hr>
+    </div>
+    
     <div id="images-list">
+        {% if images | length > 0 %}
         <ul>
             {% for image in images %}
                 <li>
@@ -35,11 +38,12 @@
                 </li>
             {% endfor %}
         </ul>
+        {% else %}
+        <p>There's no image uploaded yet</p>
+        {% endif %}
     </div>
 </div>
-{% else %}
-<p>There's no image uploaded yet</p>
-{% endif %}
+
 
 <nav>
     {{knp_pagination_render(images)}}
