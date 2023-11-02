@@ -16,10 +16,14 @@
         </thead>
         <tbody>
             {% for entry in history %}
-                {% if entry.color == NULL %}
+                {% if entry.color == null %}
                 <tr>
-                    <td>{{ entry.mineral.name }}</td>
-                    {% if entry.user is null %}
+                    {% if entry.mineral == null %}
+                        <td>Mineral Page Deleted</td>
+                    {% else %}
+                        <td>{{ entry.mineral.name }}</td>
+                    {% endif %}
+                    {% if entry.user == null %}
                         <td>User Deleted</td>
                     {% else %}
                         <td>{{ entry.user.username }}</td>
