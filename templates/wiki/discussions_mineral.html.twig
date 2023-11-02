@@ -5,12 +5,11 @@
 {% block body %}
 
 <hgroup id="discussion-header">
-    <h1>discussion.subject</h1>
+    <h1>{{discussion.subject}}</h1>
     <hr>
 </hgroup>
 
 <div id="discussion-body">
-    <hr>
     <div class="discussion-card">
         <hgroup class="discussion-subject">
             <time datetime="{{discussion.getDateTime}}">{{discussion.getDateTime}}</time>
@@ -55,7 +54,7 @@
         {% for comment in discussion.comments %}
             {% if comment.parent | length > 0 %}
                 
-                <div class="response-comment-card" id="comment-{{ comment.id }}">
+                <div class="response-comment-card" id="comment-{{ comment.slug }}">
                     <hgroup class="response-comment-subject">
                         <time datetime="{{comment.getDateTime}}">{{comment.getDateTime}}</time>
                         <h2>Re : {{comment.discussion.subject}}</h2>
@@ -85,9 +84,9 @@
                             <div>{{comment.content | sanitize_html}}</div>
                         </div>
                         <div class="response-comment-card-footer">
-                            <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'comment': comment.id}) }}">Reply to this comment</a>
+                            <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'commentSlug': comment.slug}) }}">Reply to this comment</a>
                             {% if is_granted('ROLE_USER') and app.user == comment.user or is_granted('ROLE_MODERATOR') %}
-                                <form action="{{ path('delete_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'comment': comment.id}) }}" method="post">
+                                <form action="{{ path('delete_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'commentSlug': comment.slug}) }}" method="post">
                                     <button class="delete-btn">Delete this comment</button>
                                 </form>
                             {% else %}
@@ -97,7 +96,7 @@
                 </div>
 
             {% else %}
-                <div class="comment-card" id="comment-{{ comment.id }}">
+                <div class="comment-card" id="comment-{{ comment.slug }}">
                     <hgroup class="comment-subject">
                         <time datetime="{{comment.getDateTime}}">{{comment.getDateTime}}</time>
                         <h2>Re : {{comment.discussion.subject}}</h2>
@@ -125,9 +124,9 @@
                             <div>{{comment.content | sanitize_html}}</div>
                         </div>
                         <div class="comment-card-footer">
-                            <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'comment': comment.id}) }}">Reply to this comment</a>
+                            <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'commentSlug': comment.slug}) }}">Reply to this comment</a>
                             {% if is_granted('ROLE_USER') and app.user == comment.user or is_granted('ROLE_MODERATOR') %}
-                                <form action="{{ path('delete_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'comment': comment.id}) }}" method="post">
+                                <form action="{{ path('delete_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'commentSlug': comment.slug}) }}" method="post">
                                     <button class="delete-btn">Delete this comment</button>
                                 </form>
                             {% else %}
@@ -142,9 +141,6 @@
     {% else %}
     
     {% endif %}
-    <hr>
-    
-    
 </div>
 
 
