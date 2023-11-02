@@ -29,8 +29,8 @@ use App\Form\RespondCommentType;
 use App\Form\MineralVarietiesType;
 use App\Repository\UserRepository;
 use App\Entity\ModificationHistory;
-use App\Form\EditMetaDescriptionType;
 use App\Repository\ImageRepository;
+use App\Form\EditMetaDescriptionType;
 use App\Repository\CommentRepository;
 use App\Repository\MineralRepository;
 use App\Repository\CategoryRepository;
@@ -47,6 +47,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use App\Repository\ModificationHistoryRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -163,6 +164,7 @@ class WikiController extends AbstractController
         #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion
         ): Response
     {
+
         return $this->render('wiki/discussions_mineral.html.twig', [
             'mineral' => $mineral,
             'discussion' => $discussion
@@ -202,10 +204,10 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{comment}/respond', name: 'respond_comment')]
+    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{commentSlug}/respond', name: 'respond_comment')]
     #[IsGranted('ROLE_USER')]
     public function respondComment(
-        Comment $comment, 
+        #[MapEntity(mapping: ['commentSlug' => 'slug'])] Comment $comment, 
         #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
         Request $request, 
         EntityManagerInterface $entityManager
@@ -232,7 +234,7 @@ class WikiController extends AbstractController
                 [
                 'slug' => $discussion->getMineral()->getSlug(), 
                 'discussionSlug' => $comment->getDiscussion()->getSlug(),
-                'comment' => $comment->getId()
+                'commentSlug' => $comment->getSlug()
                 ]
             );
         }
@@ -274,11 +276,11 @@ class WikiController extends AbstractController
         );
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{comment}/delete', name:'delete_comment', methods:['POST'])]
+    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{commentSlug}/delete', name:'delete_comment', methods:['POST'])]
     #[IsGranted('ROLE_USER')]
     public function deleteComment(
         #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
-        Comment $comment, 
+        #[MapEntity(mapping: ['commentSlug' => 'slug'])] Comment $comment, 
         CommentRepository $commentRepository, 
         EntityManagerInterface $entityManager
         ): Response {
@@ -302,7 +304,7 @@ class WikiController extends AbstractController
             [
             'slug' => $discussion->getMineral()->getSlug(), 
             'discussionSlug' => $comment->getDiscussion()->getSlug(),
-            'comment' => $comment->getId()
+            'commentSlug' => $comment->getSlug()
             ]
         );
 
@@ -469,6 +471,18 @@ class WikiController extends AbstractController
             'mineral' => $mineral
         ]);
     } 
+
+    #[Route('/wiki/mineral/{slug}/delete', name: 'delete_mineral')]
+    #[IsGranted("ROLE_MODERATOR")]
+    public function deleteMineral(Mineral $mineral, EntityManagerInterface $entityManager, MineralRepository $mineralRepository) {
+        
+        // Prépare la suppression d'une instance de l'objet 
+        $entityManager->remove($mineral);
+        // Exécute la suppression
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_mineral');
+    }
 
     #[Route('/wiki/mineral/{slug}/variety/new', name: 'new_variety')]
     #[IsGranted('ROLE_USER')]
@@ -730,27 +744,5 @@ class WikiController extends AbstractController
     
             return $this->json(['data' => $message], 200);
         }   
-    }
-
-    #[Route('/wiki/mineral/{slug}/show/change-meta-description', name:'change_meta_description')] 
-    #[IsGranted('ROLE_ADMIN')]
-    public function changeMetaDescription(Mineral $mineral, Request $request, EntityManagerInterface $entityManager):Response {
-
-        $form = $this->createForm(EditMetaDescriptionType::class, $mineral);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $mineral = $form->getData();
-
-            $entityManager->persist($mineral);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('show_mineral', ['slug' => $mineral->getSlug()]);
-        }
-
-        return $this->render('wiki/change_meta_description.html.twig', [
-            'form' => $form
-        ]);
     }
 }
