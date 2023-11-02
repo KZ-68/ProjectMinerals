@@ -39,7 +39,7 @@ class Discussion
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'discussions')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete:"CASCADE")]
     private ?Mineral $mineral = null;
 
     #[ORM\OneToMany(mappedBy: 'discussion', targetEntity: Comment::class, orphanRemoval: true)]
@@ -62,7 +62,7 @@ class Discussion
 
     #[ORM\PrePersist]
     public function prePersist() {
-        $this->slug = (new Slugify())->slugify($this->subject);
+        $this->slug = (new Slugify())->slugify($this->subject.uniqid());
     }
 
     public function getId(): ?int

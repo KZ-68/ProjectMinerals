@@ -29,7 +29,7 @@ class Comment
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete:"CASCADE")]
     private ?Discussion $discussion = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
@@ -41,7 +41,7 @@ class Comment
     private Collection $children;
 
     #[ORM\ManyToOne(targetEntity: Comment::class, inversedBy: 'children')]
-    #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete:"CASCADE")]
     private Comment|null $parent = null;
 
     #[ORM\Column]
@@ -49,6 +49,9 @@ class Comment
 
     #[ORM\Column]
     private ?bool $isDeletedByUser = false;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $slug = null;
 
     public function __construct()
     {
@@ -180,6 +183,18 @@ class Comment
     public function setIsDeletedByUser(bool $isDeletedByUser): static
     {
         $this->isDeletedByUser = $isDeletedByUser;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

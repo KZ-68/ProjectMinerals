@@ -24,11 +24,11 @@ class Notification
     private ?User $user = null;
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete:"CASCADE")]
     private ?Comment $comment = null;
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete:"CASCADE")]
     private ?Discussion $discussion = null;
 
     public function __construct()

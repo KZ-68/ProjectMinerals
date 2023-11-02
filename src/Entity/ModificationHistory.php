@@ -22,7 +22,7 @@ class ModificationHistory
     private ?User $user = null; // L'utilisateur qui a effectué la modification
 
     #[ORM\ManyToOne(inversedBy: 'modificationHistories')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete:"SET NULL")]
     private ?Mineral $mineral = null; // L'entité Mineral qui a été modifiée
 
     #[ORM\Column(type:"json")]

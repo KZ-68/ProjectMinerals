@@ -47,6 +47,7 @@ class Variety
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'varieties')]
+    #[ORM\JoinColumn(onDelete:"SET NULL")]
     #[Groups(['variety:item:read'])]
     private ?Mineral $mineral = null;
 
