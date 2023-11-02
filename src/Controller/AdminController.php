@@ -11,9 +11,12 @@ use App\Entity\Discussion;
 use App\Form\AddColorType;
 use App\Form\CategoryType;
 use App\Form\AddLustreType;
+use Doctrine\ORM\EntityManager;
+use App\Form\ChangeUserRoleType;
 use App\Repository\UserRepository;
 use App\Repository\ColorRepository;
 use App\Repository\LustreRepository;
+use App\Repository\MineralRepository;
 use App\Repository\DiscussionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -165,16 +168,6 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin_lustre');
     }
 
-    #[Route('/mineral/{slug}/delete', name: 'delete_mineral')]
-    public function deleteMineral(Mineral $mineral, EntityManagerInterface $entityManager) {
-        // Prépare la suppression d'une instance de l'objet 
-        $entityManager->remove($mineral);
-        // Exécute la suppression
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_mineral');
-    }
-
     #[Route('/category/new', name: 'new_category')]
     public function new_category(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -282,5 +275,40 @@ class AdminController extends AbstractController
         $discussionRepository->restoreDiscussion($discussion->getId());
 
         return $this->redirectToRoute('app_admin_discussions_deleted');
+    }
+
+    #[Route('/editRoleUser', name:'edit_role_user')]
+    public function editRoleUser(Request $request, UserRepository $userRepository){
+
+        $form = $this->createForm(ChangeUserRoleType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // On récupère les infos du formulaire
+            $selectedUser = $form->get('user')->getData();
+
+            $selectedRole = $form->get('roles')->getData();
+
+            // On recherche le bon utilisateur dans la couche modèle
+            $editUser = $userRepository->find($selectedUser);
+
+            if ($this->getUser() !== $selectedUser) {
+                // On met à jour le rôle par une requête préparée. 
+                $userRepository->updateRole($editUser->getId(), $selectedRole);
+
+                return $this->redirectToRoute('app_admin_edit_role_user');
+            } else {
+                $this->addFlash('error', 'You can\'t change your own role');
+
+                return $this->redirectToRoute('app_admin_edit_role_user');
+            }
+            
+        }
+
+        return $this->render('admin/user/edit_role_user.html.twig', [
+                'editUserForm' => $form
+            ]
+        );
     }
 }
