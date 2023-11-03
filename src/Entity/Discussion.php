@@ -62,7 +62,7 @@ class Discussion
 
     #[ORM\PrePersist]
     public function prePersist() {
-        $this->slug = (new Slugify())->slugify($this->subject.uniqid());
+        $this->slug = (new Slugify())->slugify($this->subject.uniqid('-'));
     }
 
     public function getId(): ?int
