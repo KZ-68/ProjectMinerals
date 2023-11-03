@@ -1,11 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block meta %}
-    {% if mineral.metadescription != null %}
-        <meta name="description" content="{{mineral.metadescription}}">
-    {% else %}
-        <meta name="description" content="">
-    {% endif %}
-    
+    <meta name="description" content="">
 {% endblock %}
 
 {% block title %}Mineral Details{% endblock %}
@@ -16,8 +11,12 @@
     
 </div>
 
+<div class="return-btn-zone">
+    <a class="return-btn" href="{{ path('app_mineral') }}">Return</a>
+</div>
+
 <div class="mineral-options">
-        <a role="button" href="{{path('app_admin_delete_mineral', {'slug': mineral.slug})}}">Remove this Page</a>
+        <a role="button" href="{{path('delete_mineral', {'slug': mineral.slug})}}">Remove this Page</a>
         <a role="button" href="{{path('pdf_generator', {'slug': mineral.slug})}}">Generate a PDF</a>
         <a role="button" href="{{path('edit_mineral', {'slug': mineral.slug})}}">Edit this Page</a>
         <a role="button" href="{{path('discussions_list', {'slug': mineral.slug})}}">Discussions</a>
@@ -82,12 +81,15 @@
                 <div id="description-mineral-body">
                     <p>{{mineral.description}}</p>
                 </div>
+                <div id="description-mineral-footer">
+                    <a href="{{ path('edit_description', {'slug': mineral.slug}) }}">Edit this description</a>
+                </div>
                 {% else %}
                 <div id="description-mineral-body">
                     <p>This description section is empty</p>
                 </div>
                 <div id="description-mineral-footer">
-                    <a href="">Add a description</a>
+                    <a href="{{ path('edit_description', {'slug': mineral.slug}) }}">Add a description</a>
                 </div>
                 {% endif %}
             </div>
@@ -213,6 +215,10 @@
         </div>
     </div>
 </section>
+
+<div class="return-btn-zone">
+    <a class="return-btn" href="{{ path('app_mineral') }}">Return</a>
+</div>
 
 {% block javascript %}
     <script src="/js/carousel.js"></script>
