@@ -45,22 +45,120 @@ class MineralRepository extends ServiceEntityRepository
         $data = $this->createQueryBuilder('m');
         
         if(!empty($searchData['search'])) {
-            $data = $data
+            $dataQuery["name"] = $data
                 ->orwhere('m.name LIKE :search')
-                ->orWhere('m.formula LIKE :search')
-                ->orWhere('m.crystal_system LIKE :search')
-                ->orWhere('m.density LIKE :search')
-                ->orWhere('m.hardness LIKE :search')
-                ->orWhere('m.fracture LIKE :search')
-                ->orWhere('m.streak LIKE :search')
-                ->setParameter('search', $searchData['search']);
-        }
-        
-        $data = $data 
-            ->getQuery()
-            ->getResult();
-
-        return $data;
+                ->setParameter('search', '%'.$searchData['search'].'%')
+                ->getQuery()
+                ->getResult();
+            if($dataQuery["name"] !== []) {
+                return $dataQuery["name"];
+            }
+            if($dataQuery["name"] === []) {
+                $dataQuery["formula"] = $data
+                    ->orWhere('m.formula LIKE :search')
+                    ->setParameter('search', '%'.$searchData['search'].'%')
+                    ->getQuery()
+                    ->getResult();
+                if($dataQuery["formula"] !== []) {
+                    return $dataQuery["formula"];
+                }
+            } 
+            if ($dataQuery["formula"] === []) {
+                $dataQuery["crystal_system"] = $data
+                    ->orWhere('m.crystal_system LIKE :search')
+                    ->setParameter('search', '%'.$searchData['search'].'%')
+                    ->getQuery()
+                    ->getResult();
+                if($dataQuery["crystal_system"] !== []) {
+                    return $dataQuery["crystal_system"];
+                }
+            } 
+            if ($dataQuery["crystal_system"] === []) {
+                $dataQuery["density"] = $data 
+                    ->orWhere('m.density LIKE :search')
+                    ->setParameter('search', '%'.$searchData['search'].'%')
+                    ->getQuery()
+                    ->getResult();
+                if($dataQuery["density"] !== []) {
+                    return $dataQuery["density"];
+                }
+            } 
+            if ($dataQuery["density"] === []) {
+                $dataQuery["hardness"] = $data
+                    ->orWhere('m.hardness LIKE :search')
+                    ->setParameter('search', $searchData['search'])
+                    ->getQuery()
+                    ->getResult();
+                if($dataQuery["hardness"] !== []) {
+                    return $dataQuery["hardness"];
+                }
+            } 
+            if ($dataQuery["hardness"] === []) {
+                $dataQuery["fracture"] = $data 
+                    ->orWhere('m.fracture LIKE :search')
+                    ->setParameter('search', $searchData['search'])
+                    ->getQuery()
+                    ->getResult();
+                if($dataQuery["fracture"] !== []) {
+                    return $dataQuery["fracture"];
+                }
+            } 
+            if ($dataQuery["fracture"] === []) {
+                $dataQuery["streak"] = $data 
+                    ->orWhere('m.streak LIKE :search')
+                    ->setParameter('search', '%'.$searchData['search'].'%')
+                    ->getQuery()
+                    ->getResult();
+                if($dataQuery["streak"] !== []) {
+                    return $dataQuery["streak"];
+                }
+            } 
+            if ($dataQuery["streak"] === []) {
+                $dataQuery["category"] = $data
+                    ->innerJoin('m.category', 'c', 'WITH', 'c.id = m.category')
+                    ->orWhere('c.name LIKE :search')
+                    ->setParameter('search', '%'.$searchData['search'].'%')
+                    ->getQuery()
+                    ->getResult();
+                if($dataQuery["category"] !== []) {
+                    return $dataQuery["category"];
+                }
+            } 
+            if ($dataQuery["category"] === []) {
+                $dataQuery["varieties"] = $data 
+                        ->leftJoin('m.varieties', 'v')
+                        ->orWhere('v.name LIKE :search')
+                        ->setParameter('search', '%'.$searchData['search'].'%')
+                        ->getQuery()
+                        ->getResult();
+                if($dataQuery["varieties"] !== []) {
+                    return $dataQuery["varieties"];
+                }
+            }
+            if ($dataQuery["varieties"] === []) {
+                $dataQuery["colors"] = $data 
+                        ->leftJoin('m.colors', 'co')
+                        ->orWhere('co.name LIKE :search')
+                        ->setParameter('search', '%'.$searchData['search'].'%')
+                        ->getQuery()
+                        ->getResult();
+                if($dataQuery["colors"] !== []) {
+                    return $dataQuery["colors"];
+                }
+            }
+            if ($dataQuery["colors"] === []) {
+                $dataQuery["lustres"] = $data 
+                        ->leftJoin('m.lustres', 'lu')
+                        ->orWhere('lu.type LIKE :search')
+                        ->setParameter('search', '%'.$searchData['search'].'%')
+                        ->getQuery()
+                        ->getResult();
+                if($dataQuery["lustres"] !== []) {
+                    return $dataQuery["lustres"];
+                }
+            }
+                
+        }   
     }
 
     public function findBySearch(SearchData $searchData): PaginationInterface {
