@@ -4,6 +4,10 @@
 
 {% block body %}
 
+<div class="return-btn-zone">
+    <a class="return-btn" href="{{ path('show_mineral', {'slug': mineral.slug}) }}">Return</a>
+</div>
+
 <div class="discussions-list-options">
     <a href="{{ path('new_discussion', {'slug': mineral.slug}) }}">Launch a new discussion</a>
 </div>

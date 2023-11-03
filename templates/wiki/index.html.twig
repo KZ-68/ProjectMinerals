@@ -3,6 +3,11 @@
 {% block title %}Minerals List{% endblock %}
 
 {% block body %}
+
+<div class="return-btn-zone">
+    <a class="return-btn" href="{{ path('home_index') }}">Return Home Page</a>
+</div>
+
 <div class="minerals-list-options">
     <a href="{{ path('new_mineral') }}">Add new mineral page</a>
     <a href="{{path('mineral_history')}}">Modifications history</a>

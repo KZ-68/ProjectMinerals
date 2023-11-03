@@ -4,6 +4,10 @@
 
 {% block body %}
 
+<div class="return-btn-zone">
+    <a class="return-btn" href="{{ path('discussion_mineral', {'slug': mineral.slug, 'discussionSlug': discussion.slug}) }}">Return</a>
+</div>
+
 <div id="response-wrapper">
 <div aria-labelledby="response-comment-heading" id="response-comment-header">
     <h1 id="response-comment-heading">Respond to a comment</h1>

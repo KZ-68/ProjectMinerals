@@ -4,6 +4,10 @@
 
 {% block body %}
 
+<div class="return-btn-zone">
+    <a class="return-btn" href="{{ path('discussions_list', {'slug': mineral.slug}) }}">Return</a>
+</div>
+
 <div id="create-discussion-wrapper">
     <div aria-labelledby="create-discussion-heading" id="create-discussion-header">
         <h1 id="create-discussion-heading">Create a new Discussion</h1>
