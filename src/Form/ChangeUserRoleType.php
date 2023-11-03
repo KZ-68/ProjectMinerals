@@ -15,8 +15,8 @@ class ChangeUserRoleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $permissions = [
-             'User role' => 'ROLE_USER' ,
-             'Moderator role' => 'ROLE_MODERATOR'
+            'User role' => 'ROLE_USER' ,
+            'Moderator role' => 'ROLE_MODERATOR'
         ];
         
         $builder
@@ -28,11 +28,17 @@ class ChangeUserRoleType extends AbstractType
                 },
                 'expanded'  => false,
                 'multiple'  => false,
-                'label'    => 'Choose the user'
+                'label'    => 'Choose the user',
+                'attr' => [
+                    'class' => 'form-single-select'
+                ]
             ])
             ->add('roles', ChoiceType::class, [
                 'label'   => 'Choose the role',
-                'choices' => $permissions
+                'choices' => $permissions,
+                'attr' => [
+                    'class' => 'form-single-select'
+                ]
             ])
             ->add(
                 'save', SubmitType::class
