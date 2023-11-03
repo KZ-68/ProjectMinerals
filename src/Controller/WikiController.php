@@ -26,11 +26,11 @@ use App\Form\MineralColorType;
 use App\Service\FileDownloader;
 use Doctrine\ORM\EntityManager;
 use App\Form\RespondCommentType;
+use App\Form\EditDescriptionType;
 use App\Form\MineralVarietiesType;
 use App\Repository\UserRepository;
 use App\Entity\ModificationHistory;
 use App\Repository\ImageRepository;
-use App\Form\EditMetaDescriptionType;
 use App\Repository\CommentRepository;
 use App\Repository\MineralRepository;
 use App\Repository\CategoryRepository;
@@ -153,7 +153,8 @@ class WikiController extends AbstractController
         }
 
         return $this->render('wiki/create_discussion.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'mineral' => $mineral
         ]);
     }
 
@@ -174,6 +175,7 @@ class WikiController extends AbstractController
     #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/newComment', name: 'new_comment')]
     #[IsGranted('ROLE_USER')]
     public function newComment(
+        #[MapEntity(mapping: ['slug' => 'slug'])] Mineral $mineral,
         #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
         Request $request, 
         EntityManagerInterface $entityManager
@@ -200,7 +202,9 @@ class WikiController extends AbstractController
         }
 
         return $this->render('wiki/new_comment.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'mineral' => $mineral,
+            'discussion' => $discussion
         ]);
     }
 
@@ -516,7 +520,8 @@ class WikiController extends AbstractController
         }
 
         return $this->render('wiki/new_variety.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'mineral' => $mineral
         ]);
     }
 
@@ -560,7 +565,7 @@ class WikiController extends AbstractController
 
         return $this->render('wiki/edit_mineral_colors.html.twig', [
             'form' => $form,
-            'edit' => $mineral->getId()
+            'mineral' => $mineral
         ]);
     }
 
@@ -581,7 +586,8 @@ class WikiController extends AbstractController
         }
 
         return $this->render('wiki/edit_mineral_varieties.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'mineral' => $mineral
         ]);
     }
 
@@ -603,7 +609,7 @@ class WikiController extends AbstractController
 
         return $this->render('wiki/edit_mineral_lustres.html.twig', [
             'form' => $form,
-            'edit' => $mineral->getId()
+            'mineral' => $mineral
         ]);
     }
     
@@ -744,5 +750,28 @@ class WikiController extends AbstractController
     
             return $this->json(['data' => $message], 200);
         }   
+    }
+
+    #[Route('/wiki/mineral/{slug}/show/edit-description', name:'edit_description')]
+    #[isGranted('ROLE_USER')]
+    public function editDescription(Mineral $mineral, EntityManagerInterface $entityManager, Request $request): Response {
+
+        $form = $this->createForm(EditDescriptionType::class, $mineral);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $mineralData = $form->get('description')->getData();
+            $mineral->setDescription($mineralData);
+            $entityManager->persist($mineral);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('show_mineral', ['slug' => $mineral->getSlug()]);
+        }
+
+        return $this->render('wiki/edit_description.html.twig', [
+            'form' => $form,
+            'mineral' => $mineral
+        ]);
     }
 }
