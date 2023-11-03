@@ -8,16 +8,15 @@
     </div>
     <div id="notification-body">
         {% for notification in notifications %}
-                <button role="listitem" id="notification-layout">
-                    {% if notification.comment.user is null %}
-                        <div>User Deleted</div>
-                    {% else %}
-                        <div>{{notification.comment.user.username}}</div>    
-                    {% endif %}
-                    <a href="{{path('discussion_mineral', {'slug': notification.comment.discussion.mineral.slug, 'discussionSlug': notification.comment.discussion.slug})}}">{{notification.comment.content | sanitize_html}}</a>
-                    <time datetime="notification.comment.getDateTime">{{notification.comment.getDateTime}}</time> 
-                </button>
-                
+            <button role="listitem" id="notification-layout">
+                {% if notification.comment.user is null %}
+                    <div>User Deleted</div>
+                {% else %}
+                    <div>{{notification.comment.user.username}}</div>    
+                {% endif %}
+                <a href="{{path('read_notification', {'id':notification.id})}}">{{notification.comment.content | sanitize_html}}</a>
+                <time datetime="notification.comment.getDateTime">{{notification.comment.getDateTime}}</time> 
+            </button>
         {% endfor %}
     </div>
     <div id="notification-footer">
