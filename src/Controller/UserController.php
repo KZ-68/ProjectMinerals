@@ -243,18 +243,20 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
         
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('GET')) {
                 
-                if (!$notification->isIsRead(true)) {
+            if (!$notification->isIsRead(true)) {
 
-                    $notification->setIsRead(true);
-                
-                    $entityManager->persist($notification);
-                    $entityManager->flush();
-                } 
-                
-                return $this->redirectToRoute('discussion_mineral', ['slug' => $notification->getComment()->getDiscussion()->getMineral()->getSlug(), 'discussionSlug' => $notification->getComment()->getDiscussion()->getSlug()]);
+                $notification->setIsRead(true);
+            
+                $entityManager->persist($notification);
+                $entityManager->flush();
+            } 
+            
+            return $this->redirectToRoute('discussion_mineral', ['slug' => $notification->getComment()->getDiscussion()->getMineral()->getSlug(), 'discussionSlug' => $notification->getComment()->getDiscussion()->getSlug()]);
 
-        } 
+        } else {
+            return $this->redirectToRoute('app_profile');
+        }
     }
 }
