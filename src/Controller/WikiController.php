@@ -526,11 +526,12 @@ class WikiController extends AbstractController
     }
 
     
-    #[Route("/wiki/history", name:"mineral_history")]
-    public function showHistory(ModificationHistoryRepository $modificationHistoryRepository): Response
+    #[Route("/wiki/mineral/{slug}/show/history", name:"mineral_history")]
+    public function showHistory(Mineral $mineral, ModificationHistoryRepository $modificationHistoryRepository): Response
     {
         // Récupére l'historique des modifications depuis la base de données.
-        $history = $modificationHistoryRepository->findAll();
+        $history = $modificationHistoryRepository->findBy(['mineral' => $mineral]);
+        
 
         // Affiche l'historique dans un template.
         return $this->render('wiki/history.html.twig', [
