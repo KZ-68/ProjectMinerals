@@ -20,6 +20,7 @@
         <a role="button" href="{{path('pdf_generator', {'slug': mineral.slug})}}">Generate a PDF</a>
         <a role="button" href="{{path('edit_mineral', {'slug': mineral.slug})}}">Edit this Page</a>
         <a role="button" href="{{path('discussions_list', {'slug': mineral.slug})}}">Discussions</a>
+        <a href="{{path('mineral_history', {'slug': mineral.slug})}}">Modifications history</a>
         
         {% if favorite %}
             <a role="button" id="favorite-btn" class="added" style="background-color: #edbe17" href="#" data-slug="{{mineral.slug}}" data-favorite="{{favorite.id}}">
