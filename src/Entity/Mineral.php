@@ -7,21 +7,24 @@ use Cocur\Slugify\Slugify;
 use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\MineralRepository;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Context;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 #[ApiResource(
     operations: [
-        new Get(normalizationContext: ['groups' => 'mineral:item:read']),
+        new Get(
+            uriTemplate:'mineral/{name}',
+            normalizationContext: ['groups' => 'mineral:item:read']
+        ),
         new GetCollection(normalizationContext: ['groups' => 'mineral:list:read'])
     ],
     order: ['name' => 'DESC'],
@@ -36,6 +39,7 @@ class Mineral
     #[ORM\GeneratedValue]
     #[ORM\Column]
     #[Groups(['mineral:list:read', 'mineral:item:read'])]
+    #[ApiProperty(identifier: false)]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
@@ -50,7 +54,7 @@ class Mineral
         restrictionLevelMessage: 'The name {{ value }} contains non valid caracters'
     )]
     #[Groups(['mineral:list:read', 'mineral:item:read'])]
-    #[ApiProperty(types: ['https://schema.org/name'])]
+    #[ApiProperty(types: ['https://schema.org/name'], identifier:true)]
     private ?string $name = null;
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -70,7 +74,7 @@ class Mineral
     #[Groups(['mineral:item:read'])]
     private ?string $crystal_system = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, nullable: true)]
     #[Assert\Positive]
     #[Groups(['mineral:item:read'])]
     private ?string $density = null;
