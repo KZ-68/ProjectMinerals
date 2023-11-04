@@ -36,7 +36,11 @@
                                 {% if change.0 is not defined  %}
                                     
                                 {% else %}
-                                    {{ key }}: {{ change.0 }}<br>
+                                    {% if change.0 == null %}
+                                        {{ key }}: Empty<br> 
+                                    {% else %}
+                                        {{ key }}: {{ change.0 }}<br>    
+                                    {% endif %}
                                 {% endif %}
                                 
                             {% endfor %}
@@ -48,7 +52,11 @@
                                 {% if change.1 is not defined %}
                                     
                                 {% else %}
-                                    {{ key }}: {{ change.1 }}<br>
+                                    {% if change.0 == null %}
+                                        {{ key }}: Empty<br> 
+                                    {% else %}
+                                        {{ key }}: {{ change.1 }}<br>  
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
                         {% endfor %}
