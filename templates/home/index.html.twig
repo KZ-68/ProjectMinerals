@@ -18,7 +18,7 @@
         <hgroup aria-labelledby="carousel-top-heading" id="carousel-top-presentation">
             <h2 id="carousel-top-heading">Whats KZ Minerals ?</h2>
             <p>
-                Out of my passion for collecting various minerals at dedicated shows and exchanges, I designed this site to allow us to share the knowledge we have about minerals.</br> 
+                For minerals collectors and passionnate, this site is designed to allow us to share the knowledge we have about minerals.</br> 
                 </br>
                 Based on the wiki concept, you can add new mineral pages or modify one already available on the site, you can also discuss and debate with other users about the changes that have been made.
             </p>
@@ -32,13 +32,13 @@
 
 <div id="carousel1">
     <figure id="diaporama">
-        <img src="{{ asset('uploads/images/sainte-marie-aux-mines-photo.jpg') }}">
+        <img src="{{ asset('uploads/images/pexels-pixabay-56030.jpg') }}">
     </figure>
     <figure id="diaporama">
-        <img src="{{ asset('uploads/images/entre-les-tentes-de-la-rue-osmont-photo-dna-anne-muller-1656531412.jpg') }}">
+        <img src="{{ asset('uploads/images/pexels-peter-döpper-2363577.jpg') }}">
     </figure>
     <figure id="diaporama">
-        <img src="{{ asset('uploads/images/vallee_ste_marie_09-2014_001.jpg') }}">
+        <img src="{{ asset('uploads/images/pexels-eva-bronzini-6474323.jpg') }}">
     </figure>
 </div>
 
@@ -74,12 +74,18 @@
         </div>
         
         <section>
-            <h3>KZ Minerals with statistics :</h3>
-            <div id="home-statistics-wrapper">
+            <div aria-labelledby="home-statistics-heading" id="home-statistics-header">
+                <h3 id="home-statistics-heading">KZ Minerals with statistics.</h3>
+                <p>
+                    The community contributes to enriching the content of the wiki pages,<br>
+                    and the statistics below show the progression of these contributions.
+                </p>
+            </div>
+            <div id="home-statistics-body">
                 <hgroup>
                     <h4>{{mineralsCount}}</h4>
                     <p>
-                        Minerals Wiki Page has been Created</br>
+                        Minerals Wiki Page has been created</br>
                         through the whole site.
                     </p>
                 </hgroup>
@@ -87,7 +93,8 @@
                 <hgroup>
                     <h4>{{varietiesCount}}</h4>
                     <p>
-                        Minerals Varieties created
+                        Varieties has been added</br>
+                        in minerals wiki pages 
                     </p>
                 </hgroup>
             </div>
