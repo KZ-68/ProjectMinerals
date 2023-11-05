@@ -283,7 +283,6 @@ thead tr {
     line-height: normal;
     -webkit-font-smoothing: inherit;
     -moz-osx-font-smoothing: inherit;
-    -webkit-appearance: none;
 }
 
 .dropzone-input {
@@ -332,6 +331,19 @@ thead tr {
 }
 
 .form-select > option {
+    margin: 10px;
+    font-size: 18px;
+}
+
+.form-single-select {
+    border-radius: 5px;
+    border: 2px solid #808080;
+    height: 45px;
+    width: 100%;
+    padding: 5px;
+}
+
+.form-single-select > option {
     margin: 10px;
     font-size: 18px;
 }
@@ -513,7 +525,7 @@ header a:hover {
     color: #444444;
 }
 
-.profile-card #avatar-header {
+.profile-card .avatar-header {
     width: 46px;
     height: 46px;
 }
@@ -533,9 +545,9 @@ header a:hover {
     overflow: hidden;
 }
 
-#avatar-header {
-    width: 75px;
-    height: 75px;
+.avatar-header {
+    width: 46px;
+    height: 46px;
 }
 
 #user-links {
@@ -568,7 +580,7 @@ header a:hover {
     z-index: 2;
     top: 59px;
     right: -265px;
-    background: #57CC99;
+    background: #5ecfb8;
     padding-top: 36px;
     transition: right 0.5s ease;
     border-radius: 5px;
@@ -588,8 +600,8 @@ header a:hover {
 
 .sidenav .close {
     position: absolute;
-    top: -5px;
-    left: 9px;
+    top: 8px;
+    left: 11px;
     font-size: 30px;
 }
 
@@ -631,7 +643,7 @@ header a:hover {
     flex-direction: row;
     position: absolute;
     align-items: center;
-    margin: 183px 300px;
+    margin: 150px 300px;
     gap: 200px;
 }
 
@@ -650,11 +662,12 @@ header a:hover {
 #carousel-top-heading {
     color: #ffffff;
     background-color: unset;
+    font-size: 28px;
 }
 
 #carousel-top-presentation p {
     color: #ffffff;
-    font-size: 22px;
+    font-size: 24px;
     padding-bottom: 10px;
     font-family: 'Oswald';
 }
@@ -683,11 +696,14 @@ header a:hover {
 
 #diaporama {
     filter: brightness(0.5);
-    height: 854px;
+    height: 840px;
 }
 
 #diaporama img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .carousel {
@@ -843,6 +859,16 @@ div#advanced-search-bar {
     color: black;
 }
 
+#reset-search-btn {
+    color: #000000;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 19px;
+    text-align: center;
+    background-color: #3fe5c5;
+}
+
 .formulaire-login-wrapper {
     display: flex;
     flex-direction: column;
@@ -978,12 +1004,9 @@ div.formulaire-login a {
 #home-description section {
     padding: 25px 25px 30px 25px;
     margin: 0px 250px;
-    border: 2px solid white;
-    border-radius: 10px;
-    background-color: #80808036;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 125px;
 }
 
 #home-description h2 {
@@ -992,11 +1015,6 @@ div.formulaire-login a {
     border-radius: 5px;
     color: white;
     background-color: unset;
-}
-
-#home-description h3 {
-    font-size: 26px;
-    color: #ffffff;
 }
 
 #home-description h4 {
@@ -1010,10 +1028,16 @@ div.formulaire-login a {
     font-family: 'Oswald';
 }
 
-#home-statistics-wrapper {
+#home-statistics-body {
     display: flex;
     flex-direction: row;
-    gap: 75px;
+    gap: 200px;
+}
+
+#home-statistics-heading {
+    font-size: 26px;
+    color: #ffffff;
+    padding: 15px 0px;
 }
 
 #image-zoom1, .image-zoom2 {
@@ -1076,7 +1100,16 @@ div.formulaire-login a {
     right: 5vh;
 }
 
-.mineral-options, .varieties-options, .minerals-list-options, .categories-options, .discussions-list-options {
+.return-btn-zone {
+    padding: 10px 20px;
+    margin: 10px 0px;
+}
+
+.mineral-options, 
+.varieties-options, 
+.minerals-list-options, 
+.categories-options, 
+.discussions-list-options {
     padding: 20px;
     margin: 10px 10px;
     margin-top: 25px;
@@ -1085,17 +1118,27 @@ div.formulaire-login a {
     gap: 20px;
 }
 
-.mineral-options a:hover, .varieties-options a:hover, .minerals-list-options a:hover, .categories-options a:hover, .discussions-list-options a:hover {
-    background-color: #37c9ad;
-}
-
-.mineral-options a, .varieties-options a, .minerals-list-options a, .categories-options a, .discussions-list-options a {
+.mineral-options a, 
+.varieties-options a, 
+.minerals-list-options a, 
+.categories-options a, 
+.discussions-list-options a,
+.return-btn {
     font-size: 16px;
     font-weight: 700;
     color: black;
     background-color: var(--secondary-color);
     padding: 10px 13px;
     border-radius: 10px;
+}
+
+.mineral-options a:hover, 
+.varieties-options a:hover, 
+.minerals-list-options a:hover, 
+.categories-options a:hover, 
+.discussions-list-options a:hover,
+.return-btn:hover {
+    background-color: #37c9ad;
 }
 
 .mineral-options #favorite-btn {
@@ -1215,13 +1258,24 @@ div.formulaire-login a {
     width: 180px;
 }
 
-#edit-color-wrapper, #edit-lustre-wrapper, #new-color-wrapper, #new-lustre-wrapper {
+#edit-color-wrapper, 
+#edit-lustre-wrapper, 
+#new-color-wrapper, 
+#new-lustre-wrapper,
+#edit-role-user-wrapper {
     display: flex;
     flex-direction: row;
     margin: 50px 0px;
 }
 
-#edit-color-right, #edit-lustre-right, #new-color-right, #new-lustre-right {
+#edit-color-right, 
+#edit-lustre-right, 
+#new-color-right, 
+#new-lustre-right,
+#edit-mineral-colors-wrapper,
+#edit-mineral-lustres-wrapper,
+#edit-mineral-varieties-wrapper,
+#edit-description-wrapper {
     margin: 78px 450px;
     padding: 20px 50px;
     background-color: #fcfcfcfc;
@@ -1508,23 +1562,24 @@ button.btn {
 }
 
 .edit-btn, .anonymize-btn {
-    background-color: #57CC99;
     color: #000000;
     cursor: pointer;
-    font-size: 22px;
-    padding: 7px 11px;
+    font-size: 18px;
+    padding: 10px 13px;
     border-radius: 10px;
     min-width: 90px;
     text-align: center;
+    background-color: var(--secondary-color);
 }
 
 .delete-btn {
     background-color: #ff7e7e;
     color: #000000;
     cursor: pointer;
-    font-size: 22px;
-    padding: 7px 11px;
-    border-radius: 5px;
+    font-size: 18px;
+    margin-left: 10px;
+    padding: 10px 13px;
+    border-radius: 10px;
     border: none;
     min-width: 90px;
     text-align: center;
@@ -1551,6 +1606,7 @@ button.btn {
 #mineral-header {
     display: flex;
     margin: 20px 20px;
+    padding: 0px 20px;
     padding-bottom: 15px;
     flex-direction: column;
     align-items: center;
@@ -1822,6 +1878,11 @@ section.section-map {
     gap: 10px;
     overflow-y: auto;
     color: #000000;
+    display: flex;
+    flex-direction: column;
+}
+
+#notification-body form {
     display: flex;
     flex-direction: column;
 }
@@ -2570,7 +2631,7 @@ button#contact_validate {
 
 @media only screen and (min-device-width: 1900px) {
     .adv-search-wrapper {
-        margin: 0px 333px;
+        margin: 0px 355px;
     }
 
     .comment-wrapper {
@@ -2588,7 +2649,7 @@ button#contact_validate {
     }
 
     #carousel-top-wrapper {
-        margin: 183px 150px;
+        margin: 120px 150px;
         gap: 100px;
     }
 
@@ -2605,7 +2666,7 @@ button#contact_validate {
     }
 
     .adv-search-wrapper {
-        margin: 0px 142px;
+        margin: 0px 210px;
     }
 
     .adv-search-fields {
@@ -2619,6 +2680,10 @@ button#contact_validate {
 
     #image-zoom1.active {
         top: 223vh;
+    }
+
+    #diaporama {
+        height: 710px;
     }
 }
 
@@ -2665,10 +2730,14 @@ button#contact_validate {
     
 }
 
-@media only screen and (min-device-width: 1024px) and (max-device-width: 1439px) {
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1440px) {
     #figure-logo {
         left: 73vh;
         right: 73vh;
+    }
+
+    .adv-search-wrapper {
+        margin: 0px 95px;
     }
 
     .formulaire-register-wrapper {
@@ -2774,8 +2843,19 @@ button#contact_validate {
         display: none;
     }
 
+    .sidenav {
+        height: 512px;
+        width: 379px;
+        right: -379px;
+        display: block;
+    }
+
+    .sidenav.active {
+        right: 0px;
+    }
+
     .sidenav a {
-        font-size: 24px;
+        font-size: 32px;
         display: block;
         transition: 0.1s;
     }
@@ -2783,12 +2863,16 @@ button#contact_validate {
     .sidenav a:hover {
         color: #444444;
     }
+
+    .sidenav p {
+        font-size: 24px;
+    }
       
     .sidenav ul {
         display: flex;
         list-style-type: none;
         padding: 0px;
-        margin: 10px 0px;
+        margin: 15px 0px;
         flex-direction: column;
         gap: 10px;
     }
@@ -2800,17 +2884,7 @@ button#contact_validate {
 
     .linkTop {
         padding: 0;
-        padding-left: 10px;
-    }
-
-    .sidenav {
-        height: 512px;
-        width: 226px;
-        display: block;
-    }
-
-    .sidenav.active {
-        right: 0px;
+        padding-left: 20px;
     }
     
     .burger-icon span {
@@ -2840,12 +2914,32 @@ button#contact_validate {
         font-size: 32px;
     }
 
+    #carousel-top-wrapper {
+        margin: 22px 35px;
+        gap: 10px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #carousel-top-column-right {
+        gap: 10px;
+        align-items: center;
+    }
+
+    #carousel-top-presentation p {
+        font-size: 22px;
+    }
+
+    #minerals-logo {
+        width: 175px;
+    }
+
     #figure-logo {
         top: 17vh;
         left: 21vh;
         right: 21vh;
-        width: 332px;
-        height: 422px;
+        width: 175px;
+        height: 265px;
     }
 
     #diaporama {
@@ -2866,7 +2960,7 @@ button#contact_validate {
 
     .search-zone {
         height: 38px;
-        font-size: 20px;
+        font-size: 16px;
     }
 
     #register-page-wrapper {
@@ -2897,8 +2991,8 @@ button#contact_validate {
     }
 
     #submit-search {
-        padding: 9px;
-        font-size: 19px;
+        padding: 10px;
+        font-size: 16px;
     }
 
     #mineral-submit-search {
@@ -2951,12 +3045,28 @@ button#contact_validate {
         margin: 0px 124px;
     }
 
+    .mineral-options a, .varieties-options a, .minerals-list-options a, .categories-options a, .discussions-list-options a, .return-btn {
+        font-size: 22px;
+    }
+
     #minerals-list {
         width: 680px;
     }
 
     #categories-list {
         width: 680px;
+    }
+
+    #categories-list li {
+        font-size: 20px;
+    }
+
+    .edit-btn, .anonymize-btn {
+        font-size: 22px;
+    }
+
+    .delete-btn {
+        font-size: 22px;
     }
 
     .formulaire-wrapper-mineral {
@@ -3121,9 +3231,9 @@ button#contact_validate {
 
     .adv-search-section h2 {
         font-size: 20px;
-        margin: 30px 37px;
+        margin: 33px 44px;
         width: fit-content;
-        padding: 10px;
+        padding: 10px 32px;
     }
 
     .adv-search-section {
@@ -3380,7 +3490,7 @@ button#contact_validate {
     .adv-search {
         border-radius: 15px;
         width: 300px;
-        height: 1601px;
+        height: 1300px;
         align-items: center;
         padding: 0px 15px;
     }
@@ -3391,7 +3501,7 @@ button#contact_validate {
 
     .adv-search-fields {
         width: 300px;
-        height: 1595px;
+        height: 1298px;
         font-size: 19px;
         align-items: center;
     }
@@ -3399,7 +3509,6 @@ button#contact_validate {
     #search-results {
         margin: 20px 0px;
         width: 278px;
-        height: 299px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -3497,15 +3606,15 @@ button#contact_validate {
     }
 
     #mineral-header h1 {
-        width: 220px;
+        width: fit-content;
         text-align: center;
     }
 
     #mineral-figure {
         display: flex;
         justify-content: center;
-        width: 270px;
-        height: 270px;
+        width: 233px;
+        height: 203px;
     }
 
     #mineral-figure p {
@@ -3542,7 +3651,7 @@ button#contact_validate {
     #varieties-images {
         flex-direction: row;
         align-items: center;
-        height: fit-content;
+        height: 245px;
         margin: 20px 15px;
     }
 
@@ -3561,7 +3670,7 @@ button#contact_validate {
     }
 
     .mineral-options a, .varieties-options a, .minerals-list-options a {
-        font-size: 13px;
+        font-size: 16px;
         text-align: center;
     }
 
@@ -3586,7 +3695,7 @@ button#contact_validate {
     #mineral-map {
         height: 300px;
         max-width: 280px;
-        left: 17px;
+        left: 0px;
     }
 
     #carousel-wrapper hr {
@@ -3693,6 +3802,44 @@ button#contact_validate {
         width: 300px;
     }
 
+    #edit-color-wrapper, 
+    #edit-lustre-wrapper, 
+    #new-color-wrapper, 
+    #new-lustre-wrapper,
+    #edit-role-user-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 50px 0px;
+    }
+
+    #edit-mineral-colors-wrapper,
+    #edit-mineral-lustres-wrapper,
+    #edit-mineral-varieties-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 50px 27px;
+        padding: 20px 24px;
+    }
+
+    #edit-mineral-colors-wrapper h1,
+    #edit-mineral-lustres-wrapper h1,
+    #edit-mineral-varieties-wrapper h1 {
+        width: 300px;
+    }
+
+    #edit-mineral-colors-wrapper hr,
+    #edit-mineral-lustres-wrapper hr,
+    #edit-mineral-varieties-wrapper hr {
+        width: 266px;
+    }
+    
+
+    #edit-role-user-wrapper .formulaire-wrapper {
+        margin: 40px 5px;
+    }
+
     #admin-list-group {
         display: flex;
         align-items: center;
@@ -3708,6 +3855,23 @@ button#contact_validate {
         flex-direction: column;
         gap: 10px;
         align-items: flex-start;
+    }
+
+    
+    #discussions-list-body {
+        margin: 50px 12px;
+        padding: 25px 0px;
+    }
+
+    .discussion-item {
+        margin: 20px 0px;
+        padding: 25px 20px;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .discussion-item-main {
+        padding-right: 0px;
     }
 
     .actions {
