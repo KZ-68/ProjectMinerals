@@ -38,10 +38,12 @@ class Coordinate
 
     #[ORM\Column(length: 50, nullable: true)]
     #[Groups(['coordinate:item:read', 'mineral:item:read', 'variety:item:read'])]
+    #[ApiResource(shortName:"latitude", types:"https://schema.org/latitude")]
     private ?string $latitude = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     #[Groups(['coordinate:item:read', 'mineral:item:read', 'variety:item:read'])]
+    #[ApiResource(shortName:"longitude", types:"https://schema.org/longitude")]
     private ?string $longitude = null;
 
     #[ORM\ManyToMany(targetEntity: Mineral::class, mappedBy: 'coordinates')]
