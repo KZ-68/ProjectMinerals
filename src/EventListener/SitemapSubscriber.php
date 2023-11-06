@@ -2,6 +2,7 @@
 
 namespace App\EventListener;
 
+use App\Repository\CategoryRepository;
 use App\Repository\MineralRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -14,9 +15,12 @@ class SitemapSubscriber implements EventSubscriberInterface
 
     private $mineralRepository;
 
-    public function __construct(MineralRepository $mineralRepository)
+    private $categoryRepository;
+
+    public function __construct(MineralRepository $mineralRepository, CategoryRepository $categoryRepository)
     {
         $this->mineralRepository = $mineralRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -35,6 +39,7 @@ class SitemapSubscriber implements EventSubscriberInterface
     public function populate(SitemapPopulateEvent $event): void
     {
         $this->registerMineralPagesUrls($event->getUrlContainer(), $event->getUrlGenerator());
+        $this->registerCategoriesUrls($event->getUrlContainer(), $event->getUrlGenerator());
     }
 
     /**
@@ -54,7 +59,29 @@ class SitemapSubscriber implements EventSubscriberInterface
                         UrlGeneratorInterface::ABSOLUTE_URL
                     )
                 ),
-                'wiki'
+                'mineral'
+            );
+        }
+    }
+
+    /**
+     * @param UrlContainerInterface $urls
+     * @param UrlGeneratorInterface $router
+     */
+    public function registerCategoriesUrls(UrlContainerInterface $urls, UrlGeneratorInterface $router): void
+    {
+        $categories = $this->categoryRepository->findAll();
+
+        foreach ($categories as $category) {
+            $urls->addUrl(
+                new UrlConcrete(
+                    $router->generate(
+                        'show_category',
+                        ['slug' => $category->getSlug()],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    )
+                ),
+                'category'
             );
         }
     }
