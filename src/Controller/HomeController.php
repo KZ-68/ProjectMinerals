@@ -20,7 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/', name: 'home_')]
 class HomeController extends AbstractController
 {
-    #[Route('home', name: 'index')]
+    #[Route('home', name: 'index', options: ['sitemap' => true])]
     public function index(MineralRepository $mineralRepository, VarietyRepository $varietyRepository, Request $request, PaginatorInterface $paginator): Response
     {
         // Crée un nouvel objet SearchData

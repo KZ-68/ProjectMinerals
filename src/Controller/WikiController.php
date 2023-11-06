@@ -671,7 +671,7 @@ class WikiController extends AbstractController
         return $this->redirectToRoute('app_image');
     }
 
-    #[Route('/privacy_policy', name: 'privacy_policy')]
+    #[Route('/privacy_policy', name: 'privacy_policy', options: ['sitemap' => ['priority' => 0.7, 'section' => 'privacy']])]
     #[IsGranted('PUBLIC_ACCESS')]
     public function privacyPolicy(Request $request): Response {
         return $this->render('wiki/privacy/privacy_policy.html.twig');
