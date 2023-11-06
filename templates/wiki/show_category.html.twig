@@ -4,21 +4,20 @@
 
 {% block body %}
 
-<h1>Minerals list for <strong>{{category.name}}</strong> category</h1>
-<hr>
-
 <div class="list-wrapper">
+    <h1>Minerals list for <strong>{{category.name}}</strong> category</h1>
+    <hr>
     <div>
-        <ul>
+        <ul id="categories-list">
+            {% if category.minerals | length > 0 %}
+                {% for mineral in category.minerals %}
             <li>
-                {% if category.minerals | length > 0 %}
-                    {% for mineral in category.minerals %}
-                        <a href="{{ path('show_mineral', {'slug': mineral.slug}) }}">{{mineral.name}}</a>
-                    {% endfor %}
-                {% else %}
-                    <p>There's no mineral added yet</p>
-                {% endif %}
+                <a href="{{ path('show_mineral', {'slug': mineral.slug}) }}">{{mineral.name}}</a>
             </li>
+            {% endfor %}
+            {% else %}
+                <p>There's no mineral added yet</p>
+            {% endif %}
         </ul>
     </div>
 </div>
