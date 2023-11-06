@@ -46,6 +46,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use App\Repository\ModificationHistoryRepository;
+use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -57,7 +58,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class WikiController extends AbstractController
 {
-    #[Route('/wiki/mineral', name: 'app_mineral')]
+    #[Route('/wiki/mineral', name: 'app_mineral', options: ['sitemap' => ['priority' => 0.7, 'changefreq' => UrlConcrete::CHANGEFREQ_WEEKLY, 'section' => 'mineral']])]
     #[IsGranted('PUBLIC_ACCESS')]
     public function index(MineralRepository $mineralRepository, Request $request): Response
     {        
@@ -614,7 +615,7 @@ class WikiController extends AbstractController
         ]);
     }
     
-    #[Route('/wiki/category', name: 'app_category')]
+    #[Route('/wiki/category', name: 'app_category', options: ['sitemap' => ['priority' => 0.7, 'changefreq' => UrlConcrete::CHANGEFREQ_WEEKLY, 'section' => 'category']])]
     #[IsGranted('PUBLIC_ACCESS')]
     public function categorieslist(CategoryRepository $categoryRepository): Response
     {
