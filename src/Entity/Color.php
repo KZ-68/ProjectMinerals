@@ -22,7 +22,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     ],
     order: ['name' => 'DESC'],
     paginationEnabled: false,
-
+    shortName: 'color',
+    types: ['https://schema.org/color']
 )]
 #[ORM\Entity(repositoryClass: ColorRepository::class)]
 #[ORM\HasLifecycleCallbacks]
