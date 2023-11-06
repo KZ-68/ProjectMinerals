@@ -63,7 +63,11 @@
                 </div>
 
                 <div id="nav-left">
-                    <a id="logo-header" href="{{ path('home_index') }}">KZ Minerals</a>
+
+                    <a id="logo-header" href="{{ path('home_index') }}">
+                        <img id="img-logo-header" src="{{asset('uploads/images/mineral-logo-filled.png')}}">
+                        KZ Minerals
+                    </a>
                     <div class="panel">
                         <a class="anchor-panel" href="{{ path('app_category') }}">Categories List</a>
                         <a class="anchor-panel" href="{{ path('app_mineral') }}">Minerals List</a>
