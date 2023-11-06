@@ -22,13 +22,15 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 #[ApiResource(
     operations: [
         new Get(
-            uriTemplate:'mineral/{name}',
+            uriTemplate:'minerals/{name}',
             normalizationContext: ['groups' => 'mineral:item:read']
         ),
         new GetCollection(normalizationContext: ['groups' => 'mineral:list:read'])
     ],
     order: ['name' => 'DESC'],
     paginationEnabled: false,
+    shortName: "Substance",
+    types: "https://schema.org/Substance"
 )]
 #[ORM\Entity(repositoryClass: MineralRepository::class)]
 #[ORM\HasLifecycleCallbacks]
