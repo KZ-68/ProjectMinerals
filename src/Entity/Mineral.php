@@ -165,6 +165,9 @@ class Mineral
     #[Groups(['mineral:item:read'])]
     private ?string $image_title = null;
 
+    #[ORM\OneToMany(mappedBy: 'mineral', targetEntity: Contribution::class, orphanRemoval: true)]
+    private Collection $contributions;
+
     public function __construct()
     {
         $this->colors = new ArrayCollection();
@@ -176,6 +179,7 @@ class Mineral
         $this->coordinates = new ArrayCollection();
         $this->modificationHistories = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->contributions = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -557,6 +561,36 @@ class Mineral
     public function setImageTitle(?string $image_title): static
     {
         $this->image_title = $image_title;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contribution>
+     */
+    public function getContributions(): Collection
+    {
+        return $this->contributions;
+    }
+
+    public function addContribution(Contribution $contribution): static
+    {
+        if (!$this->contributions->contains($contribution)) {
+            $this->contributions->add($contribution);
+            $contribution->setMineral($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContribution(Contribution $contribution): static
+    {
+        if ($this->contributions->removeElement($contribution)) {
+            // set the owning side to null (unless already changed)
+            if ($contribution->getMineral() === $this) {
+                $contribution->setMineral(null);
+            }
+        }
 
         return $this;
     }
