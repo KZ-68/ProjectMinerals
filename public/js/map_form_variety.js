@@ -14,36 +14,43 @@ window.onload = () => {
 // Fonction de l'événement au clic
 function mapClickListener(e) {
     // Récupère les coordonnées du clic
-    let pos = e.latlng
+    let lat = e.latlng.lat;
+    let lon = e.latlng.lng;
 
-    // Ajout d'un marqueur
-        addMarker(pos)
+    var geojsonFeature = {
 
-    // Affiche les coordonnées correspondantes dans le formulaire
-    document.querySelector("#variety_latitude").value = pos.lat // Coordonées de latitude
-    document.querySelector("#variety_longitude").value = pos.lng // Coordonnées de longitude
-}
-
-// Fonction d'ajout de marqueur
-function addMarker(pos) {
-    // Condition si un marqueur existe
-
-    marqueur = L.marker(pos, {
-        // Autorise le déplacement du marqueur
-        draggable: true
-    })
-
-    if (marqueur.value == pos ) {
-        mymap.removeLayer(marqueur)
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+                "type": "Point",
+                "coordinates": [lat, lon]
+        }
     }
 
-    marqueur.on("draggend", function (e) {
-        pos = e.target.getLatLng()
-        document.querySelector("#variety_latitude").value = pos.lat
-        document.querySelector("#variety_longitude").value = pos.lng
-    })
+    let marker;
 
-    marqueur.addTo(mymap) // Ajout du marqueur à la map
+    L.geoJson(geojsonFeature, {
+
+        pointToLayer: function(feature, latlng){
+
+            marker = L.marker([lat, lon], {
+
+                title: "Resource Location",
+                alt: "Resource Location",
+                riseOnHover: true,
+                draggable: true,
+
+            }).bindPopup("<input type='button' value='Delete this marker' class='marker-delete-button'/>");
+
+            marker.on("popupopen", onPopupOpen);
+
+            return marker;
+        }
+    }).addTo(mymap);
+
+    // Affiche les coordonnées correspondantes dans le formulaire
+    document.querySelector("#variety_latitude").value = lat // Coordonées de latitude
+    document.querySelector("#variety_longitude").value = lng // Coordonnées de longitude
 }
 
 function getRegion() {
@@ -63,7 +70,9 @@ function getRegion() {
                 document.querySelector("#variety_longitude").value = lon
                 let pos = [lat, lon]
                 for (let i = 0; i < pos.length; i++) {
-                    addMarker(pos)
+                    marker = new L.marker(pos, {
+                        draggable: false
+                    })
                 }
                 
                 mymap.setView(pos, 6)
@@ -76,4 +85,13 @@ function getRegion() {
 
     xmlhttp.send()
 
+}
+
+function onPopupOpen() {
+
+    var tempMarker = this;
+
+    $(".marker-delete-button:visible").click(function () {
+        mymap.removeLayer(tempMarker);
+    });
 }

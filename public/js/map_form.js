@@ -1,8 +1,8 @@
-let mymap, marker, oldmarker // Variable de la map et du marqueur
-oldmarker = marker;
+let mymap // Variable de la map et du marqueur
 let countryName = document.querySelector('#mineral_country_name');
 let editCountryName = document.querySelector('#edit_mineral_country_name');
 let coordinates = document.querySelectorAll('.coordinate-data');
+let formular = document.querySelector('.formulaire');
 
 window.onload = () => {
     mymap = L.map('mineral-map').setView([51.505, -0.09], 5); // Position sur la map par défaut
@@ -55,32 +55,50 @@ window.onload = () => {
 // Fonction de l'événement au clic
 function mapClickListener(e) {
     // Récupère les coordonnées du clic
-    let pos = e.latlng
 
-    // Ajout d'un marqueur
-    addMarker(pos)
+    let lat = e.latlng.lat;
+    let lon = e.latlng.lng;
+
+    var geojsonFeature = {
+
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+                "type": "Point",
+                "coordinates": [lat, lon]
+        }
+    }
+
+    let marker;
+
+    L.geoJson(geojsonFeature, {
+
+        pointToLayer: function(feature, latlng){
+
+            marker = L.marker([lat, lon], {
+
+                title: "Resource Location",
+                alt: "Resource Location",
+                riseOnHover: true,
+                draggable: true,
+
+            }).bindPopup("<input type='button' value='Delete this marker' class='marker-delete-button'/>");
+
+            marker.on("popupopen", onPopupOpen);
+
+            return marker;
+        }
+    }).addTo(mymap);
 
     // Affiche les coordonnées correspondantes dans le formulaire
     if(countryName) {
-        document.querySelector("#mineral_latitude").value = pos.lat // Coordonées de latitude
-        document.querySelector("#mineral_longitude").value = pos.lng // Coordonnées de longitude
+        document.querySelector("#mineral_latitude").value = lat // Coordonées de latitude
+        document.querySelector("#mineral_longitude").value = lon // Coordonnées de longitude
     } else {
-        document.querySelector("#edit_mineral_latitude").value = pos.lat // Coordonées de latitude
-        document.querySelector("#edit_mineral_longitude").value = pos.lng // Coordonnées de longitude
+        document.querySelector("#edit_mineral_latitude").value = lat // Coordonées de latitude
+        document.querySelector("#edit_mineral_longitude").value = lon // Coordonnées de longitude
     }
     
-}
-
-// Fonction d'ajout de marqueur
-function addMarker(pos) {
-    
-    // Condition si un marqueur existe
-    marker = new L.marker(pos, {
-        // Autorise le déplacement du marqueur
-        draggable: true
-    })
-
-    marker.addTo(mymap) // Ajout du marqueur à la map
 }
 
 function getCountry() {
@@ -102,7 +120,9 @@ function getCountry() {
                     document.querySelector("#mineral_longitude").value = lng
                     let pos = [lat, lng]
                     for (let i = 0; i < pos.length; i++) {
-                        addMarker(pos)
+                        marker = new L.marker(pos, {
+                            draggable: false
+                        })
                     }
                     
                     mymap.setView(pos, 5)
@@ -131,7 +151,9 @@ function getCountry() {
                     document.querySelector("#edit_mineral_longitude").value = lng
                     let pos = [lat, lng]
                     for (let i = 0; i < pos.length; i++) {
-                        addMarker(pos)
+                        marker = new L.marker(pos, {
+                            draggable: false
+                        })
                     }
                     
                     mymap.setView(pos, 5)
@@ -145,4 +167,13 @@ function getCountry() {
         xmlhttp.send()
     }
     
+}
+
+function onPopupOpen() {
+
+    var tempMarker = this;
+
+    $(".marker-delete-button:visible").click(function () {
+        mymap.removeLayer(tempMarker);
+    });
 }
