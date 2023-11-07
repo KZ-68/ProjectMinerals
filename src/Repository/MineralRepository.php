@@ -47,7 +47,7 @@ class MineralRepository extends ServiceEntityRepository
         if(!empty($searchData['search'])) {
             $dataQuery["name"] = $data
                 ->orwhere('m.name LIKE :search')
-                ->setParameter('search', '%'.$searchData['search'].'%')
+                ->setParameter('search', $searchData['search'].'%')
                 ->getQuery()
                 ->getResult();
             if($dataQuery["name"] !== []) {
@@ -56,7 +56,7 @@ class MineralRepository extends ServiceEntityRepository
             if($dataQuery["name"] === []) {
                 $dataQuery["formula"] = $data
                     ->orWhere('m.formula LIKE :search')
-                    ->setParameter('search', '%'.$searchData['search'].'%')
+                    ->setParameter('search', $searchData['search'].'%')
                     ->getQuery()
                     ->getResult();
                 if($dataQuery["formula"] !== []) {
@@ -66,7 +66,7 @@ class MineralRepository extends ServiceEntityRepository
             if ($dataQuery["formula"] === []) {
                 $dataQuery["crystal_system"] = $data
                     ->orWhere('m.crystal_system LIKE :search')
-                    ->setParameter('search', '%'.$searchData['search'].'%')
+                    ->setParameter('search', $searchData['search'].'%')
                     ->getQuery()
                     ->getResult();
                 if($dataQuery["crystal_system"] !== []) {
@@ -76,7 +76,7 @@ class MineralRepository extends ServiceEntityRepository
             if ($dataQuery["crystal_system"] === []) {
                 $dataQuery["density"] = $data 
                     ->orWhere('m.density LIKE :search')
-                    ->setParameter('search', '%'.$searchData['search'].'%')
+                    ->setParameter('search', $searchData['search'].'%')
                     ->getQuery()
                     ->getResult();
                 if($dataQuery["density"] !== []) {
@@ -106,7 +106,7 @@ class MineralRepository extends ServiceEntityRepository
             if ($dataQuery["fracture"] === []) {
                 $dataQuery["streak"] = $data 
                     ->orWhere('m.streak LIKE :search')
-                    ->setParameter('search', '%'.$searchData['search'].'%')
+                    ->setParameter('search', $searchData['search'].'%')
                     ->getQuery()
                     ->getResult();
                 if($dataQuery["streak"] !== []) {
@@ -117,7 +117,7 @@ class MineralRepository extends ServiceEntityRepository
                 $dataQuery["category"] = $data
                     ->innerJoin('m.category', 'c', 'WITH', 'c.id = m.category')
                     ->orWhere('c.name LIKE :search')
-                    ->setParameter('search', '%'.$searchData['search'].'%')
+                    ->setParameter('search', $searchData['search'].'%')
                     ->getQuery()
                     ->getResult();
                 if($dataQuery["category"] !== []) {
@@ -128,7 +128,7 @@ class MineralRepository extends ServiceEntityRepository
                 $dataQuery["varieties"] = $data 
                         ->leftJoin('m.varieties', 'v')
                         ->orWhere('v.name LIKE :search')
-                        ->setParameter('search', '%'.$searchData['search'].'%')
+                        ->setParameter('search', $searchData['search'].'%')
                         ->getQuery()
                         ->getResult();
                 if($dataQuery["varieties"] !== []) {
@@ -139,7 +139,7 @@ class MineralRepository extends ServiceEntityRepository
                 $dataQuery["colors"] = $data 
                         ->leftJoin('m.colors', 'co')
                         ->orWhere('co.name LIKE :search')
-                        ->setParameter('search', '%'.$searchData['search'].'%')
+                        ->setParameter('search', $searchData['search'].'%')
                         ->getQuery()
                         ->getResult();
                 if($dataQuery["colors"] !== []) {
@@ -150,7 +150,7 @@ class MineralRepository extends ServiceEntityRepository
                 $dataQuery["lustres"] = $data 
                         ->leftJoin('m.lustres', 'lu')
                         ->orWhere('lu.type LIKE :search')
-                        ->setParameter('search', '%'.$searchData['search'].'%')
+                        ->setParameter('search', $searchData['search'].'%')
                         ->getQuery()
                         ->getResult();
                 if($dataQuery["lustres"] !== []) {
@@ -197,19 +197,19 @@ class MineralRepository extends ServiceEntityRepository
                 ->andWhere('m.name LIKE :name')
                 /* On met en paramètre le champ de la classe AdvancedSearchData,
                 pour par la suite préparer la requête dans le controlleur */
-                ->setParameter('name', $advancedSearchData['name']);
+                ->setParameter('name', $advancedSearchData['name'].'%');
             }
         
             if(!empty($advancedSearchData['formula'])) {
                 $data = $data
                 ->andWhere('m.formula LIKE :formula')
-                ->setParameter('formula', $advancedSearchData['formula']);
+                ->setParameter('formula', $advancedSearchData['formula'].'%');
             }
             
             if(!empty($advancedSearchData['crystal_system'])) {
                 $data = $data
                 ->andWhere('m.crystal_system LIKE :crystal_system')
-                ->setParameter('crystal_system', $advancedSearchData['crystal_system']);
+                ->setParameter('crystal_system', $advancedSearchData['crystal_system'].'%');
             }
 
             if(!empty($advancedSearchData['density'])) {
