@@ -349,8 +349,11 @@ class ModificationHistoryListener
             $insertedCoordinates = $coordinatesCollection->getInsertDiff();
             $deletedCoordinates = $coordinatesCollection->getDeleteDiff();
 
+            $modificationHistory = new ModificationHistory();
+            $modificationHistory->setVariety($variety);
+            $modificationHistory->setUser($user);
+
             if ($changeSet != [] && $insertedImages) {
-                $modificationHistory = new ModificationHistory();
                 $modifiedDataImages = [
                     'image' => [
                     $insertedImages[0]->getFilename(),
@@ -358,7 +361,6 @@ class ModificationHistoryListener
                 ];
                 $modificationHistory->setChanges($modifiedDataImages, $changeSet);
             } else if ($changeSet != [] && $insertedCoordinates) {
-                $modificationHistory = new ModificationHistory();
                 $modifiedDataCoordinates = [
                     'coordinate' => [
                     $insertedCoordinates[0]->getLatitude(),
@@ -367,7 +369,6 @@ class ModificationHistoryListener
                 ];
                 $modificationHistory->setChanges($modifiedDataCoordinates, $changeSet);
             } else if ($changeSet != [] && $deletedImages) {
-                $modificationHistory = new ModificationHistory();
                 $modifiedDataImages = [
                     'image' => [
                     $deletedImages[0]->getFilename(),
@@ -375,7 +376,6 @@ class ModificationHistoryListener
                 ];
                 $modificationHistory->setChanges($modifiedDataImages, $changeSet);
             } else if ($changeSet != [] && $deletedCoordinates) {
-                $modificationHistory = new ModificationHistory();
                 $modifiedDataCoordinates = [
                     'coordinate' => [
                     $deletedCoordinates[0]->getLatitude(),
@@ -383,9 +383,10 @@ class ModificationHistoryListener
                     ]
                 ];
                 $modificationHistory->setChanges($modifiedDataCoordinates, $changeSet);
-            } 
-            $modificationHistory->setVariety($variety);
-            $modificationHistory->setUser($user);
+            } else {
+                $modificationHistory->setChanges([$changeSet]);
+            }
+           
             $variety->addModificationHistory($modificationHistory);
             $user->addModificationHistory($modificationHistory); 
             $entityManager->persist($modificationHistory);
