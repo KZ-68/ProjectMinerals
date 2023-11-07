@@ -672,12 +672,6 @@ class WikiController extends AbstractController
         return $this->redirectToRoute('app_image');
     }
 
-    #[Route('/privacy_policy', name: 'privacy_policy', options: ['sitemap' => ['priority' => 0.7, 'section' => 'privacy']])]
-    #[IsGranted('PUBLIC_ACCESS')]
-    public function privacyPolicy(Request $request): Response {
-        return $this->render('wiki/privacy/privacy_policy.html.twig');
-    }
-
     #[Route('/wiki/mineral/{slug}/show/pdfgenerator', name:'pdf_generator')]
     #[IsGranted('PUBLIC_ACCESS')]
     public function generatePdf(Mineral $mineral, ImageRepository $imageRepository, PdfGenerator $pdfGenerator) {
