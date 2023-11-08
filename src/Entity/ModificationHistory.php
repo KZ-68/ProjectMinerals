@@ -18,7 +18,7 @@ class ModificationHistory
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'modificationHistories')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete:"SET NULL")]
     private ?User $user = null; // L'utilisateur qui a effectué la modification
 
     #[ORM\ManyToOne(inversedBy: 'modificationHistories')]

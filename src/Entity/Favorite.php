@@ -18,7 +18,7 @@ class Favorite
     private ?Mineral $mineral = null;
 
     #[ORM\ManyToOne(inversedBy: 'favorites')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete:"SET NULL")]
     private ?User $user = null;
 
     #[ORM\Column]

@@ -24,11 +24,11 @@ class Message
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'sent')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete:"SET NULL")]
     private ?User $sender = null;
 
     #[ORM\ManyToOne(inversedBy: 'received')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete:"SET NULL")]
     private ?User $recipient = null;
 
     #[ORM\Column]

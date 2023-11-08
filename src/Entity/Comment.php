@@ -33,7 +33,7 @@ class Comment
     private ?Discussion $discussion = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete:"SET NULL")]
     private ?User $user = null;
 
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'parent')]

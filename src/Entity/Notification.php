@@ -20,7 +20,7 @@ class Notification
     private ?bool $isRead = false;
 
     #[ORM\ManyToOne(inversedBy: 'notifications')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete:"SET NULL")]
     private ?User $user = null;
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'])]

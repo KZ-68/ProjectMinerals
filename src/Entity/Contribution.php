@@ -20,6 +20,7 @@ class Contribution
     private ?Mineral $mineral = null;
 
     #[ORM\ManyToOne(inversedBy: 'contributions')]
+    #[ORM\JoinColumn(onDelete:"SET NULL")]
     private ?User $user = null;
 
     #[ORM\Column]
