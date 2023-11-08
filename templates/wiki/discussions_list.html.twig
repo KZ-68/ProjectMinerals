@@ -24,7 +24,11 @@
             <li class="discussion-item">
                 <div class="discussion-item-main">
                     <a href="{{path('discussion_mineral', {'slug': mineral.slug, 'discussionSlug': discussion.slug})}}">{{discussion.subject}}</a>
-                    <span>Created by {{discussion.user.username}}</span>
+                    {% if discussion.user == null %}
+                        <span>Created by Deleted User</span>
+                    {% else %}
+                        <span>Created by {{discussion.user.username}}</span>
+                    {% endif %}
                 </div>
                 {% if discussion.comments | length > 0 %}
                     <div class="discussion-item-stats">{{discussion.comments | length}} comments</div>
@@ -36,7 +40,10 @@
                     {% if discussion.comments | length > 0 %}
                             <img class="discussion-lastCommentUser-avatar" src="{{asset('uploads/images/' ~ discussion.comments|last.user.avatar)}}">
                             <div class="discussion-lastCommentUser-data">
-                                <span>{{discussion.comments|last.user.username}}</span>
+                                {% if discussion.comments|last.user == null %}
+                                {% else %}
+                                    <span>{{discussion.comments|last.user.username}}</span>
+                                {% endif %}
                                 <time>{{discussion.comments|last.createdAt|date("l h:i")}}</time>
                             </div>
                     {% else %} 
