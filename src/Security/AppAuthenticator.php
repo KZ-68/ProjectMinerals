@@ -69,19 +69,26 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        
+        // Si le chemin de l'URL force l'utilisateur à se connecter.
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
 
             $user = $token->getUser();
-
+            // Si le chemin contient une route vers la page admin mais que l'utilisateur n'a pas le rôle ADMIN :
             if(str_contains($targetPath, '/admin') && !in_array('ROLE_ADMIN', $user->getRoles())) {
+                // Redirection vers la homepage
                 return new RedirectResponse($this->urlGenerator->generate('home_index'));
+            // Si le chemin contient une route vers la page admin et que l'utilisateur est administrateur :
+            } else if (str_contains($targetPath, '/admin') && in_array('ROLE_ADMIN', $user->getRoles())) {
+                // Redirection vers la page cible
+                return new RedirectResponse($targetPath);
             } else {
+                // Redirection par défaut
                 return new RedirectResponse($targetPath);
             }
            
         } 
-        
+
+        return new RedirectResponse($this->urlGenerator->generate('home_index'));
     }
 
     protected function getLoginUrl(Request $request): string
