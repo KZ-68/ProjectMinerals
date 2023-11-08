@@ -172,6 +172,10 @@ thead tr {
     font-family: 'Oswald';
 }
 
+#img-logo-header {
+    width: 32px;
+}
+
 .topBtn {
     background: none;
     border: none;
@@ -213,6 +217,14 @@ thead tr {
     margin: 40px 289px;
     border-radius: 10px;
     background-color: #fcfcfccc;
+}
+
+.coordinate-data-lat {
+    display: none;
+}
+
+.coordinate-data-lng {
+    display: none;
 }
 
 .change-meta-description-wrapper {
@@ -364,6 +376,14 @@ form[name='edit_mineral'] {
     border-radius: 5px;
     height: 45px;
     width: 100%;
+    font-size: 18px;
+    padding: 10px;
+}
+
+.form-message {
+    border-radius: 5px;
+    border: 2px solid #808080;
+    height: 45px;
     font-size: 18px;
     padding: 10px;
 }
@@ -662,7 +682,7 @@ header a:hover {
 #carousel-top-heading {
     color: #ffffff;
     background-color: unset;
-    font-size: 28px;
+    font-size: 32px;
 }
 
 #carousel-top-presentation p {
@@ -1018,8 +1038,9 @@ div.formulaire-login a {
 }
 
 #home-description h4 {
-    font-size: 26px;
-    color: #ffffff;
+    font-size: 28px;
+    color: var(--secondary-color);
+    font-weight: 700;
 }
 
 #home-description p {
@@ -1032,10 +1053,11 @@ div.formulaire-login a {
     display: flex;
     flex-direction: row;
     gap: 200px;
+    padding: 0px 40px;
 }
 
 #home-statistics-heading {
-    font-size: 26px;
+    font-size: 30px;
     color: #ffffff;
     padding: 15px 0px;
 }
@@ -1098,6 +1120,21 @@ div.formulaire-login a {
     top: 10vh;
     left: 5vh;
     right: 5vh;
+}
+
+.lightbox2 figcaption {
+    position: absolute;
+    top: -64px;
+    left: 229px;
+    z-index: 1;
+    font-weight: 700;
+    background-color: #555555ab;
+    padding: 11px 36px;
+    border-radius: 5px;
+}
+
+.lightbox2 > figure > figcaption > a {
+    color: #3fe5c5;
 }
 
 .return-btn-zone {
@@ -1381,7 +1418,7 @@ form[name='add_color'] div, form[name='add_lustre'] div {
     animation-name: fade-images-icon;
     animation-duration: 2.5s;
     animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
-}
+} 
 
 #images-list-figure #download {
     position: absolute;
@@ -1390,6 +1427,22 @@ form[name='add_color'] div, form[name='add_lustre'] div {
     display: none;
     z-index: 20;
 }  
+
+.zoom-in-message {
+    padding: 138px 108px;
+    position: absolute;
+    display: none;
+    color: #ffffff;
+    z-index: 2;
+    pointer-events: none;
+}
+
+#images-list-figure:hover .zoom-in-message {
+    display: block;
+    animation-name: fade-images-icon;
+    animation-duration: 2.5s;
+    animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+}
 
 @keyframes fade-images-icon {
     from {
@@ -2605,6 +2658,22 @@ button#contact_validate {
     gap: 20px;
 }
 
+#terms-of-service-wrapper {
+    margin: 30px 20px;
+}
+
+#terms-of-service-body-heading {
+    background-color: unset;
+    padding: 0;
+}
+
+#terms-of-service-body {
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .anchor-footer {
     font-size: 20px;
     color: #ffffff;
@@ -2666,7 +2735,7 @@ button#contact_validate {
     }
 
     .adv-search-wrapper {
-        margin: 0px 210px;
+        margin: 0px 132px;
     }
 
     .adv-search-fields {
@@ -2927,7 +2996,7 @@ button#contact_validate {
     }
 
     #carousel-top-presentation p {
-        font-size: 22px;
+        font-size: 20px;
     }
 
     #minerals-logo {
@@ -2961,6 +3030,18 @@ button#contact_validate {
     .search-zone {
         height: 38px;
         font-size: 16px;
+    }
+
+    #home-description section {
+        margin: 0px 104px;
+        gap: 90px;
+    }
+
+    #home-statistics-body {
+        display: flex;
+        flex-direction: column;
+        gap: 57px;
+        padding: 0px 0px;
     }
 
     #register-page-wrapper {
@@ -3189,13 +3270,11 @@ button#contact_validate {
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
     h1 {
-        width: 347px;
         text-align: center;
         font-size: 24px;
     }
     
     h2 {
-        width: fit-content;
         font-size: 20px;
         padding: 10px 20px 10px 20px;
     }
@@ -3344,9 +3423,16 @@ button#contact_validate {
     }
 
     #home-description section {
-        gap: 30px;
+        gap: 50px;
         align-items: center;
         margin: 10px 20px;
+        flex-direction: column;
+    }
+
+    #home-statistics-body {
+        flex-direction: column;
+        gap: 32px;
+        padding: 0px 0px;
     }
 
     #home-statistics-wrapper {
@@ -3558,11 +3644,18 @@ button#contact_validate {
         background-color: unset;
     }
 
+    .list-group {
+        align-items: center;
+    }
+
     .form-control {
-        height: 33px;
         width: 260px;
         font-size: 15px;
+    }
 
+    .form-message {
+        width: 100%;
+        font-size: 15px;
     }
 
     .formulaire-login {
@@ -3758,6 +3851,24 @@ button#contact_validate {
     .list-main {
         flex-direction: column;
         align-items: center;
+    }
+
+    .message-box-wrapper {
+        flex-direction: column;
+        gap: 75px;
+    }
+
+    .message-menu-wrapper {
+        width: unset;
+        border-right: none;
+        padding: 15px 18px;
+        margin: 20px 0px;
+        flex-direction: column;
+    }
+
+    .message-zone {
+        margin: 20px 25px;
+        width: unset;
     }
 
     .list-wrapper {
