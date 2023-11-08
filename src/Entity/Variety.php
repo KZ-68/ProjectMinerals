@@ -66,6 +66,9 @@ class Variety
     #[ORM\OneToMany(mappedBy: 'variety', targetEntity: ModificationHistory::class)]
     private Collection $modificationHistories;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image_presentation = null;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -199,6 +202,18 @@ class Variety
                 $modificationHistory->setVariety(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImagePresentation(): ?string
+    {
+        return $this->image_presentation;
+    }
+
+    public function setImagePresentation(?string $image_presentation): static
+    {
+        $this->image_presentation = $image_presentation;
 
         return $this;
     }
