@@ -45,7 +45,7 @@ if(modals.length > 0) {
 
                     const lightbox2Each = lightbox2[modalIndex];
                     if (active1) {
-                        lightbox2Each.style.backgroundColor = "rgba(0, 0, 0, 0.7)";  
+                        lightbox2Each.style.backgroundColor = "#000000ed";  
                         lightbox2Each.style.display = 'block';
                     } 
                     lightbox2Each.addEventListener(
