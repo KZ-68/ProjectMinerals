@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,15 +25,21 @@ class VarietyType extends AbstractType
                     'class' => 'form-control' 
                 ]
             ])
-            ->add('images', FileType::class, [
-                'label' => false,
-                'multiple' => true,
+            ->add('image_presentation', FileType::class, [
+                'label' => 'Image Presentation',
+                'multiple' => false,
                 'mapped' => false,
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-file'
+                ],
                 'constraints' => [
-                new All ([
+                    new Image ([
+                        'maxSize' => '5000k',
+                        "maxSizeMessage" => 'The size of this image is too big, 
+                        the maximum size autorized is {{ limit }} {{ suffix }}'
+                    ]),
                     new File([
-                        'maxSize' => '2048k',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/jpg',
@@ -43,10 +50,8 @@ class VarietyType extends AbstractType
                             'image/bmp'
                         ],
                         'mimeTypesMessage' => 'Please upload a valid image format',
-                    ])
-                ])
-                    
-            ],
+                    ])  
+                ],
             ])
             ->add('region_name', TextType::class, [
                 'mapped' => false,
@@ -66,6 +71,37 @@ class VarietyType extends AbstractType
                 'attr' => [
                     'readonly' => true
                 ]
+            ])
+            ->add('images', FileType::class, [
+                'label' => 'Images Collection',
+                'multiple' => true,
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-file'
+                ],
+                'constraints' => [
+                    new All ([
+                        new Image ([
+                            'maxSize' => '5000k',
+                            "maxSizeMessage" => 'The size of this image is too big, 
+                            the maximum size autorized is {{ limit }} {{ suffix }}'
+                        ]),
+                        new File([
+                            'maxSize' => '2048k',
+                            'mimeTypes' => [
+                                'image/jpeg',
+                                'image/jpg',
+                                'image/png',
+                                'image/webp',
+                                'image/x-icon',
+                                'image/tiff',
+                                'image/bmp'
+                            ],
+                            'mimeTypesMessage' => 'Please upload a valid image format',
+                        ])
+                    ])
+                ],
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [

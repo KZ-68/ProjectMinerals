@@ -15,11 +15,12 @@
     {{ form_start(form) }}
     <div class="formulaire">
         {{ form_row(form.name) }}
-        {{ form_row(form.images) }}
+        {{ form_row(form.image_presentation)}}
         {{ form_row(form.region_name) }}
         <div id="mineral-map"></div>
         {{ form_row(form.latitude) }}
         {{ form_row(form.longitude) }}
+        {{ form_row(form.images) }}
         {{ form_row(form.submit) }}
     </div>
     {{ form_end(form) }}
