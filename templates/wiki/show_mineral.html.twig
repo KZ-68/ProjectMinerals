@@ -148,23 +148,20 @@
         </div>
         
         <div id="varieties-images">
-            {% if varietyImages | length < 0 %}
-                <i>There's no image</i>
-            {% endif %}
-        {% for image in varietyImages %}
             
+        {% for variety in mineral.varieties %}
             <figure class="figure-varieties">
-            {% if image.filename is not null %}
-                    <img class="varieties-section-image" src="{{asset('uploads/images/' ~ image.filename) }}" alt="Variety Mineral">
-            {% else %}
-                <i>Missing image</i>
-            {% endif %}
-            
-            {% if image.variety.name is not null %}
-                <figcaption><a href="{{path('show_variety', {'slug': image.variety.slug})}}">{{image.variety.name}}</a></figcaption>
-            {% else %}
-                <i>Missing information</i>
-            {% endif %}
+                {% if variety.imagePresentation != null %}
+                        <img class="varieties-section-image" src="{{asset('uploads/images/' ~ variety.imagePresentation) }}" alt="Variety Mineral">
+                {% else %}
+                    <i>Missing image</i>
+                {% endif %}
+                
+                {% if variety.name != null %}
+                    <figcaption><a href="{{path('show_variety', {'slug': variety.slug})}}">{{variety.name}}</a></figcaption>
+                {% else %}
+                    <i>Missing information</i>
+                {% endif %}
             </figure>
 
         {% endfor %}
