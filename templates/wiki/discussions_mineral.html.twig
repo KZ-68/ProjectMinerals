@@ -22,8 +22,8 @@
                 <figure id="discussion-avatar-header">
                     <img id="avatar-header" src="{{asset('uploads/images/' ~ discussion.user.avatar)}}">
                 </figure>
-                {% if discussion.user is null %}
-                    <div>User deleted</div>
+                {% if discussion.user == null %}
+                    <div>Deleted user</div>
                 {% else %}
                     <div>{{discussion.user.username}}</div>
                 {% endif %}
@@ -67,8 +67,8 @@
                             <figure id="response-avatar-header">
                                 <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
                             </figure>
-                            {% if comment.user is null %}
-                                <div>User deleted</div>
+                            {% if comment.user == null %}
+                                <div>Deleted User</div>
                             {% else %}
                                 <div>{{comment.user.username}}</div>
                             {% endif %}
@@ -108,8 +108,8 @@
                             <figure id="comment-avatar-header">
                                 <img id="avatar-header" src="{{asset('uploads/images/' ~ comment.user.avatar)}}">
                             </figure>
-                            {% if comment.user is null %}
-                                <div>User deleted</div>
+                            {% if comment.user == null %}
+                                <div>Deleted user</div>
                             {% else %}
                                 <div>{{comment.user.username}}</div>
                             {% endif %}
