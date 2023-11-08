@@ -28,11 +28,11 @@ class MessageType extends AbstractType
                 ]
             ])
             ->add('recipient', EntityType::class, [
-                'label' => 'user',
+                'label' => 'User email',
                 'class' => User::class,
                 'choice_label' => 'email',
                 'attr' => [
-                    'class' => 'form-control' 
+                    'class' => 'form-message' 
                 ]
             ])
             ->add('send', SubmitType::class, [
