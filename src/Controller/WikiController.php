@@ -329,14 +329,14 @@ class WikiController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $mineral = $form->getData();
             
-            $titleImage = $form->get('image_title')->getData();
+            $imageTitleData = $form->get('image_title')->getData();
             // On récupère une collection d'images
             $images = $form->get('images')->getData();
             $latitude = $form->get('latitude')->getData();
             $longitude = $form->get('longitude')->getData();
 
-            if($titleImage) {
-                $newFileNameTitle = $fileUploader->upload($titleImage);
+            if($imageTitleData) {
+                $newFileNameTitle = $fileUploader->upload($imageTitleData);
                 $imgTitle = new Image;
                 $imgTitle->setFileName($newFileNameTitle);
                 $mineral->addImage($imgTitle);
@@ -501,7 +501,17 @@ class WikiController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $variety = $form->getData();
+            $imagePresentationData = $form->get('image_presentation')->getData();
             $images = $form->get('images')->getData();
+
+            if($imagePresentationData) {
+                $newFileNamePresentation = $fileUploader->upload($imagePresentationData);
+                $imgPresentation = new Image;
+                $imgPresentation->setFileName($newFileNamePresentation);
+                $mineral->addImage($imgPresentation);
+                $variety->addImage($imgPresentation);
+                $variety->setImagePresentation($newFileNamePresentation);
+            }
 
             foreach ($images as $image) {
                 $newFileName = $fileUploader->upload($image);
