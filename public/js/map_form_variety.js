@@ -50,7 +50,7 @@ function mapClickListener(e) {
 
     // Affiche les coordonnées correspondantes dans le formulaire
     document.querySelector("#variety_latitude").value = lat // Coordonées de latitude
-    document.querySelector("#variety_longitude").value = lng // Coordonnées de longitude
+    document.querySelector("#variety_longitude").value = lon // Coordonnées de longitude
 }
 
 function getRegion() {
