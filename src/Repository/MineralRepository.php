@@ -156,9 +156,13 @@ class MineralRepository extends ServiceEntityRepository
                 if($dataQuery["lustres"] !== []) {
                     return $dataQuery["lustres"];
                 }
+            }  
+            if ($dataQuery["lustres"] == []) {
+                $dataQuery = [];
+                return $dataQuery;
             }
-                
-        }   
+        } 
+
     }
 
     public function findBySearch(SearchData $searchData): PaginationInterface {
