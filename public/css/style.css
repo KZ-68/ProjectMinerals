@@ -1062,7 +1062,7 @@ div.formulaire-login a {
     padding: 15px 0px;
 }
 
-#image-zoom1, .image-zoom2 {
+#image-zoom1, .image-zoom2, .image-zoom3 {
     position: absolute;
     margin-left: auto;
     margin-right: auto;
@@ -1088,6 +1088,14 @@ div.formulaire-login a {
     display: block;
 }
 
+.image-zoom3.active {
+    width: 1350px;
+    top: 70vh;
+    left: 0;
+    right: 0;
+    display: block;
+}
+
 #lightbox1 {
     width: 3000px;
     height: 2874px;
@@ -1105,9 +1113,8 @@ div.formulaire-login a {
     left: 119vh;
 }
 
-.lightbox2 {
+.lightbox2, .lightbox3 {
     width: 1900px;
-    height: 1295px;
     position: absolute;
     z-index: 9999;
     top: 0;
@@ -1115,16 +1122,23 @@ div.formulaire-login a {
     display: none;
 }
 
-.lightbox2 figure {
+.lightbox2 {
+    height: 1295px;
+}
+
+.lightbox3 {
+    height: 1609px;
+}
+
+.lightbox2 figure, .lightbox3 figure {
     position: absolute;
     top: 10vh;
     left: 5vh;
     right: 5vh;
 }
 
-.lightbox2 figcaption {
+.lightbox2 figcaption, .lightbox3 figcaption {
     position: absolute;
-    top: -64px;
     left: 229px;
     z-index: 1;
     font-weight: 700;
@@ -1133,7 +1147,17 @@ div.formulaire-login a {
     border-radius: 5px;
 }
 
-.lightbox2 > figure > figcaption > a {
+.lightbox2 figcaption {
+    top: -64px;
+}
+
+.lightbox3 figcaption {
+    top: 600px;
+}
+
+.lightbox2 > figure > figcaption > a, 
+.lightbox3 > figure > figcaption > a 
+{
     color: #3fe5c5;
 }
 
@@ -1413,14 +1437,21 @@ form[name='add_color'] div, form[name='add_lustre'] div {
     z-index: 20;
 }
 
-#images-list-figure:hover a, #images-list-figure:hover #download {
+.download-icon {
+    position: absolute;
+    top: 6px;
+    right: 9px;
+    z-index: 2;
+}
+
+#images-list-figure:hover a, #images-list-figure:hover .download-icon {
     display: block;
     animation-name: fade-images-icon;
     animation-duration: 2.5s;
     animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
 } 
 
-#images-list-figure #download {
+#images-list-figure .download-icon {
     position: absolute;
     right: 45px;
     top: 8px;
@@ -1844,6 +1875,13 @@ section.section-map {
     min-height: 246px;
     color: var(--primary-color);
     background-color: #d6d7e6;
+}
+
+.cCarousel-item:hover .zoom-in-message {
+    display: block;
+    animation-name: fade-images-icon;
+    animation-duration: 2.5s;
+    animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 #mineral-variety-wrapper {
@@ -3787,6 +3825,7 @@ button#contact_validate {
 
     #mineral-map {
         height: 300px;
+        width: 252px;
         max-width: 280px;
         left: 0px;
     }
@@ -3873,6 +3912,14 @@ button#contact_validate {
 
     .list-wrapper {
         margin: 29px 25px;
+    }
+
+    #mineral-variety-header {
+        padding: 0px 90px;
+    }
+
+    #carousel-wrapper h2 {
+        width: unset;
     }
 
     #minerals-list, #categories-list {
