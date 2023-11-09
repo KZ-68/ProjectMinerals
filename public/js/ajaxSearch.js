@@ -17,6 +17,7 @@ $(document).ready(function() {
                     resultsContainer.append('</li>');
                 });
                 resultsContainer.css('margin', '17px 0px');
+                $('nav').remove();
             },
             error: function (error) {
               console.error('Erreur lors de la recherche :', error);
