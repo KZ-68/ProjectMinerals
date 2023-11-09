@@ -1,10 +1,13 @@
 let description = document.getElementById("home-description");
 let lightbox = document.getElementById("lightbox1");
 let lightbox2 = document.querySelectorAll(".lightbox2");
+let lightbox3 = document.querySelectorAll(".lightbox3");
 let imageZoom = document.getElementById('image-zoom1');
 let imageZoom2 = document.querySelectorAll(".image-zoom2");
+let imageZoom3 = document.querySelectorAll(".image-zoom3");
 let mineralImages = document.querySelectorAll("mineral-image");
 let modals = document.querySelectorAll("div.images-list-modal");
+let carouselImagesList = document.querySelectorAll("article.cCarousel-item");
 
 function isDesktopScreen() {
     const mobiles = window.matchMedia("(min-device-width : 320px) and (max-device-width : 480px)");
@@ -54,6 +57,39 @@ if(modals.length > 0) {
                             let active2 = imageZoomEach.classList.toggle("active");
                             if (!active2) {
                                 lightbox2Each.style.display = 'none';
+                            }
+                        },
+                        {
+                            once: true
+                        }
+                    );
+
+        });
+    });
+} 
+
+if (carouselImagesList.length > 0) {
+    carouselImagesList.forEach((carouselImage, modalIndex) => {
+        carouselImage.addEventListener("click", function() {
+
+            if (!isDesktopScreen()) {
+                return;
+            }
+
+            const imageZoomEach = imageZoom3[modalIndex];
+                let active1 = imageZoomEach.classList.toggle("active");
+
+                    const lightbox3Each = lightbox3[modalIndex];
+                    if (active1) {
+                        lightbox3Each.style.backgroundColor = "#000000ed";  
+                        lightbox3Each.style.display = 'block';
+                    } 
+                    lightbox3Each.addEventListener(
+                        "click",
+                        function() {
+                            let active2 = imageZoomEach.classList.toggle("active");
+                            if (!active2) {
+                                lightbox3Each.style.display = 'none';
                             }
                         },
                         {
