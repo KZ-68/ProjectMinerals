@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %} 
+
+{% block title %}Edit a variety{% endblock %}
+
+{% block body %}
+
+<div class="return-btn-zone">
+    <a class="return-btn" href="{{ path('show_variety', {'slug': variety.slug}) }}">Return</a>
+</div>
+
+<h1>Edit Variety {{variety.name}}</h1>
+<hr>
+
+<div class="formulaire-wrapper">
+    {{ form_start(form) }}
+    <div class="formulaire">
+        {{ form_row(form.name) }}
+        {{ form_row(form.image_presentation)}}
+        {{ form_row(form.region_name) }}
+        <div id="mineral-map"></div>
+        {{ form_row(form.latitude) }}
+        {{ form_row(form.longitude) }}
+        {{ form_row(form.images) }}
+        {{ form_row(form.submit) }}
+    </div>
+    {{ form_end(form) }}
+</div>
+
+{% block javascript %}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <script src="/js/map_form_variety.js"></script>
+{% endblock %}
+
+{% endblock %}
