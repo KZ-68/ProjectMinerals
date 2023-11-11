@@ -31,7 +31,6 @@ class ModificationHistoryListener
         $lustre = $args->getObject();
         $image = $args->getObject();
         $variety = $args->getObject();
-        
         if ($mineral instanceof Mineral) {
             $user = $this->tokenStorage->getToken()->getUser();
             $entityManager = $args->getObjectManager();
@@ -63,7 +62,6 @@ class ModificationHistoryListener
             $modificationHistory->setMineral($mineral);
             $modificationHistory->setUser($user);
 
-            
             if ($deletedColors && !$insertedColors) {
                 $modifiedDataColors = [
                     'color' => [
@@ -277,21 +275,49 @@ class ModificationHistoryListener
         if($color instanceof Color) {
             $entityManager = $args->getObjectManager();
             $user = $this->tokenStorage->getToken()->getUser();
-
+            
             $changeSet = $entityManager->getUnitOfWork()->getEntityChangeSet($color);
+            $mineralsCollection = $color->getMinerals();
+            
+            $insertedMinerals = $mineralsCollection->getInsertDiff();
+            $deletedMinerals = $mineralsCollection->getDeleteDiff();
 
-            if ($changeSet != []) {
-                $modificationHistory = new ModificationHistory();
-                $modificationHistory->setColor($color);
-                $modificationHistory->setUser($user);
-                $modificationHistory->setChanges($changeSet);
-                $color->addModificationHistory($modificationHistory);
-                $user->addModificationHistory($modificationHistory);
+            $modificationHistory = new ModificationHistory();
+            $modificationHistory->setColor($color);
+            $modificationHistory->setUser($user);
 
-                $entityManager->persist($modificationHistory);
-                $entityManager->persist($color);
-                $entityManager->flush();
-            } 
+            if ($insertedMinerals && !$deletedMinerals) {
+                $modifiedDataMinerals = [
+                    'mineral' => [
+                        $insertedMinerals[0]->getName(),
+                    ]
+                ];
+                $modificationHistory->setChanges($modifiedDataMinerals);
+            } else if (!$insertedMinerals && $deletedMinerals) {
+                $modifiedDataMinerals = [
+                    'mineral' => [
+                        $deletedMinerals[0]->getName(),
+                    ]
+                ];
+                $modificationHistory->setChanges($modifiedDataMinerals);
+            } else if ($insertedMinerals && $deletedMinerals) {
+                $modifiedDataMinerals = [
+                    'mineral' => [
+                        $insertedMinerals[0]->getName(),
+                        $deletedMinerals[0]->getName()
+                    ]
+                ];
+                $modificationHistory->setChanges([$modifiedDataMinerals]);
+            } else {
+                $modificationHistory->setChanges([$changeSet]);
+            }
+            
+            $color->addModificationHistory($modificationHistory);
+            $user->addModificationHistory($modificationHistory); 
+            $entityManager->persist($modificationHistory);
+            $entityManager->persist($color);
+            $entityManager->flush();
+
         }
 
         if($lustre instanceof Lustre) {
