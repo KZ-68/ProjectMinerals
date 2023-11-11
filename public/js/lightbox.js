@@ -7,7 +7,7 @@ let imageZoom2 = document.querySelectorAll(".image-zoom2");
 let imageZoom3 = document.querySelectorAll(".image-zoom3");
 let mineralImages = document.querySelectorAll("mineral-image");
 let modals = document.querySelectorAll("div.images-list-modal");
-let carouselImagesList = document.querySelectorAll("article.cCarousel-item");
+let carouselImagesList = document.querySelectorAll(".cCarousel-item");
 
 function isDesktopScreen() {
     const mobiles = window.matchMedia("(min-device-width : 320px) and (max-device-width : 480px)");
