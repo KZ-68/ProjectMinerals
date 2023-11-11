@@ -20,6 +20,7 @@ use App\Entity\Coordinate;
 use App\Entity\Discussion;
 use App\Form\DiscussionType;
 use App\Form\EditMineralType;
+use App\Form\EditVarietyType;
 use App\Service\FileUploader;
 use App\Service\PdfGenerator;
 use App\Form\MineralColorType;
@@ -536,6 +537,92 @@ class WikiController extends AbstractController
         ]);
     }
 
+    #[Route('/wiki/variety/{slug}/show/edit', name: 'edit_variety')]
+    #[IsGranted('ROLE_USER')]
+    public function edit_variety(
+        Variety $variety, ImageRepository $imageRepository, Request $request, 
+        EntityManagerInterface $entityManager, FileUploader $fileUploader
+        ): Response
+    {
+        
+        $mineral = $variety->getMineral();
+        $oldFileNamePresentation = $variety->getImagePresentation();
+
+        $editForm = $this->createForm(EditVarietyType::class, $variety);
+
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $imagePresentationData = $editForm->get('image_presentation')->getData();
+            if ($imagePresentationData) {
+
+                if($oldFileNamePresentation) {
+                    $oldImagePresentation = $imageRepository->findOneBy(['filename' => $oldFileNamePresentation]);
+                    
+                    $newImagePresentationFileName = $fileUploader->upload($imagePresentationData);
+                    
+                    $imgPresentation = new Image;
+                    $imgPresentation->setFileName($newImagePresentationFileName);
+                    $variety->addImage($imgPresentation);
+                    $variety->setImagePresentation($newImagePresentationFileName);
+
+                    $variety->removeImage($oldImagePresentation);
+                } else {
+                    $newImagePresentationFileName = $fileUploader->upload($imagePresentationData);
+                    
+                    $imgPresentation = new Image;
+                    $imgPresentation->setFileName($newImagePresentationFileName);
+                    $variety->addImage($imgPresentation);
+                    $variety->setImagePresentation($newImagePresentationFileName);
+                }
+            }
+            $newImages = $editForm->get('images')->getData();
+
+            foreach ($newImages as $image) {
+                $newFileName = $fileUploader->upload($image);
+                $img = new Image;
+                $img->setFileName($newFileName);
+                $variety->addImage($img);
+                $mineral->addImage($img);
+            }
+
+            foreach ($variety->getImages() as $image) {
+                if (false === $variety->getImages()->contains($image)) {
+                    $variety->removeImage($image);
+                    $mineral->removeImage($image);
+
+                    $entityManager->persist($image);
+                }
+            }
+
+            foreach ($variety->getCoordinates() as $coordinate) {
+                if (false === $variety->getCoordinates()->contains($coordinate)) {
+                    $variety->removeCoordinate($coordinate);
+                    $entityManager->persist($coordinate);
+                }
+            }
+
+            $coordinate = new Coordinate();
+            $latitude = $editForm->get('latitude')->getData();
+            $longitude = $editForm->get('longitude')->getData();
+            if ($latitude != null && $longitude != null) {
+                $coordinate->setLatitude($latitude);
+                $coordinate->setLongitude($longitude);
+                $variety->addCoordinate($coordinate);
+            }
+            $entityManager->persist($variety);
+            $entityManager->flush();
+
+            // Redirige vers la page d'édition voulue
+            return $this->redirectToRoute('show_variety', ['slug' => $variety->getSlug()]);
+
+        }
+
+        return $this->render('wiki/edit_variety.html.twig', [
+            'form' => $editForm,
+            'variety' => $variety
+        ]);
+    } 
     
     #[Route("/wiki/mineral/{slug}/show/history", name:"mineral_history")]
     public function showHistory(Mineral $mineral, ModificationHistoryRepository $modificationHistoryRepository): Response
