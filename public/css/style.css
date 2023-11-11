@@ -1088,9 +1088,17 @@ div.formulaire-login a {
     display: block;
 }
 
-.image-zoom3.active {
+.lightbox-wrapper-variety > .lightbox3 > figure > .image-zoom3.active {
     width: 1350px;
     top: 70vh;
+    left: 0;
+    right: 0;
+    display: block;
+}
+
+.lightbox-wrapper-mineral > .lightbox3 > figure > .image-zoom3.active {
+    width: 1350px;
+    top: 322vh;
     left: 0;
     right: 0;
     display: block;
@@ -1114,7 +1122,7 @@ div.formulaire-login a {
 }
 
 .lightbox2, .lightbox3 {
-    width: 1900px;
+    width: 1920px;
     position: absolute;
     z-index: 9999;
     top: 0;
@@ -1126,8 +1134,12 @@ div.formulaire-login a {
     height: 1295px;
 }
 
-.lightbox3 {
+.lightbox-wrapper-variety > .lightbox3 {
     height: 1609px;
+}
+
+.lightbox-wrapper-mineral > .lightbox3 {
+    height: 4030px;
 }
 
 .lightbox2 figure, .lightbox3 figure {
@@ -1155,6 +1167,10 @@ div.formulaire-login a {
     top: 600px;
 }
 
+.lightbox-wrapper-mineral > .lightbox3 figcaption {
+    top: 3000px;
+}
+
 .lightbox2 > figure > figcaption > a, 
 .lightbox3 > figure > figcaption > a 
 {
@@ -1166,7 +1182,8 @@ div.formulaire-login a {
     margin: 10px 0px;
 }
 
-.mineral-options, 
+.mineral-options,
+.variety-options,
 .varieties-options, 
 .minerals-list-options, 
 .categories-options, 
@@ -1180,6 +1197,7 @@ div.formulaire-login a {
 }
 
 .mineral-options a, 
+.variety-options a,
 .varieties-options a, 
 .minerals-list-options a, 
 .categories-options a, 
@@ -1193,7 +1211,8 @@ div.formulaire-login a {
     border-radius: 10px;
 }
 
-.mineral-options a:hover, 
+.mineral-options a:hover,
+.variety-options a:hover,
 .varieties-options a:hover, 
 .minerals-list-options a:hover, 
 .categories-options a:hover, 
@@ -1633,6 +1652,13 @@ form[name='add_color'] div, form[name='add_lustre'] div {
     overflow-x: auto;
 }
 
+.missing-image {
+    padding: 139px 130px;
+    margin-bottom: 5px;
+    background-color: #ADADAD;
+    border-radius: 10px;
+}
+
 button.btn {
     font-size: 18px;
     font-weight: 700;
@@ -1703,16 +1729,32 @@ button.btn {
     justify-content: center;
 }
 
+.variety-zone {
+    width: fit-content;
+    margin: 5px 20px;
+    padding: 15px 13px;
+    border-radius: 10px;
+    background-color: #fcfcfccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#variety-image-presentation-zone {
+    display: flex;
+    justify-content: center;
+}
+
 #mineral-figure {
     display: flex;
     margin: 55px 20px;
     width: 354px;
     height: 304px;
-    border: 2px solid var(--primary-color);
     border-radius: 10px;
     overflow: hidden;
     justify-content: center;
     align-items: center;
+    background-color: #ADADAD;
 }
 
 .table-of-content {
@@ -2753,6 +2795,10 @@ button#contact_validate {
 @media only screen and (min-device-width: 1440px) and (max-device-width: 1900px) {
     #minerals-list, #categories-list {
         width: 1025px;
+    }
+
+    #list-wrapper-header hr {
+        width: 317px;
     }
 
     #carousel-top-wrapper {
