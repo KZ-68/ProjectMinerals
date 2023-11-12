@@ -28,6 +28,17 @@ class VarietyRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    public function deleteImagePresentation($variety) {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+        $query = $sub->update('App\Entity\Variety','v')
+            ->set('v.image_presentation', 'NULL')
+            ->where('v.id = :id')
+            ->setParameter('id', $variety)
+            ->getQuery();
+        $query->execute();
+    }
+
 //    /**
 //     * @return Variety[] Returns an array of Variety objects
 //     */
