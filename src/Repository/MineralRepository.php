@@ -300,6 +300,17 @@ class MineralRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    public function deleteImageTitle($mineral) {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+        $query = $sub->update('App\Entity\Mineral','m')
+            ->set('m.image_title', 'NULL')
+            ->where('m.id = :id')
+            ->setParameter('id', $mineral)
+            ->getQuery();
+        $query->execute();
+    }
+
 //    /**
 //     * @return Mineral[] Returns an array of Mineral objects
 //     */
