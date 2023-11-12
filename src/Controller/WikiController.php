@@ -47,6 +47,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use App\Repository\ModificationHistoryRepository;
+use App\Repository\VarietyRepository;
 use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -564,6 +565,7 @@ class WikiController extends AbstractController
                     $imgPresentation = new Image;
                     $imgPresentation->setFileName($newImagePresentationFileName);
                     $variety->addImage($imgPresentation);
+                    $mineral->addImage($imgPresentation);
                     $variety->setImagePresentation($newImagePresentationFileName);
 
                     $variety->removeImage($oldImagePresentation);
@@ -573,6 +575,7 @@ class WikiController extends AbstractController
                     $imgPresentation = new Image;
                     $imgPresentation->setFileName($newImagePresentationFileName);
                     $variety->addImage($imgPresentation);
+                    $mineral->addImage($imgPresentation);
                     $variety->setImagePresentation($newImagePresentationFileName);
                 }
             }
@@ -760,7 +763,24 @@ class WikiController extends AbstractController
 
     #[Route('/wiki/image/{id}/delete', name: 'delete_image')]
     #[IsGranted('ROLE_USER')]
-    public function deleteImage(Image $image, EntityManagerInterface $entityManager) {
+    public function deleteImage(
+        Image $image, 
+        EntityManagerInterface $entityManager, 
+        MineralRepository $mineralRepository,
+        VarietyRepository $varietyRepository
+    ) 
+    {
+        $imageFilename = $image->getFilename();
+        $mineral = $mineralRepository->findOneBy(['image_title' => $imageFilename]);
+        $variety = $varietyRepository->findOneBy(['image_presentation' => $imageFilename]);
+
+        if($mineral) {
+            $mineralRepository->deleteImageTitle($mineral->getId());
+        }
+
+        if($variety) {
+            $varietyRepository->deleteImagePresentation($variety->getId());
+        }
         // Prépare la suppression d'une instance de l'objet 
         $entityManager->remove($image);
         // Exécute la suppression
