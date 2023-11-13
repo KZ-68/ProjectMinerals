@@ -542,7 +542,7 @@ header a:hover {
 }
 
 .profile-card a:hover {
-    color: #444444;
+    color: #37c9ad;
 }
 
 .profile-card .avatar-header {
@@ -623,6 +623,10 @@ header a:hover {
     top: 8px;
     left: 11px;
     font-size: 30px;
+}
+
+.sidenav .close svg {
+    fill: #000000;
 }
 
 #openBtn {
@@ -1653,7 +1657,7 @@ form[name='add_color'] div, form[name='add_lustre'] div {
 }
 
 .missing-image {
-    padding: 139px 130px;
+    padding: 139px 76px;
     margin-bottom: 5px;
     background-color: #ADADAD;
     border-radius: 10px;
@@ -2033,6 +2037,14 @@ button[role='listitem'] {
     justify-content: space-between;
 }
 
+#profile-top-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+
+
 .profile-wrapper {
     margin-left: 30px;
     margin-bottom: 30px;
@@ -2109,6 +2121,29 @@ label[for='user_avatar'] {
     font-size: 20px;
 }
 
+#contributions-list-wrapper {
+    margin-left: 30px;
+    margin-bottom: 30px;
+    padding: 5px 30px 35px 30px;
+    background: #fcfcfccc;
+    width: 720px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px 0px #a49f9f;
+}
+
+#contributions-list-header h3 {
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    margin: 10px 0px;
+}
+
+#contributions-list-body {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #d6d7e6;
+    border-radius: 5px;
+}
+
 #user-favorites {
     width: 720px;
     margin-left: 30px;
@@ -2130,6 +2165,10 @@ label[for='user_avatar'] {
 
 #user-favorites p {
     padding: 10px 20px 10px 20px
+}
+
+#bell-notifications svg {
+    fill: #ffffff;
 }
 
 .message-box-wrapper {
@@ -2775,7 +2814,7 @@ button#contact_validate {
 }
 
 #nav-footer a:hover {
-    color: #444444;
+    color: #37c9ad;
 }
 
 @media only screen and (min-device-width: 1900px) {
@@ -3014,7 +3053,7 @@ button#contact_validate {
     }
       
     .sidenav a:hover {
-        color: #444444;
+        color: #37c9ad;
     }
 
     .sidenav p {
@@ -3419,7 +3458,7 @@ button#contact_validate {
     }
       
     .sidenav a:hover {
-        color: #4f4f4f;
+        color: #37c9ad;
     }
       
     .sidenav ul {
@@ -3932,6 +3971,16 @@ button#contact_validate {
         width: 125px;
         height: 125px;
     }
+
+    #profile-top-wrapper {
+        flex-direction: column;
+    }
+
+    #contributions-list-wrapper {
+        margin-right: 30px;
+        width: unset;
+    }
+    
 
     .list-main {
         flex-direction: column;
