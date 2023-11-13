@@ -60,7 +60,7 @@ function checkPasswordStrengthRegister() {
     }
     // Test Rule 5
     // Si le password contient au moins 8 caractères :
-    if (password.length >= 8) {
+    if (password.length >= 12) {
       rule5 = true;
       document.getElementById('output-five').innerHTML = "<img src='https://cdn4.iconfinder.com/data/icons/momenticons-basic/32x32/accept1.png'>";
       $('.five').css({
