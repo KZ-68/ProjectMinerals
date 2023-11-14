@@ -21,7 +21,6 @@ h1 {
     padding: 10px 15px 10px 20px;
     margin: 10px 0px;
     width: fit-content;
-    
     font-size: 32px;
 }
 
@@ -29,7 +28,6 @@ h2 {
     background-color: var(--secondary-color);
     padding: 10px 20px 10px 20px;
     margin: 10px 0px;
-    width: 700px;
     border-radius: 5px;
 }
 
@@ -1617,12 +1615,11 @@ form[name='add_color'] div, form[name='add_lustre'] div {
 #varieties-wrapper h2 {
     background: none;
     margin: 10px 0;
-    width: 435px;
     border-radius: 5px;
 }
 
 #varieties-wrapper hr {
-    width: 372px;
+    width: 220px;
     margin: 0px 0px 30px 25px;
     padding: 3px;
     background-color: var(--secondary-color);
@@ -1826,6 +1823,10 @@ section.section-map {
     border-radius: 5px;
 }
 
+#section-map-header hr {
+    width: 400px;
+}
+
 #mineral-map {
     height: 400px;
     max-width: 400px;
@@ -1835,6 +1836,10 @@ section.section-map {
 
 .coordinate-data {
     display: none;
+}
+
+#image-gallery-header hr {
+    width: 283px;
 }
 
 #carousel-wrapper {
@@ -1894,7 +1899,7 @@ section.section-map {
     position: relative;
     overflow: hidden;
     margin: auto;
-    width: 1750px;
+    width: auto;
 }
 
 #cCarousel #cCarousel-inner {
@@ -2482,6 +2487,7 @@ button#deleteAccount {
     border-radius: 10px;
     width: 900px;
     margin: 0px 0px 40px 25px;
+    padding-bottom: 10px;
     border-radius: 10px;
     background-color: #fcfcfccc;
 }
@@ -2578,6 +2584,7 @@ hgroup.discussion-subject h2 {
     border-radius: 10px;
     width: 800px;
     margin: 0px 0px 20px 25px;
+    padding-bottom: 10px;
     border-radius: 10px;
     background-color: #fcfcfccc;
 }
@@ -2598,6 +2605,7 @@ hgroup.comment-subject h2 {
     border-radius: 10px;
     width: 700px;
     margin: 0px 0px 20px 25px;
+    padding-bottom: 10px;
     border-radius: 10px;
     background-color: #fcfcfccc;
 }
@@ -3020,6 +3028,15 @@ button#contact_validate {
         margin: 30px 68px;
     }
 
+    .list-main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .admin-list-wrapper {
+        width: unset;
+    }
+
 }
 
 @media only screen and (min-device-width:768px) and (max-device-width: 1024px) {
@@ -3265,6 +3282,32 @@ button#contact_validate {
         font-size: 20px;
     }
 
+    .list-main {
+        flex-direction: column;
+        margin: 30px 0px;
+        align-items: center;
+    }
+
+    aside.aside-wrapper {
+        margin: 30px 35px;
+        align-items: center;
+        border: none;
+        padding-right: unset;
+    }
+
+    #admin-list-group {
+        align-items: center;
+        margin: 10px 20px;
+        gap: 190px;
+    }
+
+    .list-wrapper, .admin-list-wrapper {
+        margin: 30px 25px;
+        padding-bottom: 30px;
+        width: unset;
+    }
+    
+
     .edit-btn, .anonymize-btn {
         font-size: 22px;
     }
@@ -3285,13 +3328,19 @@ button#contact_validate {
         padding: 50px 100px;
     }
 
+    .mineral-options, .variety-options, .varieties-options, .minerals-list-options, .categories-options, .discussions-list-options {
+        margin: 10px 170px;
+        flex-direction: column;
+        text-align: center;
+    }
+
     .mineral-image {
         height: 246px;
         width: 275px;
     }
 
     #carousel-vp {
-        width: 500px;
+        width: 605px;
     }
 
     #cCarousel {
@@ -3324,6 +3373,15 @@ button#contact_validate {
     .comment-wrapper {
         padding: 25px 50px;
         margin: 30px 68px;
+    }
+
+    .contact-wrapper {
+        margin: 40px 100px;
+        align-items: center;
+    }
+
+    .contact-wrapper hr {
+        width: 150px;
     }
 
 }
@@ -3367,12 +3425,6 @@ button#contact_validate {
     }
 }
 
-@media (max-width: 770px) {
-    #carousel-vp {
-      width: 510px;
-    }
-  }
-  
 @media (max-width: 510px) {
     #carousel-vp {
         width: 250px;
@@ -3629,7 +3681,7 @@ button#contact_validate {
         height: 150px;
     }
 
-    #avatar-header {
+    .avatar-header {
         width: 55px;
         height: 55px;
     }
@@ -3824,6 +3876,7 @@ button#contact_validate {
     #mineral-header h1 {
         width: fit-content;
         text-align: center;
+        padding: 0px 70px;
     }
 
     #mineral-figure {
@@ -3843,6 +3896,10 @@ button#contact_validate {
         align-items: center;
     }
 
+    #description-mineral-wrapper {
+        padding: 10px 28px 40px 30px;
+    }
+
     #variety-title-wrapper {
         display: flex;
         flex-direction: column-reverse;
@@ -3852,8 +3909,8 @@ button#contact_validate {
         flex-direction: column;
     }
 
-    #varieties-wrapper h2 {
-        width: 250px;
+    #varieties-wrapper {
+        flex-direction: column;
     }
 
     #varieties-wrapper hr {
@@ -3865,10 +3922,14 @@ button#contact_validate {
     } 
 
     #varieties-images {
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
-        height: 245px;
+        height: 310px;
         margin: 20px 15px;
+    }
+
+    .missing-image {
+        padding: 108px 55px;
     }
 
     .figure-varieties .mineral-image {
@@ -3898,6 +3959,12 @@ button#contact_validate {
     #caracteristics-colors a, #caracteristics-lustres a {
         font-size: 12px;
     }    
+    
+    section.section-map {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
     .section-map h2 {
         width: 250px;
@@ -3946,7 +4013,7 @@ button#contact_validate {
     #cCarousel .arrow {
         top: 30%;
         width: 30px;
-        height: 45px;
+        height: 90px;
     }
 
     .arrow-symbols {
@@ -3980,12 +4047,6 @@ button#contact_validate {
         margin-right: 30px;
         width: unset;
     }
-    
-
-    .list-main {
-        flex-direction: column;
-        align-items: center;
-    }
 
     .message-box-wrapper {
         flex-direction: column;
@@ -4015,10 +4076,11 @@ button#contact_validate {
 
     #carousel-wrapper h2 {
         width: unset;
+        text-align: center;
     }
 
     #minerals-list, #categories-list {
-        width: 302px;
+        width: 260px;
     }
 
     #minerals-list a:nth-child(1) {
@@ -4033,9 +4095,9 @@ button#contact_validate {
         display: flex;
         flex-direction: column;
         border-right: none;
-        border-bottom: 1px solid var(--primary-color);
-        padding-bottom: 40px;
+        padding-bottom: 0px;
         padding-right: 0px;
+        margin: 15px 35px;
     }
 
     .admin-list-header {
@@ -4052,7 +4114,7 @@ button#contact_validate {
         flex-wrap: wrap;
         align-content: center;
         align-items: center;
-        width: 300px;
+        width: 330px;
     }
 
     #edit-color-wrapper, 
@@ -4125,6 +4187,18 @@ button#contact_validate {
 
     .discussion-item-main {
         padding-right: 0px;
+    }
+
+    .contact-wrapper {
+        margin: 40px 25px;
+    }
+
+    .contact-wrapper hr {
+        width: 127px;
+    }
+
+    form[name="contact"] {
+        padding-left: 20px;
     }
 
     .actions {
