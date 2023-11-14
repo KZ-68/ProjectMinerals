@@ -25,23 +25,22 @@
         </div>
     </div>
 
-    <div>
-        <ul id="minerals-list">
-            {# Le résultat de la requête affichera pour chaque élément mineral dans minerals : #}
-            {% for mineral in minerals %}
-            {# Le nom du minéral et le lien vers la page du minéral lié au slug #}
-            <li><a href="{{path('show_mineral', {'slug': mineral.slug})}}">{{mineral.name}}</a></li>
-            {% endfor %}
-        </ul>
-        {% if app.request.get('name') %}
-            {{response.name}}
-        {% else %}
+    <ul id="minerals-list">
+        {# Le résultat de la requête affichera pour chaque élément mineral dans minerals : #}
+        {% for mineral in minerals %}
+        {# Le nom du minéral et le lien vers la page du minéral lié au slug #}
+        <li><a href="{{path('show_mineral', {'slug': mineral.slug})}}">{{mineral.name}}</a></li>
+        {% endfor %}
+    </ul>
+    {% if app.request.get('name') %}
+        {{response.name}}
+    {% else %}
 
-        {% endif %}
-        <nav>
-            {{knp_pagination_render(minerals)}}
-        </nav>
-    </div>
+    {% endif %}
+    <nav>
+        {{knp_pagination_render(minerals)}}
+    </nav>
+
 </div>
 
     {% block javascript %}
