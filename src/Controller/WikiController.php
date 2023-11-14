@@ -18,6 +18,7 @@ use App\Form\VarietyType;
 use App\Model\SearchData;
 use App\Entity\Coordinate;
 use App\Entity\Discussion;
+use App\Entity\Notification;
 use App\Form\DiscussionType;
 use App\Form\EditMineralType;
 use App\Form\EditVarietyType;
@@ -34,10 +35,12 @@ use App\Entity\ModificationHistory;
 use App\Repository\ImageRepository;
 use App\Repository\CommentRepository;
 use App\Repository\MineralRepository;
+use App\Repository\VarietyRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\FavoriteRepository;
 use App\Repository\DiscussionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\NotificationRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,7 +50,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use App\Repository\ModificationHistoryRepository;
-use App\Repository\VarietyRepository;
 use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -194,6 +196,19 @@ class WikiController extends AbstractController
             $comment = $form->getData();
             $comment->setUser($user);
             $comment->setDiscussion($discussion);
+
+            $notification = new Notification();
+
+            $discussionUser = $discussion->getUser();
+
+            $notification->setUser($user);
+            $notification->setComment($comment);
+            $notification->setDiscussion($discussion);
+
+            $discussionUser->addNotification($notification);
+
+            $entityManager->persist($notification);
+            $entityManager->persist($discussionUser);
             
             $entityManager->persist($comment);
             $entityManager->flush();
@@ -216,7 +231,8 @@ class WikiController extends AbstractController
     public function respondComment(
         #[MapEntity(mapping: ['commentSlug' => 'slug'])] Comment $comment, 
         #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
-        Request $request, 
+        Request $request,
+        CommentRepository $commentRepository, 
         EntityManagerInterface $entityManager
         ): Response {
         
@@ -232,7 +248,19 @@ class WikiController extends AbstractController
             $respondComment->setUser($user);
             $respondComment->setDiscussion($discussion);
             $respondComment->setParent($comment);
+
+            $notification = new Notification();
+
+            $parent_comment_user = $comment->getParent()->getUser();
             
+            $notification->setUser($user);
+            $notification->setComment($respondComment);
+
+            $parent_comment_user->addNotification($notification);
+            
+            $entityManager->persist($notification);
+            $entityManager->persist($parent_comment_user);
+
             $entityManager->persist($respondComment);
             $entityManager->flush();
 
@@ -251,7 +279,7 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/delete', name:'delete_discussion', methods:['POST'])]
+    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/delete', name:'delete_discussion', methods:['GET'])]
     #[IsGranted('ROLE_USER')]
     public function deleteDiscussion(
         #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
@@ -283,14 +311,14 @@ class WikiController extends AbstractController
         );
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{commentSlug}/delete', name:'delete_comment', methods:['POST'])]
+    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{commentSlug}/delete', name:'delete_comment', methods:['GET'])]
     #[IsGranted('ROLE_USER')]
     public function deleteComment(
         #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
         #[MapEntity(mapping: ['commentSlug' => 'slug'])] Comment $comment, 
         CommentRepository $commentRepository, 
         EntityManagerInterface $entityManager
-        ): Response {
+    ): Response {
 
         $currentUser = $this->getUser();
 
@@ -307,7 +335,7 @@ class WikiController extends AbstractController
         }
 
         return $this->redirectToRoute(
-            'discussions_mineral',
+            'discussion_mineral',
             [
             'slug' => $discussion->getMineral()->getSlug(), 
             'discussionSlug' => $comment->getDiscussion()->getSlug(),
@@ -315,6 +343,36 @@ class WikiController extends AbstractController
             ]
         );
 
+    }
+
+    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{commentSlug}/report', name:'report_user_comment', methods:['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function reportUserComment(
+        #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
+        #[MapEntity(mapping: ['commentSlug' => 'slug'])] Comment $comment, 
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager
+    ) : Response {
+        
+        $moderators = $userRepository->findAll(['roles' => 'ROLE_MODERATOR']);
+
+        foreach ($moderators as $moderator) {
+            $newNotification = new Notification();
+            $newNotification->setUser($moderator);
+            $newNotification->setComment($comment);
+
+            $entityManager->persist($newNotification);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute(
+            'discussion_mineral',
+            [
+            'slug' => $discussion->getMineral()->getSlug(), 
+            'discussionSlug' => $comment->getDiscussion()->getSlug(),
+            'commentSlug' => $comment->getSlug()
+            ]
+        );
     }
 
     #[Route('/wiki/mineral/new', name: 'new_mineral')]
@@ -887,4 +945,5 @@ class WikiController extends AbstractController
             'mineral' => $mineral
         ]);
     }
+
 }
