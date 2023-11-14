@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use DateTimeImmutable;
+use Cocur\Slugify\Slugify;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommentRepository;
@@ -10,9 +11,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Polyfill\Intl\Icu\IntlDateFormatter;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
+#[UniqueEntity(fields: ['slug'], message: 'This slug already exist')]
 class Comment
 {
     #[ORM\Id]
@@ -50,13 +53,18 @@ class Comment
     #[ORM\Column]
     private ?bool $isDeletedByUser = false;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->children = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist() {
+        $this->slug = (new Slugify())->slugify($this->content.uniqid('-'));
     }
 
     public function getId(): ?int
