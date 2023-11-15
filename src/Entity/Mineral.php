@@ -29,7 +29,6 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
     ],
     order: ['name' => 'DESC'],
     paginationEnabled: false,
-    shortName: "Substance",
     types: "https://schema.org/Substance"
 )]
 #[ORM\Entity(repositoryClass: MineralRepository::class)]
