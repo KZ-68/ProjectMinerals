@@ -18,7 +18,7 @@ $(document).ready(function() {
                 $('.adv-search').css('height', '1600px');
                 $('.adv-search-fields').css('height', '1600px');
               } else {
-                $('.adv-search').css('height', '1240px');
+                $('.adv-search').css('height', '1040px');
                 $('.adv-search-fields').css('height', '1209px');
               }
               $('#search-results').css('overflow-y', 'auto');
@@ -42,10 +42,10 @@ function resetBtn(container) {
   resetBtnClass.on( "click", function(event) {
     event.preventDefault();
     if(window.matchMedia("(max-width : 480px)").matches) {
-      $('.adv-search').css('height', '1300px');
+      $('.adv-search').css('height', '1450px');
       $('.adv-search-fields').css('height', '1298px');
     } else {
-      $('.adv-search').css('height', '765px');
+      $('.adv-search').css('height', '825px');
       $('.adv-search-fields').css('height', '620px');
     }
     container.empty();
