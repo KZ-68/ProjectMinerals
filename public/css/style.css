@@ -170,6 +170,10 @@ thead tr {
     font-family: 'Oswald';
 }
 
+#logo-header:hover {
+    color: var(--secondary-color);
+}
+
 #img-logo-header {
     width: 32px;
 }
@@ -182,6 +186,10 @@ thead tr {
     right: 15px;
     cursor: pointer;
     z-index: 1000;
+}
+
+.topBtn:active {
+    filter: contrast(1.5);
 }
 
 .topBtn img {
@@ -578,6 +586,10 @@ header a:hover {
 #user-links a {
     font-size: 16px;
     color: #ffffff;
+}
+
+#user-links a:hover {
+    color: var(--secondary-color);
 }
 
 #close-modal {
@@ -1411,6 +1423,10 @@ form[name='add_color'] div, form[name='add_lustre'] div {
     background-color: #b2c4df;
 }
 
+#minerals-list li:hover, #categories-list li:hover {
+    background-color: #85a9de;
+}
+
 #minerals-list a, #categories-list a {
     font-weight: 500;
 }
@@ -1589,6 +1605,7 @@ form[name='add_color'] div, form[name='add_lustre'] div {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    gap: 300px;
 }
 
 #caracteristics-colors a, #caracteristics-lustres a {
@@ -1709,7 +1726,7 @@ button.btn {
 .mineral-zone {
     width: fit-content;
     margin: 5px 20px;
-    padding: 15px 13px;
+    padding: 15px 100px;
     border-radius: 10px;
     background-color: #fcfcfccc;
 }
@@ -1783,12 +1800,11 @@ button.btn {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    align-content: center;
-    align-items: center;
     border-radius: 5px;
     background-color: #d0d0dd70;
     margin: 20px;
-    padding: 10px 20px 40px 20px;
+    padding: 10px 20px 20px 20px;
+    gap: 30px;
 }
 
 #description-mineral-body p {
@@ -1796,7 +1812,7 @@ button.btn {
 }
 
 #description-mineral-footer {
-    margin-top: 20px;
+    margin: 20px 0px;
 }
 
 #description-mineral-footer a {
@@ -1864,7 +1880,7 @@ section.section-map {
     top: 41%;
     display: flex;
     width: 35px;
-    height: 95px;
+    height: 90px;
     border-radius: 20%;
     z-index: 1;
     font-size: 26px;
@@ -1886,10 +1902,12 @@ section.section-map {
 
 #cCarousel #prev {
     left: 0px;
+    display: none;
 }
 
 #cCarousel #next {
     right: 0px;
+    display: none;
 }
 
 #carousel-vp {
@@ -2849,7 +2867,7 @@ button#contact_validate {
     }
 
     #carousel-top-wrapper {
-        margin: 120px 150px;
+        margin: 102px 150px;
         gap: 100px;
     }
 
@@ -2890,7 +2908,7 @@ button#contact_validate {
 @media only screen and (max-device-width: 1440px) {
 
     #carousel-top-wrapper {
-        margin: 183px 150px;
+        margin: 102px 150px;
         gap: 100px;
     }
 
@@ -2955,7 +2973,6 @@ button#contact_validate {
     #cCarousel .arrow {
         top: 45%;
         width: 30px;
-        height: 45px;
     }
 
     .arrow-symbols {
@@ -3002,7 +3019,7 @@ button#contact_validate {
     }
     
     .list-wrapper hr {
-        width: 550px;
+        width: 220px;
         margin: 0px 0px 30px 0px;
     }
     
@@ -3035,6 +3052,16 @@ button#contact_validate {
 
     .admin-list-wrapper {
         width: unset;
+    }
+
+    #cCarousel #prev {
+        left: 0px;
+        display: block;
+    }
+    
+    #cCarousel #next {
+        right: 0px;
+        display: block;
     }
 
 }
@@ -3086,9 +3113,15 @@ button#contact_validate {
         gap: 10px;
     }
 
+    .sidenav > ul > hr {
+        width: 248px;
+        margin: 0px 20px 5px 20px;
+        background-color: #22a086;
+    }
+
     .isDisabled {
         padding: 0;
-        padding-left: 10px;
+        padding-left: 20px;
     }
 
     .linkTop {
@@ -3136,7 +3169,8 @@ button#contact_validate {
     }
 
     #carousel-top-presentation p {
-        font-size: 20px;
+        font-size: 24px;
+        line-height: 1;
     }
 
     #minerals-logo {
@@ -3164,7 +3198,7 @@ button#contact_validate {
     }
 
     #list-wrapper-header {
-        gap: 60px;
+        gap: 100px;
     }
 
     .search-zone {
@@ -3328,7 +3362,11 @@ button#contact_validate {
         padding: 50px 100px;
     }
 
-    .mineral-options, .variety-options, .varieties-options, .minerals-list-options, .categories-options, .discussions-list-options {
+    .mineral-zone {
+        padding: 15px 77px;
+    }
+
+    .mineral-options {
         margin: 10px 170px;
         flex-direction: column;
         text-align: center;
@@ -3355,7 +3393,6 @@ button#contact_validate {
     #cCarousel .arrow {
         top: 45%;
         width: 30px;
-        height: 45px;
     }
 
     .arrow-symbols {
@@ -3435,7 +3472,6 @@ button#contact_validate {
     #cCarousel .arrow {
         top: 45%;
         width: 30px;
-        height: 45px;
     }
 
     .arrow-symbols {
@@ -3522,6 +3558,12 @@ button#contact_validate {
         gap: 10px;
     }
 
+    .sidenav > ul > hr {
+        width: 176px;
+        margin: 0px 20px 5px 10px;
+        background-color: #22a086;
+    }
+
     .isDisabled {
         padding: 0;
         padding-left: 10px;
@@ -3554,8 +3596,6 @@ button#contact_validate {
         margin: 1px 20px;
         gap: 0px;
         flex-direction: column;
-
-
     }
 
     #carousel-top-presentation {
@@ -3871,6 +3911,7 @@ button#contact_validate {
         display: flex;
         flex-direction: column;
         align-items: center;
+        padding: 15px 0px;
     }
 
     #mineral-header h1 {
@@ -3884,6 +3925,7 @@ button#contact_validate {
         justify-content: center;
         width: 233px;
         height: 203px;
+        margin: 20px 20px;
     }
 
     #mineral-figure p {
@@ -3897,7 +3939,8 @@ button#contact_validate {
     }
 
     #description-mineral-wrapper {
-        padding: 10px 28px 40px 30px;
+        padding: 10px 28px 30px 30px;
+        align-items: center;
     }
 
     #variety-title-wrapper {
@@ -3926,10 +3969,11 @@ button#contact_validate {
         align-items: center;
         height: 310px;
         margin: 20px 15px;
+        justify-content: center;
     }
 
     .missing-image {
-        padding: 108px 55px;
+        padding: 90px 55px;
     }
 
     .figure-varieties .mineral-image {
@@ -3956,8 +4000,12 @@ button#contact_validate {
         height: 200px;
     }
 
+    #caracteristics-colors, #caracteristics-lustres {
+        gap: 28px;
+    } 
+
     #caracteristics-colors a, #caracteristics-lustres a {
-        font-size: 12px;
+        font-size: 16px;
     }    
     
     section.section-map {
@@ -4013,7 +4061,6 @@ button#contact_validate {
     #cCarousel .arrow {
         top: 30%;
         width: 30px;
-        height: 90px;
     }
 
     .arrow-symbols {
@@ -4088,7 +4135,7 @@ button#contact_validate {
     }
 
     #categories-list a:nth-child(1) {
-        margin-right: 15px;
+        margin-right: 0px;
     }
 
     aside.aside-wrapper {
@@ -4169,9 +4216,16 @@ button#contact_validate {
         display: flex;
         flex-direction: column;
         gap: 10px;
-        align-items: flex-start;
+        align-items: center;
     }
 
+    #categories-list > li > a:nth-child(1) {
+        font-size: 24px;
+    }
+
+    .delete-btn {
+        margin-left: 0px;
+    }
     
     #discussions-list-body {
         margin: 50px 12px;
@@ -4211,7 +4265,7 @@ button#contact_validate {
     }
 
     .topBtn {
-        bottom: 80px;
+        bottom: 45px;
     }
 
     #icon-wrapper {
