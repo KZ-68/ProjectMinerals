@@ -24,7 +24,7 @@
     </head>
     <body>
         <header>
-            <nav id="nav-header">
+            <nav id="nav-header" aria-label="Header">
                 <div id="nav-right">
                     {% if app.user and app.request.get('_route') == 'app_profile' %}
                        <a id="bell-notifications" aria-controls="modal" href="#"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"/></svg></a>
@@ -63,7 +63,6 @@
                 </div>
 
                 <div id="nav-left">
-
                     <a id="logo-header" href="{{ path('home_index') }}">
                         <img id="img-logo-header" src="{{asset('uploads/images/mineral-logo-filled.png')}}" alt="Small mineral logo">
                         KZ Minerals
@@ -75,7 +74,7 @@
                     </div>
                 </div>
 
-                <div id="mySidenav" class="sidenav">
+                <nav id="mySidenav" class="sidenav" aria-label="Sidenav">
                     <a id="closeBtn" href="#" class="close">
                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
                     </a>
@@ -89,6 +88,7 @@
                         </div>
                         <li><a class="linkTop" href="{{path('app_profile')}}">Profile</a></li>
                         <li><a class="linkTop" href="{{path('app_logout')}}">Sign Out</a></li>
+                        <hr>
                         {% else %}
                         <li><a class="linkTop" href="{{ path('app_login')}}">Sign In</a></li>
                         <li><a class="linkTop" href="{{ path('app_register')}}">Register</a></li>
@@ -106,7 +106,7 @@
                         <li><a class="linkTop" href="{{ path('app_image') }}">Images List</a></li>
                         <li><a class="linkTop" href="{{path('app_contact')}}">Contact</a></li>
                     </ul>
-                </div>
+                </nav>
     
                 <a href="#" id="openBtn">
                     <span class="burger-icon">
@@ -125,14 +125,14 @@
         </button>
         <footer>
             <div id="footer-wrapper">
-                <div id="nav-footer">
+                <nav id="nav-footer" aria-label="Footer">
                     <a class="anchor-footer" href="{{path('terms_of_service')}}">Terms of Service</a>
                     <a class="anchor-footer" href="{{path('privacy_policy')}}">Privacy Policy</a>
                     <a class="anchor-footer" href="{{path('app_contact')}}">Contact</a>
                     <a class="anchor-footer" href="#">About</a>
-                </div>
+                </nav>
                 <div id="icon-wrapper">
-                    <h3>Suivez-nous sur les réseaux sociaux :</h3>
+                    <h3>Follow us on social networks: :</h3>
                     <div id="social-icons-group">
                         <a href="https://www.facebook.com/">
                             <svg id="facebook-icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 40 40">
