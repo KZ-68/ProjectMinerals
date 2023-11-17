@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Variety;
 use Symfony\Component\Form\AbstractType;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\File;
@@ -25,14 +26,11 @@ class VarietyType extends AbstractType
                     'class' => 'form-control' 
                 ]
             ])
-            ->add('image_presentation', FileType::class, [
+            ->add('image_presentation', DropzoneType::class, [
                 'label' => 'Image Presentation',
                 'multiple' => false,
                 'mapped' => false,
                 'required' => false,
-                'attr' => [
-                    'class' => 'form-file'
-                ],
                 'constraints' => [
                     new Image ([
                         'maxSize' => '5000k',
@@ -63,23 +61,22 @@ class VarietyType extends AbstractType
             ->add('latitude', TextType::class, [
                 'mapped' => false,
                 'attr' => [
-                    'readonly' => true
+                    'readonly' => true,
+                    'class' => 'form-control'
                 ]
             ])
             ->add('longitude', TextType::class, [
                 'mapped' => false,
                 'attr' => [
-                    'readonly' => true
+                    'readonly' => true,
+                    'class' => 'form-control'
                 ]
             ])
-            ->add('images', FileType::class, [
+            ->add('images', DropzoneType::class, [
                 'label' => 'Images Collection',
                 'multiple' => true,
                 'mapped' => false,
                 'required' => false,
-                'attr' => [
-                    'class' => 'form-file'
-                ],
                 'constraints' => [
                     new All ([
                         new Image ([

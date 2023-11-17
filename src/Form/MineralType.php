@@ -7,6 +7,7 @@ use App\Entity\Lustre;
 use App\Entity\Mineral;
 use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -32,7 +33,7 @@ class MineralType extends AbstractType
                     'class' => 'form-control' 
                 ]
             ])
-            ->add('image_title', FileType::class, [
+            ->add('image_title', DropzoneType::class, [
                 'label' => 'Image Title',
                 'multiple' => false,
                 'mapped' => false,
@@ -136,14 +137,11 @@ class MineralType extends AbstractType
                     'class' => 'form-select'
                 ]
             ])
-            ->add('images', FileType::class, [
+            ->add('images', DropzoneType::class, [
                 'label' => 'Mineral Images',
                 'multiple' => true,
                 'mapped' => false,
                 'required' => false,
-                'attr' => [
-                    'class' => 'form-file'
-                ],
                 'constraints' => [
                 new All ([
                     new Image ([
