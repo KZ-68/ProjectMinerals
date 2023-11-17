@@ -183,7 +183,7 @@ class Mineral
 
     #[ORM\PrePersist]
     public function prePersist() {
-        $this->slug = (new Slugify())->slugify($this->name.uniqid());
+        $this->slug = (new Slugify())->slugify($this->name);
     }
 
     public function getId(): ?int

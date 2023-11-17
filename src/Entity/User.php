@@ -75,7 +75,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct() {
         $this->registration_date = new \DateTimeImmutable();
-        $this->roles = array('ROLE_USER');
         $this->sent = new ArrayCollection();
         $this->received = new ArrayCollection();
         $this->discussions = new ArrayCollection();
