@@ -225,6 +225,30 @@ thead tr {
     background-color: #fcfcfccc;
 }
 
+.formulaire-wrapper-variety {
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+    padding: 25px 20px;
+    margin: 40px 440px;
+    border-radius: 10px;
+    background-color: #fcfcfccc;
+    align-items: center;
+}
+
+.formulaire-wrapper-role {
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+    padding: 25px 16px;
+    border-radius: 10px;
+    background-color: #fcfcfccc;
+}
+
+#edit-role-user-right hr {
+    width: 179px;
+}
+
 .coordinate-data-lat {
     display: none;
 }
@@ -394,6 +418,10 @@ form[name='edit_mineral'] {
     padding: 10px;
 }
 
+form[name="discussion"] > .formulaire label {
+    color: white;
+}
+
 #create-discussion-wrapper {
     display: flex;
     flex-direction: column;
@@ -411,7 +439,6 @@ form[name='edit_mineral'] {
 .comment-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
     font-size: 24px;
     padding: 25px 50px;
     margin: 30px 190px;
@@ -861,9 +888,11 @@ div#advanced-search-bar {
 }
 
 #advanced_search_category {
-    height: 30px;
-    margin: 0px 10px;
+    height: 44px;
     border-radius: 5px;
+    font-size: 18px;
+    width: 75%;
+    padding: 10px 0px;
 }
 
 #advanced_search_varieties, #advanced_search_colors, #advanced_search_lustres {
@@ -884,7 +913,7 @@ div#advanced-search-bar {
     border-radius: 5px;
 }
 
-#search-results div {
+#search-results .result-item {
     padding: 13px 15px;
     width: 50%;
     border: 3px solid #fcfcfccc;
@@ -1076,10 +1105,20 @@ div.formulaire-login a {
     padding: 15px 0px;
 }
 
-#image-zoom1, .image-zoom2, .image-zoom3 {
+#image-zoom1, .image-zoom2 {
     position: absolute;
     margin-left: auto;
     margin-right: auto;
+    top: 190vh;
+    text-align: center;
+    width: 350px;
+    display: none;
+}
+
+.image-zoom3 {
+    position: absolute;
+    margin-left: 175px;
+    margin-right: 175px;
     top: 190vh;
     text-align: center;
     width: 350px;
@@ -1142,6 +1181,7 @@ div.formulaire-login a {
     top: 0;
     left: 0;
     display: none;
+    cursor: zoom-out;
 }
 
 .lightbox2 {
@@ -1153,7 +1193,7 @@ div.formulaire-login a {
 }
 
 .lightbox-wrapper-mineral > .lightbox3 {
-    height: 4030px;
+    height: 4128px;
 }
 
 .lightbox2 figure, .lightbox3 figure {
@@ -1165,7 +1205,6 @@ div.formulaire-login a {
 
 .lightbox2 figcaption, .lightbox3 figcaption {
     position: absolute;
-    left: 229px;
     z-index: 1;
     font-weight: 700;
     background-color: #555555ab;
@@ -1175,14 +1214,16 @@ div.formulaire-login a {
 
 .lightbox2 figcaption {
     top: -64px;
+    left: 229px;
 }
 
 .lightbox3 figcaption {
     top: 600px;
+    left: 175px;
 }
 
 .lightbox-wrapper-mineral > .lightbox3 figcaption {
-    top: 3000px;
+    top: 2694px;
 }
 
 .lightbox2 > figure > figcaption > a, 
@@ -1447,7 +1488,7 @@ form[name='add_color'] div, form[name='add_lustre'] div {
     flex-wrap: wrap;
     border: 1px solid #fcfcfccc;
     border-radius: 10px;
-    padding: 20px 20px;
+    padding: 40px 20px;
     height: 800px;
     background-color: #fcfcfccc;
 } 
@@ -1474,12 +1515,20 @@ form[name='add_color'] div, form[name='add_lustre'] div {
     z-index: 20;
 }
 
-.download-icon {
+.cCarousel-item .download-icon {
     position: absolute;
     top: 6px;
     right: 9px;
+    display: none;
     z-index: 2;
 }
+
+.cCarousel-item:hover a, .cCarousel-item:hover .download-icon {
+    display: block;
+    animation-name: fade-images-icon;
+    animation-duration: 2.5s;
+    animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+} 
 
 #images-list-figure:hover a, #images-list-figure:hover .download-icon {
     display: block;
@@ -1537,8 +1586,8 @@ form[name='add_color'] div, form[name='add_lustre'] div {
 }
 
 .mineral-image {
-    width: 350px;
-    height: 300px;
+    width: 354px;
+    height: 304px;
 }
 
 .varieties-section-image:hover {
@@ -1706,11 +1755,11 @@ button.btn {
     cursor: pointer;
     font-size: 18px;
     margin-left: 10px;
-    padding: 10px 13px;
-    border-radius: 10px;
+    padding: 12px 13px;
+    border-radius: 5px;
     border: none;
-    min-width: 90px;
     text-align: center;
+    height: fit-content;
 }
 
 .delete-btn:hover {
@@ -1824,6 +1873,10 @@ button.btn {
     border-radius: 10px;
 }
 
+#description-mineral-footer a:hover {
+    background-color: #37c9ad;
+}
+
 section.section-map {
     margin: 10px 20px;
     padding: 15px 15px;
@@ -1913,19 +1966,21 @@ section.section-map {
 #carousel-vp {
     height: 400px;
     display: flex;
-    align-items: center;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     margin: auto;
     width: auto;
 }
 
 #cCarousel #cCarousel-inner {
     display: flex;
+    flex-wrap: wrap;
     position: absolute;
     transition: 0.3s ease-in-out;
     gap: 20px;
     left: 20px;
+    justify-content: center;
 }
   
 .cCarousel-item {
@@ -1937,6 +1992,7 @@ section.section-map {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .cCarousel-item img {
@@ -2167,6 +2223,10 @@ label[for='user_avatar'] {
     border-radius: 5px;
 }
 
+.contributions-item {
+    padding: 15px 10px;
+}
+
 #user-favorites {
     width: 720px;
     margin-left: 30px;
@@ -2267,7 +2327,6 @@ label[for='user_avatar'] {
     border-radius: 10px;
     padding: 20px 20px 30px 20px;
     margin: 20px 0px;
-    width: 575px;
     display: flex;
     flex-direction: column;
 }
@@ -2337,6 +2396,7 @@ form[name='message'] div {
     border-radius: 5px;
     height: 100px;
     margin-top: 20px;
+    padding: 10px;
 }
 
 .messages-column {
@@ -2542,6 +2602,10 @@ hgroup.discussion-subject h2 {
     overflow: hidden;
 }
 
+#discussion-avatar-header #avatar-header, #comment-avatar-header #avatar-header, #reponse-comment-avatar-header #avatar-header {
+    width: 75px;
+}
+
 .discussion-textarea {
     display: flex;
     flex-direction: column;
@@ -2592,10 +2656,12 @@ hgroup.discussion-subject h2 {
 }
 
 .answer-link {
-    margin: 0px 0px 0px 15px;
+    margin-left: 15px;
     border-radius: 5px;
-    padding: 4px 10px;
+    padding: 12px 15px;
     background-color: var(--secondary-color);
+    height: fit-content;
+    font-size: 18px;
 }
 
 .comment-card {
@@ -2672,8 +2738,10 @@ hgroup.response-comment-subject h3 {
 .reply-link {
     margin: 0px 0px 0px 15px;
     border-radius: 5px;
-    padding: 4px 10px;
+    padding: 12px 10px;
     background-color: var(--secondary-color);
+    height: fit-content;
+    font-size: 18px;
 }
 
 .comment-card-footer {
@@ -2845,7 +2913,7 @@ button#contact_validate {
 
 @media only screen and (min-device-width: 1900px) {
     .adv-search-wrapper {
-        margin: 0px 355px;
+        margin: 0px 447px;
     }
 
     .comment-wrapper {
@@ -2955,7 +3023,7 @@ button#contact_validate {
     }
 
     .adv-search-wrapper {
-        margin: 0px 95px;
+        margin: 0px 126px;
     }
 
     .formulaire-register-wrapper {
@@ -2989,7 +3057,7 @@ button#contact_validate {
     
     .comment-wrapper {
         padding: 25px 50px;
-        margin: 30px 68px;
+        margin: 30px 240px;
     }
 
 }
@@ -3064,6 +3132,11 @@ button#contact_validate {
         display: block;
     }
 
+    #cCarousel #cCarousel-inner {
+        flex-wrap: unset;
+        justify-content: unset;
+    }
+
 }
 
 @media only screen and (min-device-width:768px) and (max-device-width: 1024px) {
@@ -3080,7 +3153,7 @@ button#contact_validate {
     }
 
     .sidenav {
-        height: 512px;
+        height: 522px;
         width: 379px;
         right: -379px;
         display: block;
@@ -3305,11 +3378,11 @@ button#contact_validate {
     }
 
     #minerals-list {
-        width: 680px;
+        width: 625px;
     }
 
     #categories-list {
-        width: 680px;
+        width: 625px;
     }
 
     #categories-list li {
@@ -3362,6 +3435,27 @@ button#contact_validate {
         padding: 50px 100px;
     }
 
+    .formulaire-wrapper-variety {
+        margin: 40px 69px;
+    }
+
+    .formulaire-wrapper-role {
+        margin: 40px 70px;
+    }
+
+    #create-discussion-wrapper {
+        padding: 15px 52px;
+        margin: 40px 47px;
+    }
+
+    .discussion-card {
+        width: 701px;
+    }
+
+    .comment-card {
+        width: 627px;
+    }
+
     .mineral-zone {
         padding: 15px 77px;
     }
@@ -3373,12 +3467,13 @@ button#contact_validate {
     }
 
     .mineral-image {
-        height: 246px;
-        width: 275px;
+        height: 304px;
+        width: 354px;
     }
 
     #carousel-vp {
         width: 605px;
+        align-items: center;
     }
 
     #cCarousel {
@@ -3419,6 +3514,14 @@ button#contact_validate {
 
     .contact-wrapper hr {
         width: 150px;
+    }
+
+    .message-box-wrapper {
+        gap: 25px;
+    }
+
+    .message-zone {
+        margin: 20px 30px;
     }
 
 }
@@ -3692,6 +3795,7 @@ button#contact_validate {
         height: 59px;
     }
 
+    
     .discussion-textarea p {
         display: flex;
         flex-direction: column;
@@ -3700,7 +3804,9 @@ button#contact_validate {
     }
 
     .comment-wrapper {
+        padding: 25px 25px;
         margin: 30px 26px;
+        align-items: center;
     }
 
     #comment-wrapper-header {
@@ -3791,7 +3897,7 @@ button#contact_validate {
     .adv-search {
         border-radius: 15px;
         width: 300px;
-        height: 1300px;
+        height: 1400px;
         align-items: center;
         padding: 0px 15px;
     }
@@ -3837,6 +3943,10 @@ button#contact_validate {
         width: 250px;
     }
 
+    #advanced_search_category {
+        width: 98%;
+    }
+
     form[name='mineral'] {
         padding: 50px 28px;
     }
@@ -3848,7 +3958,7 @@ button#contact_validate {
     .formulaire-wrapper-mineral {
         font-size: 20px;
         padding: 25px 0px;
-        margin: 40px 10px;
+        margin: 40px 15px;
     }
 
     form[name='mineral'] {
@@ -3893,6 +4003,32 @@ button#contact_validate {
         justify-content: center;
         align-items: center;
         margin: 30px 20px;
+    }
+
+    #create-discussion-wrapper {
+        padding: 25px 39px;
+        margin: 25px 13px;
+    }
+
+    form[name="discussion"] > .formulaire label {
+        color: white;
+    }
+
+    .answer-link {
+        margin-left: 0px;
+    }
+
+    .reply-link {
+        margin: 0px;
+    }
+
+    #discussion-avatar-header #avatar-header, #comment-avatar-header #avatar-header, #reponse-comment-avatar-header #avatar-header {
+        width: 54px;
+    }
+
+    .comment-card-footer {
+        flex-direction: column;
+        align-items: center;
     }
 
     .mineral-options {
@@ -3973,7 +4109,7 @@ button#contact_validate {
     }
 
     .missing-image {
-        padding: 90px 55px;
+        padding: 103px 52px;
     }
 
     .figure-varieties .mineral-image {
@@ -4006,7 +4142,11 @@ button#contact_validate {
 
     #caracteristics-colors a, #caracteristics-lustres a {
         font-size: 16px;
-    }    
+    }   
+    
+    .zoom-in-message {
+        padding: 0px 55px;
+    }
     
     section.section-map {
         display: flex;
@@ -4045,6 +4185,8 @@ button#contact_validate {
 
     #cCarousel #cCarousel-inner {
         left: 0px;
+        flex-wrap: unset;
+        justify-content: unset;
     }
 
     .cCarousel-item {
@@ -4065,6 +4207,45 @@ button#contact_validate {
 
     .arrow-symbols {
         top: 1px;
+    }
+
+    #images-list {
+        flex-wrap: unset;
+        padding: 43px 20px;
+        height: 289px;
+    }
+
+    #images-list-header hr {
+        width: 118px;
+    }
+
+    .images-list-wrapper ul {
+        flex-direction: row;
+        align-items: unset;
+        justify-content: unset;
+        flex-wrap: nowrap;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .formulaire-wrapper-variety {
+        display: flex;
+        flex-direction: column;
+        font-size: 24px;
+        padding: 25px 16px;
+        margin: 40px 18px;
+        border-radius: 10px;
+        background-color: #fcfcfccc;
+    }
+
+    .formulaire-wrapper-role {
+        display: flex;
+        flex-direction: column;
+        font-size: 24px;
+        padding: 25px 16px;
+        margin: 40px 18px;
+        border-radius: 10px;
+        background-color: #fcfcfccc;
     }
 
     .profile-wrapper {
@@ -4111,6 +4292,20 @@ button#contact_validate {
     .message-zone {
         margin: 20px 25px;
         width: unset;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0px 30px 30px 30px;
+    }
+
+    .messages-list-wrapper {
+        flex-direction: column;
+        height: unset;
+        gap: 23px;
+    }
+
+    .messages-column {
+        flex-direction: row;
     }
 
     .list-wrapper {
@@ -4227,6 +4422,22 @@ button#contact_validate {
         margin-left: 0px;
     }
     
+    .discussion-card-footer {
+        display: flex;
+        flex-direction: column;
+        padding: 20px 6px;
+        background-color: #fcfcfccc;
+        border-radius: 0px 0px 10px 10px;
+        justify-content: center;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .discussion-card-footer .delete-btn {
+        margin-left: 0px;
+    }
+    
+
     #discussions-list-body {
         margin: 50px 12px;
         padding: 25px 0px;
