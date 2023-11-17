@@ -9,43 +9,66 @@
         <a class="anchor-btn" href="{{ path('app_message') }}">Message Box</a>
 </nav>
  
-    <div class="profile-wrapper">
-        <h1>Profile Details</h1>
-        <hr>
-        <div class="profile-avatar-wrapper">
-            <figure class="figure-avatar">
-                <img class="user-avatar" src="{{asset('uploads/images/' ~ app.user.avatar)}}">
-            </figure>
-            <div class="file-upload-wrapper">
-                <p>Add image profile :</p>
-                {{ form_start(form) }}
-                {{ form_row(form.avatar) }}
-                {{ form_row(form.valider) }}
-                {{ form_end(form) }}
+    <div id="profile-top-wrapper">
+        <div class="profile-wrapper">
+            <h1>Profile Details</h1>
+            <hr>
+            <div class="profile-avatar-wrapper">
+                <figure class="figure-avatar">
+                    <img class="user-avatar" src="{{asset('uploads/images/' ~ app.user.avatar)}}">
+                </figure>
+                <div class="file-upload-wrapper">
+                    <p>Add image profile :</p>
+                    {{ form_start(form) }}
+                    {{ form_row(form.avatar) }}
+                    {{ form_row(form.valider) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+            
+            <div id="profile-description">
+                <div>
+                    <h3>Username:</h3>
+                    <p class="username-info">{{app.user.username}}</p>
+                </div>
+                <div>
+                    <h3>Role :</h3>
+                    {% if is_granted('ROLE_ADMIN') %} 
+                    <p class="role-info">Administrator</p>
+                    {% elseif is_granted('ROLE_MODERATOR') %}
+                    <p class"role-info">Moderator</p>
+                    {% else %}
+                    <p class="role-info">User</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <h3>Email Adress :</h3>
+                    <p id="email-info">{{app.user.email}}</p>
+                </div>
             </div>
         </div>
-        
-        <div id="profile-description">
-            <div>
-                <h3>Username:</h3>
-                <p class="username-info">{{app.user.username}}</p>
+    
+        <div aria-labelledby="contributions-list-heading" id="contributions-list-wrapper">
+            <div id="contributions-list-header">
+               <h3 id="contributions-list-heading">Contributions list</h3>
             </div>
-            <div>
-                <h3>Role :</h3>
-                {% if is_granted('ROLE_ADMIN') %} 
-                <p class="role-info">Administrator</p>
-                {% elseif is_granted('ROLE_MODERATOR') %}
-                <p class"role-info">Moderator</p>
+    
+            <div id="contributions-list-body">
+                {% if app.user.contributions | length > 0 %}
+                <ul>
+                    {% for contribution in app.user.contributions %}
+                        <li class="contributions-item">{{contribution.content}}</li>    
+                    {% endfor %}
+                </ul>
                 {% else %}
-                <p class="role-info">User</p>
+                <ul>
+                    <li>Contributions list is empty</li>
+                </ul>
                 {% endif %}
-            </div>
-            <div>
-                <h3>Email Adress :</h3>
-                <p id="email-info">{{app.user.email}}</p>
             </div>
         </div>
     </div>
+    
 
     <div aria-labelledby="user-favorites-heading" id="user-favorites">
         <div id="user-favorites-header">
@@ -65,7 +88,6 @@
                     url: '/profile/notifications'
                 })
                 .done(function(data){
-                    console.log(data);
                     if (typeof data !== 'undefined') {
                         $('.modal-body').html(data);
                         $('#bell-notifications').click(function () {
