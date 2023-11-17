@@ -41,7 +41,11 @@ class ChangeUserRoleType extends AbstractType
                 ]
             ])
             ->add(
-                'save', SubmitType::class
+                'save', SubmitType::class, [
+                    'attr' => [
+                        'class' => 'btn btn-success'
+                    ]
+                ]
             );
     }
 
