@@ -29,16 +29,21 @@ class RegistrationFormType extends AbstractType
         $privacy = $this->router->generate('privacy_policy');
 
         $builder
+            // Champ username de type texte
             ->add('username', TextType::class, [
+                // L'attribut de classe nommé
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
+            // Champ username de type email
             ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'form-control'
                 ],
+                // Les contraintes du champ
                 'constraints' => [
+                    // Le champ ne peut pas être vide.
                     new NotBlank([
                         'message' => 'Please enter your email',
                     ]),
