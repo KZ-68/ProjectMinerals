@@ -4,15 +4,25 @@ $(document).ready(function() {
       var formData = $(this).serialize();
 
       $.ajax({
-          type: 'POST',
-          url: 'home', 
-          data: formData,
-          success: function(response) {
+          type: 'POST', // Méthode HTTP
+          url: 'home', // Le nom de la route
+          data: formData, // Les données à envoyer
+          success: function(response) { // En cas de succès, la réponse en argument
+              // On sélectionne la div pour insérer les résultats
               const resultsContainer = $('#search-results');
-              resultsContainer.empty();
+              resultsContainer.empty(); // On vide les éléments déjà présent
+              // On boucle sur les données de la réponse
               $.each(response.data, function(index, result) {
-                  const resultItem = $('<div>').html(result.name);
-                  resultsContainer.append(resultItem);
+                  // On crée une balise ancre 
+                  let resultItem = $('<a>');
+                  // On lui affecte une classe css
+                  resultItem.addClass('result-item');
+                  // On met l'attribut href, l'url et le slug
+                  let href = resultItem.attr('href', "/wiki/mineral/"+result.slug+"/show");
+                  // On ajoute le contenu textuel
+                  href.html(result.name);
+                  // On affiche la balise
+                  resultsContainer.append(href);
               });
               if(window.matchMedia("(max-width : 480px)").matches) {
                 $('.adv-search').css('height', '1600px');
