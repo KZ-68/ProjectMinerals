@@ -33,25 +33,21 @@ class CommentRepository extends ServiceEntityRepository
     }
 
     public function deleteCommentByUser(int $comment) {
+        // On récupère l'entity manager de l'instance Comment actuelle
         $em = $this->getEntityManager();
+        // On utilise le queryBuilder
         $sub = $em->createQueryBuilder();
+        // On met à jour cette instance et on met un alias
         $query = $sub->update('App\Entity\Comment', 'c')
+                    // On met le booléen sur True
                     ->set('c.isDeletedByUser', 1)
+                    // On applique un marqueur nommé
                     ->where('c.id = :id')
+                    // On remplace par la valeur réelle
                     ->setParameter('id', $comment)
+                    // On récupère la requête
                     ->getQuery();
-        $query->execute();
-    }
-
-    public function restoreComment(int $comment) {
-        $em = $this->getEntityManager();
-        $sub = $em->createQueryBuilder();
-        $query = $sub->update('App\Entity\Comment', 'c')
-                    ->set('c.isDeletedByModerator', 0)
-                    ->set('c.isDeletedByUser', 0)
-                    ->where('c.id = :id')
-                    ->setParameter('id', $comment)
-                    ->getQuery();
+        // On exécute la requête            
         $query->execute();
     }
 
