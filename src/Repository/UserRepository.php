@@ -70,16 +70,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $query->execute();
     }
 
-    public function updateRole(int $user, $role) {
-        $em = $this->getEntityManager();
-        $sub = $em->createQueryBuilder();
-        $query = $sub->update('App\Entity\User','u')
-            ->set('u.roles', ':roles')
-            ->where('u.id = :id')
-            ->setParameter('id', $user)
-            ->setParameter('roles', json_encode([$role]))
-            ->getQuery();
-        $query->execute();
+    public function updateRoles(int $user, $roles) {
+            
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            UPDATE user u
+            SET u.roles = :roles
+            WHERE u.id = :id
+            ';
+
+        $conn->executeQuery($sql, ['roles' => json_encode([$roles]), 'id' => $user]);
     }
 
 //    /**
