@@ -38,9 +38,6 @@ class EditMineralType extends AbstractType
                 'multiple' => false,
                 'mapped' => false,
                 'required' => false,
-                'attr' => [
-                    'data-controller' => 'mydropzone'
-                ],
                 'constraints' => [
                     new Image ([
                         'maxSize' => '5000k',
