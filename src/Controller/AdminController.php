@@ -190,7 +190,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/category/{slug}/editCategory', name: 'edit_category')]
+    #[Route('/category/{slug}/edit-category', name: 'edit_category')]
     public function edit_category(Category $category, Request $request, EntityManagerInterface $entityManager): Response
     {
 
@@ -259,7 +259,7 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin_user');
     }
 
-    #[Route('/discussionsDeleted', name: 'discussions_deleted')]
+    #[Route('/discussions-deleted', name: 'discussions_deleted')]
     public function discussionsDeletedList(DiscussionRepository $discussionRepository): Response
     {
         $discussions = $discussionRepository->findBy([], ['content' => 'ASC']);
@@ -269,15 +269,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/discussionsDeleted/{id}/restore', name: 'restore_discussions_deleted')]
-    public function restoreDiscussionsDeleted(Discussion $discussion, DiscussionRepository $discussionRepository): Response
-    {
-        $discussionRepository->restoreDiscussion($discussion->getId());
-
-        return $this->redirectToRoute('app_admin_discussions_deleted');
-    }
-
-    #[Route('/editRoleUser', name:'edit_role_user')]
+    #[Route('/edit-role-user', name:'edit_role_user')]
     public function editRoleUser(Request $request, UserRepository $userRepository){
 
         $form = $this->createForm(ChangeUserRoleType::class);
@@ -288,14 +280,14 @@ class AdminController extends AbstractController
             // On récupère les infos du formulaire
             $selectedUser = $form->get('user')->getData();
 
-            $selectedRole = $form->get('roles')->getData();
+            $selectedRole =  $form->get('roles')->getData();
 
             // On recherche le bon utilisateur dans la couche modèle
             $editUser = $userRepository->find($selectedUser);
 
             if ($this->getUser() !== $selectedUser) {
                 // On met à jour le rôle par une requête préparée. 
-                $userRepository->updateRole($editUser->getId(), $selectedRole);
+                $userRepository->updateRoles($editUser->getId(), $selectedRole);
 
                 return $this->redirectToRoute('app_admin_edit_role_user');
             } else {
