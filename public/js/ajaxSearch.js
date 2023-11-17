@@ -12,9 +12,13 @@ $(document).ready(function() {
                 const resultsContainer = $('#minerals-list');
                 resultsContainer.empty();
                 $.each(response.data, function(index, result) {
-                    const resultItem = $('<li>').html(result.name);
-                    resultsContainer.append(resultItem);
-                    resultsContainer.append('</li>');
+                    const resultList = $('<li>');
+                    let resultItem = $('<a>');
+                    resultItem.addClass('result-item');
+                    let href = resultItem.attr('href', "/wiki/mineral/"+result.slug+"/show");
+                    href.html(result.name);
+                    resultList.append(href);
+                    resultsContainer.append(resultList);
                 });
                 resultsContainer.css('margin', '17px 0px');
                 $('nav').remove();
