@@ -739,7 +739,7 @@ header a:hover {
 
 #fig-logo-title {
     padding: 10px 10px 10px 10px;
-    font-size: 35px;
+    font-size: 44px;
     z-index: 1;
     color: white;
     margin: 0;
@@ -2923,6 +2923,14 @@ button#contact_validate {
     #comment-wrapper-header {
         padding-right: 675px;
     }
+
+    #images-list > ul > #cCarousel > #carousel-vp {
+        position: unset;
+    }
+    
+    #images-list > ul > #cCarousel > #carousel-vp > #cCarousel-inner {
+        flex-wrap: nowrap;
+    }
 }
 
 @media only screen and (min-device-width: 1440px) and (max-device-width: 1900px) {
@@ -2970,6 +2978,14 @@ button#contact_validate {
 
     #diaporama {
         height: 710px;
+    }
+
+    #images-list > ul > #cCarousel > #carousel-vp {
+        position: unset;
+    }
+    
+    #images-list > ul > #cCarousel > #carousel-vp > #cCarousel-inner {
+        flex-wrap: nowrap;
     }
 }
 
@@ -3058,6 +3074,14 @@ button#contact_validate {
     .comment-wrapper {
         padding: 25px 50px;
         margin: 30px 240px;
+    }
+
+    #images-list > ul > #cCarousel > #carousel-vp {
+        position: unset;
+    }
+    
+    #images-list > ul > #cCarousel > #carousel-vp > #cCarousel-inner {
+        flex-wrap: nowrap;
     }
 
 }
@@ -3524,6 +3548,10 @@ button#contact_validate {
         margin: 20px 30px;
     }
 
+    .cCarousel-item:hover .zoom-in-message {
+        display: none;
+    }
+
 }
 
 @media only screen and (max-device-width: 768px) {
@@ -3839,7 +3867,7 @@ button#contact_validate {
     }
 
     .search-zone {
-        height: 36px;
+        height: 35px;
         width: 180px;
     }
 
@@ -3848,7 +3876,7 @@ button#contact_validate {
     }
 
     #submit-search {
-        padding: 10px;
+        padding: 9px;
     }
 
     #accordion-wrapper {
@@ -4211,7 +4239,7 @@ button#contact_validate {
 
     #images-list {
         flex-wrap: unset;
-        padding: 43px 20px;
+        padding: 43px 32px;
         height: 289px;
     }
 
@@ -4224,8 +4252,16 @@ button#contact_validate {
         align-items: unset;
         justify-content: unset;
         flex-wrap: nowrap;
-        height: 200px;
+        height: 215px;
         overflow: hidden;
+    }
+
+    #images-list-figure .download-icon {
+        right: 8px;
+    }
+
+    .cCarousel-item:hover .zoom-in-message {
+        display: none;
     }
 
     .formulaire-wrapper-variety {
