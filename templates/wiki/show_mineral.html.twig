@@ -129,7 +129,7 @@
                                 Missing information
                             {% endif %}
                         </p>
-                        <a role="button" aria-role="button" class="add-lustre" href="{{ path('edit_mineral_lustres', {'slug': mineral.slug})}}">Add a lustre</a>
+                        <a role="button" aria-roledescription="button" class="add-lustre" href="{{ path('edit_mineral_lustres', {'slug': mineral.slug})}}">Add a lustre</a>
                     </div>
                 </div>
             </div>
@@ -148,24 +148,28 @@
         
         <div id="varieties-images">
             
-        {% for variety in mineral.varieties %}
-            <figure class="figure-varieties">
-                {% if variety.imagePresentation != null %}
-                        <img class="varieties-section-image" src="{{asset('uploads/images/' ~ variety.imagePresentation) }}" alt="Variety Mineral">
-                {% else %}
-                <div class="missing-image">
-                    <p>There's no image available</p>
-                </div>
-                {% endif %}
-                
-                {% if variety.name != null %}
-                    <figcaption><a href="{{path('show_variety', {'slug': variety.slug})}}">{{variety.name}}</a></figcaption>
-                {% else %}
-                    <i>Missing information</i>
-                {% endif %}
-            </figure>
-
-        {% endfor %}
+            {% if mineral.varieties | length > 0 %}
+                {% for variety in mineral.varieties %}
+                    <figure class="figure-varieties">
+                        {% if variety.imagePresentation != null %}
+                                <img class="varieties-section-image" src="{{asset('uploads/images/' ~ variety.imagePresentation) }}" alt="Variety Mineral">
+                        {% else %}
+                        <div class="missing-image">
+                            <p>There's no image available</p>
+                        </div>
+                        {% endif %}
+                        
+                        {% if variety.name != null %}
+                            <figcaption><a href="{{path('show_variety', {'slug': variety.slug})}}">{{variety.name}}</a></figcaption>
+                        {% else %}
+                            <i>Missing information</i>
+                        {% endif %}
+                    </figure>
+                {% endfor %}  
+            {% else %}
+                <p>Varieties list empty</p>
+            {% endif %}
+        
         </div>
         <div class="varieties-options">
             <a id="add-variety" href="{{ path('new_variety', {'slug': mineral.slug}) }}">Add a new variety</a>
@@ -246,6 +250,16 @@
     <script src="/js/map.js"></script>
     <script src="/js/ajaxFavorite.js"></script>
     <script src="/js/lightbox.js"></script>
+    <script>
+        $(document).ready(function() {
+            let $mineralImage = $('.mineral-image');
+            $mineralImage.forEach((image) => {
+                image.focus(() => {
+                    image.css('filter', 'brightness(0.5)');
+                })
+            })
+        })
+    </script>
 {% endblock %}
 
 {% endblock %}
