@@ -13,7 +13,7 @@
         <hgroup aria-labelledby="mineral-variety-heading" id="mineral-variety-header">
             <h1 id="mineral-variety-heading">{{variety.name}}<br/></h1>
             {% if variety.mineral | length > 0 %}
-                Variety Mineral for <a href="{{ path('show_category', {'slug': variety.mineral.slug}) }}">{{variety.mineral.name}}</a>
+                Variety Mineral for <a href="{{ path('show_mineral', {'slug': variety.mineral.slug}) }}">{{variety.mineral.name}}</a>
             {% else %}
                 <i>Missing information</i>
             {% endif %}
