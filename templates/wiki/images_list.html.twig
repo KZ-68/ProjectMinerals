@@ -13,40 +13,50 @@
         <h1 id="images-list-heading">Images List</h1>
         <hr>
     </div>
-    
+    {% for image in images %}
+        <div class="lightbox2">
+            <figure>
+                {% if image.variety == null %}
+                    <figcaption><a href="{{ path('show_mineral', {slug: image.mineral.slug}) }}">{{ image.mineral.name }}</a></figcaption>
+                {% else %}
+                    <figcaption><a href="{{ path('show_variety', {slug: image.variety.slug}) }}">{{ image.variety.name }}</a></figcaption>
+                {% endif %}
+                <img class="image-zoom2" src="{{asset('uploads/images/' ~ image.filename) }}">
+            </figure>
+        </div>
+    {% endfor %}
     <div id="images-list">
         {% if images | length > 0 %}
         <ul>
-            {% for image in images %}
-                <li>
-                    <div class="lightbox2">
-                        <figure>
-                            {% if image.variety == null %}
-                                <figcaption><a href="{{ path('show_mineral', {slug: image.mineral.slug}) }}">{{ image.mineral.name }}</a></figcaption>
-                            {% else %}
-                                <figcaption><a href="{{ path('show_variety', {slug: image.variety.slug}) }}">{{ image.variety.name }}</a></figcaption>
-                            {% endif %}
-                            <img class="image-zoom2" src="{{asset('uploads/images/' ~ image.filename) }}">
-                        </figure>
+            <div id="cCarousel">
+                <div class="arrow" id="prev"><span class="arrow-symbols">&#8249;</span></div>
+                <div class="arrow" id="next"><span class="arrow-symbols">&#8250;</span></div>
+              
+                <div id="carousel-vp">
+                    <div id="cCarousel-inner">
+                        {% for image in images %}
+                            <li>
+                                <div class="images-list-modal">
+                                    <figure class="cCarousel-item">
+                                        {% if is_granted('ROLE_USER') %}
+                                            <a class="trashcan-image" href="{{ path('delete_image', {id: image.id}) }}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" viewBox="0 0 26 26" width="26px" height="26px">
+                                                    <path d="M 11.5 -0.03125 C 9.542969 -0.03125 7.96875 1.59375 7.96875 3.5625 L 7.96875 4 L 4 4 C 3.449219 4 3 4.449219 3 5 L 3 6 L 2 6 L 2 8 L 4 8 L 4 23 C 4 24.644531 5.355469 26 7 26 L 19 26 C 20.644531 26 22 24.644531 22 23 L 22 8 L 24 8 L 24 6 L 23 6 L 23 5 C 23 4.449219 22.550781 4 22 4 L 18.03125 4 L 18.03125 3.5625 C 18.03125 1.59375 16.457031 -0.03125 14.5 -0.03125 Z M 11.5 2.03125 L 14.5 2.03125 C 15.304688 2.03125 15.96875 2.6875 15.96875 3.5625 L 15.96875 4 L 10.03125 4 L 10.03125 3.5625 C 10.03125 2.6875 10.695313 2.03125 11.5 2.03125 Z M 6 8 L 11.125 8 C 11.25 8.011719 11.371094 8.03125 11.5 8.03125 L 14.5 8.03125 C 14.628906 8.03125 14.75 8.011719 14.875 8 L 20 8 L 20 23 C 20 23.5625 19.5625 24 19 24 L 7 24 C 6.4375 24 6 23.5625 6 23 Z M 8 10 L 8 22 L 10 22 L 10 10 Z M 12 10 L 12 22 L 14 22 L 14 10 Z M 16 10 L 16 22 L 18 22 L 18 10 Z"/>
+                                                </svg>
+                                            </a>
+                                        {% endif %}
+                                        <a class="download-icon" href="{{path('download_images', {'filename': image.filename})}}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg>
+                                        </a>
+                                        <span class="zoom-in-message">Click for zoom in</span>
+                                        <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}">
+                                    </figure>
+                                </div> 
+                            </li>
+                        {% endfor %}
                     </div>
-                    <div class="images-list-modal">
-                        <figure id="images-list-figure">
-                            {% if is_granted('ROLE_USER') %}
-                                <a class="trashcan-image" href="{{ path('delete_image', {id: image.id}) }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" viewBox="0 0 26 26" width="26px" height="26px">
-                                        <path d="M 11.5 -0.03125 C 9.542969 -0.03125 7.96875 1.59375 7.96875 3.5625 L 7.96875 4 L 4 4 C 3.449219 4 3 4.449219 3 5 L 3 6 L 2 6 L 2 8 L 4 8 L 4 23 C 4 24.644531 5.355469 26 7 26 L 19 26 C 20.644531 26 22 24.644531 22 23 L 22 8 L 24 8 L 24 6 L 23 6 L 23 5 C 23 4.449219 22.550781 4 22 4 L 18.03125 4 L 18.03125 3.5625 C 18.03125 1.59375 16.457031 -0.03125 14.5 -0.03125 Z M 11.5 2.03125 L 14.5 2.03125 C 15.304688 2.03125 15.96875 2.6875 15.96875 3.5625 L 15.96875 4 L 10.03125 4 L 10.03125 3.5625 C 10.03125 2.6875 10.695313 2.03125 11.5 2.03125 Z M 6 8 L 11.125 8 C 11.25 8.011719 11.371094 8.03125 11.5 8.03125 L 14.5 8.03125 C 14.628906 8.03125 14.75 8.011719 14.875 8 L 20 8 L 20 23 C 20 23.5625 19.5625 24 19 24 L 7 24 C 6.4375 24 6 23.5625 6 23 Z M 8 10 L 8 22 L 10 22 L 10 10 Z M 12 10 L 12 22 L 14 22 L 14 10 Z M 16 10 L 16 22 L 18 22 L 18 10 Z"/>
-                                    </svg>
-                                </a>
-                            {% endif %}
-                            <a class="download-icon" href="{{path('download_images', {'filename': image.filename})}}">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg>
-                            </a>
-                            <span class="zoom-in-message">Click for zoom in</span>
-                            <img class="mineral-image" src="{{asset('uploads/images/' ~ image.filename) }}">
-                        </figure>
-                    </div>
-                </li>
-            {% endfor %}
+                </div>
+            </div>
         </ul>
         {% else %}
             <p>There's no image uploaded yet</p>
@@ -79,6 +89,7 @@
         }) 
     </script>
     <script src="/js/lightbox.js"></script>
+    <script src="/js/carousel.js"></script>
 {% endblock %}
 
 {% endblock %}
