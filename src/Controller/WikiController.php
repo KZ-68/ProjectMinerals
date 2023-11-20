@@ -9,6 +9,7 @@ use App\Entity\Comment;
 use App\Entity\Mineral;
 use App\Entity\Variety;
 use App\Entity\Category;
+use App\Entity\Contribution;
 use App\Entity\Favorite;
 use App\Form\LustreType;
 use App\Form\SearchType;
@@ -388,6 +389,11 @@ class WikiController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $mineral = $form->getData();
+            $name = $form->get('name')->getData();
+            $formula = $form->get('formula')->getData();
+            $density = $form->get('density')->getData();
+            $hardness = $form->get('hardness')->getData();
+            $streak = $form->get('streak')->getData();
             
             $imageTitleData = $form->get('image_title')->getData();
             // On récupère une collection d'images
@@ -424,6 +430,46 @@ class WikiController extends AbstractController
             }
             // On prépare les données pour l'envoi
             $entityManager->persist($mineral);
+            if($name) {
+                $newContribution = new Contribution();
+                $newContribution->setContent($name);
+                $newContribution->setMineral($mineral);
+                $entityManager->persist($newContribution);
+                $entityManager->flush();
+            }
+
+            if($formula) {
+                $newContribution = new Contribution();
+                $newContribution->setContent($formula);
+                $newContribution->setMineral($mineral);
+                $entityManager->persist($newContribution);
+                $entityManager->flush();
+            }
+
+            if($density) {
+                $newContribution = new Contribution();
+                $newContribution->setContent($density);
+                $newContribution->setMineral($mineral);
+                $entityManager->persist($newContribution);
+                $entityManager->flush();
+            }
+
+            if($hardness) {
+                $newContribution = new Contribution();
+                $newContribution->setContent($hardness);
+                $newContribution->setMineral($mineral);
+                $entityManager->persist($newContribution);
+                $entityManager->flush();
+            }
+
+            if($streak) {
+                $newContribution = new Contribution();
+                $newContribution->setContent($streak);
+                $newContribution->setMineral($mineral);
+                $entityManager->persist($newContribution);
+                $entityManager->flush();
+            }
+
             // On envoie les données dans la bdd
             $entityManager->flush();
 
@@ -670,6 +716,7 @@ class WikiController extends AbstractController
                 $coordinate->setLatitude($latitude);
                 $coordinate->setLongitude($longitude);
                 $variety->addCoordinate($coordinate);
+                $entityManager->persist($coordinate);
             }
             $entityManager->persist($variety);
             $entityManager->flush();
