@@ -1,4 +1,5 @@
 let mymap, marqueur // Variable de la map et du marqueur
+let editRegionName = document.querySelector('#edit_variety_region_name');
 
 window.onload = () => {
     mymap = L.map('mineral-map').setView([51.505, -0.09], 5); // Position sur la map par défaut
@@ -8,7 +9,12 @@ window.onload = () => {
         maxZoom: 20
     }).addTo(mymap) // Ajout des tuiles à la map
     mymap.on("click", mapClickListener) // Ajout de l'événement au clic sur la map
-    document.querySelector('#variety_region_name').addEventListener('blur', getRegion)
+    if(editRegionName) {
+        document.querySelector('#edit_variety_region_name').addEventListener('blur', getRegion);
+    } else {
+        document.querySelector('#variety_region_name').addEventListener('blur', getRegion);
+    }
+    
 }
 
 // Fonction de l'événement au clic
@@ -48,9 +54,15 @@ function mapClickListener(e) {
         }
     }).addTo(mymap);
 
-    // Affiche les coordonnées correspondantes dans le formulaire
-    document.querySelector("#variety_latitude").value = lat // Coordonées de latitude
-    document.querySelector("#variety_longitude").value = lon // Coordonnées de longitude
+    if (editRegionName) {
+        document.querySelector("#edit_variety_latitude").value = lat // Coordonées de latitude
+        document.querySelector("#edit_variety_longitude").value = lon // Coordonnées de longitude    
+    } else {
+        // Affiche les coordonnées correspondantes dans le formulaire
+        document.querySelector("#variety_latitude").value = lat // Coordonées de latitude
+        document.querySelector("#variety_longitude").value = lon // Coordonnées de longitude
+    }
+    
 }
 
 function getRegion() {
