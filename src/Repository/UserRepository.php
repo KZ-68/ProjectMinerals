@@ -71,15 +71,15 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     public function updateRoles(int $user, $roles) {
-            
+        // Connexion avec la base de données grâce à l'entity manager de l'instance    
         $conn = $this->getEntityManager()->getConnection();
-
+        // Préparation de la requête UPDATE
         $sql = '
             UPDATE user u
             SET u.roles = :roles
             WHERE u.id = :id
             ';
-
+        // Ajout des valeurs réelles et exécution.
         $conn->executeQuery($sql, ['roles' => json_encode([$roles]), 'id' => $user]);
     }
 
