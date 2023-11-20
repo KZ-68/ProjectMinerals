@@ -26,6 +26,9 @@ class Contribution
     #[ORM\Column]
     private ?int $contribution_likes = 0;
 
+    #[ORM\Column(length: 255)]
+    private ?string $content = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -63,6 +66,18 @@ class Contribution
     public function setContributionLikes(int $contribution_likes): static
     {
         $this->contribution_likes = $contribution_likes;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): static
+    {
+        $this->content = $content;
 
         return $this;
     }
