@@ -46,7 +46,10 @@ class SitemapSubscriber implements EventSubscriberInterface
      * @param UrlContainerInterface $urls
      * @param UrlGeneratorInterface $router
      */
-    public function registerMineralPagesUrls(UrlContainerInterface $urls, UrlGeneratorInterface $router): void
+    public function registerMineralPagesUrls(
+        UrlContainerInterface $urls, 
+        UrlGeneratorInterface $router
+        ): void
     {
         $minerals = $this->mineralRepository->findAll();
 
