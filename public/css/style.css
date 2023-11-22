@@ -32,7 +32,7 @@ h2 {
 }
 
 hr {
-    width: 535px;
+    width: 350px;
     margin: 0px 20px 20px 20px;
     padding: 3px;
     background-color: var(--secondary-color);
@@ -1223,7 +1223,7 @@ div.formulaire-login a {
 }
 
 .lightbox-wrapper-mineral > .lightbox3 figcaption {
-    top: 2694px;
+    top: 2994px;
 }
 
 .lightbox2 > figure > figcaption > a, 
@@ -1411,7 +1411,7 @@ div.formulaire-login a {
 #edit-mineral-lustres-wrapper,
 #edit-mineral-varieties-wrapper,
 #edit-description-wrapper {
-    margin: 78px 450px;
+    margin: 78px 125px;
     padding: 20px 50px;
     background-color: #fcfcfcfc;
     border-radius: 10px;
@@ -1523,7 +1523,27 @@ form[name='add_color'] div, form[name='add_lustre'] div {
     z-index: 2;
 }
 
-.cCarousel-item:hover a, .cCarousel-item:hover .download-icon {
+.cCarousel-item .trashcan-image {
+    position: absolute;
+    top: 6px;
+    right: 41px;
+    display: none;
+    z-index: 2;
+}
+
+.cCarousel-item .images-figcaption-inner {
+    position: absolute;
+    top: 6px;
+    left: 5px;
+    display: none;
+    z-index: 2;
+    color: #ffffff;
+}
+
+.cCarousel-item:hover a, 
+.cCarousel-item:hover .download-icon, 
+.cCarousel-item:hover .trashcan-image,
+.cCarousel-item:hover .images-figcaption-inner {
     display: block;
     animation-name: fade-images-icon;
     animation-duration: 2.5s;
@@ -2931,6 +2951,20 @@ button#contact_validate {
     #images-list > ul > #cCarousel > #carousel-vp > #cCarousel-inner {
         flex-wrap: nowrap;
     }
+
+    #edit-color-right, 
+    #edit-lustre-right, 
+    #new-color-right, 
+    #new-lustre-right,
+    #edit-mineral-colors-wrapper,
+    #edit-mineral-lustres-wrapper,
+    #edit-mineral-varieties-wrapper,
+    #edit-description-wrapper {
+        margin: 78px 450px;
+        padding: 20px 50px;
+        background-color: #fcfcfcfc;
+        border-radius: 10px;
+    }
 }
 
 @media only screen and (min-device-width: 1440px) and (max-device-width: 1900px) {
@@ -3082,6 +3116,29 @@ button#contact_validate {
     
     #images-list > ul > #cCarousel > #carousel-vp > #cCarousel-inner {
         flex-wrap: nowrap;
+    }
+
+    .lightbox-wrapper-mineral > .lightbox3 {
+        height: 4010px;
+    }
+
+    .lightbox-wrapper-mineral > .lightbox3 > figure > .image-zoom3.active {
+        width: 956px;
+        top: 322vh;
+    }
+
+    #edit-color-right, 
+    #edit-lustre-right, 
+    #new-color-right, 
+    #new-lustre-right,
+    #edit-mineral-colors-wrapper,
+    #edit-mineral-lustres-wrapper,
+    #edit-mineral-varieties-wrapper,
+    #edit-description-wrapper 
+    {
+        padding: 20px 50px;
+        background-color: #fcfcfcfc;
+        border-radius: 10px;
     }
 
 }
@@ -3467,6 +3524,10 @@ button#contact_validate {
         margin: 40px 70px;
     }
 
+    #edit-mineral-lustres-wrapper {
+        margin: 78px 50px;
+    }
+
     #create-discussion-wrapper {
         padding: 15px 52px;
         margin: 40px 47px;
@@ -3590,6 +3651,10 @@ button#contact_validate {
     
     .search-bar {
         width: 333px;
+    }
+
+    #edit-mineral-lustres-wrapper {
+        margin: 78px 50px;
     }
 }
 
@@ -4003,7 +4068,6 @@ button#contact_validate {
 
     .form-control {
         width: 260px;
-        font-size: 15px;
     }
 
     .form-message {
@@ -4021,6 +4085,10 @@ button#contact_validate {
 
     .formulaire-register {
         width: unset;
+    }
+
+    #edit-mineral-lustres-wrapper .formulaire {
+         width: 100%;
     }
 
     #description-wrapper {
@@ -4160,8 +4228,8 @@ button#contact_validate {
     }
 
     .mineral-image {
-        width: 229px;
-        height: 200px;
+        width: 233px;
+        height: 203px;
     }
 
     #caracteristics-colors, #caracteristics-lustres {
