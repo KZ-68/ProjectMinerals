@@ -231,20 +231,20 @@ class MineralRepository extends ServiceEntityRepository
             if(!empty($advancedSearchData['fracture'])) {
                 $data = $data
                 ->andWhere('m.fracture LIKE :fracture')
-                ->setParameter('fracture', $advancedSearchData['fracture']);
+                ->setParameter('fracture', $advancedSearchData['fracture'].'%');
             }
             
             if(!empty($advancedSearchData['streak'])) {
                 $data = $data
                 ->andWhere('m.streak LIKE :streak')
-                ->setParameter('streak', $advancedSearchData['streak']);
+                ->setParameter('streak', $advancedSearchData['streak'].'%');
             }
 
             if(!empty($advancedSearchData['category'])) {
                 $data = $data
                 ->innerJoin('m.category', 'c', 'WITH', 'c.id = m.category')
                 ->andWhere('c.id = :category')
-                ->setParameter('category', $advancedSearchData['category']);
+                ->setParameter('category', $advancedSearchData['category'].'%');
             }
 
             if(!empty($advancedSearchData['varieties'])) {
@@ -253,7 +253,7 @@ class MineralRepository extends ServiceEntityRepository
                     ->andWhere('v.id = :variety');
                 foreach ($advancedSearchData['varieties'] as $variety) {
                     $data = $data
-                    ->setParameter('variety', $variety);
+                    ->setParameter('variety', $variety.'%');
                 }
             }
         
@@ -263,7 +263,7 @@ class MineralRepository extends ServiceEntityRepository
                     ->andWhere('co.id = :color');
                 foreach ($advancedSearchData['colors'] as $color) {
                     $data = $data
-                    ->setParameter('color', $color);
+                    ->setParameter('color', $color.'%');
                 }
             }
         
@@ -273,7 +273,7 @@ class MineralRepository extends ServiceEntityRepository
                     ->andWhere('lu.id = :lustre');
                 foreach ($advancedSearchData['lustres'] as $lustre) {
                     $data = $data
-                    ->setParameter('lustre', $lustre);
+                    ->setParameter('lustre', $lustre.'%');
                 }
             }
 
