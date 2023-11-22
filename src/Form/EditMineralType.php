@@ -105,7 +105,10 @@ class EditMineralType extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('colors', EntityType::class, [
                 'class' => Color::class,
