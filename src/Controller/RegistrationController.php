@@ -35,39 +35,45 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {  
-            $agreeTerms = $form->get('agreeTerms')->getData();
-            if($agreeTerms === true) {
-                // encode the plain password
-                $user->setPassword(
-                    $userPasswordHasher->hashPassword(
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $password_regex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$/"; 
+            $plainPassword = $form->get('plainPassword')->getData();
+            if(preg_match($password_regex, $plainPassword)) {
+                $agreeTerms = $form->get('agreeTerms')->getData();
+                if($agreeTerms === true) {
+                    // encode the plain password
+                    $user->setPassword(
+                        $userPasswordHasher->hashPassword(
+                            $user,
+                            $plainPassword
+                        )
+                    );
+
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+
+                    // generate a signed url and email it to the user
+                    $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                        (new TemplatedEmail())
+                            ->from(new Address('kz-minerals-mailer@exemple.com', 'KZ Minerals Mailer'))
+                            ->to($user->getEmail())
+                            ->subject('Please Confirm your Email')
+                            ->htmlTemplate('registration/confirmation_email.html.twig')
+                    );
+
+                    return $userAuthenticator->authenticateUser(
                         $user,
-                        $form->get('plainPassword')->getData()
-                    )
-                );
-
-                $entityManager->persist($user);
-                $entityManager->flush();
-
-                // generate a signed url and email it to the user
-                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                    (new TemplatedEmail())
-                        ->from(new Address('kz-minerals-mailer@exemple.com', 'KZ Minerals Mailer'))
-                        ->to($user->getEmail())
-                        ->subject('Please Confirm your Email')
-                        ->htmlTemplate('registration/confirmation_email.html.twig')
-                );
-
-                return $userAuthenticator->authenticateUser(
-                    $user,
-                    $authenticator,
-                    $request
-                );
+                        $authenticator,
+                        $request
+                    );
+                } else {
+                    $this->addFlash('error', 'We need your consent for the registration');
+                    return $this->redirectToRoute('app_register');
+                }
             } else {
-                $this->addFlash('error', 'We need your consent for the registration');
+                $this->addFlash('error', 'Password strength minimal requirement needed');
                 return $this->redirectToRoute('app_register');
             }
-
             
         }
 
