@@ -739,7 +739,7 @@ header a:hover {
 
 #fig-logo-title {
     padding: 10px 10px 10px 10px;
-    font-size: 44px;
+    font-size: 50px;
     z-index: 1;
     color: white;
     margin: 0;
@@ -1087,6 +1087,7 @@ div.formulaire-login a {
 }
 
 #home-description p {
+    padding-top: 20px;
     color: white;
     font-size: 22px;
     font-family: 'Oswald';
@@ -1775,8 +1776,8 @@ button.btn {
     cursor: pointer;
     font-size: 18px;
     margin-left: 10px;
-    padding: 12px 13px;
-    border-radius: 5px;
+    padding: 10px 13px;
+    border-radius: 6px;
     border: none;
     text-align: center;
     height: fit-content;
@@ -2594,27 +2595,27 @@ button#deleteAccount {
     margin: 20px 15px;
 }
 
-.discussion-subject {
+.discussion-subject, .modification-subject {
     background-color: var(--secondary-color);
     padding: 20px 0px 15px 20px;
     border-radius: 8px 8px 0px 0px;
     color: #000000;
 }
 
-hgroup.discussion-subject h2 {
+hgroup.discussion-subject h2, hgroup.modification-subject h2  {
     background: none;
     padding: 0;
     margin: 0px 0px 20px 0px;
 }
 
-.discussion-profile {
+.discussion-profile, .modification-profile {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10px;
 }
 
-#discussion-avatar-header, #comment-avatar-header, #response-avatar-header {
+#discussion-avatar-header, #comment-avatar-header, #response-avatar-header, #modification-avatar-header {
     border: 3px solid #818181;
     border-radius: 10px;
     width: 79px;
@@ -2622,11 +2623,15 @@ hgroup.discussion-subject h2 {
     overflow: hidden;
 }
 
-#discussion-avatar-header #avatar-header, #comment-avatar-header #avatar-header, #reponse-comment-avatar-header #avatar-header {
+#discussion-avatar-header #avatar-header, 
+#comment-avatar-header #avatar-header, 
+#reponse-comment-avatar-header #avatar-header,
+#modification-avatar-header #avatar-header
+{
     width: 75px;
 }
 
-.discussion-textarea {
+.discussion-textarea, .modification-textarea {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -2649,6 +2654,13 @@ hgroup.discussion-subject h2 {
 
 .discussion-card-footer .delete-btn {
     margin-left: 15px;
+}
+
+#modifications-list-wrapper .modifications-item-body {
+    margin: 50px 15px;
+    padding: 25px 10px;
+    border-radius: 10px;
+    background-color: #fcfcfcfc;
 }
 
 #comment_send {
@@ -2813,12 +2825,12 @@ aside.aside-wrapper {
 }
 
 .admin-nav {
-    border: 3px solid #57CC99;
     border-radius: 10px;
     width: fit-content;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    background-color: #fcfcfccc;
 }
 
 .admin-nav-top {
@@ -2845,8 +2857,8 @@ aside.aside-wrapper {
     justify-content: space-between;
     margin: 10px 20px;
     padding: 10px 20px;
-    border: 2px solid #ade6d8;
     border-radius: 10px;
+    background-color: #b2c4df;
 }
 
 .contact-wrapper {
@@ -2933,7 +2945,7 @@ button#contact_validate {
 
 @media only screen and (min-device-width: 1900px) {
     .adv-search-wrapper {
-        margin: 0px 447px;
+        margin: 0px 450px;
     }
 
     .comment-wrapper {
@@ -3123,8 +3135,15 @@ button#contact_validate {
     }
 
     .lightbox-wrapper-mineral > .lightbox3 > figure > .image-zoom3.active {
-        width: 956px;
+        width: 700px;
         top: 322vh;
+        margin-left: 150px;
+        margin-right: 150px;
+    }
+
+    .lightbox-wrapper-mineral > .lightbox3 figcaption {
+        top: 2694px;
+        left: 150px;
     }
 
     #edit-color-right, 
@@ -3144,7 +3163,13 @@ button#contact_validate {
 }
 
 @media only screen and (max-device-width: 1024px) {
+    small {
+        display: none;
+    }
 
+    .panel {
+        display: none;
+    }
 
     #image-zoom1.active {
         width: 920px;
@@ -3224,6 +3249,26 @@ button#contact_validate {
     h2 {
         width: fit-content;
     }
+
+    a {
+        font-size: 28px;
+    }
+
+    p {
+        font-size: 24px;
+    }
+
+    header {
+        padding: 20px 20px;
+    }
+
+    #logo-header {
+        font-size: 40px;
+    }
+
+    #img-logo-header {
+        width: 44px;
+    }
     
     #nav-header {
         flex-direction: row;
@@ -3234,10 +3279,11 @@ button#contact_validate {
     }
 
     .sidenav {
-        height: 522px;
-        width: 379px;
-        right: -379px;
+        height: 100%;
+        width: 100%;
+        right: -1005px;
         display: block;
+        top: 0px;
     }
 
     .sidenav.active {
@@ -3245,7 +3291,7 @@ button#contact_validate {
     }
 
     .sidenav a {
-        font-size: 32px;
+        font-size: 58px;
         display: block;
         transition: 0.1s;
     }
@@ -3255,22 +3301,40 @@ button#contact_validate {
     }
 
     .sidenav p {
-        font-size: 24px;
+        font-size: 45px;
     }
       
     .sidenav ul {
         display: flex;
         list-style-type: none;
         padding: 0px;
-        margin: 15px 0px;
+        margin: 75px 25px;
         flex-direction: column;
         gap: 10px;
     }
 
+    .sidenav .close {
+        position: absolute;
+        top: 8px;
+        left: 15px;
+        font-size: 69px;
+    }
+
     .sidenav > ul > hr {
-        width: 248px;
+        width: 307px;
+        padding: 7px;
         margin: 0px 20px 5px 20px;
         background-color: #22a086;
+    }
+
+    .profile-responsive #figure-avatar-header {
+        width: 103px;
+        height: 105px;
+    }
+
+    .avatar-header {
+        width: 100px;
+        height: 100px;
     }
 
     .isDisabled {
@@ -3285,8 +3349,8 @@ button#contact_validate {
     
     .burger-icon span {
         display: block;
-        width: 35px;
-        height: 5px;
+        width: 42px;
+        height: 8px;
         background-color: rgb(255, 255, 255);
         margin: 6px 0;
         position: relative;
@@ -3307,11 +3371,11 @@ button#contact_validate {
     }
     
     #fig-logo-title {
-        font-size: 32px;
+        font-size: 39px;
     }
 
     #carousel-top-wrapper {
-        margin: 22px 35px;
+        margin: 73px 35px;
         gap: 10px;
         flex-direction: column;
         align-items: center;
@@ -3323,28 +3387,28 @@ button#contact_validate {
     }
 
     #carousel-top-presentation p {
-        font-size: 24px;
+        font-size: 29px;
         line-height: 1;
     }
 
     #minerals-logo {
-        width: 175px;
+        width: 204px;
     }
 
     #figure-logo {
         top: 17vh;
         left: 21vh;
         right: 21vh;
-        width: 175px;
+        width: 205px;
         height: 265px;
     }
 
     #diaporama {
-        height: 704px;
+        height: 797px;
     }
 
     #diaporama img {
-        height: 700px;
+        height: 796px;
     }
 
     .search-bar {
@@ -3355,21 +3419,15 @@ button#contact_validate {
         gap: 100px;
     }
 
+    .form-control {
+        height: 58px;
+        font-size: 24px;
+    }
+
     .search-zone {
-        height: 38px;
-        font-size: 16px;
-    }
-
-    #home-description section {
-        margin: 0px 104px;
-        gap: 90px;
-    }
-
-    #home-statistics-body {
-        display: flex;
-        flex-direction: column;
-        gap: 57px;
-        padding: 0px 0px;
+        height: 62px;
+        font-size: 23px;
+        border-radius: 32px 0px 0px 32px;
     }
 
     #register-page-wrapper {
@@ -3400,13 +3458,18 @@ button#contact_validate {
     }
 
     #submit-search {
-        padding: 10px;
-        font-size: 16px;
+        padding: 18px;
+        font-size: 22px;
+        border-radius: 0px 32px 32px 0px;
     }
 
     #mineral-submit-search {
         padding: 9px;
         font-size: 19px;
+    }
+
+    .adv-search-section h2 {
+        font-size: 32px;
     }
     
     .adv-search-wrapper {
@@ -3415,11 +3478,11 @@ button#contact_validate {
 
     .adv-search {
         width: 689px;
-        height: 1187px;
+        height: 1470px;
     }
 
     .adv-search-fields {
-        width: 535px;
+        width: 578px;
         height: 534px;
     }
 
@@ -3431,31 +3494,67 @@ button#contact_validate {
     }
     
     div#advanced-search-bar > div > label {
-        font-size: 23px;
-    }
-    
-    #accordion-wrapper {
-        display: none;
+        font-size: 34px;
     }
 
-    .accordion {
-        display: none;
+    #advanced_search_category {
+        height: 58px;
+        font-size: 22px;
     }
 
-    .panel {
-        display: none;
+    #advanced_search_varieties option, #advanced_search_colors option, #advanced_search_lustres option {
+        font-size: 24px;
+    }
+
+    #submit-advanced-search {
+        font-size: 24px;
     }
 
     #description-wrapper {
         width: 818px;
     }
 
+    #home-description section {
+        margin: 20px 86px;
+        gap: 90px;
+    }
+
+    #home-statistics-heading {
+        font-size: 32px;
+    }
+
+    #home-statistics-body {
+        display: flex;
+        flex-direction: column;
+        gap: 57px;
+        padding: 0px 0px;
+    }
+
+    #home-description p {
+        font-size: 29px;
+    }
+
     #home-description hgroup {
         margin: 0px 124px;
     }
 
+    .options a {
+        font-size: 32px;
+        padding: 10px 23px;
+        border-radius: 28px;
+    }
+
     .mineral-options a, .varieties-options a, .minerals-list-options a, .categories-options a, .discussions-list-options a, .return-btn {
         font-size: 22px;
+    }
+
+    #caracteristics-colors, #caracteristics-lustres {
+        gap: 170px;
+    }
+
+    span.current {
+        padding: 8px 10px;
+        font-size: 28px;
     }
 
     #minerals-list {
@@ -3477,10 +3576,23 @@ button#contact_validate {
     }
 
     aside.aside-wrapper {
-        margin: 30px 35px;
+        margin: 30px 337px;
         align-items: center;
         border: none;
         padding-right: unset;
+    }
+
+    .admin-nav-top {
+        font-size: 32px;
+    }
+
+    .admin-nav-text {
+        margin: 10px 50px 20px 50px;
+        width: 230px;
+    }
+
+    .admin-nav-text > div > a {
+        font-size: 32px;
     }
 
     #admin-list-group {
@@ -3613,6 +3725,23 @@ button#contact_validate {
         display: none;
     }
 
+    #footer-wrapper {
+        padding: 30px 0;
+    }
+
+    .topBtn img {
+        width: 73px;
+    }
+
+    .anchor-footer {
+        font-size: 25px;
+        color: #ffffff;
+    }
+
+    #icon-wrapper h3 {
+        font-size: 26px;
+    }
+
 }
 
 @media only screen and (max-device-width: 768px) {
@@ -3733,6 +3862,7 @@ button#contact_validate {
     #nav-right {
         display: none;
     }
+
     .sidenav a {
         text-decoration: none;
         font-size: 24px;
@@ -3795,18 +3925,18 @@ button#contact_validate {
     }
 
     #carousel-top-presentation {
-        padding: 0px 0px;
+        padding: 10px 0px;
         border-radius: 10px;
     }
 
     #carousel-top-presentation h2 {
         width: fit-content;
-        font-size: 20px;
+        font-size: 22px;
         padding: 0px 20px 0px 20px;
     }
 
     #carousel-top-presentation p {
-        font-size: 12px;
+        font-size: 13px;
         padding-bottom: 10px;
     }
 
@@ -3841,8 +3971,9 @@ button#contact_validate {
     }
 
     #home-statistics-body {
+        display: flex;
         flex-direction: column;
-        gap: 32px;
+        gap: 57px;
         padding: 0px 0px;
     }
 
@@ -3966,12 +4097,12 @@ button#contact_validate {
     }
     
     #minerals-logo {
-        width: 106px;
-        height: 110px;
+        width: 126px;
+        height: 130px;
     }
 
     #fig-logo-title {
-        font-size: 20px;
+        font-size: 26px;
         width: fit-content;
     }
 
@@ -4443,7 +4574,7 @@ button#contact_validate {
         border-right: none;
         padding-bottom: 0px;
         padding-right: 0px;
-        margin: 15px 35px;
+        margin: 15px 64px;
     }
 
     .admin-list-header {
@@ -4451,6 +4582,14 @@ button#contact_validate {
         flex-direction: column;
         align-items: center;
     }
+
+    span.page, span.first, span.previous, span.next, span.last {
+        padding: 7px 5px;
+    }
+
+    span.current {
+        padding: 7px 5px;
+    } 
 
     .admin-list-wrapper {
         display: flex;
