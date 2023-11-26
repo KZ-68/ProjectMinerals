@@ -4,66 +4,76 @@
 
 {% block body %}
     <h1>Modifications History</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Mineral</th>
-                <th>User</th>
-                <th>Modification Date</th>
-                <th>Old Values</th>
-                <th>New Values</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for entry in history %}
-                {% if entry.color == null %}
-                <tr>
-                    {% if entry.mineral == null %}
-                        <td>Mineral Page Deleted</td>
-                    {% else %}
-                        <td>{{ entry.mineral.name }}</td>
-                    {% endif %}
-                    {% if entry.user == null %}
-                        <td>User Deleted</td>
-                    {% else %}
-                        <td>{{ entry.user.username }}</td>
-                    {% endif %}
-                    <td>{{ entry.createdAt|date('Y-m-d H:i:s') }}</td>
-                    <td>
+    <section id="modifications-list-wrapper">
+        <div class="modifications-item-body">
+            {% if history | length > 0 %}
+                {% for entry in history %}
+                    {% if entry.color == null %}
+                        <div class="modification-card">
+                            <hgroup class="modification-subject">
+                                <time datetime="{{ entry.createdAt|date('Y-m-d H:i:s') }}"><p>Modification Date : {{ entry.createdAt|date('Y-m-d H:i:s') }}</p></time>
+                                <h2>
+                                    {% if entry.mineral == null %}
+                                        Mineral Page Deleted
+                                    {% else %}
+                                        Mineral : {{ entry.mineral.name }}
+                                    {% endif %}
+                                </h2>
+                                <div class="modification-profile">
+                                    <figure id="modification-avatar-header">
+                                        <img id="avatar-header" src="{{asset('uploads/images/' ~ entry.user.avatar)}}">
+                                    </figure>
+                                    {% if entry.user == null %}
+                                    <p>User : Deleted User</p>
+                                    {% else %}
+                                        <p>User {{ entry.user.username }}</p>
+                                    {% endif %}
+                                </div>
+                            </hgroup>
+                            <div class="modification-textarea">
+                                <p>
+                                    {% for keys in entry.changes %}
+                                        {% for key, change in keys %}
+                                            {% if change.0 is not defined  %}
+                                                Old Values : Empty<br>
+                                            {% else %}
+                                                {% if change.0 == null %}
+                                                    Old Values : {{ key }}: Empty<br> 
+                                                {% else %}
+                                                    Old Values : {{ key }}: {{ change.0 }}<br>    
+                                                {% endif %}
+                                            {% endif %}
+                                            
+                                        {% endfor %}
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {% for keys in entry.changes %}
+                                        {% for key, change in keys %}
+                                            {% if change.1 is not defined %}
+                                                New Values : Empty<br>
+                                            {% else %}
+                                                {% if change.0 == null %}
+                                                New Values : {{ key }}: Empty<br> 
+                                                {% else %}
+                                                New Values : {{ key }}: {{ change.1 }}<br>  
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </p>
+                            </div> 
+                        </div>
                         
-                        {% for keys in entry.changes %}
-                            {% for key, change in keys %}
-                                {% if change.0 is not defined  %}
-                                    
-                                {% else %}
-                                    {% if change.0 == null %}
-                                        {{ key }}: Empty<br> 
-                                    {% else %}
-                                        {{ key }}: {{ change.0 }}<br>    
-                                    {% endif %}
-                                {% endif %}
-                                
-                            {% endfor %}
-                        {% endfor %}
-                    </td>
-                    <td>
-                        {% for keys in entry.changes %}
-                            {% for key, change in keys %}
-                                {% if change.1 is not defined %}
-                                    
-                                {% else %}
-                                    {% if change.0 == null %}
-                                        {{ key }}: Empty<br> 
-                                    {% else %}
-                                        {{ key }}: {{ change.1 }}<br>  
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endfor %}
-                    </td>
-                </tr>
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="modification-textarea">
+                    <p>There's no modification history for this Mineral</p>   
+                </div>
+            {% endif %}
+            
+        </div>
+    </section>
+   
 {% endblock %}
