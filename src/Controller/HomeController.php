@@ -6,6 +6,7 @@ use App\Form\SearchType;
 use App\Model\SearchData;
 use App\Form\AdvancedSearchType;
 use App\Model\AdvancedSearchData;
+use App\Repository\ContributionRepository;
 use App\Repository\MineralRepository;
 use App\Repository\VarietyRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -21,7 +22,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route('home', name: 'index', options: ['sitemap' => ['priority' => 1.0, 'section' => 'home']])]
-    public function index(MineralRepository $mineralRepository, VarietyRepository $varietyRepository, Request $request, PaginatorInterface $paginator): Response
+    public function index(
+            MineralRepository $mineralRepository, 
+            VarietyRepository $varietyRepository, 
+            ContributionRepository $contributionRepository,
+            Request $request, 
+            PaginatorInterface $paginator
+        ): Response
     {
         // Crée un nouvel objet SearchData
         $searchData = new SearchData();
@@ -52,6 +59,8 @@ class HomeController extends AbstractController
         $minerals = $mineralRepository->findPaginateMinerals($request->query->getInt('page', 1));
         $mineralsCount = $mineralRepository->findMineralsCount();
         $varietiesCount = $varietyRepository->findVarietiesCount();
+        $contributionsCount = $contributionRepository->findContributionsCount();
+
         if ($request->isXmlHttpRequest()) {
             $formData = $request->request->all();
             $minerals = $mineralRepository->findByAdvancedSearch($formData['advanced_search']);
@@ -81,7 +90,8 @@ class HomeController extends AbstractController
                 'form2' => $form2,
                 'minerals' => $minerals,
                 'mineralsCount' => $mineralsCount,
-                'varietiesCount' => $varietiesCount
+                'varietiesCount' => $varietiesCount,
+                'contributionsCount' => $contributionsCount
             ]);
         }
 
