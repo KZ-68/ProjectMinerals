@@ -167,7 +167,7 @@
                     </figure>
                 {% endfor %}  
             {% else %}
-                <p>Varieties list empty</p>
+                <p id="varieties-list-empty">Varieties list empty</p>
             {% endif %}
         
         </div>
@@ -255,16 +255,6 @@
     <script src="/js/map.js"></script>
     <script src="/js/ajaxFavorite.js"></script>
     <script src="/js/lightbox.js"></script>
-    <script>
-        $(document).ready(function() {
-            let $mineralImage = $('.mineral-image');
-            $mineralImage.forEach((image) => {
-                image.focus(() => {
-                    image.css('filter', 'brightness(0.5)');
-                })
-            })
-        })
-    </script>
 {% endblock %}
 
 {% endblock %}
