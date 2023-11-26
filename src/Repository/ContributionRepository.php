@@ -21,6 +21,13 @@ class ContributionRepository extends ServiceEntityRepository
         parent::__construct($registry, Contribution::class);
     }
 
+    public function findContributionsCount() {
+        return $this->createQueryBuilder('contri')
+            ->select('count(contri.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 //    /**
 //     * @return Contribution[] Returns an array of Contribution objects
 //     */
