@@ -27,6 +27,9 @@ $(document).ready(function() {
               if(window.matchMedia("(max-width : 480px)").matches) {
                 $('.adv-search').css('height', '1600px');
                 $('.adv-search-fields').css('height', '1600px');
+              } else if (window.matchMedia("(max-width : 1024px)").matches) {
+                $('.adv-search').css('height', '1600px');
+                $('.adv-search-fields').css('height', '1600px');
               } else {
                 $('.adv-search').css('height', '1040px');
                 $('.adv-search-fields').css('height', '1209px');
@@ -53,6 +56,9 @@ function resetBtn(container) {
     event.preventDefault();
     if(window.matchMedia("(max-width : 480px)").matches) {
       $('.adv-search').css('height', '1450px');
+      $('.adv-search-fields').css('height', '1298px');
+    } else if(window.matchMedia("(max-width : 1024px)").matches) {
+      $('.adv-search').css('height', '1540px');
       $('.adv-search-fields').css('height', '1298px');
     } else {
       $('.adv-search').css('height', '825px');
