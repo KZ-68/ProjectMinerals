@@ -215,8 +215,10 @@ class WikiController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute(
-                'discussion_mineral', ['slug' => $discussion->getMineral()->getSlug(), 
-                'discussionSlug' => $discussion->getSlug()]
+                'discussion_mineral', [
+                    'slug' => $discussion->getMineral()->getSlug(), 
+                    'discussionSlug' => $discussion->getSlug()
+                ]
             );
         }
 
@@ -230,6 +232,7 @@ class WikiController extends AbstractController
     #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{commentSlug}/respond', name: 'respond_comment')]
     #[IsGranted('ROLE_USER')]
     public function respondComment(
+        #[MapEntity(mapping: ['slug' => 'slug'])] Mineral $mineral,
         #[MapEntity(mapping: ['commentSlug' => 'slug'])] Comment $comment, 
         #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
         Request $request,
@@ -268,15 +271,19 @@ class WikiController extends AbstractController
             return $this->redirectToRoute(
                 'discussion_mineral',
                 [
+                'mineral' => $mineral,
                 'slug' => $discussion->getMineral()->getSlug(), 
-                'discussionSlug' => $comment->getDiscussion()->getSlug(),
-                'commentSlug' => $comment->getSlug()
+                'discussionSlug' => $comment->getDiscussion()->getSlug()
                 ]
             );
         }
 
         return $this->render('wiki/_respond_comment.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'mineral' => $mineral,
+            'discussion' => $discussion,
+            'slug' => $discussion->getMineral()->getSlug(), 
+            'discussionSlug' => $comment->getDiscussion()->getSlug()
         ]);
     }
 
@@ -306,8 +313,8 @@ class WikiController extends AbstractController
         return $this->redirectToRoute(
             'discussion_mineral',
             [
-            'slug' => $discussion->getMineral()->getSlug(), 
-            'discussionSlug' => $discussion->getSlug(),
+                'slug' => $discussion->getMineral()->getSlug(), 
+                'discussionSlug' => $discussion->getSlug(),
             ]
         );
     }
