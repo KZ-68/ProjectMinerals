@@ -631,7 +631,7 @@ header a:hover {
 }
 
 .sidenav {
-    height: 449px;
+    height: 528px;
     width: 265px;
     position: fixed;
     z-index: 2;
@@ -1606,6 +1606,10 @@ form[name='add_color'] div, form[name='add_lustre'] div {
     border-radius: 10px;
 }
 
+#mineral-header > a:hover {
+    color: #444444;
+}
+
 .mineral-image {
     width: 354px;
     height: 304px;
@@ -1745,6 +1749,10 @@ form[name='add_color'] div, form[name='add_lustre'] div {
     margin-bottom: 5px;
     background-color: #ADADAD;
     border-radius: 10px;
+}
+
+#varieties-list-empty {
+    padding: 21vh 57vh;
 }
 
 button.btn {
@@ -2582,7 +2590,7 @@ button#deleteAccount {
     margin: 40px 20px 40px 20px;
 }
 
-.discussion-card {
+.discussion-card, .modification-card {
     border-radius: 10px;
     width: 900px;
     margin: 0px 0px 40px 25px;
@@ -2659,8 +2667,6 @@ hgroup.discussion-subject h2, hgroup.modification-subject h2  {
 #modifications-list-wrapper .modifications-item-body {
     margin: 50px 15px;
     padding: 25px 10px;
-    border-radius: 10px;
-    background-color: #fcfcfcfc;
 }
 
 #comment_send {
@@ -2685,6 +2691,11 @@ hgroup.discussion-subject h2, hgroup.modification-subject h2  {
     border: none;
     margin-top: 10px;
     width: 120px;
+}
+
+#respond_comment_content {
+    height: 200px;
+    width: 800px;
 }
 
 .answer-link {
@@ -2721,7 +2732,7 @@ hgroup.comment-subject h2 {
     border-radius: 10px;
     width: 700px;
     margin: 0px 0px 20px 25px;
-    padding-bottom: 10px;
+    padding: 10px 0px;
     border-radius: 10px;
     background-color: #fcfcfccc;
 }
@@ -2742,17 +2753,11 @@ hgroup.response-comment-subject h3 {
     font-weight: 500;
 } 
 
-.discussion-card time {
-    float: right;
-    padding-right: 20px;
-}
-
-.comment-card time {
-    float: right;
-    padding-right: 20px;
-}
-
-.response-comment-card time {
+.discussion-card time, 
+.comment-card time,
+.response-comment-card time,
+.modification-card time
+{
     float: right;
     padding-right: 20px;
 }
@@ -3742,6 +3747,29 @@ button#contact_validate {
         font-size: 26px;
     }
 
+    .discussion-item-main {
+        padding-right: 185px;
+    }
+
+    #discussions-list-body {
+        margin: 50px 62px;
+    }
+
+    #response-wrapper {
+        margin: 30px 50px;
+    }
+
+    #response-comment-header {
+        color: #ffffff;
+        padding-right: 50px;
+        padding-bottom: 10px;
+    }
+
+    #respond_comment_content {
+        height: 200px;
+        width: 600px;
+    }
+
 }
 
 @media only screen and (max-device-width: 768px) {
@@ -4004,11 +4032,23 @@ button#contact_validate {
         padding: 25px 11px;
     }
 
-    .discussion-card, .comment-card, .response-comment-card {
+    .discussion-card, 
+    .comment-card, 
+    .response-comment-card,
+    .modification-card 
+    {
         width: 330px;
     }
 
-    .discussion-card time, .comment-card time, .response-comment-card time {
+    .modification-card {
+        margin: 0px 0px 40px 0px;
+    }
+
+    .discussion-card time, 
+    .comment-card time, 
+    .response-comment-card time
+    .modification-card time 
+    {
         font-size: 12px;
         font-weight: 600;
     }
@@ -4695,6 +4735,22 @@ button#contact_validate {
 
     .discussion-item-main {
         padding-right: 0px;
+    }
+
+    #response-comment-header {
+        color: #ffffff;
+        padding-right: 0px;
+        padding-bottom: 10px;
+    }
+
+    #response-wrapper {
+        margin: 30px 20px;
+        padding: 13px 50px;
+    }
+
+    #respond_comment_content {
+        height: 200px;
+        width: 281px;
     }
 
     .contact-wrapper {
