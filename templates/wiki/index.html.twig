@@ -27,10 +27,15 @@
 
     <ul id="minerals-list">
         {# Le résultat de la requête affichera pour chaque élément mineral dans minerals : #}
-        {% for mineral in minerals %}
-        {# Le nom du minéral et le lien vers la page du minéral lié au slug #}
-        <li><a href="{{path('show_mineral', {'slug': mineral.slug})}}">{{mineral.name}}</a></li>
-        {% endfor %}
+        {% if minerals | length > 0 %}
+            {% for mineral in minerals %}
+            {# Le nom du minéral et le lien vers la page du minéral lié au slug #}
+            <li><a href="{{path('show_mineral', {'slug': mineral.slug})}}">{{mineral.name}}</a></li>
+            {% endfor %}
+        {% else %}
+            <li>No Mineral found in the search engine !</li>
+        {% endif %}
+       
     </ul>
     {% if app.request.get('name') %}
         {{response.name}}
