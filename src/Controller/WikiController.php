@@ -255,9 +255,9 @@ class WikiController extends AbstractController
 
             $notification = new Notification();
 
-            $parent_comment_user = $comment->getParent()->getUser();
+            $parent_comment_user = $respondComment->getParent()->getUser();
             
-            $notification->setUser($user);
+            $notification->setUser($parent_comment_user);
             $notification->setComment($respondComment);
 
             $parent_comment_user->addNotification($notification);
