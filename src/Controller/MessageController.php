@@ -12,9 +12,16 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
+#[Route(
+    '/{_locale}/message', 
+    name: 'app_message_',
+    requirements: [
+        '_locale' => 'en|fr',
+    ],
+)]
 class MessageController extends AbstractController
 {
-    #[Route('/message', name: 'app_message')]
+    #[Route('/', name: 'index')]
     public function index(): Response
     {
         if(!$this->getUser()) {
@@ -26,7 +33,7 @@ class MessageController extends AbstractController
         ]);
     }
 
-    #[Route('/message/send', name:'send_message')]
+    #[Route('/send', name:'send')]
     #[IsGranted('ROLE_USER')]
     public function send(Message $message = null, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -66,7 +73,7 @@ class MessageController extends AbstractController
         ]);
     }
 
-    #[Route('/message/received', name: 'received_message')]
+    #[Route('/received', name: 'received')]
     #[IsGranted('ROLE_USER')]
     public function received(): Response
     {
@@ -77,7 +84,7 @@ class MessageController extends AbstractController
         return $this->render('message/received.html.twig');
     }
 
-    #[Route('/message/sent', name: 'sent_message')]
+    #[Route('/sent', name: 'sent')]
     #[IsGranted('ROLE_USER')]
     public function sent(): Response
     {
@@ -88,7 +95,7 @@ class MessageController extends AbstractController
         return $this->render('message/sent.html.twig');
     }
 
-    #[Route('/message/received/{id}/read', name: 'read_message')]
+    #[Route('/received/{id}/read', name: 'read')]
     #[IsGranted('ROLE_USER')]
     public function readMessage(Message $message, EntityManagerInterface $entityManager): Response 
     {
@@ -110,7 +117,7 @@ class MessageController extends AbstractController
         ]);
     }
 
-    #[Route('/message/received/{id}/delete', name: 'delete_message')]
+    #[Route('/received/{id}/delete', name: 'delete')]
     #[IsGranted('ROLE_USER')]
     public function deletemessage(Message $message, EntityManagerInterface $entityManager) {
         
