@@ -34,7 +34,7 @@
                         </div>
                         <div class="messages-column">
                             <div>Subject</div>
-                            <div class="{{bold}}"><a href="{{path('read_message', {'id': message.id})}}">{{ message.header }}</a></div>
+                            <div class="{{bold}}"><a href="{{path('app_message_read', {'id': message.id})}}">{{ message.header }}</a></div>
                         </div>
                         <div class="messages-column">
                             <div>Date</div>
@@ -42,7 +42,7 @@
                         </div>
                         <div class="messages-column">
                             <div>Actions</div>
-                            <div><a class="btn btn-danger" href="{{ path('delete_message', {'id': message.id}) }}" aria-label="Delete">Delete</a></div>
+                            <div><a class="btn btn-danger" href="{{ path('app_message_delete', {'id': message.id}) }}" aria-label="Delete">Delete</a></div>
                         </div>
                     {% endfor %}
                 </div>

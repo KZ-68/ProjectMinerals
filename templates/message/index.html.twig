@@ -20,7 +20,7 @@
                     <p>Sent : {{app.user.sent|length}} </p>
                 </div>
                 <div id="message-resume-footer">
-                    <a href="{{ path('send_message', {'id': app.user.id})}}" class="btn btn-primary" role="button" aria-controls="offcanvasExample">
+                    <a href="{{ path('app_message_send', {'id': app.user.id})}}" class="btn btn-primary" role="button" aria-controls="offcanvasExample">
                         Sending a message
                     </a>
                 </div>

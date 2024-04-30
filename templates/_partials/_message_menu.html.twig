@@ -3,34 +3,34 @@
 </div>
 <div class="message-menu-body">
     <div class="list-group">
-        {% if app.request.get('_route') == 'app_message' %}
-            <a href="{{path('app_message')}}" class="list-group-item list-group-item-action-active">Home</a>
+        {% if app.request.get('_route') == 'app_message_index' %}
+            <a href="{{path('app_message_index')}}" class="list-group-item list-group-item-action-active">Home</a>
             <hr>
-            <a href="{{ path('send_message', {'id': app.user.id})}}" role="button">Sending a message</a>
-            <a href="{{path('received_message')}}" class="list-group-item list-group-item-action-active">Received Box</a>
-            <a href="{{path('sent_message')}}" class="list-group-item list-group-item-action-active">Sent Box</a>
+            <a href="{{ path('app_message_send', {'id': app.user.id})}}" role="button">Sending a message</a>
+            <a href="{{path('app_message_received')}}" class="list-group-item list-group-item-action-active">Received Box</a>
+            <a href="{{path('app_message_sent')}}" class="list-group-item list-group-item-action-active">Sent Box</a>
             
         {% endif %}
         
-        {% if app.request.get('_route') == 'send_message' %}
-            <a href="{{path('app_message')}}" class="list-group-item list-group-item-action-active">Home</a>
-            <a href="{{ path('send_message', {'id': app.user.id})}}" role="button">Sending a message</a>
+        {% if app.request.get('_route') == 'app_message_send' %}
+            <a href="{{path('app_message_index')}}" class="list-group-item list-group-item-action-active">Home</a>
+            <a href="{{ path('app_message_send', {'id': app.user.id})}}" role="button">Sending a message</a>
             <hr>
-            <a href="{{path('received_message')}}" class="list-group-item list-group-item-action-active">Received Box</a>
-            <a href="{{path('sent_message')}}" class="list-group-item list-group-item-action-active">Sent Box</a>
+            <a href="{{path('app_message_received')}}" class="list-group-item list-group-item-action-active">Received Box</a>
+            <a href="{{path('app_message_sent')}}" class="list-group-item list-group-item-action-active">Sent Box</a>
         {% endif %}
-        {% if app.request.get('_route') == 'received_message' %}
-            <a href="{{path('app_message')}}" class="list-group-item list-group-item-action-active">Home</a>
-            <a href="{{ path('send_message', {'id': app.user.id})}}" role="button">Sending a message</a>
-            <a href="{{path('received_message')}}" class="list-group-item list-group-item-action-active">Received Box</a>
+        {% if app.request.get('_route') == 'app_message_received' %}
+            <a href="{{path('app_message_index')}}" class="list-group-item list-group-item-action-active">Home</a>
+            <a href="{{ path('app_message_send', {'id': app.user.id})}}" role="button">Sending a message</a>
+            <a href="{{path('app_message_received')}}" class="list-group-item list-group-item-action-active">Received Box</a>
             <hr>
-            <a href="{{path('sent_message')}}" class="list-group-item list-group-item-action-active">Sent Box</a>
+            <a href="{{path('app_message_sent')}}" class="list-group-item list-group-item-action-active">Sent Box</a>
         {% endif %}
-        {% if app.request.get('_route') == 'sent_message' %}
-            <a href="{{path('app_message')}}" class="list-group-item list-group-item-action-active">Home</a>
-            <a href="{{ path('send_message', {'id': app.user.id})}}" role="button">Sending a message</a>
-            <a href="{{path('received_message')}}" class="list-group-item list-group-item-action-active">Received Box</a>
-            <a href="{{path('sent_message')}}" class="list-group-item list-group-item-action-active">Sent Box</a>
+        {% if app.request.get('_route') == 'app_message_sent' %}
+            <a href="{{path('app_message_index')}}" class="list-group-item list-group-item-action-active">Home</a>
+            <a href="{{ path('app_message_send', {'id': app.user.id})}}" role="button">Sending a message</a>
+            <a href="{{path('app_message_received')}}" class="list-group-item list-group-item-action-active">Received Box</a>
+            <a href="{{path('app_message_sent')}}" class="list-group-item list-group-item-action-active">Sent Box</a>
             <hr>
         {% endif %}
         
