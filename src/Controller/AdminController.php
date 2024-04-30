@@ -28,7 +28,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 #[IsGranted('ROLE_ADMIN')]
-#[Route('/admin', name: 'app_admin_')]
+#[Route(
+    '/{_locale}/admin', 
+    name: 'app_admin_',
+    requirements: [
+        '_locale' => 'en|fr',
+    ],
+)]
 class AdminController extends AbstractController
 {
     #[Route('/', name: 'index')]

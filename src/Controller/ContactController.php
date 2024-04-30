@@ -20,7 +20,13 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 #[IsGranted('PUBLIC_ACCESS')]
 class ContactController extends AbstractController
 {
-    #[Route('/contact', name: 'app_contact')]
+    #[Route(
+        '/{_locale}/contact', 
+        name: 'app_contact',
+        requirements: [
+            '_locale' => 'en|fr',
+        ],
+    )]
     public function index(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $contact = new Contact();

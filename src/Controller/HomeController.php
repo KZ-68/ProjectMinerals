@@ -18,10 +18,20 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('PUBLIC_ACCESS')]
-#[Route('/', name: 'home_')]
+#[Route(
+    '/{_locale}/', 
+    name: 'home_',
+    requirements: [
+        '_locale' => 'en|fr',
+    ],
+)]
 class HomeController extends AbstractController
 {
-    #[Route('home', name: 'index', options: ['sitemap' => ['priority' => 1.0, 'section' => 'home']])]
+    #[Route(
+        'home', 
+        name: 'index', 
+        options: ['sitemap' => ['priority' => 1.0, 'section' => 'home']],
+    )]
     public function index(
             MineralRepository $mineralRepository, 
             VarietyRepository $varietyRepository, 
