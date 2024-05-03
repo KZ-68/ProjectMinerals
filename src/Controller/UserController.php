@@ -26,7 +26,10 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 #[IsGranted('ROLE_USER')]
 class UserController extends AbstractController
 {
-    #[Route('/profile', name: 'app_profile')]
+    #[Route(
+        '/profile', 
+        name: 'app_profile'
+    )]
     public function index
     (
     Request $request, FileUploader $fileUploader, 
@@ -66,7 +69,11 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/profile/settings/', name: 'settings_profile', methods:['GET', 'POST'])]
+    #[Route(
+        '/profile/settings/', 
+        name: 'settings_profile', 
+        methods:['GET', 'POST']
+    )]
     #[IsGranted('ROLE_USER')]
     public function editSettings(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
     {
@@ -159,9 +166,7 @@ class UserController extends AbstractController
                         'warning',
                         'Old and new password need to be different'
                     );
-                }
-                    
-                
+                }  
             }
 
             $form3name->handleRequest($request);
@@ -183,10 +188,12 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/profile/settings/popup', name: 'settings_delete_popup')]
+    #[Route(
+        '/profile/settings/popup', 
+        name: 'settings_delete_popup'
+    )]
     public function popupDeleteAccount(Request $request): Response {
         
-
         $user = $this->getUser();
 
         if(!$this->getUser()) {
@@ -196,9 +203,12 @@ class UserController extends AbstractController
         return $this->render('_partials/_delete_account.html.twig');
     }
 
-    #[Route('/profile/settings/popup/delete', name: 'settings_delete_profile', methods:['POST'])]
+    #[Route(
+        '/profile/settings/popup/delete', 
+        name: 'settings_delete_profile', 
+        methods:['POST']
+    )]
     public function deleteAccount(Request $request, EntityManagerInterface $entityManager, Session $session, TokenStorageInterface $tokenStorage): Response {
-
 
         $user = $this->getUser();
 
@@ -217,7 +227,11 @@ class UserController extends AbstractController
         }
     }
 
-    #[Route('/profile/notifications', name: 'notifications_center', methods:['GET'])]
+    #[Route(
+        '/profile/notifications', 
+        name: 'notifications_center', 
+        methods:['GET']
+    )]
     public function notifications(Request $request, NotificationRepository $notificationRepository) : Response {
 
         $user = $this->getUser();
@@ -234,7 +248,10 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/profile/notifications/{id}/read', name: 'read_notification')]
+    #[Route(
+        '/profile/notifications/{id}/read', 
+        name: 'read_notification'
+    )]
     public function readNotifications(Request $request, EntityManagerInterface $entityManager, Notification $notification) : Response {
 
         $user = $this->getUser();
