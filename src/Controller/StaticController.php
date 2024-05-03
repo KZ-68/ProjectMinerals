@@ -27,9 +27,12 @@ class StaticController extends AbstractController
     }
 
     #[Route(
-        '/privacy-policy', 
+        '/{_locale}/privacy-policy', 
         name: 'privacy_policy', 
-        options: ['sitemap' => ['priority' => 0.8, 'section' => 'base']]
+        options: ['sitemap' => ['priority' => 0.8, 'section' => 'base']],
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
     )]
     #[IsGranted('PUBLIC_ACCESS')]
     public function privacyPolicy(Request $request): Response {
@@ -37,9 +40,12 @@ class StaticController extends AbstractController
     }
 
     #[Route(
-        '/terms-of-service', 
+        '/{_locale}/terms-of-service', 
         name: 'terms_of_service', 
-        options: ['sitemap' => ['priority' => 0.8, 'section' => 'base']]
+        options: ['sitemap' => ['priority' => 0.8, 'section' => 'base']],
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
     )]
     #[IsGranted('PUBLIC_ACCESS')]
     public function termsOfService(Request $request): Response {

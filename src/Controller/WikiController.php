@@ -63,7 +63,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class WikiController extends AbstractController
 {
-    #[Route('/wiki/mineral', name: 'app_mineral', options: ['sitemap' => ['priority' => 0.7, 'changefreq' => UrlConcrete::CHANGEFREQ_WEEKLY, 'section' => 'mineral']])]
+    #[Route(
+        '/{_locale}/wiki/mineral', 
+        name: 'app_mineral', 
+        options: ['sitemap' => ['priority' => 0.7, 'changefreq' => UrlConcrete::CHANGEFREQ_WEEKLY, 'section' => 'mineral']],
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('PUBLIC_ACCESS')]
     public function index(MineralRepository $mineralRepository, Request $request): Response
     {        
@@ -104,7 +111,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/show', name: 'show_mineral')]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/show', 
+        name: 'show_mineral',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('PUBLIC_ACCESS')]
     public function showMineral(
         Mineral $mineral, 
@@ -126,7 +139,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions', name: 'discussions_list')]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/discussions', 
+        name: 'discussions_list',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function discussionsList(Mineral $mineral):Response {
 
@@ -135,7 +154,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/createDiscussion', name: 'new_discussion')]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/discussions/createDiscussion', 
+        name: 'new_discussion',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function launchDiscussion(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -164,7 +189,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}', name: 'discussion_mineral')]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/discussions/{discussionSlug}', 
+        name: 'discussion_mineral',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('PUBLIC_ACCESS')]
     public function discussion( 
         #[MapEntity(mapping: ['slug' => 'slug'])] Mineral $mineral,
@@ -178,7 +209,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/newComment', name: 'new_comment')]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/discussions/{discussionSlug}/newComment', 
+        name: 'new_comment',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function newComment(
         #[MapEntity(mapping: ['slug' => 'slug'])] Mineral $mineral,
@@ -229,7 +266,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{commentSlug}/respond', name: 'respond_comment')]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{commentSlug}/respond', 
+        name: 'respond_comment',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function respondComment(
         #[MapEntity(mapping: ['slug' => 'slug'])] Mineral $mineral,
@@ -287,7 +330,14 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/delete', name:'delete_discussion', methods:['GET'])]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/discussions/{discussionSlug}/delete', 
+        name:'delete_discussion', 
+        methods:['GET'],
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function deleteDiscussion(
         #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
@@ -319,7 +369,14 @@ class WikiController extends AbstractController
         );
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{commentSlug}/delete', name:'delete_comment', methods:['GET'])]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{commentSlug}/delete', 
+        name:'delete_comment', 
+        methods:['GET'],
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function deleteComment(
         #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
@@ -353,7 +410,14 @@ class WikiController extends AbstractController
 
     }
 
-    #[Route('/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{commentSlug}/report', name:'report_user_comment', methods:['GET'])]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{commentSlug}/report', 
+        name:'report_user_comment', 
+        methods:['GET'],
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function reportUserComment(
         #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
@@ -383,7 +447,13 @@ class WikiController extends AbstractController
         );
     }
 
-    #[Route('/wiki/mineral/new', name: 'new_mineral')]
+    #[Route(
+        '/{_locale}/wiki/mineral/new', 
+        name: 'new_mineral',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function new_mineral(FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -489,7 +559,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/edit', name: 'edit_mineral')]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/edit', 
+        name: 'edit_mineral',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function edit(
         Mineral $mineral, ImageRepository $imageRepository, Request $request, 
@@ -590,7 +666,13 @@ class WikiController extends AbstractController
         ]);
     } 
 
-    #[Route('/wiki/mineral/{slug}/delete', name: 'delete_mineral')]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/delete', 
+        name: 'delete_mineral',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted("ROLE_MODERATOR")]
     public function deleteMineral(Mineral $mineral, EntityManagerInterface $entityManager, MineralRepository $mineralRepository) {
         
@@ -602,7 +684,13 @@ class WikiController extends AbstractController
         return $this->redirectToRoute('app_mineral');
     }
 
-    #[Route('/wiki/mineral/{slug}/variety/new', name: 'new_variety')]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/variety/new', 
+        name: 'new_variety',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function new_variety(Mineral $mineral, FileUploader $fileUploader, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -649,7 +737,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/variety/{slug}/show/edit', name: 'edit_variety')]
+    #[Route(
+        '/{_locale}/wiki/variety/{slug}/show/edit', 
+        name: 'edit_variety',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function edit_variety(
         Variety $variety, ImageRepository $imageRepository, Request $request, 
@@ -739,7 +833,13 @@ class WikiController extends AbstractController
         ]);
     } 
     
-    #[Route("/wiki/mineral/{slug}/show/history", name:"mineral_history")]
+    #[Route(
+        "/{_locale}/wiki/mineral/{slug}/show/history", 
+        name:"mineral_history",
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     public function showHistory(Mineral $mineral, ModificationHistoryRepository $modificationHistoryRepository): Response
     {
         // Récupére l'historique des modifications depuis la base de données.
@@ -752,7 +852,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/variety/{slug}/show', name: 'show_variety')]
+    #[Route(
+        '/{_locale}/wiki/variety/{slug}/show', 
+        name: 'show_variety',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('PUBLIC_ACCESS')]
     public function showVariety(Variety $variety): Response
     {
@@ -761,7 +867,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/show/editColors', name: 'edit_mineral_colors')]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/show/editColors', 
+        name: 'edit_mineral_colors',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function edit_mineral_colors(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -783,7 +895,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/show/editVarieties', name: 'edit_mineral_varieties')]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/show/editVarieties', 
+        name: 'edit_mineral_varieties',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function edit_mineral_varieties(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -805,7 +923,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/mineral/{slug}/show/editLustres', name: 'edit_mineral_lustres')]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/show/editLustres', 
+        name: 'edit_mineral_lustres',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function edit_mineral_lustres(Mineral $mineral, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -827,7 +951,14 @@ class WikiController extends AbstractController
         ]);
     }
     
-    #[Route('/wiki/category', name: 'app_category', options: ['sitemap' => ['priority' => 0.7, 'changefreq' => UrlConcrete::CHANGEFREQ_WEEKLY, 'section' => 'category']])]
+    #[Route(
+        '/{_locale}/wiki/category', 
+        name: 'app_category', 
+        options: ['sitemap' => ['priority' => 0.7, 'changefreq' => UrlConcrete::CHANGEFREQ_WEEKLY, 'section' => 'category']],
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('PUBLIC_ACCESS')]
     public function categorieslist(CategoryRepository $categoryRepository): Response
     {
@@ -837,7 +968,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/category/{slug}/show', name: 'show_category')]
+    #[Route(
+        '/{_locale}/wiki/category/{slug}/show', 
+        name: 'show_category',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('PUBLIC_ACCESS')]
     public function showCategory(Category $category): Response
     {
@@ -846,7 +983,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/color/{slug}/show', name: 'show_color')]
+    #[Route(
+        '/{_locale}/wiki/color/{slug}/show', 
+        name: 'show_color',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('PUBLIC_ACCESS')]
     public function showColor(Color $color): Response
     {
@@ -855,7 +998,10 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/lustre/{slug}/show', name: 'show_lustre')]
+    #[Route(
+        '/{_locale}/wiki/lustre/{slug}/show', 
+        name: 'show_lustre'
+    )]
     #[IsGranted('PUBLIC_ACCESS')]
     public function showLustre(Lustre $lustre): Response
     {
@@ -864,7 +1010,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/image', name: 'app_image')]
+    #[Route(
+        '/{_locale}/wiki/image', 
+        name: 'app_image',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('PUBLIC_ACCESS')]
     public function imageslist(ImageRepository $imageRepository, Request $request): Response
     {
@@ -873,7 +1025,13 @@ class WikiController extends AbstractController
         ]);
     }
 
-    #[Route('/wiki/image/{id}/delete', name: 'delete_image')]
+    #[Route(
+        '/{_locale}/wiki/image/{id}/delete', 
+        name: 'delete_image',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function deleteImage(
         Image $image, 
@@ -901,7 +1059,13 @@ class WikiController extends AbstractController
         return $this->redirectToRoute('app_image');
     }
 
-    #[Route('/wiki/mineral/{slug}/show/pdfgenerator', name:'pdf_generator')]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/show/pdfgenerator', 
+        name:'pdf_generator',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('PUBLIC_ACCESS')]
     public function generatePdf(Mineral $mineral, ImageRepository $imageRepository, PdfGenerator $pdfGenerator) {
         
@@ -918,7 +1082,10 @@ class WikiController extends AbstractController
 
     }
 
-    #[Route('{filename}/download', name:'download_images')]
+    #[Route(
+        '{filename}/download', 
+        name:'download_images'
+    )]
     public function download(FileDownloader $fileDownloader, Image $image): BinaryFileResponse {
         
         $imageName = $image->getFilename();
@@ -927,7 +1094,13 @@ class WikiController extends AbstractController
         return $response;
     }
 
-    #[Route('/wiki/mineral/{slug}/show/add-favorite', name:'add_favorite')] 
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/show/add-favorite', 
+        name:'add_favorite',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )] 
     #[IsGranted('ROLE_USER')]
     public function addFavorite(EntityManagerInterface $entityManager, MineralRepository $mineralRepository, Request $request)
     {
@@ -955,7 +1128,13 @@ class WikiController extends AbstractController
         
     }
 
-    #[Route('/wiki/mineral/{slug}/show/remove-favorite', name:'remove_favorite')] 
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/show/remove-favorite', 
+        name:'remove_favorite',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[IsGranted('ROLE_USER')]
     public function removeFavorite(EntityManagerInterface $entityManager, FavoriteRepository $favoriteRepository, Request $request)
     {
@@ -977,7 +1156,13 @@ class WikiController extends AbstractController
         }   
     }
 
-    #[Route('/wiki/mineral/{slug}/show/edit-description', name:'edit_description')]
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/show/edit-description', 
+        name:'edit_description',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
     #[isGranted('ROLE_USER')]
     public function editDescription(Mineral $mineral, EntityManagerInterface $entityManager, Request $request): Response {
 
