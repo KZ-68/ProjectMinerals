@@ -560,6 +560,28 @@ header a:hover {
     align-items: center;
 }
 
+option#fr, option#en {
+    background-color:  var(--primary-color);
+}
+
+#language-zone {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    padding: 15px;
+}
+
+#language-select {
+    background-color: transparent;
+    border-color: transparent;
+    color: #ffffff;
+}
+
+#flag {
+    border: 2px solid #ffffff;
+    border-radius: 9px;
+}
+
 .profile-card {
     display: flex;
     flex-direction: column;
@@ -1484,9 +1506,6 @@ form[name='add_color'] div, form[name='add_lustre'] div {
 }
 
 #images-list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
     border: 1px solid #fcfcfccc;
     border-radius: 10px;
     padding: 40px 20px;
@@ -1495,12 +1514,7 @@ form[name='add_color'] div, form[name='add_lustre'] div {
 } 
 
 .images-list-wrapper ul {
-    display: flex;
-    flex-direction: row;
     gap: 30px;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
     height: 325px;
 }
 
@@ -2964,10 +2978,6 @@ button#contact_validate {
     #images-list > ul > #cCarousel > #carousel-vp {
         position: unset;
     }
-    
-    #images-list > ul > #cCarousel > #carousel-vp > #cCarousel-inner {
-        flex-wrap: nowrap;
-    }
 
     #edit-color-right, 
     #edit-lustre-right, 
@@ -3035,9 +3045,6 @@ button#contact_validate {
         position: unset;
     }
     
-    #images-list > ul > #cCarousel > #carousel-vp > #cCarousel-inner {
-        flex-wrap: nowrap;
-    }
 }
 
 @media only screen and (max-device-width: 1440px) {
@@ -3125,14 +3132,6 @@ button#contact_validate {
     .comment-wrapper {
         padding: 25px 50px;
         margin: 30px 240px;
-    }
-
-    #images-list > ul > #cCarousel > #carousel-vp {
-        position: unset;
-    }
-    
-    #images-list > ul > #cCarousel > #carousel-vp > #cCarousel-inner {
-        flex-wrap: nowrap;
     }
 
     .lightbox-wrapper-mineral > .lightbox3 {
@@ -3248,6 +3247,9 @@ button#contact_validate {
         justify-content: unset;
     }
 
+    #images-list > ul > #cCarousel .arrow {
+        top: 39%;
+    }
 }
 
 @media only screen and (min-device-width:768px) and (max-device-width: 1024px) {
@@ -3286,7 +3288,7 @@ button#contact_validate {
     .sidenav {
         height: 100%;
         width: 100%;
-        right: -1005px;
+        right: -1024px;
         display: block;
         top: 0px;
     }
@@ -3674,7 +3676,7 @@ button#contact_validate {
     }
 
     #carousel-vp {
-        width: 605px;
+        width: 583px;
         align-items: center;
     }
 
@@ -4474,6 +4476,10 @@ button#contact_validate {
 
     .arrow-symbols {
         top: 1px;
+    }
+
+    #images-list > ul > #cCarousel .arrow {
+        top: 23%;
     }
 
     #images-list {
