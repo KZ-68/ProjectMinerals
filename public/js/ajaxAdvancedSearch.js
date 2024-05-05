@@ -18,11 +18,16 @@ $(document).ready(function() {
                   // On lui affecte une classe css
                   resultItem.addClass('result-item');
                   // On met l'attribut href, l'url et le slug
-                  let href = resultItem.attr('href', "/wiki/mineral/"+result.slug+"/show");
-                  // On ajoute le contenu textuel
-                  href.html(result.name);
-                  // On affiche la balise
-                  resultsContainer.append(href);
+                  let href = resultItem.attr('href', "wiki/mineral/"+result.slug+"/show");
+                  if (window.location.href === "fr/home") {
+                    // On ajoute le contenu textuel
+                    href.html(result.name);
+                    // On affiche la balise
+                    resultsContainer.append(href);
+                  } else {
+                      href.html(result.name);
+                      resultsContainer.append(href);
+                  }
               });
               if(window.matchMedia("(max-width : 480px)").matches) {
                 $('.adv-search').css('height', '1600px');
