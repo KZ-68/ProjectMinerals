@@ -560,26 +560,60 @@ header a:hover {
     align-items: center;
 }
 
-option#fr, option#en {
-    background-color:  var(--primary-color);
-}
-
 #language-zone {
     display: flex;
     flex-direction: row;
-    gap: 15px;
     padding: 15px;
 }
 
-#language-select {
+#language-zone > svg {
+    color: #ffffff;
+    padding: 0px;
+    margin: 0px;
+}
+
+#lang-modal-body {
+    z-index: 1;
+}
+
+#lang-modal {
+    display: none;
+    background-color: #354559;
+    z-index: 1;
+}
+
+#lang-modal > form[name="select_language"] {
+    background-color: #354559;
+    border-radius: 10px;
+    position: absolute;
+    right: 360px;
+    top: 105px;
+    z-index: 1;
+    padding: 15px;
+}
+
+#lang-modal > form[name="select_language"] > div > button.btn {
+    margin-top: 25px;
+}
+
+#select_language_lang {
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+#select-flag-btn {
     background-color: transparent;
     border-color: transparent;
+    border-radius: 10px;
+    padding: 5px 0px;
     color: #ffffff;
+    font-size: 16px;
 }
 
 #flag {
     border: 2px solid #ffffff;
     border-radius: 9px;
+    margin-right: 20px;
 }
 
 .profile-card {
