@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Security\EmailVerifier;
+use App\Form\SelectLanguageType;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\AppAuthenticator;
@@ -28,7 +29,13 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    #[Route('/register', name: 'app_register')]
+    #[Route(
+        '/{_locale}/register', 
+        name: 'app_register',
+        requirements: [
+            '_locale' => 'en|fr',
+        ],
+    )]
     public function register(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -77,8 +84,22 @@ class RegistrationController extends AbstractController
             
         }
 
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/register');
+            } else {
+                return $this->redirect('/en/register');
+            }
+        }
+
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'langForm' => $langForm
         ]);
     }
 

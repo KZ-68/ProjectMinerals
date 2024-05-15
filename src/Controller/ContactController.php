@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Form\SelectLanguageType;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,6 +33,7 @@ class ContactController extends AbstractController
         $contact = new Contact();
 
         $form = $this->createForm(ContactType::class, $contact);
+        $langForm = $this->createForm(SelectLanguageType::class);
         
         $form->handleRequest($request);
         
@@ -77,9 +79,21 @@ class ContactController extends AbstractController
             }
         
         }
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/contact');
+            } else {
+                return $this->redirect('/en/contact');
+            }
+        }
         
         return $this->render('user/contact/index.html.twig', [
             'form' => $form,
+            'langForm' => $langForm
         ]);
     }
 }

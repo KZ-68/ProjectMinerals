@@ -9,7 +9,6 @@ use App\Entity\Comment;
 use App\Entity\Mineral;
 use App\Entity\Variety;
 use App\Entity\Category;
-use App\Entity\Contribution;
 use App\Entity\Favorite;
 use App\Form\LustreType;
 use App\Form\SearchType;
@@ -19,6 +18,7 @@ use App\Form\VarietyType;
 use App\Model\SearchData;
 use App\Entity\Coordinate;
 use App\Entity\Discussion;
+use App\Entity\Contribution;
 use App\Entity\Notification;
 use App\Form\DiscussionType;
 use App\Form\EditMineralType;
@@ -29,6 +29,7 @@ use App\Form\MineralColorType;
 use App\Service\FileDownloader;
 use Doctrine\ORM\EntityManager;
 use App\Form\RespondCommentType;
+use App\Form\SelectLanguageType;
 use App\Form\EditDescriptionType;
 use App\Form\MineralVarietiesType;
 use App\Repository\UserRepository;
@@ -80,6 +81,19 @@ class WikiController extends AbstractController
         // On crée un formulaire avec le modèle SearchType
         $form = $this->createForm(SearchType::class, $searchData);
 
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/wiki/mineral');
+            } else {
+                return $this->redirect('/en/wiki/mineral');
+            }
+        }
+
         if ($request->isXmlHttpRequest()) {
             $formData = $request->request->all();
             $minerals = $mineralRepository->findByAjaxSearch($formData['search']);
@@ -107,7 +121,8 @@ class WikiController extends AbstractController
         
         return $this->render('wiki/index.html.twig', [
             'form' => $form,
-            'minerals' => $mineralRepository->findPaginateMinerals($request->query->getInt('page', 1))
+            'minerals' => $mineralRepository->findPaginateMinerals($request->query->getInt('page', 1)),
+            'langForm' => $langForm
         ]);
     }
 
@@ -122,7 +137,8 @@ class WikiController extends AbstractController
     public function showMineral(
         Mineral $mineral, 
         ImageRepository $imageRepository, 
-        FavoriteRepository $favoriteRepository
+        FavoriteRepository $favoriteRepository,
+        Request $request
         ): Response
     {
         $user = $this->getUser();
@@ -131,11 +147,25 @@ class WikiController extends AbstractController
         $varietyImages = $imageRepository->findVarietyImagesAndNamesInMineral($mineral->getId());
         $favorite = $favoriteRepository->findOneByMineralAndUser($mineral->getId(), $user);
 
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('show_mineral', ['_locale' => 'fr', 'slug' => $mineral->getSlug()]);
+            } else {
+                return $this->redirectToRoute('show_mineral', ['_locale' => 'en', 'slug' => $mineral->getSlug()]);
+            }
+        }
+
         return $this->render('wiki/show_mineral.html.twig', [
             'image' => $image,
             'varietyImages' => $varietyImages,
             'mineral' => $mineral, 
-            'favorite' => $favorite
+            'favorite' => $favorite,
+            'langForm' => $langForm
         ]);
     }
 
@@ -147,10 +177,24 @@ class WikiController extends AbstractController
         ]
     )]
     #[IsGranted('ROLE_USER')]
-    public function discussionsList(Mineral $mineral):Response {
+    public function discussionsList(Mineral $mineral, Request $request):Response {
+
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('discussions_list', ['_locale' => 'fr', 'slug' => $mineral->getSlug()]);
+            } else {
+                return $this->redirectToRoute('discussions_list', ['_locale' => 'en', 'slug' => $mineral->getSlug()]);
+            }
+        }
 
         return $this->render('wiki/discussions_list.html.twig', [
-            'mineral' => $mineral
+            'mineral' => $mineral,
+            'langForm' => $langForm
         ]);
     }
 
@@ -169,8 +213,20 @@ class WikiController extends AbstractController
         $user = $this->getUser();
 
         $form = $this->createForm(DiscussionType::class, $discussion);
-        
 
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('new_discussion', ['_locale' => 'fr', 'slug' => $mineral->getSlug()]);
+            } else {
+                return $this->redirectToRoute('new_discussion', ['_locale' => 'en', 'slug' => $mineral->getSlug()]);
+            }
+        }
+        
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $discussion = $form->getData();
@@ -185,7 +241,8 @@ class WikiController extends AbstractController
 
         return $this->render('wiki/create_discussion.html.twig', [
             'form' => $form,
-            'mineral' => $mineral
+            'mineral' => $mineral,
+            'langForm' => $langForm
         ]);
     }
 
@@ -199,13 +256,36 @@ class WikiController extends AbstractController
     #[IsGranted('PUBLIC_ACCESS')]
     public function discussion( 
         #[MapEntity(mapping: ['slug' => 'slug'])] Mineral $mineral,
-        #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion
+        #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion,
+        Request $request
         ): Response
     {
 
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('discussion_mineral', [
+                    '_locale' => 'fr', 
+                    'slug' => $mineral->getSlug(),
+                    'discussionSlug' => $discussion->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('discussion_mineral', [
+                    '_locale' => 'en', 
+                    'slug' => $mineral->getSlug(),
+                    'discussionSlug' => $discussion->getSlug()
+                ]);
+            }
+        }
+
         return $this->render('wiki/discussions_mineral.html.twig', [
             'mineral' => $mineral,
-            'discussion' => $discussion
+            'discussion' => $discussion,
+            'langForm' => $langForm
         ]);
     }
 
@@ -228,6 +308,27 @@ class WikiController extends AbstractController
         $user = $this->getUser();
 
         $form = $this->createForm(CommentType::class, $comment);
+
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('new_comment', [
+                    '_locale' => 'fr', 
+                    'slug' => $mineral->getSlug(),
+                    'discussionSlug' => $discussion->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('new_comment', [
+                    '_locale' => 'en', 
+                    'slug' => $mineral->getSlug(),
+                    'discussionSlug' => $discussion->getSlug()
+                ]);
+            }
+        }
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -262,7 +363,8 @@ class WikiController extends AbstractController
         return $this->render('wiki/new_comment.html.twig', [
             'form' => $form,
             'mineral' => $mineral,
-            'discussion' => $discussion
+            'discussion' => $discussion,
+            'langForm' => $langForm
         ]);
     }
 
@@ -288,6 +390,29 @@ class WikiController extends AbstractController
         $user = $this->getUser();
 
         $form = $this->createForm(RespondCommentType::class, $respondComment);
+
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('respond_comment', [
+                    '_locale' => 'fr', 
+                    'slug' => $mineral->getSlug(),
+                    'discussionSlug' => $discussion->getSlug(),
+                    'commentSlug' => $comment->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('respond_comment', [
+                    '_locale' => 'en', 
+                    'slug' => $mineral->getSlug(),
+                    'discussionSlug' => $discussion->getSlug(),
+                    'commentSlug' => $comment->getSlug()
+                ]);
+            }
+        }
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -326,7 +451,8 @@ class WikiController extends AbstractController
             'mineral' => $mineral,
             'discussion' => $discussion,
             'slug' => $discussion->getMineral()->getSlug(), 
-            'discussionSlug' => $comment->getDiscussion()->getSlug()
+            'discussionSlug' => $comment->getDiscussion()->getSlug(),
+            'langForm' => $langForm
         ]);
     }
 
@@ -463,6 +589,23 @@ class WikiController extends AbstractController
 
         $form = $this->createForm(MineralType::class, $mineral);
 
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('new_mineral', [
+                    '_locale' => 'fr'
+                ]);
+            } else {
+                return $this->redirectToRoute('new_mineral', [
+                    '_locale' => 'en'
+                ]);
+            }
+        }
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $mineral = $form->getData();
@@ -555,7 +698,8 @@ class WikiController extends AbstractController
 
         return $this->render('wiki/new_mineral.html.twig', [
             'form' => $form,
-            'mineralId' => $mineral->getId()
+            'mineralId' => $mineral->getId(),
+            'langForm' => $langForm
         ]);
     }
 
@@ -576,6 +720,25 @@ class WikiController extends AbstractController
         $oldFileNameTitle = $mineral->getImageTitle();
 
         $editForm = $this->createForm(EditMineralType::class, $mineral);
+
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('edit_mineral', [
+                    '_locale' => 'fr', 
+                    'slug' => $mineral->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('edit_mineral', [
+                    '_locale' => 'en', 
+                    'slug' => $mineral->getSlug()
+                ]);
+            }
+        }
 
         $editForm->handleRequest($request);
 
@@ -662,7 +825,8 @@ class WikiController extends AbstractController
 
         return $this->render('wiki/edit_mineral.html.twig', [
             'form' => $editForm,
-            'mineral' => $mineral
+            'mineral' => $mineral,
+            'langForm' => $langForm
         ]);
     } 
 
@@ -699,6 +863,25 @@ class WikiController extends AbstractController
         
         $form = $this->createForm(VarietyType::class, $variety);
 
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('new_variety', [
+                    '_locale' => 'fr', 
+                    'slug' => $mineral->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('new_variety', [
+                    '_locale' => 'en', 
+                    'slug' => $mineral->getSlug()
+                ]);
+            }
+        }
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $variety = $form->getData();
@@ -733,7 +916,8 @@ class WikiController extends AbstractController
 
         return $this->render('wiki/new_variety.html.twig', [
             'form' => $form,
-            'mineral' => $mineral
+            'mineral' => $mineral,
+            'langForm' => $langForm
         ]);
     }
 
@@ -746,8 +930,11 @@ class WikiController extends AbstractController
     )]
     #[IsGranted('ROLE_USER')]
     public function edit_variety(
-        Variety $variety, ImageRepository $imageRepository, Request $request, 
-        EntityManagerInterface $entityManager, FileUploader $fileUploader
+        Variety $variety, 
+        ImageRepository $imageRepository, 
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        FileUploader $fileUploader
         ): Response
     {
         
@@ -755,6 +942,25 @@ class WikiController extends AbstractController
         $oldFileNamePresentation = $variety->getImagePresentation();
 
         $editForm = $this->createForm(EditVarietyType::class, $variety);
+
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('edit_variety', [
+                    '_locale' => 'fr', 
+                    'slug' => $variety->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('edit_variety', [
+                    '_locale' => 'en', 
+                    'slug' => $variety->getSlug(),
+                ]);
+            }
+        }
 
         $editForm->handleRequest($request);
 
@@ -829,7 +1035,8 @@ class WikiController extends AbstractController
 
         return $this->render('wiki/edit_variety.html.twig', [
             'form' => $editForm,
-            'variety' => $variety
+            'variety' => $variety,
+            'langForm' => $langForm
         ]);
     } 
     
@@ -840,11 +1047,34 @@ class WikiController extends AbstractController
             '_locale' => 'en|fr',
         ]
     )]
-    public function showHistory(Mineral $mineral, ModificationHistoryRepository $modificationHistoryRepository): Response
+    public function showHistory(
+        Mineral $mineral, 
+        ModificationHistoryRepository $modificationHistoryRepository,
+        Request $request
+        ): Response
     {
         // Récupére l'historique des modifications depuis la base de données.
         $history = $modificationHistoryRepository->findBy(['mineral' => $mineral]);
         
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('mineral_history', [
+                    '_locale' => 'fr', 
+                    'slug' => $mineral->getSlug()
+
+                ]);
+            } else {
+                return $this->redirectToRoute('mineral_history', [
+                    '_locale' => 'en', 
+                    'slug' => $mineral->getSlug()
+                ]);
+            }
+        }
 
         // Affiche l'historique dans un template.
         return $this->render('wiki/history.html.twig', [
@@ -860,10 +1090,30 @@ class WikiController extends AbstractController
         ]
     )]
     #[IsGranted('PUBLIC_ACCESS')]
-    public function showVariety(Variety $variety): Response
+    public function showVariety(Variety $variety, Request $request): Response
     {
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('show_variety', [
+                    '_locale' => 'fr', 
+                    'slug' => $variety->getSlug(),
+
+                ]);
+            } else {
+                return $this->redirectToRoute('show_variety', [
+                    '_locale' => 'en', 
+                    'slug' => $variety->getSlug()
+                ]);
+            }
+        }
         return $this->render('wiki/show_variety.html.twig', [
-            'variety' => $variety
+            'variety' => $variety,
+            'langForm' => $langForm
         ]);
     }
 
@@ -880,6 +1130,25 @@ class WikiController extends AbstractController
 
         $form = $this->createForm(MineralColorType::class, $mineral);
 
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('edit_mineral_colors', [
+                    '_locale' => 'fr', 
+                    'slug' => $mineral->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('edit_mineral_colors', [
+                    '_locale' => 'en', 
+                    'slug' => $mineral->getSlug()
+                ]);
+            }
+        }
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $mineral = $form->getData();
@@ -891,7 +1160,8 @@ class WikiController extends AbstractController
 
         return $this->render('wiki/edit_mineral_colors.html.twig', [
             'form' => $form,
-            'mineral' => $mineral
+            'mineral' => $mineral,
+            'langForm' => $langForm
         ]);
     }
 
@@ -907,6 +1177,25 @@ class WikiController extends AbstractController
     {
 
         $form = $this->createForm(MineralVarietiesType::class, $mineral);
+        
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('edit_mineral_varieties', [
+                    '_locale' => 'fr', 
+                    'slug' => $mineral->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('edit_mineral_varieties', [
+                    '_locale' => 'en', 
+                    'slug' => $mineral->getSlug()
+                ]);
+            }
+        }
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -919,7 +1208,8 @@ class WikiController extends AbstractController
 
         return $this->render('wiki/edit_mineral_varieties.html.twig', [
             'form' => $form,
-            'mineral' => $mineral
+            'mineral' => $mineral,
+            'langForm' => $langForm
         ]);
     }
 
@@ -936,6 +1226,25 @@ class WikiController extends AbstractController
 
         $form = $this->createForm(LustreType::class, $mineral);
 
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('edit_mineral_lustres', [
+                    '_locale' => 'fr', 
+                    'slug' => $mineral->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('edit_mineral_lustres', [
+                    '_locale' => 'en', 
+                    'slug' => $mineral->getSlug()
+                ]);
+            }
+        }
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $mineral = $form->getData();
@@ -947,7 +1256,8 @@ class WikiController extends AbstractController
 
         return $this->render('wiki/edit_mineral_lustres.html.twig', [
             'form' => $form,
-            'mineral' => $mineral
+            'mineral' => $mineral,
+            'langForm' => $langForm
         ]);
     }
     
@@ -960,11 +1270,29 @@ class WikiController extends AbstractController
         ]
     )]
     #[IsGranted('PUBLIC_ACCESS')]
-    public function categorieslist(CategoryRepository $categoryRepository): Response
+    public function categorieslist(CategoryRepository $categoryRepository, Request $request): Response
     {
         $categories = $categoryRepository->findBy([], ["name" => "ASC"]);
+
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('app_category', [
+                    '_locale' => 'fr'
+                ]);
+            } else {
+                return $this->redirectToRoute('app_category', [
+                    '_locale' => 'en'
+                ]);
+            }
+        }
         return $this->render('wiki/categories_list.html.twig', [
-            'categories' => $categories
+            'categories' => $categories,
+            'langForm' => $langForm
         ]);
     }
 
@@ -976,10 +1304,30 @@ class WikiController extends AbstractController
         ]
     )]
     #[IsGranted('PUBLIC_ACCESS')]
-    public function showCategory(Category $category): Response
+    public function showCategory(Category $category, Request $request): Response
     {
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('show_category', [
+                    '_locale' => 'fr', 
+                    'slug' => $category->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('show_category', [
+                    '_locale' => 'en', 
+                    'slug' => $category->getSlug()
+                ]);
+            }
+        }
+
         return $this->render('wiki/show_category.html.twig', [
-            'category' => $category
+            'category' => $category,
+            'langForm' => $langForm
         ]);
     }
 
@@ -991,10 +1339,30 @@ class WikiController extends AbstractController
         ]
     )]
     #[IsGranted('PUBLIC_ACCESS')]
-    public function showColor(Color $color): Response
+    public function showColor(Color $color, Request $request): Response
     {
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('show_color', [
+                    '_locale' => 'fr', 
+                    'slug' => $color->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('show_color', [
+                    '_locale' => 'en', 
+                    'slug' => $color->getSlug()
+                ]);
+            }
+        }
+
         return $this->render('wiki/show_color.html.twig', [
-            'color' => $color
+            'color' => $color,
+            'langForm' => $langForm
         ]);
     }
 
@@ -1003,10 +1371,29 @@ class WikiController extends AbstractController
         name: 'show_lustre'
     )]
     #[IsGranted('PUBLIC_ACCESS')]
-    public function showLustre(Lustre $lustre): Response
+    public function showLustre(Lustre $lustre, Request $request): Response
     {
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('show_lustre', [
+                    '_locale' => 'fr', 
+                    'slug' => $lustre->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('show_lustre', [
+                    '_locale' => 'en', 
+                    'slug' => $lustre->getSlug()
+                ]);
+            }
+        }
         return $this->render('wiki/show_lustre.html.twig', [
-            'lustre' => $lustre
+            'lustre' => $lustre,
+            'langForm' => $langForm
         ]);
     }
 
@@ -1020,8 +1407,26 @@ class WikiController extends AbstractController
     #[IsGranted('PUBLIC_ACCESS')]
     public function imageslist(ImageRepository $imageRepository, Request $request): Response
     {
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('app_image', [
+                    '_locale' => 'fr'
+                ]);
+            } else {
+                return $this->redirectToRoute('app_image', [
+                    '_locale' => 'en'
+                ]);
+            }
+        }
+
         return $this->render('wiki/images_list.html.twig', [
-            'images' => $imageRepository->findPaginateImages($request->query->getInt('page', 1))
+            'images' => $imageRepository->findPaginateImages($request->query->getInt('page', 1)),
+            'langForm' => $langForm
         ]);
     }
 
@@ -1168,6 +1573,25 @@ class WikiController extends AbstractController
 
         $form = $this->createForm(EditDescriptionType::class, $mineral);
 
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirectToRoute('edit_description', [
+                    '_locale' => 'fr', 
+                    'slug' => $mineral->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('edit_description', [
+                    '_locale' => 'en', 
+                    'slug' => $mineral->getSlug()
+                ]);
+            }
+        }
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -1181,7 +1605,8 @@ class WikiController extends AbstractController
 
         return $this->render('wiki/edit_description.html.twig', [
             'form' => $form,
-            'mineral' => $mineral
+            'mineral' => $mineral,
+            'langForm' => $langForm
         ]);
     }
 

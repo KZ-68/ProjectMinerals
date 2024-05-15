@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Notification;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\UserEmailType;
+use App\Entity\Notification;
 use App\Service\FileUploader;
 use App\Form\UserPasswordType;
 use App\Form\UserUsernameType;
+use App\Form\SelectLanguageType;
 use App\Repository\FavoriteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\NotificationRepository;
@@ -27,8 +28,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class UserController extends AbstractController
 {
     #[Route(
-        '/profile', 
-        name: 'app_profile'
+        '/{_locale}/profile', 
+        name: 'app_profile',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
     )]
     public function index
     (
@@ -63,15 +67,32 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_profile');
         }
 
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/profile');
+            } else {
+                return $this->redirect('/en/profile');
+            }
+        }
+
         return $this->render('user/index.html.twig', [
             'form' => $form,
-            'favorites' => $favorites
+            'favorites' => $favorites,
+            'langForm' => $langForm
         ]);
     }
 
     #[Route(
-        '/profile/settings/', 
+        '/{_locale}/profile/settings/', 
         name: 'settings_profile', 
+        requirements: [
+            '_locale' => 'en|fr'
+        ],
         methods:['GET', 'POST']
     )]
     #[IsGranted('ROLE_USER')]
@@ -89,6 +110,19 @@ class UserController extends AbstractController
         $form1name = $this->createForm(UserEmailType::class, $user);
         $form2name = $this->createForm(UserPasswordType::class, $user);
         $form3name = $this->createForm(UserUsernameType::class, $user);
+
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/profile/settings/');
+            } else {
+                return $this->redirect('/en/profile/settings/');
+            }
+        }
 
         // Si la requête est bien une méthode POST: 
         if ($request->isMethod('POST')) {
@@ -184,7 +218,8 @@ class UserController extends AbstractController
         return $this->render('user/settingsProfile.html.twig', [
             'form1name' => $form1name,
             'form2name' => $form2name,
-            'form3name' => $form3name
+            'form3name' => $form3name,
+            'langForm' => $langForm
         ]);
     }
 

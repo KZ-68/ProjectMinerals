@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Message;
 use App\Form\MessageType;
+use App\Form\SelectLanguageType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,14 +23,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class MessageController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(): Response
+    public function index(Request $request): Response
     {
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
 
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/message/');
+            } else {
+                return $this->redirect('/en/message/');
+            }
+        }
+
         return $this->render('message/index.html.twig', [
             'controller_name' => 'MessageController',
+            'langForm' => $langForm
         ]);
     }
 
@@ -67,37 +82,81 @@ class MessageController extends AbstractController
             return $this->redirectToRoute('app_message');
         }
 
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/message/send');
+            } else {
+                return $this->redirect('/en/message/send');
+            }
+        }
+
         return $this->render('message/send.html.twig', [
             'formSend' => $form,
-            'messageId' => $message->getId()
+            'messageId' => $message->getId(),
+            'langForm' => $langForm
         ]);
     }
 
     #[Route('/received', name: 'received')]
     #[IsGranted('ROLE_USER')]
-    public function received(): Response
+    public function received(Request $request): Response
     {
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
+        
+        $langForm = $this->createForm(SelectLanguageType::class);
 
-        return $this->render('message/received.html.twig');
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/message/received');
+            } else {
+                return $this->redirect('/en/message/received');
+            }
+        }
+
+        return $this->render('message/received.html.twig', [
+            'langForm' => $langForm
+        ]);
     }
 
     #[Route('/sent', name: 'sent')]
     #[IsGranted('ROLE_USER')]
-    public function sent(): Response
+    public function sent(Request $request): Response
     {
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('message/sent.html.twig');
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/message/sent');
+            } else {
+                return $this->redirect('/en/message/sent');
+            }
+        }
+
+        return $this->render('message/sent.html.twig', [
+            'langForm' => $langForm
+        ]);
     }
 
     #[Route('/received/{id}/read', name: 'read')]
     #[IsGranted('ROLE_USER')]
-    public function readMessage(Message $message, EntityManagerInterface $entityManager): Response 
+    public function readMessage(Request $request, Message $message, EntityManagerInterface $entityManager): Response 
     {
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
@@ -111,9 +170,23 @@ class MessageController extends AbstractController
             // On envoie le changement dans la bdd
             $entityManager->flush();
         } 
+
+        $langForm = $this->createForm(SelectLanguageType::class);
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/message/read');
+            } else {
+                return $this->redirect('/en/message/read');
+            }
+        }
         
         return $this->render('message/read.html.twig', [
-            'message' => $message
+            'message' => $message,
+            'langForm' => $langForm
         ]);
     }
 

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\SearchType;
 use App\Model\SearchData;
 use App\Form\AdvancedSearchType;
+use App\Form\SelectLanguageType;
 use App\Model\AdvancedSearchData;
 use App\Repository\ContributionRepository;
 use App\Repository\MineralRepository;
@@ -16,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 
 #[IsGranted('PUBLIC_ACCESS')]
 #[Route(
@@ -47,8 +49,8 @@ class HomeController extends AbstractController
 
         // On crée un formulaire avec le modèle SearchType
         $form = $this->createForm(SearchType::class, $searchData);
-
         $form2 = $this->createForm(AdvancedSearchType::class, $advancedSearchData);
+        $langForm = $this->createForm(SelectLanguageType::class);
 
         // On récupère la requête envoyé par le bouton submit
         $form->handleRequest($request);
@@ -64,6 +66,17 @@ class HomeController extends AbstractController
                 'form' => $form,
                 'minerals' => $minerals,
             ]);
+        }
+
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/home');
+            } else {
+                return $this->redirect('/en/home');
+            }
         }
 
         $minerals = $mineralRepository->findPaginateMinerals($request->query->getInt('page', 1));
@@ -98,6 +111,7 @@ class HomeController extends AbstractController
             return $this->render('home/index.html.twig', [
                 'form' => $form,
                 'form2' => $form2,
+                'langForm' => $langForm,
                 'minerals' => $minerals,
                 'mineralsCount' => $mineralsCount,
                 'varietiesCount' => $varietiesCount,
