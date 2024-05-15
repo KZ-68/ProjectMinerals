@@ -6,6 +6,7 @@ let valueToImage = {
 let selectFlagOptions = document.querySelector('select');
 let optionValue1 = selectFlagOptions.options[0];
 let optionValue2 = selectFlagOptions.options[1];
+let selectFlagBtn = document.getElementById('select-flag-btn');
 
 function getCurrentURL () {
   return window.location.href;
@@ -27,13 +28,23 @@ if(url.includes("en")) {
 
 if (optionValue1.value === "en" && optionValue2.value === "fr") {
   document.getElementById("flag").src = valueToImage["en"];
+  selectFlagBtn.innerText = 'EN';
 } 
 
 if (optionValue1.value === "fr" && optionValue2.value === "en") {
   document.getElementById("flag").src = valueToImage["fr"];
+  selectFlagBtn.innerText = 'FR';
 } 
  
 function selectFlag(select) {
   let valeur = select.options[select.selectedIndex].value;
   document.getElementById("flag").src = valueToImage[valeur];
 }
+
+$(document).ready(function () {
+
+  $('#select-flag-btn').click(function () {
+      $('#lang-modal').fadeIn(300);
+  })
+      
+});
