@@ -70,6 +70,9 @@ function resetBtn(container) {
       $('.adv-search-fields').css('height', '620px');
     }
     container.empty();
+    $('#search-results').css('border', 'none');
+    $('#search-results').css('padding', '0px');
+    $('#search-results').css('marging', '0px');
   } );
 }
 
