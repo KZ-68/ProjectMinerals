@@ -4,7 +4,7 @@
     <meta name="description" content="Based on the wiki concept, you can add new mineral pages or modify one already available on the site, you can also discuss and debate with other users about the changes that have been made.">
 {% endblock %}
 
-{% block title %}Home Page{% endblock %}
+{% block title %}{% trans %}Home Page{% endtrans %}{% endblock %}
 
 {% block body %}
 
@@ -16,11 +16,11 @@
     </figure>
     <aside id="carousel-top-column-right">
         <hgroup aria-labelledby="carousel-top-heading" id="carousel-top-presentation">
-            <h2 id="carousel-top-heading">Whats KZ Minerals ?</h2>
+            <h2 id="carousel-top-heading">{% trans %}Whats KZ Minerals ?{% endtrans %}</h2>
             <p>
-                For minerals collectors and passionnate, this site is designed to allow us to share the knowledge we have about minerals.</br> 
+                {% trans %}For minerals collectors and passionnate, this site is designed to allow us to share the knowledge we have about minerals.{% endtrans %}</br> 
                 </br>
-                Based on the wiki concept, you can add new mineral pages or modify one already available on the site, you can also discuss and debate with other users about the changes that have been made.
+                {% trans %}Based on the wiki concept, you can add new mineral pages or modify one already available on the site, you can also discuss and debate with other users about the changes that have been made.{% endtrans %}
             </p>
         </hgroup>
 
@@ -43,7 +43,7 @@
 </div>
 
 <section class="adv-search-section">
-    <h2>Advanced Search</h2>
+    <h2>{% trans %}Advanced Search{% endtrans %}</h2>
 
 <div class="adv-search-wrapper">
 
@@ -68,40 +68,48 @@
             <figure>
                 <img alt="Fluorite and Calcite mineral" id="image-zoom1" src="{{asset('uploads/images/Fluorite_and_Calcite_exhibition_4-3.01e3325.width-1600.51eb5a3.jpg')}}">
                 <figcaption>
-                    <strong>Fluorite and calcite. Elmwood Mine, Tennessee, USA. 14 x 17 x 13 cm. Registered 1984. D.47931</strong><span>Image: Stuart Humphreys </span><span>© Australian Museum</span>
+                    <strong>
+                        {% trans %}Fluorite and calcite. Elmwood Mine, Tennessee, USA. 14 x 17 x 13 cm. Registered 1984. D.47931{% endtrans %}
+                    </strong>
+                    <span>
+                        {% trans %}Image: Stuart Humphreys{% endtrans %}
+                    </span>
+                    <span>
+                        {% trans %}© Australian Museum{% endtrans %}
+                    </span>
                 </figcaption>
             </figure>
         </div>
         
         <section>
             <div aria-labelledby="home-statistics-heading" id="home-statistics-header">
-                <h3 id="home-statistics-heading">KZ Minerals with statistics.</h3>
+                <h3 id="home-statistics-heading">{% trans %}KZ Minerals with statistics.{% endtrans %}</h3>
                 <p>
-                    The community contributes to enriching the content of the wiki pages,<br>
-                    and the statistics below show the progression of these contributions.
+                    {% trans %}The community contributes to enriching the content of the wiki pages,{% endtrans %}<br>
+                    {% trans %}and the statistics below show the progression of these contributions.{% endtrans %}
                 </p>
             </div>
             <div id="home-statistics-body">
                 <hgroup>
                     <h4>{{mineralsCount}}</h4>
                     <p>
-                        Minerals Wiki Page has been created</br>
-                        through the whole site.
+                        {% trans %}Minerals Wiki Pages has been created{% endtrans %}</br>
+                        {% trans %}through the whole site.{% endtrans %}
                     </p>
                 </hgroup>
     
                 <hgroup>
                     <h4>{{varietiesCount}}</h4>
                     <p>
-                        Varieties has been added</br>
-                        in minerals wiki pages 
+                        {% trans %}Varieties has been added{% endtrans %}</br>
+                        {% trans %}in minerals wiki pages {% endtrans %}
                     </p>
                 </hgroup>
                 <hgroup>
                     <h4>{{contributionsCount}}</h4>
                     <p>
-                        Contributions has been made</br>
-                        by our members.
+                        {% trans %}Contributions has been made{% endtrans %}</br>
+                        {% trans %}by our members.{% endtrans %}
                     </p>
                 </hgroup>
             </div>
