@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="Cjljb1I" resname="Fluorite and calcite. Elmwood Mine, Tennessee, USA. 14 x 17 x 13 cm. Registered 1984. D.47931">
+        <source>Fluorite and calcite. Elmwood Mine, Tennessee, USA. 14 x 17 x 13 cm. Registered 1984. D.47931</source>
+        <target>Fluorite et calcite. Elmwood Mine, Tennessee, USA. 14 x 17 x 13 cm. Registered 1984. D.47931</target>
+      </trans-unit>
+      <trans-unit id="YFsqcGE" resname="Image: Stuart Humphreys">
+        <source>Image: Stuart Humphreys</source>
+        <target>Image: Stuart Humphreys</target>
+      </trans-unit>
+      <trans-unit id="AT9HQ43" resname="© Australian Museum">
+        <source>© Australian Museum</source>
+        <target>© Australian Museum</target>
+      </trans-unit>
+      <trans-unit id="130pCIh" resname="The community contributes to enriching the content of the wiki pages,">
+        <source>The community contributes to enriching the content of the wiki pages,</source>
+        <target>La communauté contribut pour enrichir le contenu des pages wiki,</target>
+      </trans-unit>
+      <trans-unit id="O0xq0wg" resname="and the statistics below show the progression of these contributions.">
+        <source>and the statistics below show the progression of these contributions.</source>
+        <target>et les statistiques ci-dessous affiche la progression de ces contributions.</target>
+      </trans-unit>
+      <trans-unit id="3GG1rQn" resname="KZ Minerals with statistics.">
+        <source>KZ Minerals with statistics.</source>
+        <target>KZ Minerals en statistiques.</target>
+      </trans-unit>
+      <trans-unit id="Hq63dcp" resname="Minerals Wiki Pages has been created">
+        <source>Minerals Wiki Pages has been created</source>
+        <target>Pages Wiki de Minéraux ont été créées</target>
+      </trans-unit>
+      <trans-unit id="irgcChH" resname="through the whole site.">
+        <source>through the whole site.</source>
+        <target>sur l'ensemble du site.</target>
+      </trans-unit>
+      <trans-unit id="CsvNOKz" resname="Varieties has been added">
+        <source>Varieties has been added</source>
+        <target>Variétés ont été ajoutées</target>
+      </trans-unit>
+      <trans-unit id="bZ12KsV" resname="in minerals wiki pages">
+        <source>in minerals wiki pages</source>
+        <target>dans les pages wiki des minéraux.</target>
+      </trans-unit>
+      <trans-unit id="OXi5wqQ" resname="Contributions has been made">
+        <source>Contributions has been made</source>
+        <target>Contributions ont été faites</target>
+      </trans-unit>
+      <trans-unit id="7QKkQv9" resname="by our members.">
+        <source>by our members.</source>
+        <target>par nos membres.</target>
+      </trans-unit>
+      <trans-unit id="Z3qrIpf" resname="Whats KZ Minerals ?">
+        <source>Whats KZ Minerals ?</source>
+        <target>Qu'est-ce-que KZ Minerals ?</target>
+      </trans-unit>
+      <trans-unit id="VGBFWva" resname="For minerals collectors and passionnate, this site is designed to allow us to share the knowledge we have about minerals.">
+        <source>For minerals collectors and passionnate, this site is designed to allow us to share the knowledge we have about minerals.</source>
+        <target>Pour les collectionneurs et passionnés de minéraux, ce site est conçu pour nous permettre de partager les connaissances que nous avons à propos des minéraux.</target>
+      </trans-unit>
+      <trans-unit id="cyoUOjq" resname="Based on the wiki concept, you can add new mineral pages or modify one already available on the site, you can also discuss and debate with other users about the changes that have been made.">
+        <source>Based on the wiki concept, you can add new mineral pages or modify one already available on the site, you can also discuss and debate with other users about the changes that have been made.</source>
+        <target>Basée sur le concept de wiki, vous pouvez ajouter des nouvelles pages de minéral ou en modifier une déjà disponible sur le site, vous pouvez également discuter et débattre avec les autres utilisateurs à propos des changements qui ont été faits</target>
+      </trans-unit>
+      <trans-unit id="_KNMG6c" resname="Advanced Search">
+        <source>Advanced Search</source>
+        <target>Recherche Avancée</target>
+      </trans-unit>
+      <trans-unit id="0sf2vgm" resname="Home Page">
+        <source>Home Page</source>
+        <target>__Home Page</target>
+      </trans-unit>
+      <trans-unit id="JBkykGe" resname="search">
+        <source>search</source>
+        <target>__search</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
