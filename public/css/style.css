@@ -2362,6 +2362,11 @@ label[for='user_avatar'] {
     background-color: #fcfcfccc;
 }
 
+#user-configurations-zone {
+    background-color: #e1e7f3c2;
+    border-radius: 8px;
+}
+
 #user-settings-wrapper .formulaire-wrapper {
     align-items: center;
     margin: 15px 0px;
