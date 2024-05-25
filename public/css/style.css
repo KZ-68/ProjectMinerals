@@ -2493,9 +2493,6 @@ form[name='message'] div {
     padding: 10px;
 }
 
-form[name='user_email'] {
-    width: 400px;
-}
 
 form[name='user_email'] button {
     font-size: 16px;
@@ -2506,10 +2503,6 @@ form[name='user_email'] button {
     border-radius: 10px;
     border: none;
     margin-top: 10px;
-}
-
-form[name='user_password'] {
-    width: 400px;
 }
 
 
@@ -3284,6 +3277,10 @@ button#contact_validate {
     #images-list > ul > #cCarousel .arrow {
         top: 39%;
     }
+
+    #user-settings-wrapper {
+        margin: 40px 26px;
+    }
 }
 
 @media only screen and (min-device-width:768px) and (max-device-width: 1024px) {
@@ -3832,6 +3829,10 @@ button#contact_validate {
         margin: 40px 0px 20px 0px;
     }
 
+    #user-settings-wrapper {
+        margin: 40px 115px;
+    }
+
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
@@ -3869,6 +3870,7 @@ button#contact_validate {
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    
     h1 {
         text-align: center;
         font-size: 24px;
@@ -3880,7 +3882,7 @@ button#contact_validate {
     }
 
     hr {
-        width: 325px;
+        width: 135px;
         margin: 0px 0px 30px 18px;
         padding: 3px;
         background-color: var(--secondary-color);
@@ -4275,6 +4277,7 @@ button#contact_validate {
 
     .form-control {
         width: 260px;
+        padding: 6px;
     }
 
     .form-message {
@@ -4591,6 +4594,15 @@ button#contact_validate {
         width: unset;
     }
 
+    #user-settings-wrapper {
+        margin: 40px 38px;
+        padding: 25px 50px;
+    }
+
+    #user-settings-wrapper > #user-configurations-zone > .formulaire-wrapper {
+        padding: 25px 15px;
+    }
+
     .message-box-wrapper {
         flex-direction: column;
         gap: 75px;
@@ -4859,5 +4871,14 @@ button#contact_validate {
 
     span.last a {
         font-size: 14px;
+    }
+
+    #user-settings-wrapper {
+        margin: 40px 16px;
+        padding: 25px 30px;
+    }
+
+    .form-control {
+        width: 244px;
     }
 }
