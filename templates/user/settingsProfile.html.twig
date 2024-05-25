@@ -13,39 +13,41 @@
     <hr>
 
     <div id="user-settings-wrapper">
-        <div class="formulaire-wrapper">
-            <p>Change the email adress:</p>
-            {{ form_start(form1name) }}
-            {{ form_row(form1name.email) }}
-            {{ form_row(form1name.confirmEmail) }}
-            {{ form_row(form1name.valider) }}
-            {{ form_end(form1name) }}
+        <div id="user-configurations-zone">
+            <div class="formulaire-wrapper">
+                <p>Change the email adress:</p>
+                {{ form_start(form1name) }}
+                {{ form_row(form1name.email) }}
+                {{ form_row(form1name.confirmEmail) }}
+                {{ form_row(form1name.valider) }}
+                {{ form_end(form1name) }}
+            </div>
+        
+            <div class="formulaire-wrapper">
+                {{ form_start(form2name) }}
+                {{ form_row(form2name.plainPassword) }}
+                {{ form_row(form2name.newPassword, {
+                    label: 'New Password'
+                }) }}
+                <ol class="info-window">
+                    <li class="one">You password must contain at least 1 Uppercase Letter.<div id="output-one"></div></li>
+                    <li class="two">Your password must contain at least 1 lowercase letter.<div id="output-two"></div></li>
+                    <li class="three">You password must contain at least one Number. <p id="output-three"></p></li>
+                    <li class="four">Your password must contain at least 1 "special" character (/>! @ + # $ % ^ & * , ?( ) _ ~ - ). <p id="output-four"></p></li>
+                    <li class="five">Your password must be at least 8 characters long. <p id="output-five"></p></li>
+                </ol>
+                {{ form_row(form2name.valider) }}
+                {{ form_end(form2name) }}
+            </div>
+        
+            <div class="formulaire-wrapper">
+                {{ form_start(form3name) }}
+                {{ form_row(form3name.username) }}
+                {{ form_row(form3name.send) }}
+                {{ form_end(form3name) }}
+            </div>
         </div>
-    
-        <div class="formulaire-wrapper">
-            {{ form_start(form2name) }}
-            {{ form_row(form2name.plainPassword) }}
-            {{ form_row(form2name.newPassword, {
-                label: 'New Password'
-            }) }}
-            <ol class="info-window">
-                <li class="one">You password must contain at least 1 Uppercase Letter.<div id="output-one"></div></li>
-                <li class="two">Your password must contain at least 1 lowercase letter.<div id="output-two"></div></li>
-                <li class="three">You password must contain at least one Number. <p id="output-three"></p></li>
-                <li class="four">Your password must contain at least 1 "special" character (/>! @ + # $ % ^ & * , ?( ) _ ~ - ). <p id="output-four"></p></li>
-                <li class="five">Your password must be at least 8 characters long. <p id="output-five"></p></li>
-            </ol>
-            {{ form_row(form2name.valider) }}
-            {{ form_end(form2name) }}
-        </div>
-    
-        <div class="formulaire-wrapper">
-            {{ form_start(form3name) }}
-            {{ form_row(form3name.username) }}
-            {{ form_row(form3name.send) }}
-            {{ form_end(form3name) }}
-        </div>
-    
+        
         <div id="delete-account-zone">
             <p>Delete the account</p>
             <button id="btn-popup">Delete</button>
