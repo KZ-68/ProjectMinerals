@@ -15,15 +15,15 @@
     <div id="user-settings-wrapper">
         <div class="formulaire-wrapper">
             <p>Change the email adress:</p>
-            <p>{{ form_start(form1name) }}
+            {{ form_start(form1name) }}
             {{ form_row(form1name.email) }}
             {{ form_row(form1name.confirmEmail) }}
             {{ form_row(form1name.valider) }}
-            {{ form_end(form1name) }}</p>
+            {{ form_end(form1name) }}
         </div>
     
         <div class="formulaire-wrapper">
-            <p>{{ form_start(form2name) }}
+            {{ form_start(form2name) }}
             {{ form_row(form2name.plainPassword) }}
             {{ form_row(form2name.newPassword, {
                 label: 'New Password'
@@ -36,7 +36,7 @@
                 <li class="five">Your password must be at least 8 characters long. <p id="output-five"></p></li>
             </ol>
             {{ form_row(form2name.valider) }}
-            {{ form_end(form2name) }}</p>
+            {{ form_end(form2name) }}
         </div>
     
         <div class="formulaire-wrapper">
