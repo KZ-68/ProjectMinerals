@@ -56,6 +56,9 @@ class Comment
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[ORM\Column]
+    private ?int $score = 0;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -203,6 +206,18 @@ class Comment
     public function setSlug(?string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getScore(): ?int
+    {
+        return $this->score;
+    }
+
+    public function setScore(int $score): static
+    {
+        $this->score = $score;
 
         return $this;
     }
