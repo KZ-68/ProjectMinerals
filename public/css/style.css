@@ -616,6 +616,10 @@ header a:hover {
     margin-right: 20px;
 }
 
+#select-flag-btn:hover, #langage-zone > svg:hover {
+    background-color: #b3b4b959;
+}
+
 .profile-card {
     display: flex;
     flex-direction: column;
@@ -2302,6 +2306,7 @@ label[for='user_avatar'] {
 
 .contributions-item {
     padding: 15px 10px;
+    border-bottom: 2px solid #b6b6b6;
 }
 
 #user-favorites {
@@ -2685,19 +2690,37 @@ hgroup.discussion-subject h2, hgroup.modification-subject h2  {
     width: 75px;
 }
 
+.discussion-card-bottom-wrapper, 
+.response-comment-card-bottom-wrapper, 
+.comment-card-bottom-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.discussion-card-bottom-right,
+.response-comment-card-bottom-right,
+.comment-card-bottom-right {
+    width: 100%;
+    padding: 0px 15px;
+}
+
 .discussion-textarea, .modification-textarea {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
     border-radius: 5px;
-    margin: 15px 20px;
+    margin: 15px 0px;
     padding: 15px 20px;
     background-color: #d6d7e6;
     font-size: 20px;
 }
 
-.discussion-card-footer {
+.score-arrow-up {
+    width: 85px;
+}
+
+.discussion-card-actions {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -2706,7 +2729,7 @@ hgroup.discussion-subject h2, hgroup.modification-subject h2  {
     border-radius: 0px 0px 10px 10px;
 }
 
-.discussion-card-footer .delete-btn {
+.discussion-card-actions .delete-btn {
     margin-left: 15px;
 }
 
@@ -2745,7 +2768,6 @@ hgroup.discussion-subject h2, hgroup.modification-subject h2  {
 }
 
 .answer-link {
-    margin-left: 15px;
     border-radius: 5px;
     padding: 12px 15px;
     background-color: var(--secondary-color);
@@ -2778,7 +2800,6 @@ hgroup.comment-subject h2 {
     border-radius: 10px;
     width: 700px;
     margin: 0px 0px 20px 25px;
-    padding: 10px 0px;
     border-radius: 10px;
     background-color: #fcfcfccc;
 }
@@ -2808,7 +2829,7 @@ hgroup.response-comment-subject h3 {
     padding-right: 20px;
 }
 
-.response-comment-card-footer {
+.response-comment-card-actions {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -2819,7 +2840,6 @@ hgroup.response-comment-subject h3 {
 }
 
 .reply-link {
-    margin: 0px 0px 0px 15px;
     border-radius: 5px;
     padding: 12px 10px;
     background-color: var(--secondary-color);
@@ -2827,7 +2847,7 @@ hgroup.response-comment-subject h3 {
     font-size: 18px;
 }
 
-.comment-card-footer {
+.comment-card-actions {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -4337,7 +4357,7 @@ button#contact_validate {
         width: 54px;
     }
 
-    .comment-card-footer {
+    .comment-card-actions {
         flex-direction: column;
         align-items: center;
     }
@@ -4762,10 +4782,10 @@ button#contact_validate {
         margin-left: 0px;
     }
     
-    .discussion-card-footer {
+    .discussion-card-actions {
         display: flex;
         flex-direction: column;
-        padding: 20px 6px;
+        padding: 20px 0px;
         background-color: #fcfcfccc;
         border-radius: 0px 0px 10px 10px;
         justify-content: center;
@@ -4773,7 +4793,7 @@ button#contact_validate {
         align-items: center;
     }
 
-    .discussion-card-footer .delete-btn {
+    .discussion-card-actions .delete-btn {
         margin-left: 0px;
     }
     
