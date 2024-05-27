@@ -30,28 +30,43 @@
                 
             </div>
         </hgroup>
-        {% if discussion.isDeletedByModerator == true %}
-            <div class="discussion-textarea">
-                <p>Discussion deleted by a moderator</p>
+
+        <div class="discussion-card-bottom-wrapper">
+            <div class="discussion-card-score">
+                <svg class="score-arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <title>Arrow Up</title>
+                    <g id="Up-2" data-name="Up">
+                        <path d="M16.707,13.293l-4-4a1,1,0,0,0-1.414,0l-4,4A1,1,0,0,0,8,15h8a1,1,0,0,0,.707-1.707Z" style="fill:#000000"/>
+                    </g>
+                </svg>
             </div>
-        {% elseif discussion.isDeletedByModerator == false and discussion.isDeletedByUser == true %}
-            <div class="discussion-textarea">
-                <p>Discussion deleted by the user</p>
-            </div>
-        {% else %}
-            <div class="discussion-textarea">
-                <div>{{discussion.content | sanitize_html}}</div>
-            </div>
-            <div class="discussion-card-footer">
-                <a class="answer-link" href="{{ path('new_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug}) }}">Made a comment</a>
-                {% if is_granted('ROLE_USER') and app.user == discussion.user or is_granted('ROLE_MODERATOR') %}
-                <a class="delete-btn" href="{{ path('delete_discussion', {'slug': mineral.slug, 'discussionSlug': discussion.slug}) }}">
-                    Delete this discussion
-                </a>
+            <div class="discussion-card-bottom-right">
+                {% if discussion.isDeletedByModerator == true %}
+                    <div class="discussion-textarea">
+                        <p>Discussion deleted by a moderator</p>
+                    </div>
+                {% elseif discussion.isDeletedByModerator == false and discussion.isDeletedByUser == true %}
+                    <div class="discussion-textarea">
+                        <p>Discussion deleted by the user</p>
+                    </div>
                 {% else %}
+                    <div class="discussion-textarea">
+                        <div>{{discussion.content | sanitize_html}}</div>
+                    </div>
+                    <div class="discussion-card-actions">
+                        <a class="answer-link" href="{{ path('new_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug}) }}">Made a comment</a>
+                        {% if is_granted('ROLE_USER') and app.user == discussion.user or is_granted('ROLE_MODERATOR') %}
+                        <a class="delete-btn" href="{{ path('delete_discussion', {'slug': mineral.slug, 'discussionSlug': discussion.slug}) }}">
+                            Delete this discussion
+                        </a>
+                        {% else %}
+                        {% endif %}
+                    </div>
                 {% endif %}
             </div>
-        {% endif %}
+            
+        </div>
+        
     </div>
     
     {% if discussion.comments | length > 0 %}
@@ -74,28 +89,40 @@
                             {% endif %}
                         </div>
                     </hgroup>
-                    {% if comment.isDeletedByModerator == true and comment.isDeletedByUser == false %}
-                        <div class="discussion-textarea">
-                            <p>Comment deleted by a moderator</p>
+                    <div class="response-comment-card-bottom-wrapper">
+                        <div class="response-comment-card-score">
+                            <svg class="score-arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <title>Arrow Up</title>
+                                <g id="Up-2" data-name="Up">
+                                    <path d="M16.707,13.293l-4-4a1,1,0,0,0-1.414,0l-4,4A1,1,0,0,0,8,15h8a1,1,0,0,0,.707-1.707Z" style="fill:#000000"/>
+                                </g>
+                            </svg>
                         </div>
-                    {% elseif comment.isDeletedByModerator == false and comment.isDeletedByUser == true %}
-                        <div class="discussion-textarea">
-                            <p>Comment deleted by the user</p>
-                        </div>
-                    {% else %}
-                        <div class="discussion-textarea">
-                            <div>{{comment.content | sanitize_html}}</div>
-                        </div>
-                        <div class="response-comment-card-footer">
-                            <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'commentSlug': comment.slug}) }}">Reply to this comment</a>
-                            {% if is_granted('ROLE_USER') and app.user == comment.user or is_granted('ROLE_MODERATOR') %}
-                                <a class="delete-btn" href="{{ path('delete_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'commentSlug': comment.slug}) }}">
-                                    Delete this comment
-                                </a>
+                        <div class="response-comment-card-bottom-right">
+                            {% if comment.isDeletedByModerator == true and comment.isDeletedByUser == false %}
+                                <div class="discussion-textarea">
+                                    <p>Comment deleted by a moderator</p>
+                                </div>
+                            {% elseif comment.isDeletedByModerator == false and comment.isDeletedByUser == true %}
+                                <div class="discussion-textarea">
+                                    <p>Comment deleted by the user</p>
+                                </div>
                             {% else %}
+                                <div class="discussion-textarea">
+                                    <div>{{comment.content | sanitize_html}}</div>
+                                </div>
+                                <div class="response-comment-card-actions">
+                                    <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'commentSlug': comment.slug}) }}">Reply to this comment</a>
+                                    {% if is_granted('ROLE_USER') and app.user == comment.user or is_granted('ROLE_MODERATOR') %}
+                                        <a class="delete-btn" href="{{ path('delete_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'commentSlug': comment.slug}) }}">
+                                            Delete this comment
+                                        </a>
+                                    {% else %}
+                                    {% endif %}
+                                </div>
                             {% endif %}
                         </div>
-                    {% endif %}
+                    </div>
                 </div>
 
             {% else %}
@@ -114,33 +141,44 @@
                             {% endif %}
                         </div>
                     </hgroup>
-                    {% if comment.isDeletedByModerator == true and comment.isDeletedByUser == false %}
-                        <div class="discussion-textarea">
-                            <p>Comment deleted by a moderator</p>
+                    <div class="comment-card-bottom-wrapper">
+                        <div class="comment-card-score">
+                            <svg class="score-arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <title>Arrow Up</title>
+                                <g id="Up-2" data-name="Up">
+                                    <path d="M16.707,13.293l-4-4a1,1,0,0,0-1.414,0l-4,4A1,1,0,0,0,8,15h8a1,1,0,0,0,.707-1.707Z" style="fill:#000000"/>
+                                </g>
+                            </svg>
                         </div>
-                    {% elseif comment.isDeletedByModerator == false and comment.isDeletedByUser == true %}
-                        <div class="discussion-textarea">
-                            <p>Comment deleted by the user</p>
-                        </div>
-                    {% else %}
-                        <div class="discussion-textarea">
-                            <div>{{comment.content | sanitize_html}}</div>
-                        </div>
-                        <div class="comment-card-footer">
-                            <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'commentSlug': comment.slug}) }}">Reply to this comment</a>
-                            {% if is_granted('ROLE_USER') and app.user == comment.user or is_granted('ROLE_MODERATOR') %}
-                                <a class="delete-btn" href="{{ path('delete_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'commentSlug': comment.slug}) }}">
-                                    Delete this comment
-                                </a>
+                        <div class="comment-card-bottom-right">
+                            {% if comment.isDeletedByModerator == true and comment.isDeletedByUser == false %}
+                                <div class="discussion-textarea">
+                                    <p>Comment deleted by a moderator</p>
+                                </div>
+                            {% elseif comment.isDeletedByModerator == false and comment.isDeletedByUser == true %}
+                                <div class="discussion-textarea">
+                                    <p>Comment deleted by the user</p>
+                                </div>
                             {% else %}
-                            {% endif %}
-                            {% if is_granted('ROLE_USER') %}
-                                <a class="delete-btn" href="{{ path('report_user_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'commentSlug': comment.slug})}}">Report this comment</a>
-                            {% else %}
+                                <div class="discussion-textarea">
+                                    <div>{{comment.content | sanitize_html}}</div>
+                                </div>
+                                <div class="comment-card-actions">
+                                    <a class="reply-link" href="{{ path('respond_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'commentSlug': comment.slug}) }}">Reply to this comment</a>
+                                    {% if is_granted('ROLE_USER') and app.user == comment.user or is_granted('ROLE_MODERATOR') %}
+                                        <a class="delete-btn" href="{{ path('delete_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'commentSlug': comment.slug}) }}">
+                                            Delete this comment
+                                        </a>
+                                    {% else %}
+                                    {% endif %}
+                                    {% if is_granted('ROLE_USER') %}
+                                        <a class="delete-btn" href="{{ path('report_user_comment', {'slug': mineral.slug, 'discussionSlug': discussion.slug, 'commentSlug': comment.slug})}}">Report this comment</a>
+                                    {% else %}
+                                    {% endif %}
+                                </div>
                             {% endif %}
                         </div>
-                    {% endif %}
-
+                    </div>
                 </div>
 
             {% endif %}
