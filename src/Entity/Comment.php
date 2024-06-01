@@ -56,13 +56,17 @@ class Comment
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\Column]
-    private ?int $score = 0;
+    /**
+     * @var Collection<int, Score>
+     */
+    #[ORM\OneToMany(mappedBy: 'comment', targetEntity: Score::class, orphanRemoval: true)]
+    private Collection $scores;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->children = new ArrayCollection();
+        $this->scores = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -210,14 +214,32 @@ class Comment
         return $this;
     }
 
-    public function getScore(): ?int
+    /**
+     * @return Collection<int, Score>
+     */
+    public function getScores(): Collection
     {
-        return $this->score;
+        return $this->scores;
     }
 
-    public function setScore(int $score): static
+    public function addScore(Score $score): static
     {
-        $this->score = $score;
+        if (!$this->scores->contains($score)) {
+            $this->scores->add($score);
+            $score->setComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScore(Score $score): static
+    {
+        if ($this->scores->removeElement($score)) {
+            // set the owning side to null (unless already changed)
+            if ($score->getComment() === $this) {
+                $score->setComment(null);
+            }
+        }
 
         return $this;
     }
