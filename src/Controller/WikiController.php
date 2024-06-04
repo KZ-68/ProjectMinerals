@@ -107,7 +107,8 @@ class WikiController extends AbstractController
                 foreach ($minerals as $mineral) {
                     $jsonData[] = [
                         'slug' => $mineral->getSlug() ?? null,
-                        'name' => $mineral->getName() ?? null
+                        'name' => $mineral->getName() ?? null,
+                        'langForm' => $langForm
                     ];
                 }
             }
@@ -262,6 +263,18 @@ class WikiController extends AbstractController
     {
 
         $langForm = $this->createForm(SelectLanguageType::class);
+        $comments = $discussion->getComments();
+        $scores = [];
+        $upvote = [];
+
+        foreach ($comments as $comment) {
+            $scores[] = $comment->getScores();
+            foreach ($comment->getScores() as $score) {
+                if ($score->getUpvote() === true) {
+                    array_push($upvote, $score->getUpvote());
+                }
+            }
+        }
 
         $langForm->handleRequest($request);
         
@@ -285,7 +298,9 @@ class WikiController extends AbstractController
         return $this->render('wiki/discussions_mineral.html.twig', [
             'mineral' => $mineral,
             'discussion' => $discussion,
-            'langForm' => $langForm
+            'comment' => $comment,
+            'langForm' => $langForm,
+            'scores' => $upvote
         ]);
     }
 
@@ -439,9 +454,9 @@ class WikiController extends AbstractController
             return $this->redirectToRoute(
                 'discussion_mineral',
                 [
-                'mineral' => $mineral,
-                'slug' => $discussion->getMineral()->getSlug(), 
-                'discussionSlug' => $comment->getDiscussion()->getSlug()
+                    'mineral' => $mineral,
+                    'slug' => $discussion->getMineral()->getSlug(), 
+                    'discussionSlug' => $comment->getDiscussion()->getSlug()
                 ]
             );
         }
@@ -571,6 +586,37 @@ class WikiController extends AbstractController
             'commentSlug' => $comment->getSlug()
             ]
         );
+    }
+
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{commentSlug}/upvote', 
+        name: 'upvote',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
+    #[IsGranted('ROLE_USER')]
+    public function upvote(
+        #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
+        #[MapEntity(mapping: ['commentSlug' => 'slug'])] Comment $comment,
+        EntityManagerInterface $entityManager,
+        Request $request,
+        ): Response
+    {
+        if($request->isXmlHttpRequest()) {
+            $data = $request->request->all();
+            dd($data);
+            $actualScore = $comment->getScores();
+            $comment->addScore($actualScore->count() + $data['upvote']);
+
+            $response = [
+                'data' => $data
+            ];
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->json($response);
+        }
     }
 
     #[Route(

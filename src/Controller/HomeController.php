@@ -65,6 +65,7 @@ class HomeController extends AbstractController
                 // Du résultat de la requête
                 'form' => $form,
                 'minerals' => $minerals,
+                'langForm' => $langForm
             ]);
         }
 
@@ -97,7 +98,7 @@ class HomeController extends AbstractController
                 foreach ($minerals as $mineral) {
                     $jsonData[] = [
                         'slug' => $mineral->getSlug() ?? null,
-                        'name' => $mineral->getName() ?? null,
+                        'name' => $mineral->getName() ?? null
                     ];
                 }
             }
