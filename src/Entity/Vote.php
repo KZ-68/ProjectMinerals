@@ -2,25 +2,25 @@
 
 namespace App\Entity;
 
-use App\Repository\ScoreRepository;
+use App\Repository\VoteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ScoreRepository::class)]
-class Score
+#[ORM\Entity(repositoryClass: VoteRepository::class)]
+class Vote
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'scores')]
+    #[ORM\ManyToOne(inversedBy: 'votes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'scores')]
+    #[ORM\ManyToOne(inversedBy: 'votes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Comment $comment = null;
 
@@ -104,4 +104,5 @@ class Score
 
         return $this;
     }
+
 }

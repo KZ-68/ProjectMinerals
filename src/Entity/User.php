@@ -74,10 +74,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $contributions;
 
     /**
-     * @var Collection<int, Score>
+     * @var Collection<int, Vote>
      */
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Score::class, orphanRemoval: true)]
-    private Collection $scores;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Vote::class, orphanRemoval: true)]
+    private Collection $votes;
 
     public function __construct() {
         $this->registration_date = new \DateTimeImmutable();
@@ -90,7 +90,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->favorites = new ArrayCollection();
         $this->avatar = 'sbcf-default-avatar.png';
         $this->contributions = new ArrayCollection();
-        $this->scores = new ArrayCollection();
+        $this->votes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -452,29 +452,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Score>
+     * @return Collection<int, Vote>
      */
-    public function getScores(): Collection
+    public function getVotes(): Collection
     {
-        return $this->scores;
+        return $this->votes;
     }
 
-    public function addScore(Score $score): static
+    public function addVote(Vote $vote): static
     {
-        if (!$this->scores->contains($score)) {
-            $this->scores->add($score);
-            $score->setUser($this);
+        if (!$this->votes->contains($vote)) {
+            $this->votes->add($vote);
+            $vote->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeScore(Score $score): static
+    public function removeVote(Vote $vote): static
     {
-        if ($this->scores->removeElement($score)) {
+        if ($this->votes->removeElement($vote)) {
             // set the owning side to null (unless already changed)
-            if ($score->getUser() === $this) {
-                $score->setUser(null);
+            if ($vote->getUser() === $this) {
+                $vote->setUser(null);
             }
         }
 

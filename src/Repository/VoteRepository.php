@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Score;
+use App\Entity\Vote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Score>
+ * @extends ServiceEntityRepository<Vote>
  */
-class ScoreRepository extends ServiceEntityRepository
+class VoteRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Score::class);
+        parent::__construct($registry, Vote::class);
     }
 
     //    /**
-    //     * @return Score[] Returns an array of Score objects
+    //     * @return Vote[] Returns an array of Vote objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class ScoreRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Score
+    //    public function findOneBySomeField($value): ?Vote
     //    {
     //        return $this->createQueryBuilder('s')
     //            ->andWhere('s.exampleField = :val')
