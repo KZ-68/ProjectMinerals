@@ -17,18 +17,22 @@ class Vote
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\ManyToOne(inversedBy: 'votes')]
+    #[ORM\JoinColumn(nullable: true, onDelete:"CASCADE")]
+    private ?Comment $comment = null;
 
     #[ORM\ManyToOne(inversedBy: 'votes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Comment $comment = null;
+    #[ORM\JoinColumn(nullable: true, onDelete:"CASCADE")]
+    private ?Discussion $discussion = null;
 
     #[ORM\Column]
     private ?bool $upvote = null;
 
     #[ORM\Column]
     private ?bool $downvote = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
     public function __construct()
     {
@@ -101,6 +105,18 @@ class Vote
     public function setDownvote(bool $downvote): static
     {
         $this->downvote = $downvote;
+
+        return $this;
+    }
+
+    public function getDiscussion(): ?Discussion
+    {
+        return $this->discussion;
+    }
+
+    public function setDiscussion(?Discussion $discussion): static
+    {
+        $this->discussion = $discussion;
 
         return $this;
     }

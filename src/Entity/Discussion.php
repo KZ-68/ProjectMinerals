@@ -54,10 +54,17 @@ class Discussion
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    /**
+     * @var Collection<int, Vote>
+     */
+    #[ORM\OneToMany(mappedBy: 'discussion', targetEntity: Vote::class)]
+    private Collection $votes;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
+        $this->votes = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -197,6 +204,36 @@ class Discussion
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vote>
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(Vote $vote): static
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes->add($vote);
+            $vote->setDiscussion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Vote $vote): static
+    {
+        if ($this->votes->removeElement($vote)) {
+            // set the owning side to null (unless already changed)
+            if ($vote->getDiscussion() === $this) {
+                $vote->setDiscussion(null);
+            }
+        }
 
         return $this;
     }
