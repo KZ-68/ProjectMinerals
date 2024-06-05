@@ -263,18 +263,6 @@ class WikiController extends AbstractController
     {
 
         $langForm = $this->createForm(SelectLanguageType::class);
-        $comments = $discussion->getComments();
-        $scores = [];
-        $upvote = [];
-
-        foreach ($comments as $comment) {
-            $scores[] = $comment->getScores();
-            foreach ($comment->getScores() as $score) {
-                if ($score->getUpvote() === true) {
-                    array_push($upvote, $score->getUpvote());
-                }
-            }
-        }
 
         $langForm->handleRequest($request);
         
@@ -298,9 +286,7 @@ class WikiController extends AbstractController
         return $this->render('wiki/discussions_mineral.html.twig', [
             'mineral' => $mineral,
             'discussion' => $discussion,
-            'comment' => $comment,
-            'langForm' => $langForm,
-            'scores' => $upvote
+            'langForm' => $langForm
         ]);
     }
 
@@ -589,7 +575,7 @@ class WikiController extends AbstractController
     }
 
     #[Route(
-        '/{_locale}/wiki/mineral/{slug}/discussions/{discussionSlug}/comment/{commentSlug}/upvote', 
+        '/{_locale}/wiki/mineral/{slug}/discussions/{discussionSlug}/upvote', 
         name: 'upvote',
         requirements: [
             '_locale' => 'en|fr',
@@ -597,17 +583,16 @@ class WikiController extends AbstractController
     )]
     #[IsGranted('ROLE_USER')]
     public function upvote(
-        #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion, 
-        #[MapEntity(mapping: ['commentSlug' => 'slug'])] Comment $comment,
+        #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion,
+        CommentRepository $commentRepository,
         EntityManagerInterface $entityManager,
         Request $request,
         ): Response
     {
         if($request->isXmlHttpRequest()) {
             $data = $request->request->all();
-            dd($data);
-            $actualScore = $comment->getScores();
-            $comment->addScore($actualScore->count() + $data['upvote']);
+            $dataComment = $data['commentSlug'];
+            $comment = $commentRepository->findOneBy(['slug' => $dataComment]);
 
             $response = [
                 'data' => $data
