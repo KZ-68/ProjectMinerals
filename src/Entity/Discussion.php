@@ -238,4 +238,23 @@ class Discussion
         return $this;
     }
 
+    public function getScore(): ?int 
+    {
+        $score = 0;
+
+        foreach($this->getVotes() as $vote) {
+            
+            if($vote->isUpvote() === true) {
+                $score += 1;
+            }
+            
+            if($vote->isDownvote() === true) {
+                $score -= 1;
+            }
+
+        }
+
+        return $score;
+    }
+
 }
