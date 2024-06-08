@@ -34,6 +34,7 @@ use App\Form\EditDescriptionType;
 use App\Form\MineralVarietiesType;
 use App\Repository\UserRepository;
 use App\Entity\ModificationHistory;
+use App\Entity\Vote;
 use App\Repository\ImageRepository;
 use App\Repository\CommentRepository;
 use App\Repository\MineralRepository;
@@ -52,6 +53,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use App\Repository\ModificationHistoryRepository;
+use App\Repository\VoteRepository;
 use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -583,22 +585,90 @@ class WikiController extends AbstractController
     )]
     #[IsGranted('ROLE_USER')]
     public function upvote(
-        #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion,
+        CommentRepository $commentRepository,
+        EntityManagerInterface $entityManager,
+        VoteRepository $voteRepository,
+        Request $request,
+        ): Response
+    {
+        if($request->isXmlHttpRequest()) {
+            $data = $request->request->all();
+            $userData = $data['user'];
+            $user = $this->getUser($userData);
+            
+            if($data['commentSlug']) {
+                $commentData = $data['commentSlug'];
+                $comment = $commentRepository->findOneBy(['slug' => $commentData]);
+                
+                $uniqueVote = $voteRepository->findBy(['user' => $user, 'comment' => $comment]);
+
+                if($uniqueVote === []) {
+                    $vote = new Vote;
+                    $vote->setUpvote(true);
+
+                    $vote->setComment($comment);
+                    $vote->setUser($user);
+
+                    $entityManager->persist($comment);
+                    $entityManager->persist($vote);
+                    $entityManager->flush();
+
+                    $response = [
+                        'score' => $comment->getScore()
+                    ];
+        
+                    return $this->json($response);
+                } else {
+                    $response = [
+                        'error' => "There's already a vote on this comment"
+                    ];
+
+                    return $this->json($response);
+                }
+
+            }
+
+        }
+    }
+
+    #[Route(
+        '/{_locale}/wiki/mineral/{slug}/discussions/{discussionSlug}/downvote', 
+        name: 'downvote',
+        requirements: [
+            '_locale' => 'en|fr',
+        ]
+    )]
+    #[IsGranted('ROLE_USER')]
+    public function downvote(
         CommentRepository $commentRepository,
         EntityManagerInterface $entityManager,
         Request $request,
         ): Response
     {
         if($request->isXmlHttpRequest()) {
+            $vote = new Vote;
+            $vote->setDownvote(true);
+
             $data = $request->request->all();
-            $dataComment = $data['commentSlug'];
-            $comment = $commentRepository->findOneBy(['slug' => $dataComment]);
+            
+            if($data['commentSlug']) {
+                $commentData = $data['commentSlug'];
+                $userData = $data['user'];
+
+                $comment = $commentRepository->findOneBy(['slug' => $commentData]);
+                $user = $this->getUser($userData);
+
+                $vote->setComment($comment);
+                $vote->setUser($user);
+
+                $entityManager->persist($comment);
+                $entityManager->persist($vote);
+                $entityManager->flush();
+            }
 
             $response = [
-                'data' => $data
+                'score' => $comment->getScore()
             ];
-            $entityManager->persist($comment);
-            $entityManager->flush();
 
             return $this->json($response);
         }
