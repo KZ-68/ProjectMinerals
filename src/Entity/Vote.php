@@ -6,6 +6,7 @@ use App\Repository\VoteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VoteRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Vote
 {
     #[ORM\Id]
@@ -37,6 +38,15 @@ class Vote
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist() {
+        if($this->upvote === true) {
+            $this->downvote = false;
+        } elseif ($this->downvote === true) {
+            $this->upvote = false;
+        }
     }
 
     public function getDateTime()
