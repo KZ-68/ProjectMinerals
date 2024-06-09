@@ -1373,6 +1373,19 @@ div.formulaire-login a {
     padding: 20px 10px;
 }
 
+#alert-error {
+    display: none;
+    position: fixed;
+    top: 10vh;
+    right: 20vh;
+    background-color: #fcfcfc;
+    border-radius: 10px;
+    z-index: 10;
+    text-align: center;
+    padding: 30px 10px;
+    font-size: 22px;
+}
+
 .options {
     padding: 20px;
     margin-top: 25px;
@@ -2684,7 +2697,7 @@ hgroup.discussion-subject h2, hgroup.modification-subject h2  {
 
 #discussion-avatar-header #avatar-header, 
 #comment-avatar-header #avatar-header, 
-#reponse-comment-avatar-header #avatar-header,
+#response-avatar-header #avatar-header,
 #modification-avatar-header #avatar-header
 {
     width: 75px;
@@ -2700,8 +2713,11 @@ hgroup.discussion-subject h2, hgroup.modification-subject h2  {
 .discussion-card-bottom-right,
 .response-comment-card-bottom-right,
 .comment-card-bottom-right {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     padding: 0px 15px;
+    justify-content: space-evenly;
 }
 
 .discussion-textarea, .modification-textarea {
@@ -2716,8 +2732,26 @@ hgroup.discussion-subject h2, hgroup.modification-subject h2  {
     font-size: 20px;
 }
 
+.discussion-card-score, 
+.response-comment-card-score, 
+.comment-card-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .score-arrow-up {
     width: 85px;
+    cursor: pointer;
+}
+
+p.score-count {
+    margin: 0;
+}
+
+.score-arrow-down {
+    width: 85px;
+    cursor: pointer;
 }
 
 .discussion-card-actions {
