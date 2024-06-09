@@ -20,7 +20,12 @@ $(document).ready(function() {
                 });
                 addUpvote.done(function(response){
                     let scoreCount = comment.getElementsByClassName("score-count");
-                    scoreCount[0].textContent = response.score;
+                    if(response.alert) {
+                        let alertError = $("#alert-error");
+                        alertError.fadeIn().delay(5000).text(response.alert).fadeOut()
+                    } else {
+                        scoreCount[0].textContent = response.score;
+                    }
                 });
             })
         });
@@ -40,7 +45,12 @@ $(document).ready(function() {
                 });
                 addDownvote.done(function(response){
                     let scoreCount = comment.getElementsByClassName("score-count");
-                    scoreCount[0].textContent = response.score;
+                    if(response.alert) {
+                        let alertError = $("#alert-error");
+                        alertError.fadeIn().delay(5000).text(response.alert).fadeOut()
+                    } else {
+                        scoreCount[0].textContent = response.score;
+                    }
                 });
             })
         });
