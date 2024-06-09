@@ -620,7 +620,7 @@ class WikiController extends AbstractController
                     return $this->json($response);
                 } else {
                     $response = [
-                        'error' => "There's already a vote on this comment"
+                        'alert' => "There's already a vote on this comment"
                     ];
 
                     return $this->json($response);
@@ -642,35 +642,51 @@ class WikiController extends AbstractController
     public function downvote(
         CommentRepository $commentRepository,
         EntityManagerInterface $entityManager,
+        VoteRepository $voteRepository,
         Request $request,
         ): Response
     {
         if($request->isXmlHttpRequest()) {
-            $vote = new Vote;
-            $vote->setDownvote(true);
-
             $data = $request->request->all();
+            $userData = $data['user'];
+            $user = $this->getUser($userData);
             
             if($data['commentSlug']) {
                 $commentData = $data['commentSlug'];
-                $userData = $data['user'];
-
                 $comment = $commentRepository->findOneBy(['slug' => $commentData]);
-                $user = $this->getUser($userData);
+                
+                $uniqueVote = $voteRepository->findBy(['user' => $user, 'comment' => $comment]);
 
-                $vote->setComment($comment);
-                $vote->setUser($user);
+                if($uniqueVote === []) {
 
-                $entityManager->persist($comment);
-                $entityManager->persist($vote);
-                $entityManager->flush();
+                    $vote = new Vote;
+                    $vote->setDownvote(true);
+
+                    $comment = $commentRepository->findOneBy(['slug' => $commentData]);
+                    $user = $this->getUser($userData);
+
+                    $vote->setComment($comment);
+                    $vote->setUser($user);
+
+                    $entityManager->persist($comment);
+                    $entityManager->persist($vote);
+                    $entityManager->flush();
+
+                    $response = [
+                        'score' => $comment->getScore()
+                    ];
+        
+                    return $this->json($response);
+
+                } else {
+                    $response = [
+                        'alert' => "There's already a vote on this comment"
+                    ];
+
+                    return $this->json($response);
+                }
             }
 
-            $response = [
-                'score' => $comment->getScore()
-            ];
-
-            return $this->json($response);
         }
     }
 
