@@ -179,7 +179,7 @@ class WikiController extends AbstractController
             '_locale' => 'en|fr',
         ]
     )]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('PUBLIC_ACCESS')]
     public function discussionsList(Mineral $mineral, Request $request):Response {
 
         $langForm = $this->createForm(SelectLanguageType::class);
@@ -583,7 +583,7 @@ class WikiController extends AbstractController
             '_locale' => 'en|fr',
         ]
     )]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('PUBLIC_ACCESS')]
     public function upvote(
         CommentRepository $commentRepository,
         EntityManagerInterface $entityManager,
@@ -593,39 +593,47 @@ class WikiController extends AbstractController
     {
         if($request->isXmlHttpRequest()) {
             $data = $request->request->all();
-            $userData = $data['user'];
-            $user = $this->getUser($userData);
             
-            if($data['commentSlug']) {
-                $commentData = $data['commentSlug'];
-                $comment = $commentRepository->findOneBy(['slug' => $commentData]);
-                
-                $uniqueVote = $voteRepository->findBy(['user' => $user, 'comment' => $comment]);
+            if($this->getUser()) {
+                $user = $this->getUser();
+            
+                if($data['commentSlug']) {
+                    $commentData = $data['commentSlug'];
+                    $comment = $commentRepository->findOneBy(['slug' => $commentData]);
+                    
+                    $uniqueVote = $voteRepository->findBy(['user' => $user, 'comment' => $comment]);
 
-                if($uniqueVote === []) {
-                    $vote = new Vote;
-                    $vote->setUpvote(true);
+                    if($uniqueVote === []) {
+                        $vote = new Vote;
+                        $vote->setUpvote(true);
 
-                    $vote->setComment($comment);
-                    $vote->setUser($user);
+                        $vote->setComment($comment);
+                        $vote->setUser($user);
 
-                    $entityManager->persist($comment);
-                    $entityManager->persist($vote);
-                    $entityManager->flush();
+                        $entityManager->persist($comment);
+                        $entityManager->persist($vote);
+                        $entityManager->flush();
 
-                    $response = [
-                        'score' => $comment->getScore()
-                    ];
-        
-                    return $this->json($response);
-                } else {
-                    $response = [
-                        'alert' => "There's already a vote on this comment"
-                    ];
+                        $response = [
+                            'score' => $comment->getScore()
+                        ];
+            
+                        return $this->json($response);
+                    } else {
+                        $response = [
+                            'alert' => "There's already a vote on this comment"
+                        ];
 
-                    return $this->json($response);
+                        return $this->json($response);
+                    }
+
                 }
+            } else {
+                $response = [
+                    'error_login' => "Please connect to an user account for adding a vote"
+                ];
 
+                return $this->json($response);
             }
 
         }
@@ -638,7 +646,7 @@ class WikiController extends AbstractController
             '_locale' => 'en|fr',
         ]
     )]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('PUBLIC_ACCESS')]
     public function downvote(
         CommentRepository $commentRepository,
         EntityManagerInterface $entityManager,
@@ -648,43 +656,47 @@ class WikiController extends AbstractController
     {
         if($request->isXmlHttpRequest()) {
             $data = $request->request->all();
-            $userData = $data['user'];
-            $user = $this->getUser($userData);
-            
-            if($data['commentSlug']) {
-                $commentData = $data['commentSlug'];
-                $comment = $commentRepository->findOneBy(['slug' => $commentData]);
-                
-                $uniqueVote = $voteRepository->findBy(['user' => $user, 'comment' => $comment]);
 
-                if($uniqueVote === []) {
+            if($this->getUser()) {
+                $user = $this->getUser();
 
-                    $vote = new Vote;
-                    $vote->setDownvote(true);
-
+                if($data['commentSlug']) {
+                    $commentData = $data['commentSlug'];
                     $comment = $commentRepository->findOneBy(['slug' => $commentData]);
-                    $user = $this->getUser($userData);
-
-                    $vote->setComment($comment);
-                    $vote->setUser($user);
-
-                    $entityManager->persist($comment);
-                    $entityManager->persist($vote);
-                    $entityManager->flush();
-
-                    $response = [
-                        'score' => $comment->getScore()
-                    ];
-        
-                    return $this->json($response);
-
-                } else {
-                    $response = [
-                        'alert' => "There's already a vote on this comment"
-                    ];
-
-                    return $this->json($response);
+                    
+                    $uniqueVote = $voteRepository->findBy(['user' => $user, 'comment' => $comment]);
+    
+                    if($uniqueVote === []) {
+                        $vote = new Vote;
+                        $vote->setDownvote(true);
+    
+                        $vote->setComment($comment);
+                        $vote->setUser($user);
+    
+                        $entityManager->persist($comment);
+                        $entityManager->persist($vote);
+                        $entityManager->flush();
+    
+                        $response = [
+                            'score' => $comment->getScore()
+                        ];
+            
+                        return $this->json($response);
+    
+                    } else {
+                        $response = [
+                            'alert' => "There's already a vote on this comment"
+                        ];
+    
+                        return $this->json($response);
+                    }
                 }
+            } else {
+                $response = [
+                    'error_login' => "Please connect to an user account for adding a vote"
+                ];
+
+                return $this->json($response);
             }
 
         }
