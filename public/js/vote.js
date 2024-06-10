@@ -13,7 +13,6 @@ $(document).ready(function() {
                     type: 'POST',
                     url: window.location.href+"/upvote",
                     data: {
-                            'user' : arrowUp.dataset.user,
                             'commentSlug': arrowUp.dataset.commentslug,
                             'upvote' : true
                         }
@@ -23,6 +22,9 @@ $(document).ready(function() {
                     if(response.alert) {
                         let alertError = $("#alert-error");
                         alertError.fadeIn().delay(5000).text(response.alert).fadeOut()
+                    } else if(response.error_login) {
+                        let alertError = $("#alert-error");
+                        alertError.fadeIn().delay(5000).text(response.error_login).fadeOut()
                     } else {
                         scoreCount[0].textContent = response.score;
                     }
@@ -38,7 +40,6 @@ $(document).ready(function() {
                     type: 'POST',
                     url: window.location.href+"/downvote",
                     data: {
-                            'user' : arrowDown.dataset.user,
                             'commentSlug': arrowDown.dataset.commentslug,
                             'downvote' : true
                         }
@@ -48,6 +49,9 @@ $(document).ready(function() {
                     if(response.alert) {
                         let alertError = $("#alert-error");
                         alertError.fadeIn().delay(5000).text(response.alert).fadeOut()
+                    } else if(response.error_login) {
+                        let alertError = $("#alert-error");
+                        alertError.fadeIn().delay(5000).text(response.error_login).fadeOut()
                     } else {
                         scoreCount[0].textContent = response.score;
                     }
