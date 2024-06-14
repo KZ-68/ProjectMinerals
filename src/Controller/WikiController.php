@@ -64,6 +64,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
+use function PHPUnit\Framework\arrayHasKey;
+
 class WikiController extends AbstractController
 {
     #[Route(
@@ -585,6 +587,7 @@ class WikiController extends AbstractController
     )]
     #[IsGranted('PUBLIC_ACCESS')]
     public function upvote(
+        DiscussionRepository $discussionRepository,
         CommentRepository $commentRepository,
         EntityManagerInterface $entityManager,
         VoteRepository $voteRepository,
@@ -597,7 +600,7 @@ class WikiController extends AbstractController
             if($this->getUser()) {
                 $user = $this->getUser();
             
-                if($data['commentSlug']) {
+                if(array_key_exists('commentSlug', $data)) {
                     $commentData = $data['commentSlug'];
                     $comment = $commentRepository->findOneBy(['slug' => $commentData]);
                     
@@ -627,7 +630,37 @@ class WikiController extends AbstractController
                         return $this->json($response);
                     }
 
+                } elseif (array_key_exists('discussionSlug', $data)) {
+                    $discussionData = $data['discussionSlug'];
+                    $discussion = $discussionRepository->findOneBy(['slug' => $discussionData]);
+                    
+                    $uniqueVoteDiscussion = $voteRepository->findBy(['user' => $user, 'discussion' => $discussion]);
+
+                    if($uniqueVoteDiscussion === []) {
+                        $vote = new Vote;
+                        $vote->setUpvote(true);
+    
+                        $vote->setDiscussion($discussion);
+                        $vote->setUser($user);
+    
+                        $entityManager->persist($discussion);
+                        $entityManager->persist($vote);
+                        $entityManager->flush();
+    
+                        $response = [
+                            'score' => $discussion->getScore()
+                        ];
+            
+                        return $this->json($response);
+                    } else {
+                        $response = [
+                            'alert' => "There's already a vote on this discussion"
+                        ];
+    
+                        return $this->json($response);
+                    }
                 }
+
             } else {
                 $response = [
                     'error_login' => "Please connect to an user account for adding a vote"
@@ -648,6 +681,7 @@ class WikiController extends AbstractController
     )]
     #[IsGranted('PUBLIC_ACCESS')]
     public function downvote(
+        DiscussionRepository $discussionRepository,
         CommentRepository $commentRepository,
         EntityManagerInterface $entityManager,
         VoteRepository $voteRepository,
@@ -660,13 +694,13 @@ class WikiController extends AbstractController
             if($this->getUser()) {
                 $user = $this->getUser();
 
-                if($data['commentSlug']) {
+                if(array_key_exists('commentSlug', $data)) {
                     $commentData = $data['commentSlug'];
                     $comment = $commentRepository->findOneBy(['slug' => $commentData]);
                     
-                    $uniqueVote = $voteRepository->findBy(['user' => $user, 'comment' => $comment]);
+                    $uniqueVoteComment = $voteRepository->findBy(['user' => $user, 'comment' => $comment]);
     
-                    if($uniqueVote === []) {
+                    if($uniqueVoteComment === []) {
                         $vote = new Vote;
                         $vote->setDownvote(true);
     
@@ -690,7 +724,37 @@ class WikiController extends AbstractController
     
                         return $this->json($response);
                     }
+                } elseif (array_key_exists('discussionSlug', $data)) {
+                    $discussionData = $data['discussionSlug'];
+                    $discussion = $discussionRepository->findOneBy(['slug' => $discussionData]);
+
+                    $uniqueVoteDiscussion = $voteRepository->findBy(['user' => $user, 'discussion' => $discussion]);
+
+                    if($uniqueVoteDiscussion === []) {
+                        $vote = new Vote;
+                        $vote->setDownvote(true);
+    
+                        $vote->setDiscussion($discussion);
+                        $vote->setUser($user);
+    
+                        $entityManager->persist($discussion);
+                        $entityManager->persist($vote);
+                        $entityManager->flush();
+    
+                        $response = [
+                            'score' => $discussion->getScore()
+                        ];
+            
+                        return $this->json($response);
+                    } else {
+                        $response = [
+                            'alert' => "There's already a vote on this discussion"
+                        ];
+    
+                        return $this->json($response);
+                    }
                 }
+
             } else {
                 $response = [
                     'error_login' => "Please connect to an user account for adding a vote"
