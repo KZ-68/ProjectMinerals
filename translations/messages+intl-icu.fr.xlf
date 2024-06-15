@@ -71,11 +71,103 @@
       </trans-unit>
       <trans-unit id="0sf2vgm" resname="Home Page">
         <source>Home Page</source>
-        <target>__Home Page</target>
+        <target>Page d'acceuil</target>
       </trans-unit>
       <trans-unit id="JBkykGe" resname="search">
         <source>search</source>
-        <target>__search</target>
+        <target>recherche</target>
+      </trans-unit>
+      <trans-unit id="EN-125625656" resname="EN">
+        <source>EN</source>
+        <target>EN</target>
+      </trans-unit>
+      <trans-unit id="FR-752365854" resname="FR">
+        <source>FR</source>
+        <target>FR</target>
+      </trans-unit>
+      <trans-unit id="Submit-565641641" resname="Submit">
+        <source>Submit</source>
+        <target>Soumettre</target>
+      </trans-unit>
+      <trans-unit id="Searchby-845194525" resname="Search by a keyword...">
+        <source>Search by a keyword...</source>
+        <target>Recherche par mot-clé...</target>
+      </trans-unit>
+      <trans-unit id="Name-545643451" resname="Name">
+        <source>Name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="Enter-846541532" resname="Enter a mineral name">
+        <source>Enter a mineral name</source>
+        <target>Entrer un nom de minéral</target>
+      </trans-unit>
+      <trans-unit id="Formula-546546411" resname="Formula">
+        <source>Formula</source>
+        <target>Formule</target>
+      </trans-unit>
+      <trans-unit id="Enter-847451153" resname="Enter a formula">
+        <source>Enter a formula</source>
+        <target>Entrer une formule</target>
+      </trans-unit>
+      <trans-unit id="Crystal-985451345" resname="Crystal system">
+        <source>Crystal system</source>
+        <target>Système cristallin</target>
+      </trans-unit>
+      <trans-unit id="Enter-351541684" resname="Enter a mineral crystal system">
+        <source>Enter a mineral crystal system</source>
+        <target>Entrer un système cristallin minéral</target>
+      </trans-unit>
+      <trans-unit id="Density-464121326" resname="Density">
+        <source>Density</source>
+        <target>Densité</target>
+      </trans-unit>
+      <trans-unit id="Enter-647516515" resname="Enter a density">
+        <source>Enter a density</source>
+        <target>Entrer une densité</target>
+      </trans-unit>
+      <trans-unit id="Hardness-451540450" resname="Hardness Scale">
+        <source>Hardness Scale</source>
+        <target>Echelle de dureté</target>
+      </trans-unit>
+      <trans-unit id="Enter-954535134" resname="Enter an hardness scale">
+        <source>Enter an hardness scale</source>
+        <target>Entrer une échelle de dureté</target>
+      </trans-unit>
+      <trans-unit id="Fracture" resname="Fracture">
+        <source>Fracture</source>
+        <target>Cassure</target>
+      </trans-unit>
+      <trans-unit id="Enter-466715841" resname="Enter a fracture name">
+        <source>Enter a fracture name</source>
+        <target>Entrer un nom de cassure</target>
+      </trans-unit>
+      <trans-unit id="Streak" resname="Streak">
+        <source>Streak</source>
+        <target>Traînée</target>
+      </trans-unit>
+      <trans-unit id="Enter-746985412" resname="Enter a streak name">
+        <source>Enter a streak name</source>
+        <target>Entrer un nom de traînée</target>
+      </trans-unit>
+      <trans-unit id="Category" resname="Category">
+        <source>Category</source>
+        <target>Catégorie</target>
+      </trans-unit>
+      <trans-unit id="Choose-921485874" resname="Choose a category">
+        <source>Choose a category</source>
+        <target>Choisissez une catégorie</target>
+      </trans-unit>
+      <trans-unit id="Varieties-744132184" resname="Varieties">
+        <source>Varieties</source>
+        <target>Variétées</target>
+      </trans-unit>
+      <trans-unit id="Colors-854811598" resname="Colors">
+        <source>Colors</source>
+        <target>Couleurs</target>
+      </trans-unit>
+      <trans-unit id="Lustres-874654195" resname="Lustres">
+        <source>Lustres</source>
+        <target>Eclats</target>
       </trans-unit>
     </body>
   </file>
