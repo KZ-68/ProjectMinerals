@@ -44,7 +44,7 @@ function selectFlag(select) {
 $(document).ready(function () {
 
   $('#select-flag-btn').click(function () {
-      $('#lang-modal').fadeIn(300);
+      $('#lang-modal').fadeToggle(300);
   })
       
 });
