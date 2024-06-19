@@ -115,5 +115,67 @@ $(document).ready(function() {
             })
         });
     })
+
+    let responseComments = document.querySelectorAll(".response-comment-card-score");
+
+    responseComments.forEach((responseComment)=> {
+        let responseArrowUpList = responseComment.querySelectorAll(".score-arrow-up");
+        let responseArrowDownList = responseComment.querySelectorAll(".score-arrow-down");
+
+        responseArrowUpList.forEach((arrowUp) => {
+
+            arrowUp.addEventListener("click", function() { 
+                let addUpvote =
+                $.ajax({
+                    type: 'POST',
+                    url: window.location.href+"/upvote",
+                    data: {
+                            'commentSlug': arrowUp.dataset.commentslug,
+                            'upvote' : true
+                        }
+                });
+                addUpvote.done(function(response){
+                    let scoreCount = responseComment.getElementsByClassName("score-count");
+                    if(response.alert) {
+                        let alertError = $("#alert-error");
+                        alertError.fadeIn().delay(5000).text(response.alert).fadeOut()
+                    } else if(response.error_login) {
+                        let alertError = $("#alert-error");
+                        alertError.fadeIn().delay(5000).text(response.error_login).fadeOut()
+                    } else {
+                        scoreCount[0].textContent = response.score;
+                    }
+                });
+            })
+        });
+
+        responseArrowDownList.forEach((arrowDown) => {
+
+            arrowDown.addEventListener("click", function() { 
+                let addDownvote =
+                $.ajax({
+                    type: 'POST',
+                    url: window.location.href+"/downvote",
+                    data: {
+                            'commentSlug': arrowDown.dataset.commentslug,
+                            'downvote' : true
+                        }
+                });
+                addDownvote.done(function(response){
+                    let scoreCount = responseComment.getElementsByClassName("score-count");
+                    if(response.alert) {
+                        let alertError = $("#alert-error");
+                        alertError.fadeIn().delay(5000).text(response.alert).fadeOut()
+                    } else if(response.error_login) {
+                        let alertError = $("#alert-error");
+                        alertError.fadeIn().delay(5000).text(response.error_login).fadeOut()
+                    } else {
+                        scoreCount[0].textContent = response.score;
+                    }
+                });
+            })
+        });
+    })
+
     
 });
