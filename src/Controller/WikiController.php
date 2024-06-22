@@ -1272,6 +1272,7 @@ class WikiController extends AbstractController
         // Affiche l'historique dans un template.
         return $this->render('wiki/history.html.twig', [
             'history' => $history,
+            'langForm' => $langForm
         ]);
     }
 
@@ -1734,14 +1735,18 @@ class WikiController extends AbstractController
         ]
     )]
     #[IsGranted('ROLE_USER')]
-    public function removeFavorite(EntityManagerInterface $entityManager, FavoriteRepository $favoriteRepository, Request $request)
+    public function removeFavorite(
+        EntityManagerInterface $entityManager, 
+        FavoriteRepository $favoriteRepository, 
+        MineralRepository $mineralRepository,
+        Request $request)
     {
 
         if($request->isXmlHttpRequest()) {
             $data = $request->request->all();
-            $favorite = $favoriteRepository->find($data['favorite']);
-
+            $mineral = $mineralRepository->findOneBy(['slug' => $data['slug']]);
             $user = $this->getUser();
+            $favorite = $favoriteRepository->findOneBy(['mineral' => $mineral, 'user' => $user]);
 
             $entityManager->remove($favorite);
             $entityManager->flush();
