@@ -20,10 +20,9 @@ function removeFavorite() {
     let requestRemove =
     $.ajax({
         type: 'POST',
-        url: '/wiki/mineral/{slug}/show/remove-favorite',
+        url: window.location.href+'/remove-favorite',
         data: {
-                'slug' : favoriteBtn.data('slug'),
-                'favorite' : favoriteBtn.data('favorite')
+                'slug' : favoriteBtn.data('slug')
             }
     });
     requestRemove.done(function (response) {
@@ -60,7 +59,7 @@ function addFavorite() {
     let requestAdd =
         $.ajax({
             type: 'POST',
-            url: '/wiki/mineral/{slug}/show/add-favorite',
+            url: window.location.href+'/add-favorite',
             data: {
                     'slug' : favoriteBtn.data('slug')
                 }
