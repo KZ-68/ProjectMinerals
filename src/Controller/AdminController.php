@@ -13,6 +13,7 @@ use App\Form\CategoryType;
 use App\Form\AddLustreType;
 use Doctrine\ORM\EntityManager;
 use App\Form\ChangeUserRoleType;
+use App\Form\SelectLanguageType;
 use App\Repository\UserRepository;
 use App\Repository\ColorRepository;
 use App\Repository\LustreRepository;
@@ -38,27 +39,64 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class AdminController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(): Response
+    public function index(
+        SelectLanguageType $langForm, 
+        Request $request
+        ): Response
     {
+        $langForm = $this->createForm(SelectLanguageType::class);
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/admin/');
+            } else {
+                return $this->redirect('/en/admin/');
+            }
+        }
         return $this->render('admin/index.html.twig', [
+            'langForm' => $langForm,
             'controller_name' => 'AdminController',
         ]);
     }
 
     #[Route('/color', name: 'color')]
-    public function colorslist(ColorRepository $colorRepository, Request $request): Response
+    public function colorslist(
+        ColorRepository $colorRepository,
+        SelectLanguageType $langForm,
+        Request $request
+        ): Response
     {
+        $langForm = $this->createForm(SelectLanguageType::class);
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/admin/color');
+            } else {
+                return $this->redirect('/en/admin/color');
+            }
+        }
+
         return $this->render('admin/color/colors_list.html.twig', [
+            'langForm' => $langForm,
             'colors' => $colorRepository->findPaginateColors($request->query->getInt('page', 1))
         ]);
     }
 
     #[Route('/color/new', name: 'new_color')]
-    public function new_color(Request $request, EntityManagerInterface $entityManager): Response
+    public function new_color(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        SelectLanguageType $langForm
+        ): Response
     {
         $color = new Color();
 
         $form = $this->createForm(AddColorType::class, $color);
+        $langForm = $this->createForm(SelectLanguageType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -69,16 +107,33 @@ class AdminController extends AbstractController
 
             return $this->redirectToRoute('app_admin_color');
         }
+        
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/admin/color/new');
+            } else {
+                return $this->redirect('/en/admin/color/new');
+            }
+        }
 
         return $this->render('admin/color/new_color.html.twig', [
+            'langForm' => $langForm,
             'form' => $form
         ]);
     }
 
     #[Route('/color/{slug}/edit', name: 'edit_color')]
-    public function edit_color(Color $color, Request $request, EntityManagerInterface $entityManager): Response
+    public function edit_color(
+        Color $color, 
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        SelectLanguageType $langForm): Response
     {
         $form = $this->createForm(AddColorType::class, $color);
+        $langForm = $this->createForm(SelectLanguageType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -90,7 +145,19 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_admin_color');
         }
 
+        $langForm->handleRequest($request);
+        
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/admin/color/{slug}/edit');
+            } else {
+                return $this->redirect('/en/admin/color/{slug}/edit');
+            }
+        }
+
         return $this->render('admin/color/edit_color.html.twig', [
+            'langForm' => $langForm,
             'form' => $form
         ]);
     }
@@ -115,19 +182,41 @@ class AdminController extends AbstractController
     }
 
     #[Route('/lustre', name: 'lustre')]
-    public function lustresList(LustreRepository $lustreRepository, Request $request): Response
+    public function lustresList(
+        LustreRepository $lustreRepository,
+        SelectLanguageType $langForm,
+        Request $request
+        ): Response
     {
+        $langForm = $this->createForm(SelectLanguageType::class);
+        $langForm->handleRequest($request);
+
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/admin/lustre');
+            } else {
+                return $this->redirect('/en/admin/lustre');
+            }
+        }
+
         return $this->render('admin/lustre/lustres_list.html.twig', [
+            'langForm' => $langForm,
             'lustres' => $lustreRepository->findPaginateLustres($request->query->getInt('page', 1))
         ]);
     }
 
     #[Route('/lustre/new', name: 'new_lustre')]
-    public function new_lustre(Request $request, EntityManagerInterface $entityManager): Response
+    public function new_lustre(
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        SelectLanguageType $langForm
+        ): Response
     {
         $lustre = new Lustre();
 
         $form = $this->createForm(AddLustreType::class, $lustre);
+        $langForm = $this->createForm(SelectLanguageType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -138,16 +227,34 @@ class AdminController extends AbstractController
 
             return $this->redirectToRoute('app_admin_lustre');
         }
+        
+        $langForm->handleRequest($request);
+
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/admin/lustre/new');
+            } else {
+                return $this->redirect('/en/admin/lustre/new');
+            }
+        }
 
         return $this->render('admin/lustre/new_lustre.html.twig', [
+            'langForm' => $langForm,
             'form' => $form
         ]);
     }
 
     #[Route('/lustre/{slug}/edit', name: 'edit_lustre')]
-    public function edit_lustre(Lustre $lustre, Request $request, EntityManagerInterface $entityManager): Response
+    public function edit_lustre(
+        Lustre $lustre, 
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        SelectLanguageType $langForm
+        ): Response
     {
         $form = $this->createForm(AddLustreType::class, $lustre);
+        $langForm = $this->createForm(SelectLanguageType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -159,7 +266,19 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_admin_lustre');
         }
 
+        $langForm->handleRequest($request);
+
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/admin/lustre/{slug}/edit');
+            } else {
+                return $this->redirect('/en/admin/lustre/{slug}/edit');
+            }
+        }
+
         return $this->render('admin/lustre/edit_lustre.html.twig', [
+            'langForm' => $langForm,
             'form' => $form
         ]);
     }
@@ -175,11 +294,16 @@ class AdminController extends AbstractController
     }
 
     #[Route('/category/new', name: 'new_category')]
-    public function new_category(Request $request, EntityManagerInterface $entityManager): Response
+    public function new_category(
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        SelectLanguageType $langForm
+        ): Response
     {
         $category = new Category();
 
         $form = $this->createForm(CategoryType::class, $category);
+        $langForm = $this->createForm(SelectLanguageType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -191,16 +315,34 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_category');
         }
 
+        $langForm->handleRequest($request);
+
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/admin/category/new');
+            } else {
+                return $this->redirect('/en/admin/category/new');
+            }
+        }
+
         return $this->render('admin/category/new_category.html.twig', [
+            'langForm' => $langForm,
             'form' => $form
         ]);
     }
 
     #[Route('/category/{slug}/edit-category', name: 'edit_category')]
-    public function edit_category(Category $category, Request $request, EntityManagerInterface $entityManager): Response
+    public function edit_category(
+        Category $category, 
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        SelectLanguageType $langForm
+        ): Response
     {
 
         $form = $this->createForm(CategoryType::class, $category);
+        $langForm = $this->createForm(SelectLanguageType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -211,7 +353,19 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_category');
         }
 
+        $langForm->handleRequest($request);
+
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/admin/category/{slug}/edit-category');
+            } else {
+                return $this->redirect('/en/admin/category/{slug}/edit-category');
+            }
+        }
+
         return $this->render('admin/category/edit_category.html.twig', [
+            'langForm' => $langForm,
             'form' => $form
         ]);
     }
@@ -227,9 +381,26 @@ class AdminController extends AbstractController
     }
 
     #[Route('/user', name: 'user')]
-    public function usersList(UserRepository $userRepository, Request $request): Response
+    public function usersList(
+        UserRepository $userRepository,
+        SelectLanguageType $langForm,
+        Request $request
+        ): Response
     {
+        $langForm = $this->createForm(SelectLanguageType::class);
+        $langForm->handleRequest($request);
+
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/admin/user');
+            } else {
+                return $this->redirect('/en/admin/user');
+            }
+        }
+
         return $this->render('admin/user/users_list.html.twig', [
+            'langForm' => $langForm,
             'users' => $userRepository->findPaginateUsers($request->query->getInt('page', 1))
         ]);
     }
@@ -276,9 +447,15 @@ class AdminController extends AbstractController
     }
 
     #[Route('/edit-role-user', name:'edit_role_user')]
-    public function editRoleUser(Request $request, UserRepository $userRepository){
+    public function editRoleUser(
+        Request $request, 
+        UserRepository $userRepository,
+        SelectLanguageType $langForm
+        ){
 
         $form = $this->createForm(ChangeUserRoleType::class);
+        $langForm = $this->createForm(SelectLanguageType::class);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -304,7 +481,19 @@ class AdminController extends AbstractController
             
         }
 
+        $langForm->handleRequest($request);
+
+        if($langForm->isSubmitted() && $langForm->isValid()) {
+            $lang = $langForm->get('lang')->getData();
+            if($lang === 'fr') {
+                return $this->redirect('/fr/admin/edit-role-user');
+            } else {
+                return $this->redirect('/en/admin/edit-role-user');
+            }
+        }
+
         return $this->render('admin/user/edit_role_user.html.twig', [
+                'langForm' => $langForm,
                 'editUserForm' => $form
             ]
         );
