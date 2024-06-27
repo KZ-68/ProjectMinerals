@@ -1343,6 +1343,7 @@ div.formulaire-login a {
     justify-content: center;
     align-items: center;
     gap: 5px;
+    cursor: pointer;
 }
 
 .mineral-options #favorite-btn:hover {
@@ -3022,6 +3023,24 @@ button#contact_validate {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+#error-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 50em;
+}
+
+#error-container h1 {
+    font-size: 100px;
+}
+
+.error-items, .error-items section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .anchor-footer {
