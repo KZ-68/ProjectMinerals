@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>404 Not Found</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            {{ encore_entry_link_tags('app') }}
+        <link type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@700&family=Oswald:wght@400;600;700&family=Roboto+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300&family=Roboto:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <main>
+            <div id="error-container">
+                <div class="error-items">
+                    <h1>404</h1>
+                    <section id="error-section">
+                        <h2>Page not found</h2>
+        
+                        <p>
+                            The requested page couldn't be located. Checkout for any URL
+                            misspelling or <a href="{{ path('home_index') }}">return to the homepage</a>.
+                        </p>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </body>
+
+</html>
