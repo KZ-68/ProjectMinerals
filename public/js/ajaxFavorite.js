@@ -41,6 +41,7 @@ function removeFavorite() {
 
             messageContainer.append(resultItem);
             favoriteBtn.removeClass('added');
+            favoriteBtn.text('Add to favorites');
 
             if(messageContainer.html().trim()) {
                 messageContainer.hide().delay(20).fadeIn().delay(5000).fadeOut();
@@ -80,6 +81,7 @@ function addFavorite() {
                 
                     messageContainer.append(resultItem);
                     favoriteBtn.addClass('added');
+                    favoriteBtn.text('Remove to favorites');
             });
 
             if($('#alert-success p').html().trim()) {
