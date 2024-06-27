@@ -9,6 +9,10 @@ let mineralImages = document.querySelectorAll("mineral-image");
 let modals = document.querySelectorAll("div.images-list-modal");
 let carouselImagesList = document.querySelectorAll(".cCarousel-item");
 
+/**
+ * Vérifie si la taille de l'écran est desktop ou mobile
+ * @returns {boolean}
+ */
 function isDesktopScreen() {
     const mobiles = window.matchMedia("(min-device-width : 320px) and (max-device-width : 480px)");
     const tabletsPortrait = window.matchMedia("(min-device-width : 768px) and (max-device-width : 1023px) and (orientation: portrait)")
