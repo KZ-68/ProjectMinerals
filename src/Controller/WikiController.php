@@ -262,11 +262,19 @@ class WikiController extends AbstractController
     public function discussion( 
         #[MapEntity(mapping: ['slug' => 'slug'])] Mineral $mineral,
         #[MapEntity(mapping: ['discussionSlug' => 'slug'])] Discussion $discussion,
+        VoteRepository $voteRepository,
         Request $request
         ): Response
     {
 
         $langForm = $this->createForm(SelectLanguageType::class);
+        $comments = $discussion->getComments();
+        $upvotesCommentsUser = [];
+
+        foreach ($comments as $comment) {
+            $voteCommentUser = $voteRepository->findOneBy(['user' => $this->getUser(), 'comment' => $comment]);
+            array_push($upvotesCommentsUser, $voteCommentUser);
+        }
 
         $langForm->handleRequest($request);
         
@@ -290,7 +298,8 @@ class WikiController extends AbstractController
         return $this->render('wiki/discussions_mineral.html.twig', [
             'mineral' => $mineral,
             'discussion' => $discussion,
-            'langForm' => $langForm
+            'langForm' => $langForm,
+            'upvotesCommentsUser' => $upvotesCommentsUser
         ]);
     }
 
@@ -1623,6 +1632,8 @@ class WikiController extends AbstractController
             'langForm' => $langForm
         ]);
     }
+
+    
 
     #[Route(
         '/{_locale}/wiki/image/{id}/delete', 
